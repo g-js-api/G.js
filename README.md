@@ -7,7 +7,7 @@ This is not finished yet - do not expect it to work exactly as SPWN yet!
 # Example
 Here is a functional example of G.js:
 ```js
-require('g.js');
+require('@g-js-api/g.js');
 
 // Creating counters
 let my_counter = counter();

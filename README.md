@@ -5,6 +5,7 @@ G.js - Create Geometry Dash levels (with a SPWN-like syntax) in JavaScript
 This is not finished yet - do not expect it to work exactly as SPWN yet!
 
 # Example
+Here is a functional example of G.js:
 ```js
 require('g.js');
 

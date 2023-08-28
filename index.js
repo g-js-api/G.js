@@ -472,7 +472,10 @@ let wait = (time) => {
 	let o = current_context;
     let context = create_context(id);
     $.add(spawn_trigger(context.group, time));
-	last_contexts[o] = context.name;
+	if (!context.wait_lst_unset) {
+		last_contexts[o] = context.name;
+		context.wait_lst_unset = true;
+	}
     set_context(id);
 };
 

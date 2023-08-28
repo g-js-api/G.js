@@ -3,6 +3,14 @@ const crypto = require('crypto');
 
 let explicit = {};
 
+let spawn_trigger = (group, time = 0) => {
+    return {
+        OBJ_ID: 1268,
+        SPAWN_DURATION: time,
+        TARGET: group,
+    };
+};
+
 let writeClasses = (arr) => {
     arr.forEach((class_) => {
         let clases = class_.split('/');
@@ -15,6 +23,9 @@ let writeClasses = (arr) => {
         this.value = a;
         this.type = '${clas}';
       }
+	  call(delay = 0.05) {
+		  $.add(spawn_trigger(this, delay))
+	  }
     }
     global['${clas}'] = (x) => new $${clas}(x)`);
     });
@@ -118,8 +129,8 @@ let d = {
 
 let contexts = {
     global: {
-		name: "global",
-        group: group(1),
+        name: "global",
+        group: group(0),
         objects: []
     },
 };
@@ -133,7 +144,7 @@ let unknown_g = () => {
 
 let current_context = 'global';
 let set_context = (name) => {
-	current_context = name;
+    current_context = name;
 }
 let get_context = () => {
     return contexts[current_context];
@@ -141,16 +152,17 @@ let get_context = () => {
 
 let create_context = (name, set_to_default = false) => {
     contexts[name] = {
-		name,
+        name,
         group: group(unknown_g()),
         objects: []
     };
+	last_contexts[name] = name;
     if (set_to_default) set_context(name);
     return contexts[name];
 };
 
 let trigger_function = (cb) => {
-	let old_context = current_context;
+    let old_context = current_context;
     let context = create_context(crypto.randomUUID(), true);
     cb(context.group);
     set_context(old_context);
@@ -306,6 +318,22 @@ let easings = {
 };
 for (var x in easings) global[x] = easings[x];
 global.obj_props = reverse;
+
+let last_contexts = {};
+
+let extend_trigger_func = (t, cb) => {
+		for (let i in contexts) {
+			i = contexts[i];
+			if (i.group == t) {
+				let o = current_context;
+				console.log(last_contexts);
+				set_context(last_contexts[i.name]);
+				cb(i.group);
+				set_context(o);
+			}
+		}
+}
+
 let $ = {
     add,
     print: function() {
@@ -318,6 +346,7 @@ let $ = {
     arr_to_levelstring,
     obj_to_levelstring,
     levelstring_to_obj,
+	extend_trigger_func
 };
 
 /*
@@ -392,7 +421,8 @@ for (let i in global_vars) {
 }
 
 const range = (start, end, step) => {
-    end--;
+    start > 0 ? start-- : null;
+    end > 0 ? end-- : null;
     var range = [];
     var typeofStart = typeof start;
     var typeofEnd = typeof end;
@@ -437,18 +467,12 @@ const range = (start, end, step) => {
     return range;
 };
 
-let spawn_trigger = (group, time = 0.05) => {
-    return {
-        OBJ_ID: 1268,
-        SPAWN_DURATION: time,
-        TARGET: group,
-    };
-};
-
 let wait = (time) => {
     let id = crypto.randomUUID();
+	let o = current_context;
     let context = create_context(id);
     $.add(spawn_trigger(context.group, time));
+	last_contexts[o] = context.name;
     set_context(id);
 };
 
@@ -467,18 +491,26 @@ let counter = (num = 0, bits = 16) => {
         item: id,
         bits,
         add: (amount) => {
-            $.add({
-                OBJ_ID: 1817,
-                COUNT: amount,
-                ITEM: id,
-            });
+            if (typeof amount == "number") {
+                $.add({
+                    OBJ_ID: 1817,
+                    COUNT: amount,
+                    ITEM: id,
+                });
+            } else if (typeof amount == "object") {
+                amount.copy_to(exports);
+            }
         },
         subtract: (amount) => {
-            $.add({
-                OBJ_ID: 1817,
-                COUNT: amount * -1,
-                ITEM: id,
-            });
+            if (typeof amount == "number") {
+                $.add({
+                    OBJ_ID: 1817,
+                    COUNT: -amount,
+                    ITEM: id,
+                });
+            } else if (typeof amount == "object") {
+                amount.copy_to(exports);
+            }
         },
         display: (x, y) =>
             $.add({
@@ -499,7 +531,7 @@ let counter = (num = 0, bits = 16) => {
             });
         },
         to_const: (range, cb) => {
-			let old_ctx = current_context;
+            let old_ctx = current_context;
             for (let i in range) {
                 let id = crypto.randomUUID();
                 let context = create_context(id, true);
@@ -508,12 +540,67 @@ let counter = (num = 0, bits = 16) => {
                 exports.if_is(EQUAL_TO, i, context.group);
             }
         },
+        add_to: (item, factor = 1) => {
+            let r = range(exports.bits, 0);
+            for (let i in r) {
+                let iw = r[i];
+                x = 2 ** iw
+
+                let r2 = trigger_function(() => {
+                    exports.subtract(x)
+                    item.add(x * factor)
+                })
+
+                exports.if_is(LARGER_THAN, x, r2)
+                exports.if_is(EQUAL_TO, x, r2)
+            }
+        },
+        copy_to: (item, factor = 1) => {
+            // self = exports;
+            temp_storage = counter(0, exports.bits);
+            let r = range(exports.bits, 0);
+            for (let i in r) {
+                i = r[i];
+                x = 2 ** i
+                let r2 = trigger_function(() => {
+                    exports.subtract(x)
+                    temp_storage.add(x)
+                    item.add(x * factor)
+                })
+
+                exports.if_is(LARGER_THAN, x, r2)
+                exports.if_is(EQUAL_TO, x, r2)
+            }
+            temp_storage.add_to(exports)
+        },
+        clone: () => {
+            let n_counter = counter(0, exports.bits);
+            exports.copy_to(n_counter)
+            return n_counter
+        },
+        compare: (other, cb) => {
+            comp = counter(Math.max(exports.bits, other.bits))
+            comp.add(exports)
+            other.subtract(other)
+
+            comp.if_is(LARGER_THAN, 0, trigger_function(() => {
+                cb(1);
+            }))
+
+            comp.if_is(EQUAL_TO, 0, trigger_function(() => {
+                cb(0);
+            }))
+
+            comp.if_is(SMALLER_THAN, 0, trigger_function(() => {
+                cb(-1);
+            }))
+        },
         reset: () => {
-			let bits = [512, 256, 128, 64, 32, 16, 8, 4, 2, 1];
-			for (let i in bits) {
-				i = bits[i];
-				let t = trigger_function(() => exports.subtract(i));
-				exports.if_is(LARGER_THAN, i, t);  
+            let bits = [512, 256, 128, 64, 32, 16, 8, 4, 2, 1];
+            for (let i in bits) {
+                i = bits[i];
+                let t = trigger_function(() => exports.subtract(i));
+                exports.if_is(LARGER_THAN, i, t);
             }
 
             exports.subtract(1);
@@ -525,6 +612,12 @@ let counter = (num = 0, bits = 16) => {
 let on = (event, callback) => {
     event.event(callback);
 };
+
+let extract = (x) => {
+	for (let i in x) {
+		global[i] = x[i];
+	}
+}
 
 let touch = (dual_side = false) => {
     return {
@@ -539,8 +632,24 @@ let touch = (dual_side = false) => {
     };
 };
 
+String.prototype.to_obj = function () {
+    let or = {
+        OBJ_ID: 914,
+        TEXT: btoa(this),
+        with: (prop, val) => {
+            or[d[prop]] = val;
+			return or;
+        }
+    }
+    return or;
+};
+
+
 let while_loop = (count, comparison, other, trig_fn) => {
-    count.if_is(comparison, other, trig_fn)
+	$.extend_trigger_func(trig_fn, (g) => {
+		count.if_is(comparison, other, trigger_function(() => trig_fn.call()))
+	})
+	trig_fn.call()
 }
 
 let touch_end = (dual_side = false) => {
@@ -569,7 +678,9 @@ let exps = {
     touch_end,
     wait,
     range,
-	get_context
+    get_context,
+	extract,
+	while_loop
 };
 
 for (let i in exps) {

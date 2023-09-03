@@ -35,7 +35,7 @@ $.add({
 })
 
 let i = counter();
-i.display(15, 15);
+i.display(45, 45);
 
 while_loop(less_than(i, 10), () => {
     i.add(1);

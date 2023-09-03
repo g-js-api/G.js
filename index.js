@@ -932,6 +932,7 @@ let exps = {
   greater_than,
   equal_to,
   less_than,
+  unknown_g
 };
 
 for (let i in exps) {

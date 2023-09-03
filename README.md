@@ -25,6 +25,23 @@ on(
 wait(1);
 my_counter.add(15);
 
+// While loops
+let g = unknown_g();
+$.add({
+	OBJ_ID: 1,
+	X: 15,
+	Y: 15,
+	GROUPS: g
+})
+
+let i = counter();
+i.display(15, 15);
+
+while_loop(less_than(i, 10), () => {
+    i.add(1);
+	g.move(15, 0, 0.5);
+});
+
 $.print($.getLevelString()); // Print as level string
 // $.exportToSavefile() (does not exist yet, will come soon)
 ```

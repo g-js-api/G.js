@@ -39,23 +39,78 @@ let writeClasses = (arr) => {
           this.value = a;
           this.type = '${clas}';
         }
-        move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1) {
+        move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, delay_trig = true) {
               $.add({
                   OBJ_ID: 901,
                   TARGET: this,
-                  MOVE_X: x * 3 * x_multiplier,
-                  MOVE_Y: y * 3 * y_multiplier,
+                  MOVE_X: multiply ? x * 3 * x_multiplier : x,
+                  MOVE_Y: multiply ? y * 3 * y_multiplier : y,
                   DURATION: duration,
                   EASING: easing,
                   EASING_RATE: easing_rate,
               })
-              wait(duration);
+              if (delay_trig) wait(duration);
         }
         call(delay = 0) {
           $.add(spawn_trigger(this, delay))
         }
+        
+        alpha(opacity = 1, duration = 0) {
+           $.add({
+               OBJ_ID: 1007,
+               TARGET: this,
+               OPACITY: opacity,
+               DURATION: duration,
+           })
+           wait(duration)
+       }
+
+       lock_to_player(lock_x = true, lock_y = true, duration = 999) {
+        $.add({
+            OBJ_ID: 901,
+            TARGET: this,
+            DURATION: duration,
+            LOCK_TO_PLAYER_X: lock_x,
+            LOCK_TO_PLAYER_Y: lock_y,
+        })
+      }
+
+        follow_player_y(speed = 1, delay = 0, offset = 0, max_speed = 0, duration = 999) {
+        $.add({
+            OBJ_ID: 1814,
+            SPEED : speed,
+            DELAY : delay,
+            Y_OFFSET : offset,
+            MAX_SPEED : max_speed,
+            TARGET: this,
+            DURATION: duration,
+        })
+    }
+
       }
       global['${clas}'] = (x) => new $${clas}(x)`);
+    } else if (clas == 'color') {
+      eval(`class $${clas} {
+      constructor(a) {
+        this.value = a;
+        this.type = '${clas}';
+      }
+      set(c, duration = 0, blending = false) {
+        $.add({
+          OBJ_ID: 899,
+          DURATION: duration,
+          TRIGGER_RED: c[0],
+          TRIGGER_GREEN: c[1],
+          TRIGGER_BLUE: c[2],
+          OPACITY: c[3] || 1,
+          BLENDING: blending,
+          TARGET_COLOR: this,
+          ACTIVE_TRIGGER: true,
+        })
+        wait(duration)
+      }
+    }
+    global['${clas}'] = (x) => new $${clas}(x)`);
     } else {
       eval(`class $${clas} {
       constructor(a) {
@@ -70,7 +125,7 @@ let writeClasses = (arr) => {
 
 writeClasses([
   'group/TARGET/GROUPS',
-  'color/TARGET_COLOR',
+  'color/TARGET_COLOR/COLOR/COLOR_2',
   'block/BLOCK_A/BLOCK_B',
 ]);
 
@@ -170,11 +225,23 @@ let d = {
   108: 'LINKED_GROUP',
 };
 
-let unavailable = 1;
+let unavailable_g = 1;
+let unavailable_c = 1;
+let unavailable_b = 0;
 
 let unknown_g = () => {
-  unavailable++;
-  return group(unavailable);
+  unavailable_g++;
+  return group(unavailable_g);
+};
+
+let unknown_c = () => {
+  unavailable_c++;
+  return color(unavailable_c);
+};
+
+let unknown_b = () => {
+  unavailable_b++;
+  return block(unavailable_b);
 };
 
 let contexts = {
@@ -206,7 +273,7 @@ let create_context = (name, set_to_default = false) => {
   return contexts[name];
 };
 
-let trigger_function = (cb) => {
+let trigger_function = (cb, autocall = true) => {
   let old_context = current_context;
   let context = create_context(crypto.randomUUID(), true);
   cb(context.group);
@@ -334,6 +401,7 @@ let prep_lvl = () => {
         }
 
         object.SPAWN_TRIGGERED = 1;
+        object.MULTI_TRIGGER = 1;
         // end
       }
     }
@@ -344,8 +412,22 @@ let prep_lvl = () => {
   }
 };
 
-let getLevelString = () => {
+let getLevelString = (options = {}) => {
   prep_lvl();
+  if (unavailable_g <= 999) {
+    if (options.info) {
+      console.log('Finished, result stats:');
+      console.log('Object count:', resulting.split(';').length - 1);
+      console.log('Group count:', unavailable_g);
+    }
+  } else {
+    if (
+      (options.hasOwnProperty('object_count_warning') &&
+        options.object_count_warning == true) ||
+      !options.hasOwnProperty('object_count_warning')
+    )
+      throw `Group count surpasses the limit! (${unavailable_g}/999)`;
+  }
   return resulting;
 };
 let exportLevel = () => {
@@ -551,7 +633,7 @@ let counter = (num = 0, bits = 16) => {
         X: x,
         Y: y,
         ITEM: id,
-        COLOR: 1,
+        COLOR: color(1),
       }),
     if_is: (comparison, other, trig_func) => {
       $.add({
@@ -566,6 +648,7 @@ let counter = (num = 0, bits = 16) => {
     to_const: (range, cb) => {
       let old_ctx = current_context;
       for (let i in range) {
+        i = range[i];
         let id = crypto.randomUUID();
         let context = create_context(id, true);
         cb(i);
@@ -588,15 +671,10 @@ let counter = (num = 0, bits = 16) => {
         exports.if_is(LARGER_THAN, x, r2);
         exports.if_is(EQUAL_TO, x, r2);
       }*/
-      while_loop(
-        exports,
-        LARGER_THAN,
-        0,
-        trigger_function(() => {
-          exports.subtract(1);
-          item.add(1);
-        })
-      );
+      while_loop(greater_than(exports, 0), () => {
+        exports.subtract(1);
+        item.add(1);
+      });
     },
     copy_to: (item, factor = 1) => {
       // self = exports;
@@ -624,6 +702,22 @@ let counter = (num = 0, bits = 16) => {
       let n_counter = counter(0, exports.bits);
       exports.copy_to(n_counter);
       return n_counter;
+    },
+    subtract_from: (b) => {
+      // basically (a - b) then reset b to zero
+      /*
+        a = counter(100)
+        b = counter(70)
+        wait(1)
+        b.subtract_from(a)
+        // a is now 30, b is now 0
+        */
+
+      let a = exports;
+      while_loop(greater_than(a, 0), () => {
+        a.subtract(1);
+        b.subtract(1);
+      });
     },
     compare: (other, cb) => {
       comp = counter(0, Math.max(exports.bits, other.bits));
@@ -653,14 +747,9 @@ let counter = (num = 0, bits = 16) => {
       );
     },
     reset: () => {
-      while_loop(
-        exports,
-        LARGER_THAN,
-        0,
-        trigger_function(() => {
-          exports.subtract(1);
-        })
-      );
+      while_loop(greater_than(exports, 0), () => {
+        exports.subtract(1);
+      });
     },
     multiply: (factor) => {
       if (typeof factor == 'number') {
@@ -669,15 +758,10 @@ let counter = (num = 0, bits = 16) => {
         temp.add_to(exports);
       } else if (typeof factor == 'object') {
         let tmp = exports.clone(); // clones current counter
-        while_loop(
-          factor,
-          LARGER_THAN,
-          1,
-          trigger_function(() => {
-            tmp.copy_to(exports); // adds clone to current counter (basically adding again)
-            factor.subtract(1); // subtract cloned factor
-          })
-        );
+        while_loop(factor, LARGER_THAN, 1, () => {
+          tmp.copy_to(exports); // adds clone to current counter (basically adding again)
+          factor.subtract(1); // subtract cloned factor
+        });
       }
     },
     multiply_neg: (factor) => {
@@ -687,20 +771,31 @@ let counter = (num = 0, bits = 16) => {
         temp.add_to(exports);
       } else if (typeof factor == 'object') {
         factor = factor.clone();
-        while_loop(
-          factor,
-          SMALLER_THAN,
-          -1,
-          trigger_function(() => {
-            let tmp = exports.clone();
-            tmp.add_to(exports);
-            factor.add(1);
-          })
-        );
+        while_loop(factor, SMALLER_THAN, -1, () => {
+          let tmp = exports.clone();
+          tmp.add_to(exports);
+          factor.add(1);
+        });
       }
     },
   };
   return exports;
+};
+
+let toggle_on_trigger = (group) => {
+  return {
+    OBJ_ID: 1049,
+    TARGET: group,
+    ACTIVATE_GROUP: true,
+  };
+};
+
+let toggle_off_trigger = (group) => {
+  return {
+    OBJ_ID: 1049,
+    TARGET: group,
+    ACTIVATE_GROUP: false,
+  };
 };
 
 let on = (event, callback) => {
@@ -814,7 +909,7 @@ let greater_than = (count, other) => ({
 let equal_to = (count, other) => ({ count, comparison: EQUAL_TO, other });
 let less_than = (count, other) => ({ count, comparison: SMALLER_THAN, other });
 
-let while_loop = (r, trig_fn, del = 0.01) => {
+let while_loop = (r, trig_fn, del = 0.05) => {
   let { count, comparison, other } = r;
   let old_context = current_context;
 
@@ -839,6 +934,105 @@ let while_loop = (r, trig_fn, del = 0.01) => {
   $.extend_trigger_func(curr_g, () => {
     contexts[old_context].group.call(del);
   });
+};
+
+let hide_player = () => {
+  $.add({
+    OBJ_ID: 1612,
+  });
+};
+
+let gamescene = () => {
+  // Triggers and groups
+  follow_x_group = unknown_g();
+  follow_y_group = unknown_g();
+  hidden_group = unknown_g();
+
+  hidden_group.alpha(0);
+  follow_x_group.lock_to_player((lock_x = true), (lock_y = false));
+  follow_x_group.move((x = 0), (y = 5), (duration = 0.01));
+  follow_y_group.follow_player_y();
+  hide_player();
+
+  // Portals
+  $.add({
+    OBJ_ID: obj_ids.portals.DUAL_ON,
+    X: 0,
+    Y: 30,
+    GROUPS: hidden_group,
+  });
+  $.add({
+    OBJ_ID: obj_ids.portals.WAVE,
+    X: 0,
+    Y: 30,
+    GROUPS: hidden_group,
+  });
+  $.add({
+    OBJ_ID: obj_ids.portals.SIZE_MINI,
+    X: 0,
+    Y: 30,
+    GROUPS: hidden_group,
+  });
+
+  // Top and bottom blocks
+  $.add({
+    OBJ_ID: 1,
+    X: 0,
+    Y: 33,
+    GROUPS: [hidden_group, follow_x_group],
+  });
+  $.add({
+    OBJ_ID: 1,
+    X: 0,
+    Y: -12,
+    GROUPS: [hidden_group, follow_x_group],
+  });
+
+  // Collision blocks
+  player_block = unknown_b();
+  collide_block = unknown_b();
+
+  $.add({
+    OBJ_ID: obj_ids.special.COLLISION_BLOCK,
+    DYNAMIC_BLOCK: true,
+    BLOCK_A: player_block,
+    X: 0,
+    Y: 0,
+    GROUPS: [hidden_group, follow_x_group, follow_y_group],
+  });
+  $.add({
+    OBJ_ID: obj_ids.special.COLLISION_BLOCK,
+    DYNAMIC_BLOCK: false,
+    BLOCK_A: collide_block,
+    X: 0,
+    Y: 37,
+    GROUPS: [hidden_group, follow_x_group],
+  });
+
+  // D block
+  $.add({
+    OBJ_ID: obj_ids.special.D_BLOCK,
+    SCALING: 2,
+    X: 0,
+    Y: 15,
+    GROUPS: [hidden_group, follow_x_group],
+  });
+
+  return {
+    button_a: () => {
+      return collision(player_block, collide_block);
+    },
+    button_b: () => {
+      return touch(true);
+    },
+    button_a_end: () => {
+      return collision_exit(player_block, collide_block);
+    },
+    button_b_end: () => {
+      return touch_end(true);
+    },
+    hidden_group: hidden_group,
+  };
 };
 
 let obj_ids = {
@@ -932,9 +1126,14 @@ let exps = {
   greater_than,
   equal_to,
   less_than,
-  unknown_g
+  unknown_g,
+  unknown_c,
+  unknown_b,
+  toggle_on_trigger,
+  toggle_off_trigger,
+  hide_player,
+  gamescene,
+  rgb: (r, g, b) => [r, g, b],
 };
 
-for (let i in exps) {
-  global[i] = exps[i];
-}
+extract(exps);

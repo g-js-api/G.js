@@ -1,3 +1,4 @@
+const LevelReader = require('./reader');
 const zlib = require('zlib');
 const crypto = require('crypto');
 
@@ -327,7 +328,7 @@ let obj_to_levelstring = (l) => {
     if (typeof val == 'boolean') val = +val;
     if (explicit[d_] && !val.value) {
       if (typeof val == 'object' && key == '57') {
-        val = val.map((x) => x.value).join('.');
+        val = val.map((x) => x.value).filter(x => x && x != '').join('.');
       } else {
         throw `Expected type "${
           explicit[d[parseInt(key)]]
@@ -373,6 +374,8 @@ let add = (o) => {
   add_to_context(newo);
 };
 
+let remove_group = 1000;
+
 let prep_lvl = () => {
   let name = 'GLOBAL_FULL';
   contexts[name] = {
@@ -391,12 +394,12 @@ let prep_lvl = () => {
       for (let i = 0; i < objects.length; i++) {
         let object = objects[i];
         if (!object.GROUPS) {
-          object.GROUPS = context.group;
+          object.GROUPS = [ context.group, group(remove_group) ];
         } else {
           if (Array.isArray(object.GROUPS)) {
-            object.GROUPS.push(context.group);
+            object.GROUPS.push(context.group, group(remove_group));
           } else {
-            object.GROUPS = [object.GROUPS, context.group];
+            object.GROUPS = [object.GROUPS, context.group, group(remove_group)];
           }
         }
 
@@ -404,7 +407,22 @@ let prep_lvl = () => {
         object.MULTI_TRIGGER = 1;
         // end
       }
-    }
+    } else {
+	  let context = contexts[name];
+	  let objects = context.objects;
+      for (let i = 0; i < objects.length; i++) {
+        let object = objects[i];
+        if (!object.GROUPS) {
+          object.GROUPS = group(remove_group);
+        } else {
+          if (Array.isArray(object.GROUPS)) {
+            object.GROUPS.push(group(remove_group));
+          } else {
+            object.GROUPS = [object.GROUPS, group(remove_group)];
+          }
+        }
+      }
+	}
     for (let x in contexts[i].objects) {
       let r = obj_to_levelstring(contexts[i].objects[x]);
       resulting += r;
@@ -473,6 +491,54 @@ let extend_trigger_func = (t, cb) => {
   }
 };
 
+let remove_past_objects = (lvlstring) => {
+	// remove_group
+	return lvlstring.split(';').filter(x => {
+		let keep = true;
+		let spl = x.split(',');
+		spl.forEach((z, i) => {
+			if (z == "57") {
+				let groups = spl[i + 1]
+				if (groups.includes('.')) {
+					groups = groups.split('.');
+					if (groups.includes(remove_group.toString())) {
+						keep = false;
+					}
+				} else {
+					if (groups == remove_group) {
+						keep = false;
+					}
+				}
+			}
+		})
+		return keep;
+	}).join(';');
+}
+let exportToSavefile = (options = {}) => {
+  (async () => {
+	const level = await new LevelReader(options.level_name);
+	let last = remove_past_objects(level.data.levelstring);
+	prep_lvl();
+	  if (unavailable_g <= 999) {
+    if (options.info) {
+      console.log('Finished, result stats:');
+      console.log('Object count:', resulting.split(';').length - 1);
+      console.log('Group count:', unavailable_g);
+    }
+  } else {
+    if (
+      (options.hasOwnProperty('object_count_warning') &&
+        options.object_count_warning == true) ||
+      !options.hasOwnProperty('object_count_warning')
+    )
+      throw `Group count surpasses the limit! (${unavailable_g}/999)`;
+  }
+	last += resulting;
+	level.set(last);
+	level.save();
+  })()
+};
+
 let $ = {
   add,
   print: function () {
@@ -486,6 +552,7 @@ let $ = {
   obj_to_levelstring,
   levelstring_to_obj,
   extend_trigger_func,
+  exportToSavefile
 };
 
 let move_trigger = (group, x, y) => {

@@ -43,5 +43,5 @@ while_loop(less_than(i, 10), () => {
 });
 
 $.print($.getLevelString()); // Print as level string
-// $.exportToSavefile() (does not exist yet, will come soon)
+$.exportToSavefile() // saves level (newest level by default), use "$.exportToSavefile({ level_name: "my level" })" to specify a level to save to
 ```

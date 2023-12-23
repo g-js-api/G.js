@@ -125,105 +125,159 @@ let writeClasses = (arr) => {
 };
 
 writeClasses([
-  'group/TARGET/GROUPS',
+  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR',
   'color/TARGET_COLOR/COLOR/COLOR_2',
   'block/BLOCK_A/BLOCK_B',
 ]);
 
 let d = {
-  1: 'OBJ_ID',
-  2: 'X',
-  3: 'Y',
-  4: 'HORIZONTAL_FLIP',
-  5: 'VERTICAL_FLIP',
-  6: 'ROTATION',
-  7: 'TRIGGER_RED',
-  8: 'TRIGGER_GREEN',
-  9: 'TRIGGER_BLUE',
-  10: 'DURATION',
-  11: 'TOUCH_TRIGGERED',
-  13: 'PORTAL_CHECKED',
-  15: 'PLAYER_COLOR_1',
-  16: 'PLAYER_COLOR_2',
-  17: 'BLENDING',
-  20: 'EDITOR_LAYER_1',
-  21: 'COLOR',
-  22: 'COLOR_2',
-  23: 'TARGET_COLOR',
-  24: 'Z_LAYER',
-  25: 'Z_ORDER',
-  28: 'MOVE_X',
-  29: 'MOVE_Y',
-  30: 'EASING',
-  31: 'TEXT',
-  32: 'SCALING',
-  34: 'GROUP_PARENT',
-  35: 'OPACITY',
-  36: 'ACTIVE_TRIGGER',
-  41: 'HVS_ENABLED',
-  42: 'COLOR_2_HVS_ENABLED',
-  43: 'HVS',
-  44: 'COLOR_2_HVS',
-  45: 'FADE_IN',
-  46: 'HOLD',
-  47: 'FADE_OUT',
-  48: 'PULSE_HSV',
-  49: 'COPIED_COLOR_HVS',
-  50: 'COPIED_COLOR_ID',
-  51: 'TARGET',
-  52: 'TARGET_TYPE',
-  54: 'YELLOW_TELEPORTATION_PORTAL_DISTANCE',
-  56: 'ACTIVATE_GROUP',
-  57: 'GROUPS',
-  58: 'LOCK_TO_PLAYER_X',
-  59: 'LOCK_TO_PLAYER_Y',
-  60: 'COPY_OPACITY',
-  61: 'EDITOR_LAYER_2',
-  62: 'SPAWN_TRIGGERED',
-  63: 'SPAWN_DURATION',
-  64: 'DONT_FADE',
-  65: 'MAIN_ONLY',
-  66: 'DETAIL_ONLY',
-  67: 'DONT_ENTER',
-  68: 'ROTATE_DEGREES',
-  69: 'TIMES_360',
-  70: 'LOCK_OBJECT_ROTATION',
-  71: 'TARGET_POS',
-  72: 'X_MOD',
-  73: 'Y_MOD',
-  75: 'STRENGTH',
-  76: 'ANIMATION_ID',
-  77: 'COUNT',
-  78: 'SUBTRACT_COUNT',
-  79: 'PICKUP_MODE',
-  80: 'ITEM',
-  696969: 'BLOCK_A', // using this as placeholder for ID 80
-  81: 'HOLD_MODE',
-  82: 'TOGGLE_MODE',
-  84: 'INTERVAL',
-  85: 'EASING_RATE',
-  86: 'EXCLUSIVE',
-  87: 'MULTI_TRIGGER',
-  88: 'COMPARISON',
-  89: 'DUAL_MODE',
-  90: 'SPEED',
-  91: 'DELAY',
-  92: 'Y_OFFSET',
-  93: 'ACTIVATE_ON_EXIT',
-  94: 'DYNAMIC_BLOCK',
-  95: 'BLOCK_B',
-  96: 'GLOW_DISABLED',
-  97: 'ROTATION_SPEED',
-  98: 'DISABLE_ROTATION',
-  100: 'USE_TARGET',
-  101: 'TARGET_POS_AXES',
-  102: 'EDITOR_DISABLE',
-  103: 'HIGH_DETAIL',
-  104: 'COUNT_MULTI_ACTIVATE',
-  105: 'MAX_SPEED',
-  106: 'RANDOMIZE_START',
-  107: 'ANIMATION_SPEED',
-  108: 'LINKED_GROUP',
+    1: 'OBJ_ID',
+    2: 'X',
+    3: 'Y',
+    4: 'HORIZONTAL_FLIP',
+    5: 'VERTICAL_FLIP',
+    6: 'ROTATION',
+    7: 'TRIGGER_RED',
+    8: 'TRIGGER_GREEN',
+    9: 'TRIGGER_BLUE',
+    10: 'DURATION',
+    11: 'TOUCH_TRIGGERED',
+    13: 'PORTAL_CHECKED',
+    15: 'PLAYER_COLOR_1',
+    16: 'PLAYER_COLOR_2',
+    17: 'BLENDING',
+    20: 'EDITOR_LAYER_1',
+    21: 'COLOR',
+    22: 'COLOR_2',
+    23: 'TARGET_COLOR',
+    24: 'Z_LAYER',
+    25: 'Z_ORDER',
+    28: 'MOVE_X',
+    29: 'MOVE_Y',
+    30: 'EASING',
+    31: 'TEXT',
+    32: 'SCALING',
+    34: 'GROUP_PARENT',
+    35: 'OPACITY',
+    36: 'ACTIVE_TRIGGER',
+    41: 'HVS_ENABLED',
+    42: 'COLOR_2_HVS_ENABLED',
+    43: 'HVS',
+    44: 'COLOR_2_HVS',
+    45: 'FADE_IN',
+    46: 'HOLD',
+    47: 'FADE_OUT',
+    48: 'PULSE_HSV',
+    49: 'COPIED_COLOR_HVS',
+    50: 'COPIED_COLOR_ID',
+    51: 'TARGET',
+    52: 'TARGET_TYPE',
+    54: 'YELLOW_TELEPORTATION_PORTAL_DISTANCE',
+    56: 'ACTIVATE_GROUP',
+    57: 'GROUPS',
+    58: 'LOCK_TO_PLAYER_X',
+    59: 'LOCK_TO_PLAYER_Y',
+    60: 'COPY_OPACITY',
+    61: 'EDITOR_LAYER_2',
+    62: 'SPAWN_TRIGGERED',
+    63: 'SPAWN_DURATION',
+    64: 'DONT_FADE',
+    65: 'MAIN_ONLY',
+    66: 'DETAIL_ONLY',
+    67: 'DONT_ENTER',
+    68: 'ROTATE_DEGREES',
+    69: 'TIMES_360',
+    70: 'LOCK_OBJECT_ROTATION',
+    71: 'TARGET_POS',
+    72: 'X_MOD',
+    73: 'Y_MOD',
+    75: 'STRENGTH',
+    76: 'ANIMATION_ID',
+    77: 'COUNT',
+    78: 'SUBTRACT_COUNT',
+    79: 'PICKUP_MODE',
+    80: 'ITEM',
+    696969: 'BLOCK_A', // using this as placeholder for ID 80
+    81: 'HOLD_MODE',
+    82: 'TOGGLE_MODE',
+    84: 'INTERVAL',
+    85: 'EASING_RATE',
+    86: 'EXCLUSIVE',
+    87: 'MULTI_TRIGGER',
+    88: 'COMPARISON',
+    89: 'DUAL_MODE',
+    90: 'SPEED',
+    91: 'DELAY',
+    92: 'Y_OFFSET',
+    93: 'ACTIVATE_ON_EXIT',
+    94: 'DYNAMIC_BLOCK',
+    95: 'BLOCK_B',
+    96: 'GLOW_DISABLED',
+    97: 'ROTATION_SPEED',
+    98: 'DISABLE_ROTATION',
+    100: 'USE_TARGET',
+    101: 'TARGET_POS_AXES',
+    102: 'EDITOR_DISABLE',
+    103: 'HIGH_DETAIL',
+    104: 'COUNT_MULTI_ACTIVATE',
+    105: 'MAX_SPEED',
+    106: 'RANDOMIZE_START',
+    107: 'ANIMATION_SPEED',
+    108: 'LINKED_GROUP',
+    109: "CAMERA_ZOOM",
+    111: "FREE_MODE",
+    112: "EDIT_FREE_CAM_SETTINGS",
+    113: "FREE_CAM_EASING",
+    114: "FREE_CAM_PADDING",
+	115: "ORD",
+    118: "REVERSED",
+    119: "SONG_START",
+    120: "TIME_MOD",
+    128: "SCALE_X",
+    129: "SCALE_Y",
+    131: "PERSPECTIVE_X",
+    132: "PERSPECTIVE_Y",
+    133: "ONLY_MOVE",
+    138: "PLAYER_1",
+    139: "OVERRIDE_COUNT",
+    141: "FOLLOW_CAMERA_X",
+    142: "FOLLOW_CAMERA_Y",
+    143: "FOLLOW_CAMERA_X_MOD",
+    144: "FOLLOW_CAMERA_Y_MOD",
+    148: "GRAVITY",
+    150: "SCALE_X_BY",
+    151: "SCALE_Y_BY",
+    152: "ADV_RAND_STRING",
+    153: "DIV_BY_X",
+    154: "DIV_BY_Y",
+    159: "STREAK_ADDITIVE",
+    160: "UNLINK_DUAL_GRAVITY",
+    161: "HIDE_GROUND",
+    162: "HIDE_P1",
+    163: "HIDE_P2",
+    164: "CAMERA_EDGE",
+    169: "KEEP_VELOCITY",
+    171: "CHANGE_CHANNEL",
+    195: "HIDE_MG",
+    198: "PLAYER_ONLY",
+    199: "DISABLE_CONTROLS_P1",
+    200: "PLAYER_2",
+    201: "_PT",
+    202: "GR_LAYER",
+    203: "GR_BL",
+    204: "GR_BR",
+    205: "GR_TL",
+    206: "GR_TR",
+    207: "GR_VERTEX_MODE",
+    208: "GR_DISABLE",
+    209: "GR_ID",
+    212: "FOLLOW_GROUP",
+    213: "FOLLOW_EASING",
+    215: "FOLLOW_P1",
+    216: "FOLLOW_P2",
+    274: "P_GROUPS",
+    370: "DISABLE_GRID_SNAP",
+	456: "PREVIEW_OPACITY"
 };
 
 let unavailable_g = 1;
@@ -325,6 +379,7 @@ let obj_to_levelstring = (l) => {
   for (var d_ in l) {
     let val = l[d_];
     let key = reverse[d_];
+	// console.log(d_, val)
     if (typeof val == 'boolean') val = +val;
     if (explicit[d_] && !val.value) {
       if (typeof val == 'object' && key == '57') {
@@ -374,7 +429,7 @@ let add = (o) => {
   add_to_context(newo);
 };
 
-let remove_group = 1000;
+let remove_group = 9999;
 
 let prep_lvl = () => {
   let name = 'GLOBAL_FULL';
@@ -430,13 +485,15 @@ let prep_lvl = () => {
   }
 };
 
+let limit = 9999;
 let getLevelString = (options = {}) => {
   prep_lvl();
-  if (unavailable_g <= 999) {
+  if (unavailable_g <= limit) {
     if (options.info) {
       console.log('Finished, result stats:');
       console.log('Object count:', resulting.split(';').length - 1);
       console.log('Group count:', unavailable_g);
+	  console.log('Color count:', unavailable_c);
     }
   } else {
     if (
@@ -444,7 +501,7 @@ let getLevelString = (options = {}) => {
         options.object_count_warning == true) ||
       !options.hasOwnProperty('object_count_warning')
     )
-      throw `Group count surpasses the limit! (${unavailable_g}/999)`;
+      throw `Group count surpasses the limit! (${unavailable_g}/${limit})`;
   }
   return resulting;
 };
@@ -497,6 +554,7 @@ let remove_past_objects = (lvlstring) => {
 		let keep = true;
 		let spl = x.split(',');
 		spl.forEach((z, i) => {
+			if (!(i % 2)) {
 			if (z == "57") {
 				let groups = spl[i + 1]
 				if (groups.includes('.')) {
@@ -510,6 +568,7 @@ let remove_past_objects = (lvlstring) => {
 					}
 				}
 			}
+		}
 		})
 		return keep;
 	}).join(';');
@@ -519,11 +578,12 @@ let exportToSavefile = (options = {}) => {
 	const level = await new LevelReader(options.level_name);
 	let last = remove_past_objects(level.data.levelstring);
 	prep_lvl();
-	  if (unavailable_g <= 999) {
+	  if (unavailable_g <= limit) {
     if (options.info) {
       console.log('Finished, result stats:');
       console.log('Object count:', resulting.split(';').length - 1);
       console.log('Group count:', unavailable_g);
+	  console.log('Color count:', unavailable_c);
     }
   } else {
     if (
@@ -531,7 +591,7 @@ let exportToSavefile = (options = {}) => {
         options.object_count_warning == true) ||
       !options.hasOwnProperty('object_count_warning')
     )
-      throw `Group count surpasses the limit! (${unavailable_g}/999)`;
+      throw `Group count surpasses the limit! (${unavailable_g}/${limit})`;
   }
 	last += resulting;
 	level.set(last);
@@ -1201,6 +1261,7 @@ let exps = {
   hide_player,
   gamescene,
   rgb: (r, g, b) => [r, g, b],
+  rgba: (r, g, b, a) => [r, g, b, a],
 };
 
 extract(exps);

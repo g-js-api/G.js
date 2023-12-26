@@ -381,6 +381,7 @@ let obj_to_levelstring = (l) => {
     let key = reverse[d_];
 	// console.log(d_, val)
     if (typeof val == 'boolean') val = +val;
+	// if (d_ == "GR_LAYER") console.log(val, key)
     if (explicit[d_] && !val.value) {
       if (typeof val == 'object' && key == '57') {
         val = val.map((x) => x.value).filter(x => x && x != '').join('.');

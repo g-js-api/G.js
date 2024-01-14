@@ -180,6 +180,7 @@ let d = {
     49: 'COPIED_COLOR_HVS',
     50: 'COPIED_COLOR_ID',
     51: 'TARGET',
+	6969: "ITEM_TARGET",
     52: 'TARGET_TYPE',
     54: 'YELLOW_TELEPORTATION_PORTAL_DISTANCE',
     56: 'ACTIVATE_GROUP',
@@ -207,6 +208,7 @@ let d = {
     79: 'PICKUP_MODE',
     80: 'ITEM',
     696969: 'BLOCK_A', // using this as placeholder for ID 80
+	420420: 'ITEM_ID_1',
     81: 'HOLD_MODE',
     82: 'TOGGLE_MODE',
     84: 'INTERVAL',
@@ -214,6 +216,7 @@ let d = {
     86: 'EXCLUSIVE',
     87: 'MULTI_TRIGGER',
     88: 'COMPARISON',
+	42069420: 'MULT_DIV',
     89: 'DUAL_MODE',
     90: 'SPEED',
     91: 'DELAY',
@@ -221,6 +224,7 @@ let d = {
     93: 'ACTIVATE_ON_EXIT',
     94: 'DYNAMIC_BLOCK',
     95: 'BLOCK_B',
+	6942069: 'ITEM_ID_2',
     96: 'GLOW_DISABLED',
     97: 'ROTATION_SPEED',
     98: 'DISABLE_ROTATION',
@@ -286,8 +290,19 @@ let d = {
     216: "FOLLOW_P2",
     274: "P_GROUPS",
     370: "DISABLE_GRID_SNAP",
+	476: "TYPE_1",
+	477: "TYPE_2",
+	478: "TARGET_TYPE",
+	479: "MOD",
+	480: "ASSIGN_OP",
+	481: "OP_1",
+	482: "OP_2",
+	485: "RFC_1",
+	486: "RFC_2",
 	442: "REMAPS",
-	456: "PREVIEW_OPACITY"
+	456: "PREVIEW_OPACITY",
+	578: "ABSNEG_1",
+	579: "ABSNEG_2",
 };
 
 let [ unavailable_g, unavailable_c, unavailable_b ] = [0, 0, 0];
@@ -359,7 +374,11 @@ let dot_separated_keys = [57, 442];
 dot_separated_keys = dot_separated_keys.map(x => x.toString())
 
 let mappings = {
-	696969: '80'
+	696969: '80',
+	420420: '80',
+	6942069: '95',
+	6969: '51',
+	42069420: '88'
 }
 
 let levelstring_to_obj = (string) => {
@@ -396,7 +415,6 @@ let obj_to_levelstring = (l) => {
   for (var d_ in l) {
     let val = l[d_];
     let key = reverse[d_];
-	// console.log(d_, val)
     if (typeof val == 'boolean') val = +val;
 	// if (d_ == "GR_LAYER") console.log(val, key)
     if (explicit[d_] && !val.value) {
@@ -738,7 +756,41 @@ let wait = (time) => {
   set_context(id);
 };
 
-let next_free = 0;
+let next_free = 1;
+let refs = {
+	types: [null, "ITEM", "TIMER", "POINTS", "TIME", "ATTEMPT"],
+	ops: ["EQ", "ADD", "SUB", "MUL", "DIV"],
+	absneg: [null, "ABS", "NEG"],
+	rfc: [null, "RND", "FLR", "CEI"],
+}
+for (let i in refs) {
+	i = refs[i];
+	i.forEach((x, i) => {
+		if (x) {
+			global[x] = i
+		}
+	})
+}
+
+let item_edit = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = NONE, assign_op = EQ, op1 = ADD, op2 = MUL, mod = 1, absn1 = NONE, absn2 = NONE, rfc1 = NONE, rfc2 = NONE) => {
+	return {
+		OBJ_ID: 3619,
+		ITEM_ID_1: item1,
+		ITEM_ID_2: item2,
+		ITEM_TARGET: target,
+		TYPE_1: type1,
+		TYPE_2: type2,
+		TARGET_TYPE: targ_type,
+		ASSIGN_OP: assign_op,
+		OP_1: op1,
+		OP_2: op2,
+		MOD: mod,
+		ABSNEG_1: absn1,
+		ABSNEG_2: absn2,
+		RFC_1: rfc1,
+		RFC_2: rfc2
+	}
+}
 
 let counter = (num = 0, bits = 16) => {
   let id = next_free++;
@@ -760,7 +812,7 @@ let counter = (num = 0, bits = 16) => {
           ITEM: id,
         });
       } else if (typeof amount == 'object') {
-        amount.copy_to(exports);
+        $.add(item_edit(id, amount.item, id, ITEM, ITEM, ITEM, EQ, ADD));
       }
     },
 	set: (amount) => {
@@ -779,7 +831,31 @@ let counter = (num = 0, bits = 16) => {
           ITEM: id,
         });
       } else if (typeof amount == 'object') {
-        amount.copy_to(exports);
+        $.add(item_edit(id, amount.item, id, ITEM, ITEM, ITEM, EQ, SUB));
+      }
+    },
+	multiply: (amount) => {
+      if (typeof amount == 'number') {
+        $.add({
+          OBJ_ID: 1817,
+          COUNT: amount,
+		  MULT_DIV: 2,
+          ITEM: id,
+        });
+      } else if (typeof amount == 'object') {
+        $.add(item_edit(id, amount.item, id, ITEM, ITEM, ITEM, EQ, MUL));
+      }
+    },
+	divide: (amount) => {
+      if (typeof amount == 'number') {
+        $.add({
+          OBJ_ID: 1817,
+          COUNT: amount,
+		  MULT_DIV: 1,
+          ITEM: id,
+        });
+      } else if (typeof amount == 'object') {
+        $.add(item_edit(id, amount.item, id, ITEM, ITEM, ITEM, EQ, DIV));
       }
     },
     display: (x, y) =>
@@ -824,46 +900,11 @@ let counter = (num = 0, bits = 16) => {
       }
     },
     add_to: (item, factor = 1) => {
-      /*
-      let r = range(exports.bits, 0);
-      for (let i in r) {
-        let iw = r[i];
-        x = 2 ** iw;
-
-        let r2 = trigger_function(() => {
-          exports.subtract(x);
-          item.add(x * factor);
-        });
-
-        exports.if_is(LARGER_THAN, x, r2);
-        exports.if_is(EQUAL_TO, x, r2);
-      }*/
-      while_loop(greater_than(exports, 0), () => {
-        exports.subtract(1);
-        item.add(1);
-      });
+      item.add(exports);
+	  exports.reset();
     },
     copy_to: (item, factor = 1) => {
-      // self = exports;
-      temp_storage = counter(0, exports.bits);
-      let r = range(exports.bits, 0);
-      for (let i in r) {
-        i = r[i];
-        x = 2 ** i;
-        let r2 = trigger_function(() => {
-          exports.subtract(x);
-          temp_storage.add(x);
-          item.add(x * factor);
-        });
-
-        exports.if_is(LARGER_THAN, x, r2);
-        exports.if_is(EQUAL_TO, x, r2);
-      }
-      temp_storage.add_to(exports);
-
-      /*let temp = counter(0);
-      while_loop(item, EQUAL_TO);
-      */
+      $.add(item_edit(id, 0, item.item, ITEM, ITEM, ITEM, EQ, MUL));
     },
     clone: () => {
       let n_counter = counter(0, exports.bits);
@@ -872,19 +913,8 @@ let counter = (num = 0, bits = 16) => {
     },
     subtract_from: (b) => {
       // basically (a - b) then reset b to zero
-      /*
-        a = counter(100)
-        b = counter(70)
-        wait(1)
-        b.subtract_from(a)
-        // a is now 30, b is now 0
-        */
-
-      let a = exports;
-      while_loop(greater_than(a, 0), () => {
-        a.subtract(1);
-        b.subtract(1);
-      });
+      $.add(item_edit(id, b.item, id, ITEM, ITEM, ITEM, EQ, ADD));
+	  b.reset();
     },
     compare: (other, cb) => {
       comp = counter(0, Math.max(exports.bits, other.bits));
@@ -915,33 +945,6 @@ let counter = (num = 0, bits = 16) => {
     },
     reset: () => {
       exports.set(0)
-    },
-    multiply: (factor) => {
-      if (typeof factor == 'number') {
-        temp = counter(0, exports.bits);
-        exports.add_to(temp, factor);
-        temp.add_to(exports);
-      } else if (typeof factor == 'object') {
-        let tmp = exports.clone(); // clones current counter
-        while_loop(factor, LARGER_THAN, 1, () => {
-          tmp.copy_to(exports); // adds clone to current counter (basically adding again)
-          factor.subtract(1); // subtract cloned factor
-        });
-      }
-    },
-    multiply_neg: (factor) => {
-      if (typeof factor == 'number') {
-        temp = counter(0, exports.bits);
-        exports.add_to(temp, factor);
-        temp.add_to(exports);
-      } else if (typeof factor == 'object') {
-        factor = factor.clone();
-        while_loop(factor, SMALLER_THAN, -1, () => {
-          let tmp = exports.clone();
-          tmp.add_to(exports);
-          factor.add(1);
-        });
-      }
     },
   };
   return exports;
@@ -1283,9 +1286,11 @@ let exps = {
   x_position,
   wait,
   range,
+  get_context,
   extract,
   while_loop,
   obj_ids,
+  find_context,
   greater_than,
   equal_to,
   less_than,

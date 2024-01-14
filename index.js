@@ -773,8 +773,33 @@ for (let i in refs) {
 }
 
 let item_edit = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = NONE, assign_op = EQ, op1 = ADD, op2 = MUL, mod = 1, absn1 = NONE, absn2 = NONE, rfc1 = NONE, rfc2 = NONE) => {
-	return {
+	let or = {
 		OBJ_ID: 3619,
+		ITEM_ID_1: item1,
+		ITEM_ID_2: item2,
+		ITEM_TARGET: target,
+		TYPE_1: type1,
+		TYPE_2: type2,
+		TARGET_TYPE: targ_type,
+		ASSIGN_OP: assign_op,
+		OP_1: op1,
+		OP_2: op2,
+		MOD: mod,
+		ABSNEG_1: absn1,
+		ABSNEG_2: absn2,
+		RFC_1: rfc1,
+		RFC_2: rfc2,
+		with: (prop, val) => {
+		  or[d[prop]] = val;
+		  return or;
+		},
+	};
+	return or;
+}
+
+let item_comp = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = NONE, assign_op = EQ, op1 = ADD, op2 = MUL, mod = 1, absn1 = NONE, absn2 = NONE, rfc1 = NONE, rfc2 = NONE) => {
+	return {
+		OBJ_ID: FIX_TOMORROW,
 		ITEM_ID_1: item1,
 		ITEM_ID_2: item2,
 		ITEM_TARGET: target,
@@ -1299,6 +1324,7 @@ let exps = {
   unknown_b,
   toggle_on_trigger,
   toggle_off_trigger,
+  item_edit,
   hide_player,
   gamescene,
   rgb: (r, g, b) => [r, g, b],

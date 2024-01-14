@@ -40,6 +40,10 @@ let writeClasses = (arr) => {
           this.value = a;
           this.type = '${clas}';
         }
+		remap(...mps) {
+			mps = mps.map(x => x[0].value + '.' + x[1].value).join('.');
+			this.remaps = mps;
+		}
         move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, delay_trig = true) {
               $.add({
                   OBJ_ID: 901,
@@ -50,10 +54,15 @@ let writeClasses = (arr) => {
                   EASING: easing,
                   EASING_RATE: easing_rate,
               })
-              if (delay_trig) wait(duration);
+              if (delay_trig && duration !== 0) wait(duration);
         }
         call(delay = 0) {
-          $.add(spawn_trigger(this, delay))
+		  let tr = spawn_trigger(this, delay);
+		  if (this.remaps) {
+			  console.log(this.remaps)
+			  tr.REMAPS = this.remaps;
+		  }
+          $.add(tr);
         }
         
         alpha(opacity = 1, duration = 0) {
@@ -96,7 +105,7 @@ let writeClasses = (arr) => {
         this.value = a;
         this.type = '${clas}';
       }
-      set(c, duration = 0, blending = false) {
+      set(c, duration = 0, blending = false, delay_trig = true) {
         $.add({
           OBJ_ID: 899,
           DURATION: duration,
@@ -108,7 +117,7 @@ let writeClasses = (arr) => {
           TARGET_COLOR: this,
           ACTIVE_TRIGGER: true,
         })
-        wait(duration)
+        if (delay_trig && duration !== 0) wait(duration);
       }
     }
     global['${clas}'] = (x) => new $${clas}(x)`);
@@ -277,12 +286,11 @@ let d = {
     216: "FOLLOW_P2",
     274: "P_GROUPS",
     370: "DISABLE_GRID_SNAP",
+	442: "REMAPS",
 	456: "PREVIEW_OPACITY"
 };
 
-let unavailable_g = 1;
-let unavailable_c = 1;
-let unavailable_b = 0;
+let [ unavailable_g, unavailable_c, unavailable_b ] = [0, 0, 0];
 
 let unknown_g = () => {
   unavailable_g++;
@@ -345,6 +353,15 @@ for (var i in d) {
   reverse[d[i]] = i;
 }
 
+// stuff for custom things
+
+let dot_separated_keys = [57, 442];
+dot_separated_keys = dot_separated_keys.map(x => x.toString())
+
+let mappings = {
+	696969: '80'
+}
+
 let levelstring_to_obj = (string) => {
   let objects = [];
   string
@@ -383,7 +400,7 @@ let obj_to_levelstring = (l) => {
     if (typeof val == 'boolean') val = +val;
 	// if (d_ == "GR_LAYER") console.log(val, key)
     if (explicit[d_] && !val.value) {
-      if (typeof val == 'object' && key == '57') {
+      if (typeof val == 'object' && dot_separated_keys.includes(key)) {
         val = val.map((x) => x.value).filter(x => x && x != '').join('.');
       } else {
         throw `Expected type "${
@@ -397,8 +414,8 @@ let obj_to_levelstring = (l) => {
         throw `Expected type "${explicit[d_]}", got "${val.type}"`;
       }
     }
-    if (key == '696969') {
-      key = '80';
+    if (mappings.hasOwnProperty(key)) {
+      key = mappings[key];
     }
     res += `${key},${val},`;
   }
@@ -502,7 +519,7 @@ let getLevelString = (options = {}) => {
         options.object_count_warning == true) ||
       !options.hasOwnProperty('object_count_warning')
     )
-      throw `Group count surpasses the limit! (${unavailable_g}/${limit})`;
+      throw new Error(`Group count surpasses the limit! (${unavailable_g}/${limit})`);
   }
   return resulting;
 };
@@ -549,8 +566,9 @@ let extend_trigger_func = (t, cb) => {
   }
 };
 
-let remove_past_objects = (lvlstring) => {
+let remove_past_objects = (lvlstring, name) => {
 	// remove_group
+	if (!lvlstring) throw new Error(`Level "${name}" has not been initialized, add any object to initialize the level then rerun this script`);
 	return lvlstring.split(';').filter(x => {
 		let keep = true;
 		let spl = x.split(',');
@@ -577,7 +595,7 @@ let remove_past_objects = (lvlstring) => {
 let exportToSavefile = (options = {}) => {
   (async () => {
 	const level = await new LevelReader(options.level_name);
-	let last = remove_past_objects(level.data.levelstring);
+	let last = remove_past_objects(level.data.levelstring, level.data.name);
 	prep_lvl();
 	  if (unavailable_g <= limit) {
     if (options.info) {
@@ -592,7 +610,7 @@ let exportToSavefile = (options = {}) => {
         options.object_count_warning == true) ||
       !options.hasOwnProperty('object_count_warning')
     )
-      throw `Group count surpasses the limit! (${unavailable_g}/${limit})`;
+      throw new Error(`Group count surpasses the limit! (${unavailable_g}/${limit})`);
   }
 	last += resulting;
 	level.set(last);
@@ -613,7 +631,8 @@ let $ = {
   obj_to_levelstring,
   levelstring_to_obj,
   extend_trigger_func,
-  exportToSavefile
+  exportToSavefile,
+  trigger_fn_context: () => get_context().group,
 };
 
 let move_trigger = (group, x, y) => {
@@ -744,6 +763,14 @@ let counter = (num = 0, bits = 16) => {
         amount.copy_to(exports);
       }
     },
+	set: (amount) => {
+		 $.add({
+          OBJ_ID: 1817,
+          COUNT: amount,
+		  OVERRIDE_COUNT: true,
+          ITEM: id,
+        });
+	},
     subtract: (amount) => {
       if (typeof amount == 'number') {
         $.add({
@@ -763,6 +790,18 @@ let counter = (num = 0, bits = 16) => {
         ITEM: id,
         COLOR: color(1),
       }),
+	to_obj: () => {
+		let or = {
+			OBJ_ID: 1615,
+			ITEM: id,
+			COLOR: color(1),
+			with: (prop, val) => {
+			  or[d[prop]] = val;
+			  return or;
+			},
+		};
+		return or;
+	},
     if_is: (comparison, other, trig_func) => {
       $.add({
         OBJ_ID: 1811,
@@ -875,9 +914,7 @@ let counter = (num = 0, bits = 16) => {
       );
     },
     reset: () => {
-      while_loop(greater_than(exports, 0), () => {
-        exports.subtract(1);
-      });
+      exports.set(0)
     },
     multiply: (factor) => {
       if (typeof factor == 'number') {

@@ -796,27 +796,6 @@ let item_edit = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = N
 	};
 	return or;
 }
-
-let item_comp = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = NONE, assign_op = EQ, op1 = ADD, op2 = MUL, mod = 1, absn1 = NONE, absn2 = NONE, rfc1 = NONE, rfc2 = NONE) => {
-	return {
-		OBJ_ID: FIX_TOMORROW,
-		ITEM_ID_1: item1,
-		ITEM_ID_2: item2,
-		ITEM_TARGET: target,
-		TYPE_1: type1,
-		TYPE_2: type2,
-		TARGET_TYPE: targ_type,
-		ASSIGN_OP: assign_op,
-		OP_1: op1,
-		OP_2: op2,
-		MOD: mod,
-		ABSNEG_1: absn1,
-		ABSNEG_2: absn2,
-		RFC_1: rfc1,
-		RFC_2: rfc2
-	}
-}
-
 let counter = (num = 0, bits = 16) => {
   let id = next_free++;
   if (num > 0) {

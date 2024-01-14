@@ -21,7 +21,8 @@ G.js has mostly the same usage as SPWN, with exceptions:
 - Ranges in G.js are done with `range(a, b)`
 - Getting unknown IDs for groups/blocks/colors can be done using `unknown_g()/unknown_b()/unknown_c()`
 - Group, block, and color IDs are represented using `group(id)`, `block(id)` and `color(id)`
-- Instead of calling groups by using `1g!` in SPWN, you can do `group(1).call()` 
+- Instead of calling groups by using `1g!` in SPWN, you can do `group(1).call()`
+- `counter.to_const(a..b)` in SPWN is done inside of G.js by using `counter.to_const(range(a, b), (number) => { /* ... */ })`
 
 # Example
 Here is a functional example of G.js:

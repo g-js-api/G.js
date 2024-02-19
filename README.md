@@ -59,9 +59,10 @@ i.display(45, 45);
 
 while_loop(less_than(i, 10), () => {
     i.add(1);
-	g.move(15, 0, 0.5);
+    g.move(15, 0, 0.5);
 });
 
-$.print($.getLevelString()); // Print as level string
-$.exportToSavefile() // saves level (newest level by default), use "$.exportToSavefile({ level_name: "my level" })" to specify a level to save to
+$.print($.getLevelString({ info: true })); // Print as level string
+// you can also use $.exportToSavefile() to save level (newest level by default), use "$.exportToSavefile({ level_name: "my level" })" to specify a level to save to
+// and $.liveEditor() to write to level live using WSLiveEditor
 ```

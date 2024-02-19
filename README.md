@@ -23,6 +23,7 @@ G.js has mostly the same usage as SPWN, with exceptions:
 - Group, block, and color IDs are represented using `group(id)`, `block(id)` and `color(id)`
 - Instead of calling groups by using `1g!` in SPWN, you can do `group(1).call()`
 - `counter.to_const(a..b)` in SPWN is done inside of G.js by using `counter.to_const(range(a, b), (number) => { /* ... */ })`
+- Counter comparison can be done using `compare(counter_1, EQUAL_TO/GREATER/GREATER_OR_EQ/GREATER_OR_EQ/LESS_OR_EQ/NOT_EQ, counter_2, true_id, false_id)`
 
 # Example
 Here is a functional example of G.js:

@@ -1,3 +1,4 @@
+const WebSocket = require('ws');
 const LevelReader = require('./reader');
 const zlib = require('zlib');
 const crypto = require('crypto');
@@ -134,7 +135,7 @@ let writeClasses = (arr) => {
 };
 
 writeClasses([
-  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR',
+  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID',
   'color/TARGET_COLOR/COLOR/COLOR_2',
   'block/BLOCK_A/BLOCK_B',
 ]);
@@ -181,6 +182,7 @@ let d = {
     50: 'COPIED_COLOR_ID',
     51: 'TARGET',
 	6969: "ITEM_TARGET",
+	32984398: "TRUE_ID",
     52: 'TARGET_TYPE',
     54: 'YELLOW_TELEPORTATION_PORTAL_DISTANCE',
     56: 'ACTIVATE_GROUP',
@@ -199,6 +201,7 @@ let d = {
     69: 'TIMES_360',
     70: 'LOCK_OBJECT_ROTATION',
     71: 'TARGET_POS',
+	584932: "FALSE_ID",
     72: 'X_MOD',
     73: 'Y_MOD',
     75: 'STRENGTH',
@@ -295,8 +298,13 @@ let d = {
 	478: "TARGET_TYPE",
 	479: "MOD",
 	480: "ASSIGN_OP",
+	78534: "COMP_OP_1",
 	481: "OP_1",
+	45389: "COMP_OP_2",
 	482: "OP_2",
+	93289: "COMP_OP",
+	483: "MOD_2",
+	484: "TOL",
 	485: "RFC_1",
 	486: "RFC_2",
 	442: "REMAPS",
@@ -378,7 +386,12 @@ let mappings = {
 	420420: '80',
 	6942069: '95',
 	6969: '51',
-	42069420: '88'
+	42069420: '88',
+	32984398: '51',
+	584932: '71',
+	78534: '480',
+	45389: '481',
+	93289: '482'
 }
 
 let levelstring_to_obj = (string) => {
@@ -617,6 +630,7 @@ let exportToSavefile = (options = {}) => {
 	prep_lvl();
 	  if (unavailable_g <= limit) {
     if (options.info) {
+	  console.log(`Writing to level: ${level.data.name}`);
       console.log('Finished, result stats:');
       console.log('Object count:', resulting.split(';').length - 1);
       console.log('Group count:', unavailable_g);
@@ -636,6 +650,37 @@ let exportToSavefile = (options = {}) => {
   })()
 };
 
+const group_arr = (arr, x) => arr.reduce((acc, _, i) => (i % x ? acc[acc.length - 1].push(arr[i]) : acc.push([arr[i]]), acc), []);
+
+let liveEditor = (conf) => {
+	const socket = new WebSocket('ws://127.0.0.1:1313');
+	let lvlString = group_arr($.getLevelString(conf).split(';'), 250).map(x => x.join(';'));
+	socket.addEventListener('message', (event) => {
+	  event = JSON.parse(event.data);
+	  if (event.status !== "successful") throw new Error(`Live editor failed, ${event.error}: ${event.message}`)
+	});
+
+	socket.addEventListener('open', (event) => {
+		socket.send(JSON.stringify({
+			action: 'REMOVE',
+			group: 9999,
+		})); // clears extra objects
+		lvlString.forEach((chunk, i) => {
+			setTimeout(() => {
+				socket.send(JSON.stringify({
+					action: 'ADD',
+					objects: chunk + ';',
+					close: i == lvlString
+				}));
+			}, i * 75);
+		});
+	});
+
+	socket.addEventListener('error', () => {
+		throw new Error(`Connecting to WSLiveEditor failed! Make sure you have installed the WSLiveEditor mod inside of Geode!`);
+	});
+};
+
 let $ = {
   add,
   print: function () {
@@ -650,6 +695,7 @@ let $ = {
   levelstring_to_obj,
   extend_trigger_func,
   exportToSavefile,
+  liveEditor,
   trigger_fn_context: () => get_context().group,
 };
 
@@ -760,6 +806,7 @@ let next_free = 1;
 let refs = {
 	types: [null, "ITEM", "TIMER", "POINTS", "TIME", "ATTEMPT"],
 	ops: ["EQ", "ADD", "SUB", "MUL", "DIV"],
+	compare_ops: [null, "GREATER", "GREATER_OR_EQ", "LESS", "LESS_OR_EQ", "NOT_EQ"],
 	absneg: [null, "ABS", "NEG"],
 	rfc: [null, "RND", "FLR", "CEI"],
 }
@@ -796,6 +843,36 @@ let item_edit = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = N
 	};
 	return or;
 }
+
+let item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = 0, falsei = 0, mod_1 = 1, mod_2 = 1, tol = 0, op_1 = MUL, op_2 = MUL, absneg_1 = NONE, absneg_2 = NONE, rfc_1 = NONE, rfc_2 = NONE) => {
+	let or = {
+		OBJ_ID: 3620,
+		ITEM_ID_1: item_1,
+		ITEM_ID_2: item_2,
+		MOD: mod_1,
+		MOD_2: mod_2,
+		TYPE_1: type_1,
+		TYPE_2: type_2,
+		COMP_OP: compare_op,
+		TRUE_ID: truei,
+		FALSE_ID: falsei,
+		TOL: tol,
+		COMP_OP_1: op_1,
+		COMP_OP_2: op_2,
+		ABSNEG_1: absneg_1,
+		ABSNEG_2: absneg_2,
+		RFC_1: rfc_1,
+		RFC_2: rfc_2,
+		with: (prop, val) => {
+		  or[d[prop]] = val;
+		  return or;
+		},
+	};
+	return or;
+}
+
+// item_comp(counter1.item, counter2.item, ITEM, ITEM, EQ, group(1), group(2));
+
 let counter = (num = 0, bits = 16) => {
   let id = next_free++;
   if (num > 0) {
@@ -953,6 +1030,10 @@ let counter = (num = 0, bits = 16) => {
   };
   return exports;
 };
+
+let compare = (c1, op, c2, truei, falsei) => {
+	$.add(item_comp(c1.item, c2.item, ITEM, ITEM, op, truei, falsei));
+}
 
 let toggle_on_trigger = (group) => {
   return {
@@ -1279,6 +1360,8 @@ let exps = {
   color_trigger,
   move_trigger,
   trigger_function,
+  item_comp,
+  compare,
   on,
   touch,
   touch_end,

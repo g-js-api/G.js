@@ -59,10 +59,7 @@ let writeClasses = (arr) => {
         }
         call(delay = 0) {
 		  let tr = spawn_trigger(this, delay);
-		  if (this.remaps) {
-			  console.log(this.remaps)
-			  tr.REMAPS = this.remaps;
-		  }
+		  if (this.remaps) tr.REMAPS = this.remaps;
           $.add(tr);
         }
         
@@ -122,12 +119,23 @@ let writeClasses = (arr) => {
       }
     }
     global['${clas}'] = (x) => new $${clas}(x)`);
-    } else {
+    } else if (clas == 'block') {
       eval(`class $${clas} {
       constructor(a) {
         this.value = a;
         this.type = '${clas}';
       }
+	  if_colliding(b2, true_id, false_id) {
+		  // todo: P1, P2, PP
+		  let j = {
+			  OBJ_ID: 3609,
+			  BLOCK_A: this,
+			  BLOCK_B: b2
+		  };
+		  if (true_id) j.TRUE_ID = true_id;
+		  if (false_id) j.FALSE_ID = false_id;
+		  $.add(j);
+	  }
     }
     global['${clas}'] = (x) => new $${clas}(x)`);
     }
@@ -274,6 +282,7 @@ let d = {
     164: "CAMERA_EDGE",
     169: "KEEP_VELOCITY",
     171: "CHANGE_CHANNEL",
+	174: "GR_BLENDING",
     195: "HIDE_MG",
     198: "PLAYER_ONLY",
     199: "DISABLE_CONTROLS_P1",
@@ -670,7 +679,7 @@ let liveEditor = (conf) => {
 				socket.send(JSON.stringify({
 					action: 'ADD',
 					objects: chunk + ';',
-					close: i == lvlString
+					close: i == lvlString.length - 1
 				}));
 			}, i * 75);
 		});

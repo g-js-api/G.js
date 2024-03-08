@@ -1234,7 +1234,6 @@ let keyframe_system = (gr) => {
 				GROUPS: ksys_gr,
 				ANIM_ID: ksys_id,
 				524: 1,
-				155: 1,
 				ACTIVE_TRIGGER: 1,
 				155: 2
 			};

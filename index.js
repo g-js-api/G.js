@@ -143,7 +143,7 @@ let writeClasses = (arr) => {
 };
 
 writeClasses([
-  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID',
+  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID',
   'color/TARGET_COLOR/COLOR/COLOR_2',
   'block/BLOCK_A/BLOCK_B',
 ]);
@@ -213,7 +213,7 @@ let d = {
     72: 'X_MOD',
     73: 'Y_MOD',
     75: 'STRENGTH',
-    76: 'ANIMATION_ID',
+    76: 'ANIMATION_GID',
     77: 'COUNT',
     78: 'SUBTRACT_COUNT',
     79: 'PICKUP_MODE',
@@ -302,6 +302,10 @@ let d = {
     216: "FOLLOW_P2",
     274: "P_GROUPS",
     370: "DISABLE_GRID_SNAP",
+	373: "ANIM_ID",
+	374: "ORDER_INDEX",
+	376: "CLOSE_LOOP",
+	378: "CURVE",
 	476: "TYPE_1",
 	477: "TYPE_2",
 	478: "TARGET_TYPE",
@@ -318,6 +322,13 @@ let d = {
 	486: "RFC_2",
 	442: "REMAPS",
 	456: "PREVIEW_OPACITY",
+	520: "TIME_MOD",
+	521: "POSITION_X_MOD",
+	522: "ROTATION_MOD",
+	523: "SCALE_X_MOD",
+	524: "LINE_OPACITY",
+	545: "POSITION_Y_MOD",
+	546: "SCALE_Y_MOD",
 	578: "ABSNEG_1",
 	579: "ABSNEG_2",
 };
@@ -437,6 +448,7 @@ let obj_to_levelstring = (l) => {
   for (var d_ in l) {
     let val = l[d_];
     let key = reverse[d_];
+	if (!isNaN(parseInt(d_))) key = d_
     if (typeof val == 'boolean') val = +val;
 	// if (d_ == "GR_LAYER") console.log(val, key)
     if (explicit[d_] && !val.value) {
@@ -1204,6 +1216,50 @@ let hide_player = () => {
   });
 };
 
+let ksys_id = 1;
+let keyframe_system = (gr) => {
+	console.log(ksys_id)
+	let ksys_gr = unknown_g();
+	let oi = 0;
+	return {
+		keyframe: (x, y, duration = 0.50, curve = false, close = false) => {
+			console.log(curve)
+			let o = {
+				OBJ_ID: 3032,
+				X: x,
+				Y: y,
+				DURATION: duration,
+				CURVE: curve,
+				CLOSE_LOOP: close,
+				GROUPS: ksys_gr,
+				ANIM_ID: ksys_id,
+				524: 1,
+				155: 1,
+				ACTIVE_TRIGGER: 1,
+				155: 2
+			};
+			if (oi > 0) o.ORDER_INDEX = oi;
+			$.add(o);
+			oi++;
+		},
+		start: () => {
+			$.add({
+				OBJ_ID: 3033,
+				ANIMATION_GID: ksys_gr,
+				TARGET: gr,
+				TIME_MOD: 1,
+				POSITION_X_MOD: 1,
+				POSITION_Y_MOD: 1,
+				ROTATION_MOD: 1,
+				SCALE_X_MOD: 1,
+				SCALE_Y_MOD: 1
+			});
+			ksys_id++;
+		}
+	}
+};
+
+
 let gamescene = () => {
   // Triggers and groups
   follow_x_group = unknown_g();
@@ -1398,6 +1454,7 @@ let exps = {
   item_edit,
   hide_player,
   gamescene,
+  keyframe_system,
   rgb: (r, g, b) => [r, g, b],
   rgba: (r, g, b, a) => [r, g, b, a],
 };

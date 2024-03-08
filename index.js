@@ -1218,12 +1218,10 @@ let hide_player = () => {
 
 let ksys_id = 1;
 let keyframe_system = (gr) => {
-	console.log(ksys_id)
 	let ksys_gr = unknown_g();
 	let oi = 0;
 	return {
 		keyframe: (x, y, duration = 0.50, curve = false, close = false) => {
-			console.log(curve)
 			let o = {
 				OBJ_ID: 3032,
 				X: x,

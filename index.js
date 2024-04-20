@@ -27,6 +27,12 @@ let spawn_trigger = (group, time = 0) => {
   };
 };
 
+let all_known = {
+	groups: [],
+	colors: [],
+	blocks: []	
+}
+
 let writeClasses = (arr) => {
   arr.forEach((class_) => {
     let clases = class_.split('/');
@@ -37,13 +43,15 @@ let writeClasses = (arr) => {
 
     if (clas == 'group') {
       eval(`class $${clas} {
-        constructor(a) {
+        constructor(a, specific = true) {
           this.value = a;
           this.type = '${clas}';
+		  if (specific) all_known.groups.push(a);
         }
 		remap(...mps) {
 			mps = mps.map(x => x[0].value + '.' + x[1].value).join('.');
 			this.remaps = mps;
+			return this;
 		}
         move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, delay_trig = true) {
               $.add({
@@ -99,9 +107,10 @@ let writeClasses = (arr) => {
       global['${clas}'] = (x) => new $${clas}(x)`);
     } else if (clas == 'color') {
       eval(`class $${clas} {
-      constructor(a) {
+      constructor(a, specific = true) {
         this.value = a;
         this.type = '${clas}';
+		if (specific) all_known.colors.push(a);
       }
       set(c, duration = 0, blending = false, delay_trig = true) {
         $.add({
@@ -121,9 +130,10 @@ let writeClasses = (arr) => {
     global['${clas}'] = (x) => new $${clas}(x)`);
     } else if (clas == 'block') {
       eval(`class $${clas} {
-      constructor(a) {
+      constructor(a, specific = true) {
         this.value = a;
         this.type = '${clas}';
+		if (specific) all_known.blocks.push(a);
       }
 	  if_colliding(b2, true_id, false_id) {
 		  // todo: P1, P2, PP
@@ -143,7 +153,7 @@ let writeClasses = (arr) => {
 };
 
 writeClasses([
-  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID',
+  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID/TARGET_POS',
   'color/TARGET_COLOR/COLOR/COLOR_2',
   'block/BLOCK_A/BLOCK_B',
 ]);
@@ -191,6 +201,7 @@ let d = {
     51: 'TARGET',
 	6969: "ITEM_TARGET",
 	32984398: "TRUE_ID",
+	8754: "GROUP_ID_1",
     52: 'TARGET_TYPE',
     54: 'YELLOW_TELEPORTATION_PORTAL_DISTANCE',
     56: 'ACTIVATE_GROUP',
@@ -209,6 +220,7 @@ let d = {
     69: 'TIMES_360',
     70: 'LOCK_OBJECT_ROTATION',
     71: 'TARGET_POS',
+	8459: "GROUP_ID_2",
 	584932: "FALSE_ID",
     72: 'X_MOD',
     73: 'Y_MOD',
@@ -249,6 +261,7 @@ let d = {
     107: 'ANIMATION_SPEED',
     108: 'LINKED_GROUP',
     109: "CAMERA_ZOOM",
+	110: "EXIT_STATIC",
     111: "FREE_MODE",
     112: "EDIT_FREE_CAM_SETTINGS",
     113: "FREE_CAM_EASING",
@@ -256,7 +269,7 @@ let d = {
 	115: "ORD",
     118: "REVERSED",
     119: "SONG_START",
-    120: "TIME_MOD",
+    120: "TIMEWARP_TIME_MOD",
     128: "SCALE_X",
     129: "SCALE_Y",
     131: "PERSPECTIVE_X",
@@ -306,6 +319,42 @@ let d = {
 	374: "ORDER_INDEX",
 	376: "CLOSE_LOOP",
 	378: "CURVE",
+	389: "SECONDS_ONLY",
+	392: "SONG_ID",
+	399: "PREP",
+	400: "LOAD_PREP",
+	404: "SONG_SPEED",
+	406: "SONG_VOLUME",
+	408: "SONG_START",
+	409: "SONG_FADE_IN",
+	410: "SONG_END",
+	411: "SONG_FADE_OUT",
+	413: "SONG_LOOP",
+	414: "STOP_LOOP",
+	417: "SONG_STOP",
+	418: "CHANGE_VOLUME",
+	419: "CHANGE_SPEED",
+	421: "VOL_NEAR",
+	422: "VOL_MED",
+	423: "VOL_FAR",
+	424: "MIN_DIST",
+	425: "DIST_2",
+	426: "DIST_3",
+	428: "CAM",
+	432: "SONG_CHANNEL",
+	453: "SMOOTH_VELOCITY",
+	454: "SMOOTH_VELOCITY_MODIFIER",
+	458: "VOLUME_DIRECTION",
+	465: "EXIT_INSTANT",
+	466: "TIME_COUNTER",
+	467: "START_TIME",
+	468: "DONT_OVERRIDE",
+	469: "IGNORE_TIMEWARP",
+	470: "TIMER_TIME_MOD",
+	471: "START_PAUSED",
+	472: "START_STOP",
+	473: "STOP_TIME",
+	474: "STOP_CHECKED",
 	476: "TYPE_1",
 	477: "TYPE_2",
 	478: "TARGET_TYPE",
@@ -320,6 +369,7 @@ let d = {
 	484: "TOL",
 	485: "RFC_1",
 	486: "RFC_2",
+	491: "PERSISTENT",
 	442: "REMAPS",
 	456: "PREVIEW_OPACITY",
 	520: "TIME_MOD",
@@ -332,21 +382,34 @@ let d = {
 	578: "ABSNEG_1",
 	579: "ABSNEG_2",
 };
-
 let [ unavailable_g, unavailable_c, unavailable_b ] = [0, 0, 0];
 
+let get_new = (n, prop) => {
+	if (all_known[prop].indexOf(n) == -1) return n;
+	let cond = true;
+	while (cond) {
+		cond = all_known[prop].indexOf(n) != -1;
+		n++;
+	}
+	return n;
+};
+
 let unknown_g = () => {
+  // todo: make this not use group 0
   unavailable_g++;
+  unavailable_g = get_new(unavailable_g, 'groups');
   return group(unavailable_g);
 };
 
 let unknown_c = () => {
   unavailable_c++;
+  unavailable_c = get_new(unavailable_c, 'colors');
   return color(unavailable_c);
 };
 
 let unknown_b = () => {
   unavailable_b++;
+  unavailable_b = get_new(unavailable_c++, 'blocks');
   return block(unavailable_b);
 };
 
@@ -411,8 +474,139 @@ let mappings = {
 	584932: '71',
 	78534: '480',
 	45389: '481',
-	93289: '482'
+	93289: '482',
+	8754: '51',
+	8459: '71'
 }
+
+let camera_offset = (x, y, duration = 0, easing = NONE) => {
+	$.add({
+		OBJ_ID: 1916,
+		155: 1,
+		MOVE_X: x * 3,
+		MOVE_Y: y * 3,
+		ACTIVE_TRIGGER: true,
+		DURATION: duration,
+		EASING_RATE: easing
+	});
+	if (duration) wait(duration);
+};
+
+let camera_static = (gr, duration = 0.5, easing = NONE, exit_instant = false, exit_static = false, smooth_vel = false, smooth_vel_mod = 0, follow = false, x_only = false, y_only = false) => {
+	if (x_only && y_only) throw new Error("Only one of the x_only or y_only arguments must be true, but both values are true!");
+	let axisval = !x_only && !y_only ? 0 : (x_only ? 1 : 2);
+	$.add({
+		OBJ_ID: 1914,
+		155: 1,
+		DURATION: duration,
+		TARGET_POS_AXES: axisval,
+		ACTIVE_OBJECT: true,
+		TARGET_POS: gr,
+		FOLLOW_GROUP: follow,
+		EASING: easing,
+		SMOOTH_VELOCITY: smooth_vel,
+		SMOOTH_VELOCITY_MODIFIER: smooth_vel_mod,
+		EXIT_INSTANT: exit_instant,
+		EXIT_STATIC: exit_static
+	});
+	if (duration) wait(duration);
+};
+let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, speed = 0, start = 0, end = 0, fadein = 0, fadeout = 0) => {
+	if (preload) {
+		let m_obj = {
+			OBJ_ID: 1934,
+			SONG_ID: song_id,
+			SONG_CHANNEL: channel,
+			SONG_VOLUME: volume,
+			SONG_SPEED: speed,
+			SONG_START: start,
+			SONG_END: end,
+			SONG_FADE_IN: fadein,
+			SONG_FADE_OUT: fadeout,
+			SONG_LOOP: loop,
+			PREP: true
+		};
+		$.add(m_obj);
+		let al_load = false;
+		let exp = {
+			start: () => {
+				if (al_load) $.add(m_obj);
+				$.add({
+					OBJ_ID: 1934,
+					SONG_CHANNEL: channel,
+					LOAD_PREP: true
+				});
+				if (!al_load) al_load = true;
+			},
+			edit: (new_volume = volume, new_speed = speed, duration = 0.5, stop = false, stop_loop = false, gid_1 = group(0), gid_2 = group(0), vol_near = 1, vol_med = 0.5, vol_far = 0, min_dist = 0, dist_2 = 0, dist_3 = 0, p1 = false, p2 = false, cam = false, vol_dir = 0) => {
+				// SONG_CHANNEL, 138 (P1), 200 (P2),
+				// SONG_SPEED (404) int, SONG_VOLUME (406) int, SONG_STOP (417) bool, STOP_LOOP (414) bool, CHANGE_SPEED (419) bool, CHANGE_VOLUME (418) bool, GROUP ID 1 (51) int, GROUP ID 2 (71) int, VOL_NEAR (421), VOL_MED (422), VOL_FAR (423) int, MIN_DIST (424) int, DIST_2 (425) int, DIST_3 (426) int, 
+				// CAM (428) bool, VOLUME_DIRECTION (458) int[0-6]
+				$.add({
+					OBJ_ID: 3605,
+					SONG_CHANNEL: channel,
+					SONG_SPEED: new_speed,
+					SONG_VOLUME: new_volume,
+					SONG_STOP: stop,
+					STOP_LOOP: stop_loop,
+					CHANGE_SPEED: new_speed !== speed,
+					CHANGE_VOLUME: new_volume !== volume,
+					GROUP_ID_1: gid_1,
+					GROUP_ID_2: gid_2,
+					VOL_NEAR: vol_near,
+					VOL_MED: vol_med,
+					VOL_FAR: vol_far,
+					MIN_DIST: min_dist,
+					DIST_2: dist_2,
+					DIST_3: dist_3,
+					P1: p1,
+					P2: p2,
+					CAM: cam,
+					VOLUME_DIRECTION: vol_dir
+				});
+			},
+			stop: () => {
+				exp.edit(volume, speed, 0.5, true, true);
+				// loop ? false : true, loop ? true : false
+			}
+		};
+		return exp;
+	}
+	$.add({
+		OBJ_ID: 1934,
+		SONG_ID: song_id,
+		SONG_CHANNEL: channel,
+		SONG_VOLUME: volume,
+		SONG_SPEED: speed,
+		SONG_START: start,
+		SONG_END: end,
+		SONG_FADE_IN: fadein,
+		SONG_FADE_OUT: fadeout,
+		SONG_LOOP: loop
+	});
+}
+let teleport = (g) => {
+	if (g?.length) {
+		$.add({
+			OBJ_ID: 3022,
+			X: g[0],
+			Y: g[1],
+			155: 1,
+			13: 1,
+			ACTIVE_TRIGGER: 1,
+			350: 1
+		});
+		return;
+	}
+	$.add({
+		OBJ_ID: 3022,
+		155: 1,
+		13: 1,
+		ACTIVE_TRIGGER: 1,
+		TARGET: g,
+		350: 1
+	});
+};
 
 let levelstring_to_obj = (string) => {
   let objects = [];
@@ -451,10 +645,11 @@ let obj_to_levelstring = (l) => {
 	if (!isNaN(parseInt(d_))) key = d_
     if (typeof val == 'boolean') val = +val;
 	// if (d_ == "GR_LAYER") console.log(val, key)
-    if (explicit[d_] && !val.value) {
-      if (typeof val == 'object' && dot_separated_keys.includes(key)) {
+    if (explicit[d_] && !val.hasOwnProperty('value')) { // if type is explicitly required for current object property and it is not a group/color/block
+      if (typeof val == 'object' && dot_separated_keys.includes(key)) { // if val is an array and it is dot separated
         val = val.map((x) => x.value).filter(x => x && x != '').join('.');
       } else {
+		  console.log(val)
         throw `Expected type "${
           explicit[d[parseInt(key)]]
         }", got "${typeof val}"`;
@@ -865,7 +1060,7 @@ let item_edit = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = N
 	return or;
 }
 
-let item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = 0, falsei = 0, mod_1 = 1, mod_2 = 1, tol = 0, op_1 = MUL, op_2 = MUL, absneg_1 = NONE, absneg_2 = NONE, rfc_1 = NONE, rfc_2 = NONE) => {
+let item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = group(0), falsei = group(0), mod_1 = 1, mod_2 = 1, tol = 0, op_1 = MUL, op_2 = MUL, absneg_1 = NONE, absneg_2 = NONE, rfc_1 = NONE, rfc_2 = NONE) => {
 	let or = {
 		OBJ_ID: 3620,
 		ITEM_ID_1: item_1,
@@ -892,20 +1087,27 @@ let item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = 0, falsei =
 	return or;
 }
 
-// item_comp(counter1.item, counter2.item, ITEM, ITEM, EQ, group(1), group(2));
-
-let counter = (num = 0, bits = 16) => {
-  let id = next_free++;
-  if (num > 0) {
-    $.add({
-      OBJ_ID: 1817,
-      COUNT: num,
-      ITEM: id,
-    });
+let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
+  let id = use_id ? num : next_free++;
+  if (num > 0 && !use_id) {
+	if (!persistent) {
+		$.add({
+		  OBJ_ID: 1817,
+		  COUNT: num,
+		  ITEM: id,
+		});
+	}
   }
+  if (persistent) {
+	  $.add({
+		  OBJ_ID: 3641,
+		  PERSISTENT: true,
+		  ITEM: id
+	  });
+  };
   let exports = {
     item: id,
-    bits,
+	type: timer ? TIMER : ITEM,
     add: (amount) => {
       if (typeof amount == 'number') {
         $.add({
@@ -914,16 +1116,21 @@ let counter = (num = 0, bits = 16) => {
           ITEM: id,
         });
       } else if (typeof amount == 'object') {
-        $.add(item_edit(id, amount.item, id, ITEM, ITEM, ITEM, EQ, ADD));
+        $.add(item_edit(id, amount.item, id, exports.type, amount.type, exports.type, EQ, ADD));
       }
     },
 	set: (amount) => {
-		 $.add({
-          OBJ_ID: 1817,
-          COUNT: amount,
-		  OVERRIDE_COUNT: true,
-          ITEM: id,
-        });
+		if (typeof amount == 'number') {
+			 $.add({
+			  OBJ_ID: 1817,
+			  COUNT: amount,
+			  OVERRIDE_COUNT: true,
+			  ITEM: id,
+			});
+		} else if (typeof amount == 'object') {
+			exports.reset();
+			$.add(item_edit(id, amount.item, id, exports.type, amount.type, exports.type, EQ, ADD));
+		}
 	},
     subtract: (amount) => {
       if (typeof amount == 'number') {
@@ -933,7 +1140,7 @@ let counter = (num = 0, bits = 16) => {
           ITEM: id,
         });
       } else if (typeof amount == 'object') {
-        $.add(item_edit(id, amount.item, id, ITEM, ITEM, ITEM, EQ, SUB));
+        $.add(item_edit(id, amount.item, id, exports.type, amount.type, exports.type, EQ, SUB));
       }
     },
 	multiply: (amount) => {
@@ -945,7 +1152,7 @@ let counter = (num = 0, bits = 16) => {
           ITEM: id,
         });
       } else if (typeof amount == 'object') {
-        $.add(item_edit(id, amount.item, id, ITEM, ITEM, ITEM, EQ, MUL));
+        $.add(item_edit(id, amount.item, id, exports.type, amount.type, exports.type, EQ, MUL));
       }
     },
 	divide: (amount) => {
@@ -957,7 +1164,7 @@ let counter = (num = 0, bits = 16) => {
           ITEM: id,
         });
       } else if (typeof amount == 'object') {
-        $.add(item_edit(id, amount.item, id, ITEM, ITEM, ITEM, EQ, DIV));
+        $.add(item_edit(id, amount.item, id, exports.type, amount.type, exports.type, EQ, DIV));
       }
     },
     display: (x, y) =>
@@ -1006,51 +1213,73 @@ let counter = (num = 0, bits = 16) => {
 	  exports.reset();
     },
     copy_to: (item, factor = 1) => {
-      $.add(item_edit(id, 0, item.item, ITEM, ITEM, ITEM, EQ, MUL));
+      $.add(item_edit(id, 0, item.item, exports.type, NONE, item.type, EQ, ADD));
     },
     clone: () => {
-      let n_counter = counter(0, exports.bits);
+      let n_counter = counter(0);
       exports.copy_to(n_counter);
       return n_counter;
     },
     subtract_from: (b) => {
       // basically (a - b) then reset b to zero
-      $.add(item_edit(id, b.item, id, ITEM, ITEM, ITEM, EQ, ADD));
+      $.add(item_edit(id, b.item, id, exports.type, b.type, exports.type, EQ, SUB));
 	  b.reset();
     },
-    compare: (other, cb) => {
-      comp = counter(0, Math.max(exports.bits, other.bits));
-      exports.copy_to(comp);
-      other.copy_to(comp, -1);
-
-      exports.if_is(
-        SMALLER_THAN,
-        0,
-        trigger_function(() => {
-          cb(-1);
-        })
-      );
-      exports.if_is(
-        EQUAL_TO,
-        0,
-        trigger_function(() => {
-          cb(0);
-        })
-      );
-      exports.if_is(
-        LARGER_THAN,
-        0,
-        trigger_function(() => {
-          cb(1);
-        })
-      );
-    },
     reset: () => {
-      exports.set(0)
+      exports.set(0);
     },
   };
+  if (persistent) {
+		let tfr = trigger_function(() => {
+			$.add({
+			  OBJ_ID: 1817,
+			  COUNT: num,
+			  OVERRIDE_COUNT: true,
+			  ITEM: id,
+			});
+		});
+		exports.if_is(EQUAL_TO, 0, tfr);
+	}
   return exports;
 };
+
+let timer = (start_seconds, end_seconds = 0, target_id = group(0), backwards = false, seconds_only = false, stop = true, time_mod = 1, ignore_timewarp = false, no_override = false) => {
+	 // START_IME, STOP_TIME, STOP_CHECKED, ITEM, TARGET, TIME_MOD, IGNORE_TIMEWARP, START_PAUSED, DONT_OVERRIDE
+	let c_item = counter(0, false, false, true);
+	let o = {
+		OBJ_ID: 3614,
+		START_TIME: start_seconds,
+		STOP_TIME: end_seconds,
+		STOP_CHECKED: stop,
+		ITEM: c_item.item,
+		TARGET: target_id,
+		TIMER_TIME_MOD: backwards ? -1 : time_mod,
+		IGNORE_TIMEWARP: ignore_timewarp,
+		DONT_OVERRIDE: no_override
+	};
+	c_item.display = (x, y) => $.add({
+        OBJ_ID: 1615,
+        X: x,
+        Y: y,
+        ITEM: c_item.item,
+		TIME_COUNTER: true,
+		SECONDS_ONLY: seconds_only,
+        COLOR: color(1),
+    });
+	c_item.set_start = (x) => o.START_TIME = x;
+	c_item.set_end = (x) => o.STOP_TIME = x;
+	c_item.start = () => {
+		$.add(o);
+	};
+	c_item.stop = () => {
+		$.add({
+			OBJ_ID: 3617,
+			ITEM: c_item.item,
+			START_STOP: true
+		})
+	};
+	return c_item;
+}
 
 let compare = (c1, op, c2, truei, falsei) => {
 	$.add(item_comp(c1.item, c2.item, ITEM, ITEM, op, truei, falsei));
@@ -1217,11 +1446,12 @@ let hide_player = () => {
 };
 
 let ksys_id = 1;
-let keyframe_system = (gr) => {
-	let ksys_gr = unknown_g();
+let keyframe_system = (gr, same = false) => {
+	let ksys_gr = same ? gr : unknown_g();
 	let oi = 0;
-	return {
-		keyframe: (x, y, duration = 0.50, curve = false, close = false) => {
+	let tksys_id = ksys_id;
+	let o = {
+		keyframe: (x, y, duration = 0.50, curve = false, close = false, easing = NONE) => {
 			let o = {
 				OBJ_ID: 3032,
 				X: x,
@@ -1230,7 +1460,8 @@ let keyframe_system = (gr) => {
 				CURVE: curve,
 				CLOSE_LOOP: close,
 				GROUPS: ksys_gr,
-				ANIM_ID: ksys_id,
+				ANIM_ID: tksys_id,
+				EASING: easing,
 				524: 1,
 				ACTIVE_TRIGGER: 1,
 				155: 2
@@ -1251,9 +1482,11 @@ let keyframe_system = (gr) => {
 				SCALE_X_MOD: 1,
 				SCALE_Y_MOD: 1
 			});
-			ksys_id++;
-		}
-	}
+		},
+		anim_id: ksys_id
+	};
+	ksys_id++;
+	return o
 };
 
 
@@ -1411,7 +1644,6 @@ let obj_ids = {
     DUAL_OFF: 287,
   },
 };
-
 let exps = {
   EQUAL_TO: 0,
   LARGER_THAN: 1,
@@ -1452,6 +1684,12 @@ let exps = {
   hide_player,
   gamescene,
   keyframe_system,
+  obj_to_levelstring,
+  teleport,
+  camera_offset,
+  camera_static,
+  timer,
+  song,
   rgb: (r, g, b) => [r, g, b],
   rgba: (r, g, b, a) => [r, g, b, a],
 };

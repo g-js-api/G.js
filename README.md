@@ -1,6 +1,12 @@
 # G.js
 G.js - Create Geometry Dash levels (with a SPWN-like syntax) in JavaScript
 
+# Installation
+Use G.js in your project by running this in your project (with Node.js installed):
+```
+npm install @g-js-api/g.js
+```
+
 # Features that make this different from SPWN:
 - Inherits speed and ecosystem from JS (JS might sometimes be considered slower than others, but it is much faster than SPWN + ecosystem is much bigger than SPWN)
 - Has early 2.2 features (9999 group limit, item edit, ID remapping, 2.2 obj props, will implement other 2.2 features such as item comp, camera controls and gradient triggers)

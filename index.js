@@ -49,7 +49,7 @@ let writeClasses = (arr) => {
 		  if (specific) all_known.groups.push(a);
         }
 		remap(...mps) {
-			mps = mps.map(x => x[0].value + '.' + x[1].value).join('.');
+			mps = mps.map(x => (x[0].value ? x[0].value : x[0]) + '.' + (x[1].value ? x[1].value : x[1])).join('.');
 			this.remaps = mps;
 			return this;
 		}
@@ -90,18 +90,137 @@ let writeClasses = (arr) => {
             LOCK_TO_PLAYER_Y: lock_y,
         })
       }
-
-        follow_player_y(speed = 1, delay = 0, offset = 0, max_speed = 0, duration = 999) {
+	  
+	  stop() {
+		  $.add({
+				OBJ_ID: 1616,
+				TARGET: this,
+		  });
+	  }
+	  
+	  toggle_on() {
+		$.add({
+            OBJ_ID: 1049,
+            TARGET: this,
+            ACTIVATE_GROUP: true,
+        });
+	  }
+	  
+	  toggle_off() {
+		$.add({
+            OBJ_ID: 1049,
+            TARGET: this,
+            ACTIVATE_GROUP: false,
+        });
+	  }
+	
+	rotate(center, degrees, duration = 0, easing = NONE, easing_rate = 2, lock_object_rotation = false) {
+		$.add({
+            OBJ_ID: 1346,
+            TARGET: this,
+            CENTER: center,
+            ROTATE_DEGREES: degrees,
+            DURATION: duration,
+            EASING: easing.id,
+            EASING_RATE: easing_rate,
+            LOCK_OBJECT_ROTATION: lock_object_rotation
+        });
+        if (duration) wait(duration);
+	}
+	
+	follow(other, x_mod = 1, y_mod = 1, duration = 999) {
+		 $.add({
+            OBJ_ID: 1347,
+            X_MOD: x_mod,
+            Y_MOD: y_mod,
+            DURATION: duration,
+            TARGET: this,
+            FOLLOW: other,
+        });
+	}
+	
+	follow_lerp(groupA, groupB, weight = 0.5, duration = 999) {
+		this.follow(groupA, 1 - weight, 1 - weight, duration);
+	}
+	
+    follow_player_y(speed = 1, delay = 0, offset = 0, max_speed = 0, duration = 999) {
         $.add({
             OBJ_ID: 1814,
-            SPEED : speed,
-            DELAY : delay,
-            Y_OFFSET : offset,
-            MAX_SPEED : max_speed,
+            SPEED: speed,
+            DELAY: delay,
+            Y_OFFSET: offset,
+            MAX_SPEED: max_speed,
             TARGET: this,
             DURATION: duration,
         })
     }
+	
+	move_to(target, duration = 0, x_only = false, y_only = false, easing = NONE, easing_rate = 2) {
+		 $.add({
+            OBJ_ID: 901,
+            TARGET: this,
+            USE_TARGET: true,
+
+            TARGET_POS_AXES: x_only && y_only ? 0 : (x_only ? 1 : (y_only ? 2 : 0)),
+            TARGET_POS: target,
+
+            DURATION: duration,
+            EASING: easing,
+            EASING_RATE: easing_rate,
+        })
+        wait(duration);
+	}
+	
+	move_to_xy(x = null, y = null, duration = 0, easing = NONE, easing_rate = 2) {
+		if (!x && !y) throw new Error("At least one coordinate must be specified!");
+		let target = unknown_g();
+		$.add({
+            OBJ_ID: 1765,
+            X: x ? x : 0,
+            Y: y ? y : 0,
+            GROUPS: target,
+        });
+		$.add({
+            OBJ_ID: 1007,
+			X: 0,
+			Y: 75 * 30,
+            TARGET: target,
+            OPACITY: 0,
+            DURATION: 0,
+        });
+	}
+	
+	pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+		$.add({
+            OBJ_ID: 1006,
+            COPIED_COLOR_HVS: [h, s, b, +s_checked, +b_checked].join("a"), 
+            EXCLUSIVE: exclusive,
+            FADE_IN: fade_in,
+            HOLD: hold,
+            FADE_OUT: fade_out,
+            TARGET: this,
+            PULSE_HSV: true,
+            TARGET_TYPE: 1,
+        });
+        wait(fade_in + hold + fade_out);
+	}
+	
+	pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+		 $.add({
+            OBJ_ID: 1006,
+            TRIGGER_RED: c[0],
+            TRIGGER_GREEN: c[1],
+            TRIGGER_BLUE: c[2],
+            EXCLUSIVE: exclusive,
+            FADE_IN: fade_in,
+            HOLD: hold,
+            FADE_OUT: fade_out,
+            TARGET: this,
+            PULSE_HSV: false,
+            TARGET_TYPE: 1,
+        })
+        wait(fade_in + hold + fade_out)
+	}
 
       }
       global['${clas}'] = (x) => new $${clas}(x)`);

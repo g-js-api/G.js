@@ -37,6 +37,15 @@ G.js has mostly the same usage as SPWN, with exceptions:
 - Counter comparison can be done using `compare(counter_1, EQUAL_TO/GREATER/GREATER_OR_EQ/GREATER_OR_EQ/LESS_OR_EQ/NOT_EQ, counter_2, true_id, false_id)`
 - ID remapping can be done through `my_trig_func.remap([group(3), group(2)], [group(7), group(4)]);`
 - Item edit trigger: `$.add(item_edit(item_1, item_2, target_item, type_1 (NONE/ITEM/TIMER/POINTS/TIME/ATTEMPT), type_2 (NONE/ITEM/TIMER/POINTS/TIME/ATTEMPT), target_type (NONE/ITEM/TIMER/POINTS/TIME/ATTEMPT), assign_op (EQ/ADD/SUB/MUL/DIV), op1 (EQ/ADD/SUB/MUL/DIV), op2 (EQ/ADD/SUB/MUL/DIV), mod, absn1 (ABS/NEG), absn2 (NONE/ABS/NEG), rfc1 (NONE/RND/FLR/CEI))`
+- Remappables are a sort of trigger function that can take in IDs as inputs through ID remapping:
+```js
+let bl = group(10);
+let fn = remappable(my_gr => {
+	group(my_gr).move(10, 0);
+});
+wait(0.5)
+fn(bl);
+```
 # Example
 Here is a functional example of G.js:
 ```js

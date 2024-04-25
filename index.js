@@ -245,6 +245,49 @@ let writeClasses = (arr) => {
         })
         if (delay_trig && duration !== 0) wait(duration);
       }
+	  copy(c, duration = 0, hvs = "0a1a1a0a0a", blending = false, opacity = 1, copy_opacity = false) {
+		$.add({
+            OBJ_ID: 899,
+            DURATION: duration,
+            COPIED_COLOR_ID: c,
+            COPIED_COLOR_HVS: hvs,
+            COPY_OPACITY: copy_opacity,
+            OPACITY: opacity,
+            BLENDING: blending,
+            TARGET_COLOR: this,
+            36: 1,
+        })
+        if (duration) wait(duration);
+	  }
+		pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+			$.add({
+				OBJ_ID: 1006,
+				COPIED_COLOR_HVS: [h, s, b, +s_checked, +b_checked].join("a"), 
+				EXCLUSIVE: exclusive,
+				FADE_IN: fade_in,
+				HOLD: hold,
+				FADE_OUT: fade_out,
+				TARGET: this,
+				PULSE_HSV: true,
+			});
+			wait(fade_in + hold + fade_out);
+		}
+		
+		pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+			 $.add({
+				OBJ_ID: 1006,
+				TRIGGER_RED: c[0],
+				TRIGGER_GREEN: c[1],
+				TRIGGER_BLUE: c[2],
+				EXCLUSIVE: exclusive,
+				FADE_IN: fade_in,
+				HOLD: hold,
+				FADE_OUT: fade_out,
+				TARGET: this,
+				PULSE_HSV: false,
+			})
+			wait(fade_in + hold + fade_out)
+		}
     }
     global['${clas}'] = (x) => new $${clas}(x)`);
     } else if (clas == 'block') {
@@ -288,6 +331,7 @@ let d = {
     8: 'TRIGGER_GREEN',
     9: 'TRIGGER_BLUE',
     10: 'DURATION',
+	237894: 'CHANCE',
     11: 'TOUCH_TRIGGERED',
     13: 'PORTAL_CHECKED',
     15: 'PLAYER_COLOR_1',
@@ -412,12 +456,13 @@ let d = {
     162: "HIDE_P1",
     163: "HIDE_P2",
     164: "CAMERA_EDGE",
+	165: "DISABLE_CONTROLS_P1",
     169: "KEEP_VELOCITY",
     171: "CHANGE_CHANNEL",
 	174: "GR_BLENDING",
     195: "HIDE_MG",
     198: "PLAYER_ONLY",
-    199: "DISABLE_CONTROLS_P1",
+    199: "DISABLE_CONTROLS_P2",
     200: "PLAYER_2",
     201: "_PT",
     202: "GR_LAYER",
@@ -440,19 +485,26 @@ let d = {
 	378: "CURVE",
 	389: "SECONDS_ONLY",
 	392: "SONG_ID",
+	45893: "SFX_ID",
 	399: "PREP",
 	400: "LOAD_PREP",
 	404: "SONG_SPEED",
+	405: "SONG_PITCH",
 	406: "SONG_VOLUME",
+	407: "SONG_REVERB",
 	408: "SONG_START",
 	409: "SONG_FADE_IN",
 	410: "SONG_END",
 	411: "SONG_FADE_OUT",
+	412: "FFT",
 	413: "SONG_LOOP",
 	414: "STOP_LOOP",
+	415: "IS_UNIQUE",
+	416: "UNIQUE_ID",
 	417: "SONG_STOP",
 	418: "CHANGE_VOLUME",
 	419: "CHANGE_SPEED",
+	420: "OVERRIDE",
 	421: "VOL_NEAR",
 	422: "VOL_MED",
 	423: "VOL_FAR",
@@ -461,8 +513,16 @@ let d = {
 	426: "DIST_3",
 	428: "CAM",
 	432: "SONG_CHANNEL",
+	433: "SFX_PRELOAD",
+	434: "MIN_INTERVAL",
+	435: "SEQUENCE",
+	436: "MODE",
+	437: "MIN_INT",
+	438: "RESET",
+	439: "RESET_FULL_STEP",
 	453: "SMOOTH_VELOCITY",
 	454: "SMOOTH_VELOCITY_MODIFIER",
+	455: "SFX_GROUP",
 	458: "VOLUME_DIRECTION",
 	465: "EXIT_INSTANT",
 	466: "TIME_COUNTER",
@@ -488,16 +548,25 @@ let d = {
 	484: "TOL",
 	485: "RFC_1",
 	486: "RFC_2",
+	489: "IGNORE_VOLUME+TEST",
+	490: "SOUND_DURATION",
 	491: "PERSISTENT",
 	442: "REMAPS",
 	456: "PREVIEW_OPACITY",
+	502: "REVERB_TYPE",
+	503: "REVERB_ENABLE",
 	520: "TIME_MOD",
 	521: "POSITION_X_MOD",
 	522: "ROTATION_MOD",
 	523: "SCALE_X_MOD",
 	524: "LINE_OPACITY",
+	532: "HIDE_ATTEMPTS",
 	545: "POSITION_Y_MOD",
 	546: "SCALE_Y_MOD",
+	573: "EDIT_RESPAWN_TIME",
+	574: "RESPAWN_TIME",
+	575: "AUDIO_ON_DEATH",
+	576: "NO_DEATH_SFX",
 	578: "ABSNEG_1",
 	579: "ABSNEG_2",
 };
@@ -595,7 +664,9 @@ let mappings = {
 	45389: '481',
 	93289: '482',
 	8754: '51',
-	8459: '71'
+	8459: '71',
+	45893: '392',
+	237894: '10',
 }
 
 let camera_offset = (x, y, duration = 0, easing = NONE) => {
@@ -1608,6 +1679,105 @@ let keyframe_system = (gr, same = false) => {
 	return o
 };
 
+let call_with_delay = (time, func) => {
+	$.add({
+		OBJ_ID: 1268,
+		SPAWN_DURATION: time,
+		TARGET: func,
+	});
+};
+
+let for_loop = (rang, fn, delay = 0.05) => {
+	let c = counter(rang[0]);
+	while_loop(less_than(c, rang[rang.length - 1]), () => {
+		fn();
+		c.add(1);
+	}, delay);
+};
+
+let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false, layer = 0) => {
+	let origin = {
+		OBJ_ID: 2903,
+		GR_BL: bl,
+		GR_BR: br,
+		GR_TL: tl,
+		GR_TR: tr,
+		GR_ID: grad_id,
+		COLOR: col,
+		COLOR_2: col2,
+		GR_VERTEX_MODE: true,
+		GR_LAYER: layer
+	};
+	origin.with = (a, b) => {
+		origin[d[a]] = b;
+		return origin;
+	};
+	return origin;	
+};
+
+let random = (gr1, gr2, chance) => {
+	$.add({ 
+		OBJ_ID: 1912,
+		GROUP_ID_1: gr1,
+		GROUP_ID_2: gr2,
+		
+	});
+};
+
+let advanced_random = (...chances) => {
+	$.add({
+		OBJ_ID: 2068,
+		ADV_RAND_STRING: chances.map(x => x[0].value + '.' + x[1]).join('.')
+	});
+}
+
+let gravity = (grav, p1, p2, pt) => {
+	$.add({
+		OBJ_ID: 2066,
+		PLAYER_1: p1,
+		PLAYER_2: p2,
+		_PT: pt
+	})
+};
+
+let options = () => {
+	let ob = {
+		OBJ_ID: 2899
+	};
+	return {
+		STREAK_ADDITIVE: (v = true) => ob.STREAK_ADDITIVE = v ? 1 : -1,
+		HIDE_GROUND: (v = true) => ob.HIDE_GROUND = v ? 1 : -1,
+		HIDE_MG: (v = true) => ob.HIDE_MG = v ? 1 : -1,
+		HIDE_P1: (v = true) => ob.HIDE_P1 = v ? 1 : -1,
+		HIDE_P2: (v = true) => ob.HIDE_P2 = v ? 1 : -1,
+		DISABLE_CONTROLS_P1: (v = true) => ob.DISABLE_CONTROLS_P1 = v ? 1 : -1,
+		DISABLE_CONTROLS_P2: (v = true) => ob.DISABLE_CONTROLS_P2 = v ? 1 : -1,
+		UNLINK_DUAL_GRAVITY: (v = true) => ob.UNLINK_DUAL_GRAVITY = v ? 1 : -1,
+		HIDE_ATTEMPTS: (v = true) => ob.HIDE_ATTEMPTS = v ? 1 : -1,
+		AUDIO_ON_DEATH: (v = true) => ob.AUDIO_ON_DEATH = v ? 1 : -1,
+		NO_DEATH_SFX: (v = true) => ob.NO_DEATH_SFX = v ? 1 : -1,
+		RESPAWN_TIME: (v) => {
+			ob.EDIT_RESPAWN_TIME = 1;
+			ob.RESPAWN_TIME = v;
+		},
+		add: () => $.add(ob)
+	};
+};
+
+let sequence = (sequence, mode = 0, min_int = 0, reset = 0) => {
+	let seq_gr = trigger_function(() => {
+		$.add({
+			OBJ_ID: 3607,
+			SEQUENCE: sequence.map(x => x[0].value + '.' + x[1]).join('.'),
+			MIN_INT: min_int,
+			RESET: reset,
+			MODE: mode
+		})
+	});
+	return {
+		step: () => seq_gr.call()
+	}
+};
 
 let gamescene = () => {
   // Triggers and groups
@@ -1764,9 +1934,20 @@ let obj_ids = {
   },
 };
 let exps = {
+  // constants
   EQUAL_TO: 0,
   LARGER_THAN: 1,
   SMALLER_THAN: 2,
+  BG: color(1000),
+  GROUND: color(1001),
+  LINE: color(1002),
+  _3DLINE: color(1003),
+  OBJECT: color(1004),
+  GROUND2: color(1009),
+  MODE_STOP: 0,
+  MODE_LOOP: 1,
+  MODE_LAST: 2,
+  // functions & objects
   $,
   counter,
   spawn_trigger,
@@ -1809,6 +1990,19 @@ let exps = {
   camera_static,
   timer,
   song,
+  call_with_delay,
+  for_loop,
+  gradient,
+  random,
+  advanced_random,
+  gravity,
+  options,
+  sequence,
+  reverse: () => {
+	$.add({
+		OBJ_ID: 1917
+	});
+  },
   rgb: (r, g, b) => [r, g, b],
   rgba: (r, g, b, a) => [r, g, b, a],
 };

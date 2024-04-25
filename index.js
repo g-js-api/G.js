@@ -1779,6 +1779,17 @@ let sequence = (sequence, mode = 0, min_int = 0, reset = 0) => {
 	}
 };
 
+let remappable = (fn) => {
+	let args_arr = Array(fn.length).fill(0).map((_, i) => i);
+	let r = trigger_function(() => fn(...args_arr));
+	return (...args) => {
+		// remap fn_args to args
+		let rmps = [];
+		args.forEach((x, i) => rmps.push([args_arr[i], args[i]]));
+		r.remap(...rmps).call();
+	};
+}
+
 let gamescene = () => {
   // Triggers and groups
   follow_x_group = unknown_g();
@@ -1998,6 +2009,7 @@ let exps = {
   gravity,
   options,
   sequence,
+  remappable,
   reverse: () => {
 	$.add({
 		OBJ_ID: 1917

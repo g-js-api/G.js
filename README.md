@@ -13,7 +13,7 @@ npm install @g-js-api/g.js
 
 # Features that make this different from SPWN:
 - Inherits speed and ecosystem from JS (JS might sometimes be considered slower than others, but it is much faster than SPWN + ecosystem is much bigger than SPWN)
-- Has early 2.2 features (9999 group limit, item triggers, ID remapping, 2.2 obj props, will implement other 2.2 features such as gradient and option triggers)
+- Has early 2.2 features (9999 group limit, item triggers, ID remapping, 2.2 obj props, gradient trigger, level options, keyframes, random + adv random, sequence trigger, song trigger, etc.)
 
 # Notes
 This is not finished yet - do not expect it to work exactly as SPWN yet!

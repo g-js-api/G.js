@@ -21,7 +21,7 @@ No docs have been written yet because I do not have the time or energy to write 
 
 # Usage
 G.js has mostly the same usage as SPWN, with exceptions:
-- File must end in `$.exportToSavefile()` in order to export to save, `$.liveEditor()` to add objects using live editor (requires WSLiveEditor in Geode) or must use `$.getLevelString()` in order to export levelstring into variable
+- File must end in `$.exportToSavefile()` in order to export to save, or must use `$.getLevelString()` in order to export levelstring into variable
 - Since JS cannot do something like `!{}` for trigger functions, use `trigger_function(() => { /* ... */ })` for trigger functions
 - GD objects are just done with normal JS objects, obj props are mostly the same
 - Use while loops with the `less_than(a, b)`, `equal_to(a, b)` or `greater_than(a, b)` functions followed by a normal function, not trigger function
@@ -46,6 +46,7 @@ let fn = remappable(my_gr => {
 wait(0.5)
 fn(bl);
 ```
+- Particle systems have its own property system, check [particles.js](./particles.js) for info.
 # Example
 Here is a functional example of G.js:
 ```js

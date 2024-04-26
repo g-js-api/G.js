@@ -92,21 +92,21 @@ fn(bl);
 - Particle systems have its own property system, check [particles.js](./particles.js) for info.
 
 # To-do list for 2.2 (84% done):
-	[x] item comp
-	[x] item edit
-	[x] item pers
-	[x] camera static
-	[x] camera offset
-	[x] teleport
-	[x] timer
-	[x] song
-	[x] gradient trigger
-	[x] keyframe system
-	[x] reverse trigger
-	[x] level options
-	[x] gravity
-	[x] sequence
-	[x] all camera triggers
-	[x] particle systems
-	[ ] sfx trigger
-  	[ ] shader triggers
+[x] item comp
+[x] item edit
+[x] item pers
+[x] camera static
+[x] camera offset
+[x] teleport
+[x] timer
+[x] song
+[x] gradient trigger
+[x] keyframe system
+[x] reverse trigger
+[x] level options
+[x] gravity
+[x] sequence
+[x] all camera triggers
+[x] particle systems
+[ ] sfx trigger
+[ ] shader triggers

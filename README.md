@@ -91,7 +91,7 @@ fn(bl);
 ```
 - Particle systems have its own property system, check [particles.js](./particles.js) for info.
 
-- To-do list for 2.2 (84% done):
+# To-do list for 2.2 (84% done):
 	[x] item comp
 	[x] item edit
 	[x] item pers

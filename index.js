@@ -1,5 +1,6 @@
 const WebSocket = require('ws');
 const LevelReader = require('./reader');
+let all_particles = require('./particles.js');
 const zlib = require('zlib');
 const crypto = require('crypto');
 
@@ -382,6 +383,7 @@ let d = {
     68: 'ROTATE_DEGREES',
     69: 'TIMES_360',
     70: 'LOCK_OBJECT_ROTATION',
+	347832: 'ADD',
     71: 'TARGET_POS',
 	8459: "GROUP_ID_2",
 	584932: "FALSE_ID",
@@ -423,7 +425,6 @@ let d = {
     106: 'RANDOMIZE_START',
     107: 'ANIMATION_SPEED',
     108: 'LINKED_GROUP',
-    109: "CAMERA_ZOOM",
 	110: "EXIT_STATIC",
     111: "FREE_MODE",
     112: "EDIT_FREE_CAM_SETTINGS",
@@ -433,6 +434,7 @@ let d = {
     118: "REVERSED",
     119: "SONG_START",
     120: "TIMEWARP_TIME_MOD",
+	123: "ANIMATE_ON_TRIGGER",
     128: "SCALE_X",
     129: "SCALE_Y",
     131: "PERSPECTIVE_X",
@@ -444,6 +446,9 @@ let d = {
     142: "FOLLOW_CAMERA_Y",
     143: "FOLLOW_CAMERA_X_MOD",
     144: "FOLLOW_CAMERA_Y_MOD",
+	145: "PARTICLE_DATA",
+	146: "USE_OBJ_COLOR",
+	147: "UNIFORM_OBJ_COLOR",
     148: "GRAVITY",
     150: "SCALE_X_BY",
     151: "SCALE_Y_BY",
@@ -473,18 +478,22 @@ let d = {
     207: "GR_VERTEX_MODE",
     208: "GR_DISABLE",
     209: "GR_ID",
+	211: "QUICK_START",
     212: "FOLLOW_GROUP",
     213: "FOLLOW_EASING",
+	214: "ANIMATE_ACTIVE_ONLY",
     215: "FOLLOW_P1",
     216: "FOLLOW_P2",
     274: "P_GROUPS",
     370: "DISABLE_GRID_SNAP",
+	371: "ZOOM",
 	373: "ANIM_ID",
 	374: "ORDER_INDEX",
 	376: "CLOSE_LOOP",
 	378: "CURVE",
 	389: "SECONDS_ONLY",
 	392: "SONG_ID",
+	394: "SNAP_360",
 	45893: "SFX_ID",
 	399: "PREP",
 	400: "LOAD_PREP",
@@ -667,6 +676,7 @@ let mappings = {
 	8459: '71',
 	45893: '392',
 	237894: '10',
+	347832: '70'
 }
 
 let camera_offset = (x, y, duration = 0, easing = NONE) => {
@@ -682,7 +692,7 @@ let camera_offset = (x, y, duration = 0, easing = NONE) => {
 	if (duration) wait(duration);
 };
 
-let camera_static = (gr, duration = 0.5, easing = NONE, exit_instant = false, exit_static = false, smooth_vel = false, smooth_vel_mod = 0, follow = false, x_only = false, y_only = false) => {
+let camera_static = (gr, duration = 0, easing = NONE, exit_instant = false, exit_static = false, smooth_vel = false, smooth_vel_mod = 0, follow = false, x_only = false, y_only = false) => {
 	if (x_only && y_only) throw new Error("Only one of the x_only or y_only arguments must be true, but both values are true!");
 	let axisval = !x_only && !y_only ? 0 : (x_only ? 1 : 2);
 	$.add({
@@ -700,6 +710,46 @@ let camera_static = (gr, duration = 0.5, easing = NONE, exit_instant = false, ex
 		EXIT_STATIC: exit_static
 	});
 	if (duration) wait(duration);
+};
+let camera_zoom = (zoom_am, duration = 0, easing = NONE) => {
+	$.add({
+		OBJ_ID: 1913,
+		ZOOM: zoom_am,
+		DURATION: duration,
+		EASING: easing
+	});
+};
+let camera_mode = (free_mode = true, disable_grid_snap = false, edit_cam = false, easing = 10, padding = 0.50) => {
+	$.add({
+		OBJ_ID: 2925,
+		FREE_MODE: free_mode,
+		EDIT_FREE_CAM_SETTINGS: edit_cam,
+		FREE_CAM_EASING: easing,
+		FREE_CAM_PADDING: padding,
+		DISABLE_GRID_SNAP: disable_grid_snap
+	});
+};
+let camera_rotate = (degrees, move_time = 0, easing = none, add = false, snap360 = false) => {
+	$.add({
+		OBJ_ID: 2015,
+		EASING: easing,
+		ROTATE_DEGREES: degrees,
+		ADD: add,
+		SNAP_360: snap360
+	});
+};
+// edge trigger
+// left = 1
+// right = 2
+// up = 3
+// down = 4
+
+let camera_edge = (id, edge) => {
+	$.add({
+		OBJ_ID: 2062,
+		TARGET: id,
+		CAMERA_EDGE: edge
+	});
 };
 let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, speed = 0, start = 0, end = 0, fadein = 0, fadeout = 0) => {
 	if (preload) {
@@ -1117,6 +1167,33 @@ let move_trigger = (group, x, y) => {
     return origin;
   };
   return origin;
+};
+
+let particle_system = (props, use_obj_color = false, animate_on_trigger = false, animate_active_only = false, quick_start = false) => {
+	let datalist = Array(72).fill(0);
+	for (let i in props) {
+		let x = props[i];
+		if (typeof x == "boolean") x = +x;
+		datalist[all_particles[i]] = x;
+		console.log(all_particles[i], i, x)
+	};
+	datalist = datalist.join('a');
+	console.log(datalist);
+	let origin = {
+		OBJ_ID: 2065,
+		PARTICLE_DATA: datalist,
+		USE_OBJ_COLOR: use_obj_color,
+		UNIFORM_OBJ_COLOR: "UNIFORM_OBJ_COLOR" in props ? props.UNIFORM_OBJ_COLOR : false,
+		ANIMATE_ON_TRIGGER: animate_on_trigger,
+		ANIMATE_ACTIVE_ONLY: animate_active_only,
+		QUICK_START: quick_start
+	};
+	origin.with = (a, b) => {
+		origin[d[a]] = b;
+		console.log(origin)
+		return origin;
+	};
+	return origin;
 };
 
 let color_trigger = (
@@ -1720,7 +1797,7 @@ let random = (gr1, gr2, chance) => {
 		OBJ_ID: 1912,
 		GROUP_ID_1: gr1,
 		GROUP_ID_2: gr2,
-		
+		CHANCE: chance
 	});
 };
 
@@ -1944,6 +2021,7 @@ let obj_ids = {
     DUAL_OFF: 287,
   },
 };
+
 let exps = {
   // constants
   EQUAL_TO: 0,
@@ -1958,6 +2036,10 @@ let exps = {
   MODE_STOP: 0,
   MODE_LOOP: 1,
   MODE_LAST: 2,
+  LEFT_EDGE: 1,
+  RIGHT_EDGE: 2,
+  UP_EDGE: 3,
+  DOWN_EDGE: 4,
   // functions & objects
   $,
   counter,
@@ -1999,6 +2081,10 @@ let exps = {
   teleport,
   camera_offset,
   camera_static,
+  camera_zoom,
+  camera_mode,
+  camera_rotate,
+  camera_edge,
   timer,
   song,
   call_with_delay,
@@ -2010,6 +2096,7 @@ let exps = {
   options,
   sequence,
   remappable,
+  particle_system,
   reverse: () => {
 	$.add({
 		OBJ_ID: 1917

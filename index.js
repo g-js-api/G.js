@@ -889,7 +889,6 @@ let obj_to_levelstring = (l) => {
       if (typeof val == 'object' && dot_separated_keys.includes(key)) { // if val is an array and it is dot separated
         val = val.map((x) => x.value).filter(x => x && x != '').join('.');
       } else {
-		  console.log(val)
         throw `Expected type "${
           explicit[d[parseInt(key)]]
         }", got "${typeof val}"`;
@@ -1175,10 +1174,8 @@ let particle_system = (props, use_obj_color = false, animate_on_trigger = false,
 		let x = props[i];
 		if (typeof x == "boolean") x = +x;
 		datalist[all_particles[i]] = x;
-		console.log(all_particles[i], i, x)
 	};
 	datalist = datalist.join('a');
-	console.log(datalist);
 	let origin = {
 		OBJ_ID: 2065,
 		PARTICLE_DATA: datalist,
@@ -1190,7 +1187,6 @@ let particle_system = (props, use_obj_color = false, animate_on_trigger = false,
 	};
 	origin.with = (a, b) => {
 		origin[d[a]] = b;
-		console.log(origin)
 		return origin;
 	};
 	return origin;

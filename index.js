@@ -1,6 +1,7 @@
+const all_particles = require('./particles.js');
+const events = require('./game_events.js');
 const WebSocket = require('ws');
 const LevelReader = require('./reader');
-let all_particles = require('./particles.js');
 const zlib = require('zlib');
 const crypto = require('crypto');
 
@@ -39,6 +40,11 @@ let writeClasses = (arr) => {
     let clases = class_.split('/');
     let clas = clases.shift();
     clases.forEach((expl) => {
+	  if (explicit[expl]) {
+		  // explicit[d_]
+		  explicit[expl] = [explicit[expl], clas];
+		  return;
+	  }
       explicit[expl] = clas;
     });
 
@@ -316,10 +322,11 @@ let writeClasses = (arr) => {
 };
 
 writeClasses([
-  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID/TARGET_POS',
-  'color/TARGET_COLOR/COLOR/COLOR_2',
+  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID/TARGET_POS/EXTRA_ID/EXTRA_ID_2',
+  'color/TARGET/TARGET_COLOR/COLOR/COLOR_2',
   'block/BLOCK_A/BLOCK_B',
 ]);
+
 
 let d = {
     1: 'OBJ_ID',
@@ -521,6 +528,7 @@ let d = {
 	425: "DIST_2",
 	426: "DIST_3",
 	428: "CAM",
+	430: "EVENTS",
 	432: "SONG_CHANNEL",
 	433: "SFX_PRELOAD",
 	434: "MIN_INTERVAL",
@@ -529,10 +537,13 @@ let d = {
 	437: "MIN_INT",
 	438: "RESET",
 	439: "RESET_FULL_STEP",
+	447: "EXTRA_ID",
 	453: "SMOOTH_VELOCITY",
 	454: "SMOOTH_VELOCITY_MODIFIER",
 	455: "SFX_GROUP",
 	458: "VOLUME_DIRECTION",
+	460: "NO_EFFECTS",
+	461: "NO_SFX",
 	465: "EXIT_INSTANT",
 	466: "TIME_COUNTER",
 	467: "START_TIME",
@@ -557,6 +568,7 @@ let d = {
 	484: "TOL",
 	485: "RFC_1",
 	486: "RFC_2",
+	487: "INSTANT_END",
 	489: "IGNORE_VOLUME+TEST",
 	490: "SOUND_DURATION",
 	491: "PERSISTENT",
@@ -569,7 +581,12 @@ let d = {
 	522: "ROTATION_MOD",
 	523: "SCALE_X_MOD",
 	524: "LINE_OPACITY",
+	525: "EXTRA_ID_2",
 	532: "HIDE_ATTEMPTS",
+	540: "STOP_JUMP",
+	541: "STOP_MOVE",
+	542: "STOP_ROT",
+	543: "STOP_SLIDE",
 	545: "POSITION_Y_MOD",
 	546: "SCALE_Y_MOD",
 	573: "EDIT_RESPAWN_TIME",
@@ -894,7 +911,8 @@ let obj_to_levelstring = (l) => {
         }", got "${typeof val}"`;
       }
     } else if (explicit[d_] && val.value) {
-      if (val.type == explicit[d_]) {
+	  let cond = typeof explicit[d_] == "string" ? (val.type == explicit[d_]) : (explicit[d_].includes(val.type));
+      if (cond) {
         val = val.value;
       } else {
         throw `Expected type "${explicit[d_]}", got "${val.type}"`;
@@ -1190,6 +1208,13 @@ let particle_system = (props, use_obj_color = false, animate_on_trigger = false,
 		return origin;
 	};
 	return origin;
+};
+
+let timewarp = (val) => {
+	$.add({
+		OBJ_ID: 1935,
+		TIMEWARP_TIME_MOD: val
+	});
 };
 
 let color_trigger = (
@@ -1654,6 +1679,19 @@ let x_position = (position) => {
   };
 };
 
+let event = (ev, id, extra_id = group(0), extra_id2 = group(0)) => {
+	if (typeof ev == "object") ev = ev.join('.');
+	return {
+		event: (t) => $.add({
+			OBJ_ID: 3604,
+			TARGET: t,
+			EXTRA_ID: extra_id,
+			EXTRA_ID_2: extra_id2,
+			EVENTS: ev.toString()
+		})
+	}
+};
+
 String.prototype.to_obj = function () {
   let or = {
     OBJ_ID: 914,
@@ -1863,6 +1901,30 @@ let remappable = (fn) => {
 	};
 }
 
+// GROUP_ID_1, GROUP_ID_2
+let end = (instant_end = false, no_effects = false, no_sfx = false, spawn_id = group(0), target_pos = group(0)) => {
+	$.add({
+		OBJ_ID: 3600,
+		GROUP_ID_1: spawn_id,
+		GROUP_ID_2: target_pos,
+		NO_EFFECTS: no_effects,
+		NO_SFX: no_sfx,
+		INSTANT_END: instant_end
+	});
+};
+
+let player_control = (p1 = false, p2 = false, stop_jump = false, stop_move = false, stop_rot = false, stop_slide = false) => {
+	$.add({
+		OBJ_ID: 1932,
+		PLAYER_1: p1,
+		PLAYER_2: p2,
+		STOP_JUMP: stop_jump,
+		STOP_MOVE: stop_move,
+		STOP_ROT: stop_rot,
+		STOP_SLIDE: stop_slide
+	});
+}
+
 let gamescene = () => {
   // Triggers and groups
   follow_x_group = unknown_g();
@@ -2048,7 +2110,6 @@ let exps = {
   on,
   touch,
   touch_end,
-  touch_end,
   collision,
   collision_exit,
   death,
@@ -2093,6 +2154,11 @@ let exps = {
   sequence,
   remappable,
   particle_system,
+  end,
+  player_control,
+  timewarp,
+  event,
+  events,
   reverse: () => {
 	$.add({
 		OBJ_ID: 1917

@@ -1,22 +1,22 @@
 ## Functions
 
 <dl>
-<dt><a href="#extract">extract(object)</a></dt>
-<dd><p>Extracts values from object into global scope</p>
+<dt><a href="#extract">extract(dict)</a></dt>
+<dd><p>Extracts values from dictionary into global scope</p>
 </dd>
 <dt><a href="#spawn_trigger">spawn_trigger(group, time)</a> ⇒ <code>object</code></dt>
 <dd><p>Creates a spawn trigger and returns it</p>
 </dd>
-<dt><a href="#unknown_g">unknown_g()</a> ⇒ <code>object</code></dt>
+<dt><a href="#unknown_g">unknown_g()</a> ⇒ <code>group</code></dt>
 <dd><p>Creates and returns an unavailable group ID</p>
 </dd>
-<dt><a href="#unknown_c">unknown_c()</a> ⇒ <code>object</code></dt>
+<dt><a href="#unknown_c">unknown_c()</a> ⇒ <code>color</code></dt>
 <dd><p>Creates and returns an unavailable color ID</p>
 </dd>
-<dt><a href="#unknown_b">unknown_b()</a> ⇒ <code>object</code></dt>
+<dt><a href="#unknown_b">unknown_b()</a> ⇒ <code>block</code></dt>
 <dd><p>Creates and returns an unavailable block ID</p>
 </dd>
-<dt><a href="#trigger_function">trigger_function(callback)</a> ⇒ <code>object</code></dt>
+<dt><a href="#trigger_function">trigger_function(callback)</a> ⇒ <code>group</code></dt>
 <dd><p>Creates a &quot;trigger function&quot; in which triggers can be stored inside of a single group</p>
 </dd>
 <dt><a href="#camera_offset">camera_offset(x, y, [duration])</a></dt>
@@ -48,7 +48,7 @@
 <dt><a href="#timewarp">timewarp(value)</a></dt>
 <dd><p>Warps all time by given amount</p>
 </dd>
-<dt><a href="#color_trigger">color_trigger(channel, r, g, b, [duration], [opacity], [blending])</a></dt>
+<dt><a href="#color_trigger">color_trigger(channel, r, g, b, [duration], [opacity], [blending])</a> ⇒ <code>object</code></dt>
 <dd><p>Creates color trigger</p>
 </dd>
 <dt><a href="#range">range(start, end, step)</a> ⇒ <code>array</code></dt>
@@ -59,6 +59,9 @@
 </dd>
 <dt><a href="#item_comp">item_comp(item_1, item_2, type1, type2, compare_op, truei, falsei, mod1, mod2, tol, op_1, op_2, absneg_1, absneg_2, rfc1, rfc2)</a> ⇒ <code>object</code></dt>
 <dd><p>Implementation of Item Comp trigger</p>
+</dd>
+<dt><a href="#counter">counter([num], [use_id], [persistent], [timer])</a> ⇒ <code>function</code></dt>
+<dd><p>Creates a counter, which has methods for editing items</p>
 </dd>
 <dt><a href="#while_loop">while_loop(condition, func, delay)</a></dt>
 <dd><p>Creates a repeating trigger system that repeats while a condition is true</p>
@@ -83,16 +86,63 @@
 </dd>
 </dl>
 
+## Typedefs
+
+<dl>
+<dt><a href="#counter">counter</a> : <code>object</code></dt>
+<dd><p>Represents a counter, which is a wrapper around item IDs</p>
+</dd>
+<dt><a href="#add">add</a> : <code>function</code></dt>
+<dd><p>Adds a specific amount (or another counter) to the current counter</p>
+</dd>
+<dt><a href="#subtract">subtract</a> : <code>function</code></dt>
+<dd><p>Adds a specific amount (or another counter) to the current counter</p>
+</dd>
+<dt><a href="#multiply">multiply</a> : <code>function</code></dt>
+<dd><p>Adds a specific amount (or another counter) to the current counter</p>
+</dd>
+<dt><a href="#divide">divide</a> : <code>function</code></dt>
+<dd><p>Adds a specific amount (or another counter) to the current counter</p>
+</dd>
+<dt><a href="#set">set</a> : <code>function</code></dt>
+<dd><p>Adds a specific amount (or another counter) to the current counter</p>
+</dd>
+<dt><a href="#reset">reset</a> : <code>function</code></dt>
+<dd><p>Resets the current counter to 0</p>
+</dd>
+<dt><a href="#to_obj">to_obj</a> ⇒ <code>object</code></dt>
+<dd><p>Returns item display for current counter as an object</p>
+</dd>
+<dt><a href="#if_is">if_is</a> : <code>function</code></dt>
+<dd><p>Checks if a comparison is true, and if so calls a group (SMALLER_THAN/EQUAL_TO_LARGER_THAN)</p>
+</dd>
+<dt><a href="#to_const">to_const</a> : <code>function</code></dt>
+<dd><p>Converts the current counter to a plain number by taking in a range of possible values and a function</p>
+</dd>
+<dt><a href="#display">display</a> : <code>function</code></dt>
+<dd><p>Displays the current counter at a specific position</p>
+</dd>
+<dt><a href="#copy_to">copy_to</a> : <code>function</code></dt>
+<dd><p>Copies the current counter to another counter</p>
+</dd>
+<dt><a href="#add_to">add_to</a> : <code>function</code></dt>
+<dd><p>Adds the current counter to another and resets the current counter</p>
+</dd>
+<dt><a href="#subtract_from">subtract_from</a> : <code>function</code></dt>
+<dd><p>Subtracts the current counter from another and resets the current counter</p>
+</dd>
+</dl>
+
 <a name="extract"></a>
 
-## extract(object)
-Extracts values from object into global scope
+## extract(dict)
+Extracts values from dictionary into global scope
 
 **Kind**: global function  
 
-| Param | Type |
-| --- | --- |
-| object | <code>object</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| dict | <code>dictionary</code> | Dictionary to extract |
 
 <a name="spawn_trigger"></a>
 
@@ -103,37 +153,37 @@ Creates a spawn trigger and returns it
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| group | <code>object</code> |  | group to be spawned |
-| time | <code>object</code> | <code>0</code> | delay to spawn group |
+| group | <code>group</code> |  | group to be spawned |
+| time | <code>number</code> | <code>0</code> | delay to spawn group |
 
 <a name="unknown_g"></a>
 
-## unknown\_g() ⇒ <code>object</code>
+## unknown\_g() ⇒ <code>group</code>
 Creates and returns an unavailable group ID
 
 **Kind**: global function  
-**Returns**: <code>object</code> - Resulting block ID  
+**Returns**: <code>group</code> - Resulting group ID  
 <a name="unknown_c"></a>
 
-## unknown\_c() ⇒ <code>object</code>
+## unknown\_c() ⇒ <code>color</code>
 Creates and returns an unavailable color ID
 
 **Kind**: global function  
-**Returns**: <code>object</code> - Resulting color ID  
+**Returns**: <code>color</code> - Resulting color ID  
 <a name="unknown_b"></a>
 
-## unknown\_b() ⇒ <code>object</code>
+## unknown\_b() ⇒ <code>block</code>
 Creates and returns an unavailable block ID
 
 **Kind**: global function  
-**Returns**: <code>object</code> - Resulting block ID  
+**Returns**: <code>block</code> - Resulting block ID  
 <a name="trigger_function"></a>
 
-## trigger\_function(callback) ⇒ <code>object</code>
+## trigger\_function(callback) ⇒ <code>group</code>
 Creates a "trigger function" in which triggers can be stored inside of a single group
 
 **Kind**: global function  
-**Returns**: <code>object</code> - Group ID of trigger function  
+**Returns**: <code>group</code> - Group ID of trigger function  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -148,9 +198,9 @@ Offsets the camera by a position
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| x | <code>x</code> |  | X offset of camera |
-| y | <code>y</code> |  | X offset of camera |
-| [duration] | <code>duration</code> | <code>0</code> | Duration that it takes for camera position to change |
+| x | <code>number</code> |  | X offset of camera |
+| y | <code>number</code> |  | X offset of camera |
+| [duration] | <code>number</code> | <code>0</code> | Duration that it takes for camera position to change |
 
 <a name="camera_static"></a>
 
@@ -161,9 +211,9 @@ Makes the camera static around a target object (group ID)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| group | <code>object</code> |  | Group storing object to be the center of camera |
+| group | <code>group</code> |  | Group storing object to be the center of camera |
 | [duration] | <code>number</code> | <code>0</code> | Duration that it takes for camera to be centered around object |
-| [easing] | <code>number</code> | <code>NONE</code> | How smoothly the camera moves to the object |
+| [easing] | <code>easing</code> | <code>NONE</code> | How smoothly the camera moves to the object |
 | [exit_instant] | <code>boolean</code> | <code>false</code> | Stops static instantly |
 | [exit_static] | <code>boolean</code> | <code>false</code> | Stops static |
 | [smooth_vel] | <code>boolean</code> | <code>false</code> | Makes transition to target adapt to current camera velocity (no easing recommended) |
@@ -181,7 +231,7 @@ Makes the camera static around a target object (group ID)
 | --- | --- | --- | --- |
 | zoom_amount | <code>number</code> |  | Amount to zoom the camera in by |
 | [duration] | <code>number</code> | <code>0</code> | How long it takes for camera to zoom in |
-| [easing] | <code>number</code> | <code>NONE</code> | How smoothly the camera zooms in |
+| [easing] | <code>easing</code> | <code>NONE</code> | How smoothly the camera zooms in |
 
 <a name="camera_mode"></a>
 
@@ -209,7 +259,7 @@ Rotates camera
 | --- | --- | --- | --- |
 | degrees | <code>number</code> |  | How many degrees to rotate camera by |
 | [move_time] | <code>number</code> | <code>0</code> | How fast rotation happens |
-| [easing] | <code>number</code> | <code>NONE</code> | How smooth rotation happens |
+| [easing] | <code>easing</code> | <code>NONE</code> | How smooth rotation happens |
 | [add] | <code>boolean</code> | <code>false</code> | Adds input rotation to current camera rotation |
 | [snap360] | <code>boolean</code> | <code>false</code> | Converts rotation to closest 360 |
 
@@ -222,8 +272,8 @@ Makes one of the camera's edges a specific target object
 
 | Param | Type | Description |
 | --- | --- | --- |
-| id | <code>object</code> | Group ID of target object |
-| edge | <code>number</code> | Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE) |
+| id | <code>group</code> | Group ID of target object |
+| edge | <code>edge</code> | Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE) |
 
 <a name="teleport"></a>
 
@@ -234,8 +284,8 @@ Makes one of the camera's edges a specific target object
 
 | Param | Type | Description |
 | --- | --- | --- |
-| id | <code>object</code> | Group ID of target object |
-| edge | <code>number</code> | Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE) |
+| id | <code>group</code> | Group ID of target object |
+| edge | <code>edge</code> | Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE) |
 
 <a name="move_trigger"></a>
 
@@ -247,7 +297,7 @@ Adds a move trigger and returns it
 
 | Param | Type | Description |
 | --- | --- | --- |
-| id | <code>object</code> | Group ID of target object |
+| id | <code>group</code> | Group ID of target object |
 | x | <code>number</code> | X amount of how much to move the object by |
 | Y | <code>number</code> | Y amount of how much to move the object by |
 
@@ -261,7 +311,7 @@ Creates a particle system
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| props | <code>object</code> |  | Dictionary holding particle properties (check particle properties) |
+| props | <code>dictionary</code> |  | Dictionary holding particle properties (check particle properties) |
 | [use_obj_color] | <code>boolean</code> | <code>false</code> | Whether to make the particle system use the object color |
 | [animate_on_trigger] | <code>boolean</code> | <code>false</code> | Whether to only start the particle system when the Animate trigger is used on the particle system instead of immediately |
 | [animate_active_only] | <code>boolean</code> | <code>false</code> | Only makes animate_on_trigger true if the object is active |
@@ -280,14 +330,15 @@ Warps all time by given amount
 
 <a name="color_trigger"></a>
 
-## color\_trigger(channel, r, g, b, [duration], [opacity], [blending])
+## color\_trigger(channel, r, g, b, [duration], [opacity], [blending]) ⇒ <code>object</code>
 Creates color trigger
 
 **Kind**: global function  
+**Returns**: <code>object</code> - Resulting color trigger  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| channel | <code>object</code> |  | Color channel to set |
+| channel | <code>color</code> |  | Color channel to set |
 | r | <code>number</code> |  | Red value in RGB to set |
 | g | <code>number</code> |  | Green value in RGB to set |
 | b | <code>number</code> |  | Blue value in RGB to set |
@@ -319,12 +370,12 @@ Implementation of Item Edit trigger
 
 | Param | Type | Description |
 | --- | --- | --- |
-| item1 | <code>number</code> | Item ID 1 |
-| item2 | <code>number</code> | Item ID 2 |
-| target | <code>number</code> | Target item ID |
-| type1 | <code>number</code> | Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
-| type2 | <code>number</code> | Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
-| target_type | <code>number</code> | Type of target item ID (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
+| item1 | <code>item</code> | Item ID 1 (can be retrieved from your_counter.item) |
+| item2 | <code>item</code> | Item ID 2 (can be retrieved from your_counter.item) |
+| target | <code>item</code> | Target item ID (can be retrieved from your_counter.item) |
+| type1 | <code>item\_type</code> | Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
+| type2 | <code>item\_type</code> | Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
+| target_type | <code>item\_type</code> | Type of target item ID (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
 | assign_op | <code>number</code> | Assignment operator (EQ, ADD, SUB, MUL, DIV) |
 | op1 | <code>number</code> | Operator 1 (ADD, SUB, MUL, DIV) |
 | op2 | <code>number</code> | Operator 2 (ADD, SUB, MUL, DIV) |
@@ -344,10 +395,10 @@ Implementation of Item Comp trigger
 
 | Param | Type | Description |
 | --- | --- | --- |
-| item_1 | <code>number</code> | Item ID 1 |
-| item_2 | <code>number</code> | Item ID 2 |
-| type1 | <code>number</code> | Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
-| type2 | <code>number</code> | Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
+| item_1 | <code>item</code> | Item ID 1 (can be retrieved from your_counter.item) |
+| item_2 | <code>item</code> | Item ID 2 (can be retrieved from your_counter.item) |
+| type1 | <code>item\_type</code> | Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
+| type2 | <code>item\_type</code> | Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
 | compare_op | <code>number</code> | Operator to compare item ID 1 and 2 by (EQ, GREATER, GREATER_OR_EQ, LESS, LESS_OR_EQ, NOT_EQ) |
 | truei | <code>object</code> | Group ID to call if comparison is true |
 | falsei | <code>object</code> | Group ID to call if comparison is false |
@@ -361,6 +412,21 @@ Implementation of Item Comp trigger
 | rfc1 | <code>number</code> | Whether to round/floor/ceil first side of operation (RND, FLR, CEI) |
 | rfc2 | <code>number</code> | Whether to round/floor/ceil second side of operation (RND, FLR, CEI) |
 
+<a name="counter"></a>
+
+## counter([num], [use_id], [persistent], [timer]) ⇒ <code>function</code>
+Creates a counter, which has methods for editing items
+
+**Kind**: global function  
+**Returns**: <code>function</code> - Function to call  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [num] | <code>number</code> \| <code>boolean</code> | <code>0</code> | Number or boolean to be represented by counter |
+| [use_id] | <code>boolean</code> | <code>false</code> | Whether to use an existing item ID as a counter instead of creating a new item |
+| [persistent] | <code>boolean</code> | <code>false</code> | Whether to make the counter persistent between attempts |
+| [timer] | <code>boolean</code> | <code>false</code> | Whether to make the counter a timer |
+
 <a name="while_loop"></a>
 
 ## while\_loop(condition, func, delay)
@@ -370,7 +436,7 @@ Creates a repeating trigger system that repeats while a condition is true
 
 | Param | Type | Description |
 | --- | --- | --- |
-| condition | <code>object</code> | Condition that defines whether the loop should keep on running (less_than/equal_to/greater_than(counter, number)) |
+| condition | <code>condition</code> | Condition that defines whether the loop should keep on running (less_than/equal_to/greater_than(counter, number)) |
 | func | <code>function</code> | Function to run while the condition is true |
 | delay | <code>number</code> | Delay between each cycle |
 
@@ -390,7 +456,7 @@ Calls a group with a delay
 | Param | Type | Description |
 | --- | --- | --- |
 | delay | <code>number</code> | How much to delay by |
-| group | <code>object</code> | Group to call |
+| group | <code>group</code> | Group to call |
 
 <a name="for_loop"></a>
 
@@ -429,8 +495,8 @@ Ends level
 | instant_end | <code>boolean</code> | <code>false</code> | Whether to end level instantly |
 | no_effects | <code>boolean</code> | <code>false</code> | Whether to remove effects |
 | no_sfx | <code>boolean</code> | <code>false</code> | Whether to remove SFX |
-| spawn_id | <code>object</code> |  | Group to spawn on end |
-| target_pos | <code>object</code> |  | Object defining end position |
+| spawn_id | <code>group</code> |  | Group to spawn on end |
+| target_pos | <code>group</code> |  | Object defining end position |
 
 <a name="player_control"></a>
 
@@ -447,4 +513,168 @@ Implementation of player control trigger
 | stop_move | <code>boolean</code> | <code>false</code> | Stops player from moving |
 | stop_rot | <code>boolean</code> | <code>false</code> | Stops player from rotating |
 | stop_slide | <code>boolean</code> | <code>false</code> | Stops player from sliding |
+
+<a name="counter"></a>
+
+## counter : <code>object</code>
+Represents a counter, which is a wrapper around item IDs
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| item | <code>item</code> | Item ID of a counter |
+| type | <code>item\_type</code> | Type of a counter |
+| add | [<code>add</code>](#add) | Adds a specific amount (or another counter) to the current counter |
+| subtract | [<code>subtract</code>](#subtract) | Subtracts a specific amount (or another counter) from the current counter |
+| multiply | [<code>multiply</code>](#multiply) | Multiplies the current counter by a specific amount (or another counter) |
+| divide | [<code>divide</code>](#divide) | Divides the current counter by a specific amount (or another counter) |
+| set | [<code>set</code>](#set) | Sets the current counter to a specific amount or another counter |
+| reset | [<code>reset</code>](#reset) | Resets the current counter to 0 |
+| if_is | [<code>if\_is</code>](#if_is) | Checks if a comparison is true, and if so calls a group (SMALLER_THAN/EQUAL_TO_LARGER_THAN) |
+| to_const | [<code>to\_const</code>](#to_const) | Converts the current counter to a plain number by taking in a range of possible values and a function |
+| copy_to | [<code>copy\_to</code>](#copy_to) | Copies the current counter to another counter |
+| display | [<code>display</code>](#display) | Displays the current counter at a specific position |
+| to_obj | [<code>to\_obj</code>](#to_obj) | Returns item display for current counter as an object |
+| add_to | [<code>add\_to</code>](#add_to) | Adds the current counter to another and resets the current counter |
+| subtract_from | [<code>subtract\_from</code>](#subtract_from) | Subtracts the current counter from another and resets the current counter |
+
+<a name="add"></a>
+
+## add : <code>function</code>
+Adds a specific amount (or another counter) to the current counter
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| amount | <code>number</code> \| [<code>counter</code>](#counter) | Counter or number to add to the current counter |
+
+<a name="subtract"></a>
+
+## subtract : <code>function</code>
+Adds a specific amount (or another counter) to the current counter
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| amount | <code>number</code> \| [<code>counter</code>](#counter) | Counter or number to subtract from the current counter |
+
+<a name="multiply"></a>
+
+## multiply : <code>function</code>
+Adds a specific amount (or another counter) to the current counter
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| amount | <code>number</code> \| [<code>counter</code>](#counter) | Counter or number to multiply the current counter by |
+
+<a name="divide"></a>
+
+## divide : <code>function</code>
+Adds a specific amount (or another counter) to the current counter
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| amount | <code>number</code> \| [<code>counter</code>](#counter) | Counter or number to divide the current counter by |
+
+<a name="set"></a>
+
+## set : <code>function</code>
+Adds a specific amount (or another counter) to the current counter
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| amount | <code>number</code> \| [<code>counter</code>](#counter) | Counter or number to set the current counter to |
+
+<a name="reset"></a>
+
+## reset : <code>function</code>
+Resets the current counter to 0
+
+**Kind**: global typedef  
+<a name="to_obj"></a>
+
+## to\_obj ⇒ <code>object</code>
+Returns item display for current counter as an object
+
+**Kind**: global typedef  
+**Returns**: <code>object</code> - Resulting item display  
+<a name="if_is"></a>
+
+## if\_is : <code>function</code>
+Checks if a comparison is true, and if so calls a group (SMALLER_THAN/EQUAL_TO_LARGER_THAN)
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| comparison | <code>comparison</code> | Condition to check for between the counter and number |
+| other | <code>number</code> | Number to compare the current counter to |
+| trig_func | <code>group</code> | Trigger function or group to run if the comparison is true |
+
+<a name="to_const"></a>
+
+## to\_const : <code>function</code>
+Converts the current counter to a plain number by taking in a range of possible values and a function
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| range | <code>array</code> | Possible range of values that the current counter is equal to |
+| func | <code>function</code> | Callback function to run that takes the plain numerical value as input |
+
+<a name="display"></a>
+
+## display : <code>function</code>
+Displays the current counter at a specific position
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| x | <code>number</code> | X position of item display |
+| y | <code>number</code> | Y position of item display |
+
+<a name="copy_to"></a>
+
+## copy\_to : <code>function</code>
+Copies the current counter to another counter
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| counter | [<code>counter</code>](#counter) | Counter to copy the current counter to |
+
+<a name="add_to"></a>
+
+## add\_to : <code>function</code>
+Adds the current counter to another and resets the current counter
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| counter | [<code>counter</code>](#counter) | Counter to add the current counter to |
+
+<a name="subtract_from"></a>
+
+## subtract\_from : <code>function</code>
+Subtracts the current counter from another and resets the current counter
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| counter | [<code>counter</code>](#counter) | Counter to be subtracted from |
 

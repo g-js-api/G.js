@@ -8,8 +8,8 @@ const crypto = require('crypto');
 let explicit = {};
 
 /**
- * Extracts values from object into global scope
- * @param {object} object
+ * Extracts values from dictionary into global scope
+ * @param {dictionary} dict Dictionary to extract
  */
 let extract = (x) => {
   for (let i in x) {
@@ -25,11 +25,10 @@ let find_context = (group) => {
   }
 };
 
-let stored_classes = {};
 /**
  * Creates a spawn trigger and returns it
- * @param {object} group group to be spawned
- * @param {object} time delay to spawn group
+ * @param {group} group group to be spawned
+ * @param {number} time delay to spawn group
  * @returns {object}
  */
 let spawn_trigger = (group, time = 0) => {
@@ -41,9 +40,9 @@ let spawn_trigger = (group, time = 0) => {
 };
 
 let all_known = {
-	groups: [],
-	colors: [],
-	blocks: []	
+  groups: [],
+  colors: [],
+  blocks: []
 }
 
 // docs for classes: comig soom
@@ -317,20 +316,19 @@ class $block {
 
 let writeClasses = (arr) => {
   arr.forEach((class_) => {
-      let clases = class_.split('/');
-      let clas = clases.shift();
-      clases.forEach((expl) => {
-          if (explicit[expl]) {
-              // explicit[d_]
-              explicit[expl] = [explicit[expl], clas];
-              return;
-          }
-          explicit[expl] = clas;
-      });
+    let clases = class_.split('/');
+    let clas = clases.shift();
+    clases.forEach((expl) => {
+      if (explicit[expl]) {
+        explicit[expl] = [explicit[expl], clas];
+        return;
+      }
+      explicit[expl] = clas;
+    });
   });
-  global['group'] = (x) => new $group(x); 
-  global['color'] = (x) => new $color(x); 
-  global['block'] = (x) => new $block(x); 
+  global['group'] = (x) => new $group(x);
+  global['color'] = (x) => new $color(x);
+  global['block'] = (x) => new $block(x);
 }
 
 writeClasses([
@@ -340,288 +338,288 @@ writeClasses([
 ]);
 
 let d = {
-    1: 'OBJ_ID',
-    2: 'X',
-    3: 'Y',
-    4: 'HORIZONTAL_FLIP',
-    5: 'VERTICAL_FLIP',
-    6: 'ROTATION',
-    7: 'TRIGGER_RED',
-    8: 'TRIGGER_GREEN',
-    9: 'TRIGGER_BLUE',
-    10: 'DURATION',
-	237894: 'CHANCE',
-    11: 'TOUCH_TRIGGERED',
-    13: 'PORTAL_CHECKED',
-    15: 'PLAYER_COLOR_1',
-    16: 'PLAYER_COLOR_2',
-    17: 'BLENDING',
-    20: 'EDITOR_LAYER_1',
-    21: 'COLOR',
-    22: 'COLOR_2',
-    23: 'TARGET_COLOR',
-    24: 'Z_LAYER',
-    25: 'Z_ORDER',
-    28: 'MOVE_X',
-    29: 'MOVE_Y',
-    30: 'EASING',
-    31: 'TEXT',
-    32: 'SCALING',
-    34: 'GROUP_PARENT',
-    35: 'OPACITY',
-    36: 'ACTIVE_TRIGGER',
-    41: 'HVS_ENABLED',
-    42: 'COLOR_2_HVS_ENABLED',
-    43: 'HVS',
-    44: 'COLOR_2_HVS',
-    45: 'FADE_IN',
-    46: 'HOLD',
-    47: 'FADE_OUT',
-    48: 'PULSE_HSV',
-    49: 'COPIED_COLOR_HVS',
-    50: 'COPIED_COLOR_ID',
-    51: 'TARGET',
-	6969: "ITEM_TARGET",
-	32984398: "TRUE_ID",
-	8754: "GROUP_ID_1",
-    52: 'TARGET_TYPE',
-    54: 'YELLOW_TELEPORTATION_PORTAL_DISTANCE',
-    56: 'ACTIVATE_GROUP',
-    57: 'GROUPS',
-    58: 'LOCK_TO_PLAYER_X',
-    59: 'LOCK_TO_PLAYER_Y',
-    60: 'COPY_OPACITY',
-    61: 'EDITOR_LAYER_2',
-    62: 'SPAWN_TRIGGERED',
-    63: 'SPAWN_DURATION',
-    64: 'DONT_FADE',
-    65: 'MAIN_ONLY',
-    66: 'DETAIL_ONLY',
-    67: 'DONT_ENTER',
-    68: 'ROTATE_DEGREES',
-    69: 'TIMES_360',
-    70: 'LOCK_OBJECT_ROTATION',
-	347832: 'ADD',
-    71: 'TARGET_POS',
-	8459: "GROUP_ID_2",
-	584932: "FALSE_ID",
-    72: 'X_MOD',
-    73: 'Y_MOD',
-    75: 'STRENGTH',
-    76: 'ANIMATION_GID',
-    77: 'COUNT',
-    78: 'SUBTRACT_COUNT',
-    79: 'PICKUP_MODE',
-    80: 'ITEM',
-    696969: 'BLOCK_A', // using this as placeholder for ID 80
-	420420: 'ITEM_ID_1',
-    81: 'HOLD_MODE',
-    82: 'TOGGLE_MODE',
-    84: 'INTERVAL',
-    85: 'EASING_RATE',
-    86: 'EXCLUSIVE',
-    87: 'MULTI_TRIGGER',
-    88: 'COMPARISON',
-	42069420: 'MULT_DIV',
-    89: 'DUAL_MODE',
-    90: 'SPEED',
-    91: 'DELAY',
-    92: 'Y_OFFSET',
-    93: 'ACTIVATE_ON_EXIT',
-    94: 'DYNAMIC_BLOCK',
-    95: 'BLOCK_B',
-	6942069: 'ITEM_ID_2',
-    96: 'GLOW_DISABLED',
-    97: 'ROTATION_SPEED',
-    98: 'DISABLE_ROTATION',
-    100: 'USE_TARGET',
-    101: 'TARGET_POS_AXES',
-    102: 'EDITOR_DISABLE',
-    103: 'HIGH_DETAIL',
-    104: 'COUNT_MULTI_ACTIVATE',
-    105: 'MAX_SPEED',
-    106: 'RANDOMIZE_START',
-    107: 'ANIMATION_SPEED',
-    108: 'LINKED_GROUP',
-	110: "EXIT_STATIC",
-    111: "FREE_MODE",
-    112: "EDIT_FREE_CAM_SETTINGS",
-    113: "FREE_CAM_EASING",
-    114: "FREE_CAM_PADDING",
-	115: "ORD",
-    118: "REVERSED",
-    119: "SONG_START",
-    120: "TIMEWARP_TIME_MOD",
-	123: "ANIMATE_ON_TRIGGER",
-    128: "SCALE_X",
-    129: "SCALE_Y",
-    131: "PERSPECTIVE_X",
-    132: "PERSPECTIVE_Y",
-    133: "ONLY_MOVE",
-    138: "PLAYER_1",
-    139: "OVERRIDE_COUNT",
-    141: "FOLLOW_CAMERA_X",
-    142: "FOLLOW_CAMERA_Y",
-    143: "FOLLOW_CAMERA_X_MOD",
-    144: "FOLLOW_CAMERA_Y_MOD",
-	145: "PARTICLE_DATA",
-	146: "USE_OBJ_COLOR",
-	147: "UNIFORM_OBJ_COLOR",
-    148: "GRAVITY",
-    150: "SCALE_X_BY",
-    151: "SCALE_Y_BY",
-    152: "ADV_RAND_STRING",
-    153: "DIV_BY_X",
-    154: "DIV_BY_Y",
-    159: "STREAK_ADDITIVE",
-    160: "UNLINK_DUAL_GRAVITY",
-    161: "HIDE_GROUND",
-    162: "HIDE_P1",
-    163: "HIDE_P2",
-    164: "CAMERA_EDGE",
-	165: "DISABLE_CONTROLS_P1",
-    169: "KEEP_VELOCITY",
-    171: "CHANGE_CHANNEL",
-	174: "GR_BLENDING",
-    195: "HIDE_MG",
-    198: "PLAYER_ONLY",
-    199: "DISABLE_CONTROLS_P2",
-    200: "PLAYER_2",
-    201: "_PT",
-    202: "GR_LAYER",
-    203: "GR_BL",
-    204: "GR_BR",
-    205: "GR_TL",
-    206: "GR_TR",
-    207: "GR_VERTEX_MODE",
-    208: "GR_DISABLE",
-    209: "GR_ID",
-	211: "QUICK_START",
-    212: "FOLLOW_GROUP",
-    213: "FOLLOW_EASING",
-	214: "ANIMATE_ACTIVE_ONLY",
-    215: "FOLLOW_P1",
-    216: "FOLLOW_P2",
-    274: "P_GROUPS",
-    370: "DISABLE_GRID_SNAP",
-	371: "ZOOM",
-	373: "ANIM_ID",
-	374: "ORDER_INDEX",
-	376: "CLOSE_LOOP",
-	378: "CURVE",
-	389: "SECONDS_ONLY",
-	392: "SONG_ID",
-	394: "SNAP_360",
-	45893: "SFX_ID",
-	399: "PREP",
-	400: "LOAD_PREP",
-	404: "SONG_SPEED",
-	405: "SONG_PITCH",
-	406: "SONG_VOLUME",
-	407: "SONG_REVERB",
-	408: "SONG_START",
-	409: "SONG_FADE_IN",
-	410: "SONG_END",
-	411: "SONG_FADE_OUT",
-	412: "FFT",
-	413: "SONG_LOOP",
-	414: "STOP_LOOP",
-	415: "IS_UNIQUE",
-	416: "UNIQUE_ID",
-	417: "SONG_STOP",
-	418: "CHANGE_VOLUME",
-	419: "CHANGE_SPEED",
-	420: "OVERRIDE",
-	421: "VOL_NEAR",
-	422: "VOL_MED",
-	423: "VOL_FAR",
-	424: "MIN_DIST",
-	425: "DIST_2",
-	426: "DIST_3",
-	428: "CAM",
-	430: "EVENTS",
-	432: "SONG_CHANNEL",
-	433: "SFX_PRELOAD",
-	434: "MIN_INTERVAL",
-	435: "SEQUENCE",
-	436: "MODE",
-	437: "MIN_INT",
-	438: "RESET",
-	439: "RESET_FULL_STEP",
-	447: "EXTRA_ID",
-	453: "SMOOTH_VELOCITY",
-	454: "SMOOTH_VELOCITY_MODIFIER",
-	455: "SFX_GROUP",
-	458: "VOLUME_DIRECTION",
-	460: "NO_EFFECTS",
-	461: "NO_SFX",
-	465: "EXIT_INSTANT",
-	466: "TIME_COUNTER",
-	467: "START_TIME",
-	468: "DONT_OVERRIDE",
-	469: "IGNORE_TIMEWARP",
-	470: "TIMER_TIME_MOD",
-	471: "START_PAUSED",
-	472: "START_STOP",
-	473: "STOP_TIME",
-	474: "STOP_CHECKED",
-	476: "TYPE_1",
-	477: "TYPE_2",
-	478: "TARGET_TYPE",
-	479: "MOD",
-	480: "ASSIGN_OP",
-	78534: "COMP_OP_1",
-	481: "OP_1",
-	45389: "COMP_OP_2",
-	482: "OP_2",
-	93289: "COMP_OP",
-	483: "MOD_2",
-	484: "TOL",
-	485: "RFC_1",
-	486: "RFC_2",
-	487: "INSTANT_END",
-	489: "IGNORE_VOLUME+TEST",
-	490: "SOUND_DURATION",
-	491: "PERSISTENT",
-	442: "REMAPS",
-	456: "PREVIEW_OPACITY",
-	502: "REVERB_TYPE",
-	503: "REVERB_ENABLE",
-	520: "TIME_MOD",
-	521: "POSITION_X_MOD",
-	522: "ROTATION_MOD",
-	523: "SCALE_X_MOD",
-	524: "LINE_OPACITY",
-	525: "EXTRA_ID_2",
-	532: "HIDE_ATTEMPTS",
-	540: "STOP_JUMP",
-	541: "STOP_MOVE",
-	542: "STOP_ROT",
-	543: "STOP_SLIDE",
-	545: "POSITION_Y_MOD",
-	546: "SCALE_Y_MOD",
-	573: "EDIT_RESPAWN_TIME",
-	574: "RESPAWN_TIME",
-	575: "AUDIO_ON_DEATH",
-	576: "NO_DEATH_SFX",
-	578: "ABSNEG_1",
-	579: "ABSNEG_2",
+  1: 'OBJ_ID',
+  2: 'X',
+  3: 'Y',
+  4: 'HORIZONTAL_FLIP',
+  5: 'VERTICAL_FLIP',
+  6: 'ROTATION',
+  7: 'TRIGGER_RED',
+  8: 'TRIGGER_GREEN',
+  9: 'TRIGGER_BLUE',
+  10: 'DURATION',
+  237894: 'CHANCE',
+  11: 'TOUCH_TRIGGERED',
+  13: 'PORTAL_CHECKED',
+  15: 'PLAYER_COLOR_1',
+  16: 'PLAYER_COLOR_2',
+  17: 'BLENDING',
+  20: 'EDITOR_LAYER_1',
+  21: 'COLOR',
+  22: 'COLOR_2',
+  23: 'TARGET_COLOR',
+  24: 'Z_LAYER',
+  25: 'Z_ORDER',
+  28: 'MOVE_X',
+  29: 'MOVE_Y',
+  30: 'EASING',
+  31: 'TEXT',
+  32: 'SCALING',
+  34: 'GROUP_PARENT',
+  35: 'OPACITY',
+  36: 'ACTIVE_TRIGGER',
+  41: 'HVS_ENABLED',
+  42: 'COLOR_2_HVS_ENABLED',
+  43: 'HVS',
+  44: 'COLOR_2_HVS',
+  45: 'FADE_IN',
+  46: 'HOLD',
+  47: 'FADE_OUT',
+  48: 'PULSE_HSV',
+  49: 'COPIED_COLOR_HVS',
+  50: 'COPIED_COLOR_ID',
+  51: 'TARGET',
+  6969: "ITEM_TARGET",
+  32984398: "TRUE_ID",
+  8754: "GROUP_ID_1",
+  52: 'TARGET_TYPE',
+  54: 'YELLOW_TELEPORTATION_PORTAL_DISTANCE',
+  56: 'ACTIVATE_GROUP',
+  57: 'GROUPS',
+  58: 'LOCK_TO_PLAYER_X',
+  59: 'LOCK_TO_PLAYER_Y',
+  60: 'COPY_OPACITY',
+  61: 'EDITOR_LAYER_2',
+  62: 'SPAWN_TRIGGERED',
+  63: 'SPAWN_DURATION',
+  64: 'DONT_FADE',
+  65: 'MAIN_ONLY',
+  66: 'DETAIL_ONLY',
+  67: 'DONT_ENTER',
+  68: 'ROTATE_DEGREES',
+  69: 'TIMES_360',
+  70: 'LOCK_OBJECT_ROTATION',
+  347832: 'ADD',
+  71: 'TARGET_POS',
+  8459: "GROUP_ID_2",
+  584932: "FALSE_ID",
+  72: 'X_MOD',
+  73: 'Y_MOD',
+  75: 'STRENGTH',
+  76: 'ANIMATION_GID',
+  77: 'COUNT',
+  78: 'SUBTRACT_COUNT',
+  79: 'PICKUP_MODE',
+  80: 'ITEM',
+  696969: 'BLOCK_A', // using this as placeholder for ID 80
+  420420: 'ITEM_ID_1',
+  81: 'HOLD_MODE',
+  82: 'TOGGLE_MODE',
+  84: 'INTERVAL',
+  85: 'EASING_RATE',
+  86: 'EXCLUSIVE',
+  87: 'MULTI_TRIGGER',
+  88: 'COMPARISON',
+  42069420: 'MULT_DIV',
+  89: 'DUAL_MODE',
+  90: 'SPEED',
+  91: 'DELAY',
+  92: 'Y_OFFSET',
+  93: 'ACTIVATE_ON_EXIT',
+  94: 'DYNAMIC_BLOCK',
+  95: 'BLOCK_B',
+  6942069: 'ITEM_ID_2',
+  96: 'GLOW_DISABLED',
+  97: 'ROTATION_SPEED',
+  98: 'DISABLE_ROTATION',
+  100: 'USE_TARGET',
+  101: 'TARGET_POS_AXES',
+  102: 'EDITOR_DISABLE',
+  103: 'HIGH_DETAIL',
+  104: 'COUNT_MULTI_ACTIVATE',
+  105: 'MAX_SPEED',
+  106: 'RANDOMIZE_START',
+  107: 'ANIMATION_SPEED',
+  108: 'LINKED_GROUP',
+  110: "EXIT_STATIC",
+  111: "FREE_MODE",
+  112: "EDIT_FREE_CAM_SETTINGS",
+  113: "FREE_CAM_EASING",
+  114: "FREE_CAM_PADDING",
+  115: "ORD",
+  118: "REVERSED",
+  119: "SONG_START",
+  120: "TIMEWARP_TIME_MOD",
+  123: "ANIMATE_ON_TRIGGER",
+  128: "SCALE_X",
+  129: "SCALE_Y",
+  131: "PERSPECTIVE_X",
+  132: "PERSPECTIVE_Y",
+  133: "ONLY_MOVE",
+  138: "PLAYER_1",
+  139: "OVERRIDE_COUNT",
+  141: "FOLLOW_CAMERA_X",
+  142: "FOLLOW_CAMERA_Y",
+  143: "FOLLOW_CAMERA_X_MOD",
+  144: "FOLLOW_CAMERA_Y_MOD",
+  145: "PARTICLE_DATA",
+  146: "USE_OBJ_COLOR",
+  147: "UNIFORM_OBJ_COLOR",
+  148: "GRAVITY",
+  150: "SCALE_X_BY",
+  151: "SCALE_Y_BY",
+  152: "ADV_RAND_STRING",
+  153: "DIV_BY_X",
+  154: "DIV_BY_Y",
+  159: "STREAK_ADDITIVE",
+  160: "UNLINK_DUAL_GRAVITY",
+  161: "HIDE_GROUND",
+  162: "HIDE_P1",
+  163: "HIDE_P2",
+  164: "CAMERA_EDGE",
+  165: "DISABLE_CONTROLS_P1",
+  169: "KEEP_VELOCITY",
+  171: "CHANGE_CHANNEL",
+  174: "GR_BLENDING",
+  195: "HIDE_MG",
+  198: "PLAYER_ONLY",
+  199: "DISABLE_CONTROLS_P2",
+  200: "PLAYER_2",
+  201: "_PT",
+  202: "GR_LAYER",
+  203: "GR_BL",
+  204: "GR_BR",
+  205: "GR_TL",
+  206: "GR_TR",
+  207: "GR_VERTEX_MODE",
+  208: "GR_DISABLE",
+  209: "GR_ID",
+  211: "QUICK_START",
+  212: "FOLLOW_GROUP",
+  213: "FOLLOW_EASING",
+  214: "ANIMATE_ACTIVE_ONLY",
+  215: "FOLLOW_P1",
+  216: "FOLLOW_P2",
+  274: "P_GROUPS",
+  370: "DISABLE_GRID_SNAP",
+  371: "ZOOM",
+  373: "ANIM_ID",
+  374: "ORDER_INDEX",
+  376: "CLOSE_LOOP",
+  378: "CURVE",
+  389: "SECONDS_ONLY",
+  392: "SONG_ID",
+  394: "SNAP_360",
+  45893: "SFX_ID",
+  399: "PREP",
+  400: "LOAD_PREP",
+  404: "SONG_SPEED",
+  405: "SONG_PITCH",
+  406: "SONG_VOLUME",
+  407: "SONG_REVERB",
+  408: "SONG_START",
+  409: "SONG_FADE_IN",
+  410: "SONG_END",
+  411: "SONG_FADE_OUT",
+  412: "FFT",
+  413: "SONG_LOOP",
+  414: "STOP_LOOP",
+  415: "IS_UNIQUE",
+  416: "UNIQUE_ID",
+  417: "SONG_STOP",
+  418: "CHANGE_VOLUME",
+  419: "CHANGE_SPEED",
+  420: "OVERRIDE",
+  421: "VOL_NEAR",
+  422: "VOL_MED",
+  423: "VOL_FAR",
+  424: "MIN_DIST",
+  425: "DIST_2",
+  426: "DIST_3",
+  428: "CAM",
+  430: "EVENTS",
+  432: "SONG_CHANNEL",
+  433: "SFX_PRELOAD",
+  434: "MIN_INTERVAL",
+  435: "SEQUENCE",
+  436: "MODE",
+  437: "MIN_INT",
+  438: "RESET",
+  439: "RESET_FULL_STEP",
+  447: "EXTRA_ID",
+  453: "SMOOTH_VELOCITY",
+  454: "SMOOTH_VELOCITY_MODIFIER",
+  455: "SFX_GROUP",
+  458: "VOLUME_DIRECTION",
+  460: "NO_EFFECTS",
+  461: "NO_SFX",
+  465: "EXIT_INSTANT",
+  466: "TIME_COUNTER",
+  467: "START_TIME",
+  468: "DONT_OVERRIDE",
+  469: "IGNORE_TIMEWARP",
+  470: "TIMER_TIME_MOD",
+  471: "START_PAUSED",
+  472: "START_STOP",
+  473: "STOP_TIME",
+  474: "STOP_CHECKED",
+  476: "TYPE_1",
+  477: "TYPE_2",
+  478: "TARGET_TYPE",
+  479: "MOD",
+  480: "ASSIGN_OP",
+  78534: "COMP_OP_1",
+  481: "OP_1",
+  45389: "COMP_OP_2",
+  482: "OP_2",
+  93289: "COMP_OP",
+  483: "MOD_2",
+  484: "TOL",
+  485: "RFC_1",
+  486: "RFC_2",
+  487: "INSTANT_END",
+  489: "IGNORE_VOLUME+TEST",
+  490: "SOUND_DURATION",
+  491: "PERSISTENT",
+  442: "REMAPS",
+  456: "PREVIEW_OPACITY",
+  502: "REVERB_TYPE",
+  503: "REVERB_ENABLE",
+  520: "TIME_MOD",
+  521: "POSITION_X_MOD",
+  522: "ROTATION_MOD",
+  523: "SCALE_X_MOD",
+  524: "LINE_OPACITY",
+  525: "EXTRA_ID_2",
+  532: "HIDE_ATTEMPTS",
+  540: "STOP_JUMP",
+  541: "STOP_MOVE",
+  542: "STOP_ROT",
+  543: "STOP_SLIDE",
+  545: "POSITION_Y_MOD",
+  546: "SCALE_Y_MOD",
+  573: "EDIT_RESPAWN_TIME",
+  574: "RESPAWN_TIME",
+  575: "AUDIO_ON_DEATH",
+  576: "NO_DEATH_SFX",
+  578: "ABSNEG_1",
+  579: "ABSNEG_2",
 };
-let [ unavailable_g, unavailable_c, unavailable_b ] = [0, 0, 0];
+let [unavailable_g, unavailable_c, unavailable_b] = [0, 0, 0];
 
 let get_new = (n, prop) => {
-	if (all_known[prop].indexOf(n) == -1) return n;
-	let cond = true;
-	while (cond) {
-		cond = all_known[prop].indexOf(n) != -1;
-		n++;
-	}
-	return n;
+  if (all_known[prop].indexOf(n) == -1) return n;
+  let cond = true;
+  while (cond) {
+    cond = all_known[prop].indexOf(n) != -1;
+    n++;
+  }
+  return n;
 };
 
 /**
  * Creates and returns an unavailable group ID
- * @returns {object} Resulting block ID
+ * @returns {group} Resulting group ID
  */
 let unknown_g = () => {
   // todo: make this not use group 0
@@ -631,7 +629,7 @@ let unknown_g = () => {
 };
 /**
  * Creates and returns an unavailable color ID
- * @returns {object} Resulting color ID
+ * @returns {color} Resulting color ID
  */
 let unknown_c = () => {
   unavailable_c++;
@@ -640,7 +638,7 @@ let unknown_c = () => {
 };
 /**
  * Creates and returns an unavailable block ID
- * @returns {object} Resulting block ID
+ * @returns {block} Resulting block ID
  */
 let unknown_b = () => {
   unavailable_b++;
@@ -680,7 +678,7 @@ let create_context = (name, set_to_default = false) => {
 /**
  * Creates a "trigger function" in which triggers can be stored inside of a single group
  * @param {function} callback Function storing triggers to put inside of group
- * @returns {object} Group ID of trigger function
+ * @returns {group} Group ID of trigger function
  */
 let trigger_function = (cb, autocall = true) => {
   let old_context = current_context;
@@ -705,45 +703,45 @@ let dot_separated_keys = [57, 442];
 dot_separated_keys = dot_separated_keys.map(x => x.toString())
 
 let mappings = {
-	696969: '80',
-	420420: '80',
-	6942069: '95',
-	6969: '51',
-	42069420: '88',
-	32984398: '51',
-	584932: '71',
-	78534: '480',
-	45389: '481',
-	93289: '482',
-	8754: '51',
-	8459: '71',
-	45893: '392',
-	237894: '10',
-	347832: '70'
+  696969: '80',
+  420420: '80',
+  6942069: '95',
+  6969: '51',
+  42069420: '88',
+  32984398: '51',
+  584932: '71',
+  78534: '480',
+  45389: '481',
+  93289: '482',
+  8754: '51',
+  8459: '71',
+  45893: '392',
+  237894: '10',
+  347832: '70'
 }
 /**
  * Offsets the camera by a position
- * @param {x} x X offset of camera
- * @param {y} y X offset of camera
- * @param {duration} [duration=0] Duration that it takes for camera position to change
+ * @param {number} x X offset of camera
+ * @param {number} y X offset of camera
+ * @param {number} [duration=0] Duration that it takes for camera position to change
  */
 let camera_offset = (x, y, duration = 0, easing = NONE) => {
-	$.add({
-		OBJ_ID: 1916,
-		155: 1,
-		MOVE_X: x * 3,
-		MOVE_Y: y * 3,
-		ACTIVE_TRIGGER: true,
-		DURATION: duration,
-		EASING_RATE: easing
-	});
-	if (duration) wait(duration);
+  $.add({
+    OBJ_ID: 1916,
+    155: 1,
+    MOVE_X: x * 3,
+    MOVE_Y: y * 3,
+    ACTIVE_TRIGGER: true,
+    DURATION: duration,
+    EASING_RATE: easing
+  });
+  if (duration) wait(duration);
 };
 /**
  * Makes the camera static around a target object (group ID)
- * @param {object} group Group storing object to be the center of camera
+ * @param {group} group Group storing object to be the center of camera
  * @param {number} [duration=0] Duration that it takes for camera to be centered around object
- * @param {number} [easing=NONE] How smoothly the camera moves to the object
+ * @param {easing} [easing=NONE] How smoothly the camera moves to the object
  * @param {boolean} [exit_instant=false] Stops static instantly
  * @param {boolean} [exit_static=false] Stops static
  * @param {boolean} [smooth_vel=false] Makes transition to target adapt to current camera velocity (no easing recommended)
@@ -753,38 +751,38 @@ let camera_offset = (x, y, duration = 0, easing = NONE) => {
  * @param {boolean} [x_only=false] Makes the camera only be static on Y axis
  */
 let camera_static = (gr, duration = 0, easing = NONE, exit_instant = false, exit_static = false, smooth_vel = false, smooth_vel_mod = 0, follow = false, x_only = false, y_only = false) => {
-	if (x_only && y_only) throw new Error("Only one of the x_only or y_only arguments must be true, but both values are true!");
-	let axisval = !x_only && !y_only ? 0 : (x_only ? 1 : 2);
-	$.add({
-		OBJ_ID: 1914,
-		155: 1,
-		DURATION: duration,
-		TARGET_POS_AXES: axisval,
-		ACTIVE_OBJECT: true,
-		TARGET_POS: gr,
-		FOLLOW_GROUP: follow,
-		EASING: easing,
-		SMOOTH_VELOCITY: smooth_vel,
-		SMOOTH_VELOCITY_MODIFIER: smooth_vel_mod,
-		EXIT_INSTANT: exit_instant,
-		EXIT_STATIC: exit_static
-	});
-	if (duration) wait(duration);
+  if (x_only && y_only) throw new Error("Only one of the x_only or y_only arguments must be true, but both values are true!");
+  let axisval = !x_only && !y_only ? 0 : (x_only ? 1 : 2);
+  $.add({
+    OBJ_ID: 1914,
+    155: 1,
+    DURATION: duration,
+    TARGET_POS_AXES: axisval,
+    ACTIVE_OBJECT: true,
+    TARGET_POS: gr,
+    FOLLOW_GROUP: follow,
+    EASING: easing,
+    SMOOTH_VELOCITY: smooth_vel,
+    SMOOTH_VELOCITY_MODIFIER: smooth_vel_mod,
+    EXIT_INSTANT: exit_instant,
+    EXIT_STATIC: exit_static
+  });
+  if (duration) wait(duration);
 };
 /**
  * @global
  * Makes the camera zoom in/out by a specific amount
  * @param {number} zoom_amount Amount to zoom the camera in by
  * @param {number} [duration=0] How long it takes for camera to zoom in
- * @param {number} [easing=NONE] How smoothly the camera zooms in
+ * @param {easing} [easing=NONE] How smoothly the camera zooms in
  */
 let camera_zoom = (zoom_am, duration = 0, easing = NONE) => {
-	$.add({
-		OBJ_ID: 1913,
-		ZOOM: zoom_am,
-		DURATION: duration,
-		EASING: easing
-	});
+  $.add({
+    OBJ_ID: 1913,
+    ZOOM: zoom_am,
+    DURATION: duration,
+    EASING: easing
+  });
 };
 /**
  * Toggles free mode
@@ -795,144 +793,144 @@ let camera_zoom = (zoom_am, duration = 0, easing = NONE) => {
  * @param {number} [padding=0.50] Padding for camera movement (requires edit_cam to be true)
  */
 let camera_mode = (free_mode = true, disable_grid_snap = false, edit_cam = false, easing = 10, padding = 0.50) => {
-	$.add({
-		OBJ_ID: 2925,
-		FREE_MODE: free_mode,
-		EDIT_FREE_CAM_SETTINGS: edit_cam,
-		FREE_CAM_EASING: easing,
-		FREE_CAM_PADDING: padding,
-		DISABLE_GRID_SNAP: disable_grid_snap
-	});
+  $.add({
+    OBJ_ID: 2925,
+    FREE_MODE: free_mode,
+    EDIT_FREE_CAM_SETTINGS: edit_cam,
+    FREE_CAM_EASING: easing,
+    FREE_CAM_PADDING: padding,
+    DISABLE_GRID_SNAP: disable_grid_snap
+  });
 };
 /**
  * Rotates camera
  * @param {number} degrees How many degrees to rotate camera by
  * @param {number} [move_time=0] How fast rotation happens
- * @param {number} [easing=NONE] How smooth rotation happens
+ * @param {easing} [easing=NONE] How smooth rotation happens
  * @param {boolean} [add=false] Adds input rotation to current camera rotation
  * @param {boolean} [snap360=false] Converts rotation to closest 360
  */
 let camera_rotate = (degrees, move_time = 0, easing = NONE, add = false, snap360 = false) => {
-	$.add({
-		OBJ_ID: 2015,
+  $.add({
+    OBJ_ID: 2015,
     DURATION: move_time,
-		EASING: easing,
-		ROTATE_DEGREES: degrees,
-		ADD: add,
-		SNAP_360: snap360
-	});
+    EASING: easing,
+    ROTATE_DEGREES: degrees,
+    ADD: add,
+    SNAP_360: snap360
+  });
 };
 
 /**
  * Makes one of the camera's edges a specific target object
- * @param {object} id Group ID of target object
- * @param {number} edge Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE)
+ * @param {group} id Group ID of target object
+ * @param {edge} edge Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE)
  */
 let camera_edge = (id, edge) => {
-	$.add({
-		OBJ_ID: 2062,
-		TARGET: id,
-		CAMERA_EDGE: edge
-	});
+  $.add({
+    OBJ_ID: 2062,
+    TARGET: id,
+    CAMERA_EDGE: edge
+  });
 };
 // docs for song trigger: comig soom
 let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, speed = 0, start = 0, end = 0, fadein = 0, fadeout = 0) => {
-	if (preload) {
-		let m_obj = {
-			OBJ_ID: 1934,
-			SONG_ID: song_id,
-			SONG_CHANNEL: channel,
-			SONG_VOLUME: volume,
-			SONG_SPEED: speed,
-			SONG_START: start,
-			SONG_END: end,
-			SONG_FADE_IN: fadein,
-			SONG_FADE_OUT: fadeout,
-			SONG_LOOP: loop,
-			PREP: true
-		};
-		$.add(m_obj);
-		let al_load = false;
-		let exp = {
-			start: () => {
-				if (al_load) $.add(m_obj);
-				$.add({
-					OBJ_ID: 1934,
-					SONG_CHANNEL: channel,
-					LOAD_PREP: true
-				});
-				if (!al_load) al_load = true;
-			},
-			edit: (new_volume = volume, new_speed = speed, duration = 0.5, stop = false, stop_loop = false, gid_1 = group(0), gid_2 = group(0), vol_near = 1, vol_med = 0.5, vol_far = 0, min_dist = 0, dist_2 = 0, dist_3 = 0, p1 = false, p2 = false, cam = false, vol_dir = 0) => {
-				$.add({
-					OBJ_ID: 3605,
-					SONG_CHANNEL: channel,
-					SONG_SPEED: new_speed,
-					SONG_VOLUME: new_volume,
-					SONG_STOP: stop,
-					STOP_LOOP: stop_loop,
-					CHANGE_SPEED: new_speed !== speed,
-					CHANGE_VOLUME: new_volume !== volume,
-					GROUP_ID_1: gid_1,
-					GROUP_ID_2: gid_2,
-					VOL_NEAR: vol_near,
-					VOL_MED: vol_med,
-					VOL_FAR: vol_far,
-					MIN_DIST: min_dist,
-					DIST_2: dist_2,
-					DIST_3: dist_3,
-					P1: p1,
-					P2: p2,
-					CAM: cam,
-					VOLUME_DIRECTION: vol_dir
-				});
-			},
-			stop: () => {
-				exp.edit(volume, speed, 0.5, true, true);
-				// loop ? false : true, loop ? true : false
-			}
-		};
-		return exp;
-	}
-	$.add({
-		OBJ_ID: 1934,
-		SONG_ID: song_id,
-		SONG_CHANNEL: channel,
-		SONG_VOLUME: volume,
-		SONG_SPEED: speed,
-		SONG_START: start,
-		SONG_END: end,
-		SONG_FADE_IN: fadein,
-		SONG_FADE_OUT: fadeout,
-		SONG_LOOP: loop
-	});
+  if (preload) {
+    let m_obj = {
+      OBJ_ID: 1934,
+      SONG_ID: song_id,
+      SONG_CHANNEL: channel,
+      SONG_VOLUME: volume,
+      SONG_SPEED: speed,
+      SONG_START: start,
+      SONG_END: end,
+      SONG_FADE_IN: fadein,
+      SONG_FADE_OUT: fadeout,
+      SONG_LOOP: loop,
+      PREP: true
+    };
+    $.add(m_obj);
+    let al_load = false;
+    let exp = {
+      start: () => {
+        if (al_load) $.add(m_obj);
+        $.add({
+          OBJ_ID: 1934,
+          SONG_CHANNEL: channel,
+          LOAD_PREP: true
+        });
+        if (!al_load) al_load = true;
+      },
+      edit: (new_volume = volume, new_speed = speed, duration = 0.5, stop = false, stop_loop = false, gid_1 = group(0), gid_2 = group(0), vol_near = 1, vol_med = 0.5, vol_far = 0, min_dist = 0, dist_2 = 0, dist_3 = 0, p1 = false, p2 = false, cam = false, vol_dir = 0) => {
+        $.add({
+          OBJ_ID: 3605,
+          SONG_CHANNEL: channel,
+          SONG_SPEED: new_speed,
+          SONG_VOLUME: new_volume,
+          SONG_STOP: stop,
+          STOP_LOOP: stop_loop,
+          CHANGE_SPEED: new_speed !== speed,
+          CHANGE_VOLUME: new_volume !== volume,
+          GROUP_ID_1: gid_1,
+          GROUP_ID_2: gid_2,
+          VOL_NEAR: vol_near,
+          VOL_MED: vol_med,
+          VOL_FAR: vol_far,
+          MIN_DIST: min_dist,
+          DIST_2: dist_2,
+          DIST_3: dist_3,
+          P1: p1,
+          P2: p2,
+          CAM: cam,
+          VOLUME_DIRECTION: vol_dir
+        });
+      },
+      stop: () => {
+        exp.edit(volume, speed, 0.5, true, true);
+        // loop ? false : true, loop ? true : false
+      }
+    };
+    return exp;
+  }
+  $.add({
+    OBJ_ID: 1934,
+    SONG_ID: song_id,
+    SONG_CHANNEL: channel,
+    SONG_VOLUME: volume,
+    SONG_SPEED: speed,
+    SONG_START: start,
+    SONG_END: end,
+    SONG_FADE_IN: fadein,
+    SONG_FADE_OUT: fadeout,
+    SONG_LOOP: loop
+  });
 }
 /**
  * Makes one of the camera's edges a specific target object
- * @param {object} id Group ID of target object
- * @param {number} edge Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE)
+ * @param {group} id Group ID of target object
+ * @param {edge} edge Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE)
  */
 let teleport = (g) => {
-	if (g?.length) {
-		$.add({
-			OBJ_ID: 3022,
-			X: g[0],
-			Y: g[1],
-			155: 1,
-			13: 1,
-			ACTIVE_TRIGGER: 1,
-			350: 1
-		});
-		return;
-	}
-	$.add({
-		OBJ_ID: 3022,
-		155: 1,
-		13: 1,
-		ACTIVE_TRIGGER: 1,
-		TARGET: g,
-		350: 1
-	});
+  if (g?.length) {
+    $.add({
+      OBJ_ID: 3022,
+      X: g[0],
+      Y: g[1],
+      155: 1,
+      13: 1,
+      ACTIVE_TRIGGER: 1,
+      350: 1
+    });
+    return;
+  }
+  $.add({
+    OBJ_ID: 3022,
+    155: 1,
+    13: 1,
+    ACTIVE_TRIGGER: 1,
+    TARGET: g,
+    350: 1
+  });
 };
 
 let levelstring_to_obj = (string) => {
@@ -969,19 +967,18 @@ let obj_to_levelstring = (l) => {
   for (var d_ in l) {
     let val = l[d_];
     let key = reverse[d_];
-	if (!isNaN(parseInt(d_))) key = d_
+    if (!isNaN(parseInt(d_))) key = d_
     if (typeof val == 'boolean') val = +val;
-	// if (d_ == "GR_LAYER") console.log(val, key)
+    // if (d_ == "GR_LAYER") console.log(val, key)
     if (explicit[d_] && !val.hasOwnProperty('value')) { // if type is explicitly required for current object property and it is not a group/color/block
       if (typeof val == 'object' && dot_separated_keys.includes(key)) { // if val is an array and it is dot separated
         val = val.map((x) => x.value).filter(x => x && x != '').join('.');
       } else {
-        throw `Expected type "${
-          explicit[d[parseInt(key)]]
+        throw `Expected type "${explicit[d[parseInt(key)]]
         }", got "${typeof val}"`;
       }
     } else if (explicit[d_] && val.value) {
-	  let cond = typeof explicit[d_] == "string" ? (val.type == explicit[d_]) : (explicit[d_].includes(val.type));
+      let cond = typeof explicit[d_] == "string" ? (val.type == explicit[d_]) : (explicit[d_].includes(val.type));
       if (cond) {
         val = val.value;
       } else {
@@ -1041,7 +1038,7 @@ let prep_lvl = () => {
       for (let i = 0; i < objects.length; i++) {
         let object = objects[i];
         if (!object.GROUPS) {
-          object.GROUPS = [ context.group, group(remove_group) ];
+          object.GROUPS = [context.group, group(remove_group)];
         } else {
           if (Array.isArray(object.GROUPS)) {
             object.GROUPS.push(context.group, group(remove_group));
@@ -1055,8 +1052,8 @@ let prep_lvl = () => {
         // end
       }
     } else {
-	  let context = contexts[name];
-	  let objects = context.objects;
+      let context = contexts[name];
+      let objects = context.objects;
       for (let i = 0; i < objects.length; i++) {
         let object = objects[i];
         if (!object.GROUPS) {
@@ -1069,7 +1066,7 @@ let prep_lvl = () => {
           }
         }
       }
-	}
+    }
     for (let x in contexts[i].objects) {
       let r = obj_to_levelstring(contexts[i].objects[x]);
       resulting += r;
@@ -1085,7 +1082,7 @@ let getLevelString = (options = {}) => {
       console.log('Finished, result stats:');
       console.log('Object count:', resulting.split(';').length - 1);
       console.log('Group count:', unavailable_g);
-	  console.log('Color count:', unavailable_c);
+      console.log('Color count:', unavailable_c);
     }
   } else {
     if (
@@ -1140,87 +1137,87 @@ let extend_trigger_func = (t, cb) => {
 };
 
 let remove_past_objects = (lvlstring, name) => {
-	// remove_group
-	if (!lvlstring) throw new Error(`Level "${name}" has not been initialized, add any object to initialize the level then rerun this script`);
-	return lvlstring.split(';').filter(x => {
-		let keep = true;
-		let spl = x.split(',');
-		spl.forEach((z, i) => {
-			if (!(i % 2)) {
-			if (z == "57") {
-				let groups = spl[i + 1]
-				if (groups.includes('.')) {
-					groups = groups.split('.');
-					if (groups.includes(remove_group.toString())) {
-						keep = false;
-					}
-				} else {
-					if (groups == remove_group) {
-						keep = false;
-					}
-				}
-			}
-		}
-		})
-		return keep;
-	}).join(';');
+  // remove_group
+  if (!lvlstring) throw new Error(`Level "${name}" has not been initialized, add any object to initialize the level then rerun this script`);
+  return lvlstring.split(';').filter(x => {
+    let keep = true;
+    let spl = x.split(',');
+    spl.forEach((z, i) => {
+      if (!(i % 2)) {
+        if (z == "57") {
+          let groups = spl[i + 1]
+          if (groups.includes('.')) {
+            groups = groups.split('.');
+            if (groups.includes(remove_group.toString())) {
+              keep = false;
+            }
+          } else {
+            if (groups == remove_group) {
+              keep = false;
+            }
+          }
+        }
+      }
+    })
+    return keep;
+  }).join(';');
 }
 let exportToSavefile = (options = {}) => {
   (async () => {
-	const level = await new LevelReader(options.level_name);
-	let last = remove_past_objects(level.data.levelstring, level.data.name);
-	prep_lvl();
-	  if (unavailable_g <= limit) {
-    if (options.info) {
-	  console.log(`Writing to level: ${level.data.name}`);
-      console.log('Finished, result stats:');
-      console.log('Object count:', resulting.split(';').length - 1);
-      console.log('Group count:', unavailable_g);
-	  console.log('Color count:', unavailable_c);
+    const level = await new LevelReader(options.level_name);
+    let last = remove_past_objects(level.data.levelstring, level.data.name);
+    prep_lvl();
+    if (unavailable_g <= limit) {
+      if (options.info) {
+        console.log(`Writing to level: ${level.data.name}`);
+        console.log('Finished, result stats:');
+        console.log('Object count:', resulting.split(';').length - 1);
+        console.log('Group count:', unavailable_g);
+        console.log('Color count:', unavailable_c);
+      }
+    } else {
+      if (
+        (options.hasOwnProperty('object_count_warning') &&
+          options.object_count_warning == true) ||
+        !options.hasOwnProperty('object_count_warning')
+      )
+        throw new Error(`Group count surpasses the limit! (${unavailable_g}/${limit})`);
     }
-  } else {
-    if (
-      (options.hasOwnProperty('object_count_warning') &&
-        options.object_count_warning == true) ||
-      !options.hasOwnProperty('object_count_warning')
-    )
-      throw new Error(`Group count surpasses the limit! (${unavailable_g}/${limit})`);
-  }
-	last += resulting;
-	level.set(last);
-	level.save();
+    last += resulting;
+    level.set(last);
+    level.save();
   })()
 };
 
 const group_arr = (arr, x) => arr.reduce((acc, _, i) => (i % x ? acc[acc.length - 1].push(arr[i]) : acc.push([arr[i]]), acc), []);
 
 let liveEditor = (conf) => {
-	const socket = new WebSocket('ws://127.0.0.1:1313');
-	let lvlString = group_arr($.getLevelString(conf).split(';'), 250).map(x => x.join(';'));
-	socket.addEventListener('message', (event) => {
-	  event = JSON.parse(event.data);
-	  if (event.status !== "successful") throw new Error(`Live editor failed, ${event.error}: ${event.message}`)
-	});
+  const socket = new WebSocket('ws://127.0.0.1:1313');
+  let lvlString = group_arr($.getLevelString(conf).split(';'), 250).map(x => x.join(';'));
+  socket.addEventListener('message', (event) => {
+    event = JSON.parse(event.data);
+    if (event.status !== "successful") throw new Error(`Live editor failed, ${event.error}: ${event.message}`)
+  });
 
-	socket.addEventListener('open', (event) => {
-		socket.send(JSON.stringify({
-			action: 'REMOVE',
-			group: 9999,
-		})); // clears extra objects
-		lvlString.forEach((chunk, i) => {
-			setTimeout(() => {
-				socket.send(JSON.stringify({
-					action: 'ADD',
-					objects: chunk + ';',
-					close: i == lvlString.length - 1
-				}));
-			}, i * 75);
-		});
-	});
+  socket.addEventListener('open', (event) => {
+    socket.send(JSON.stringify({
+      action: 'REMOVE',
+      group: 9999,
+    })); // clears extra objects
+    lvlString.forEach((chunk, i) => {
+      setTimeout(() => {
+        socket.send(JSON.stringify({
+          action: 'ADD',
+          objects: chunk + ';',
+          close: i == lvlString.length - 1
+        }));
+      }, i * 75);
+    });
+  });
 
-	socket.addEventListener('error', () => {
-		throw new Error(`Connecting to WSLiveEditor failed! Make sure you have installed the WSLiveEditor mod inside of Geode!`);
-	});
+  socket.addEventListener('error', () => {
+    throw new Error(`Connecting to WSLiveEditor failed! Make sure you have installed the WSLiveEditor mod inside of Geode!`);
+  });
 };
 
 let $ = {
@@ -1243,7 +1240,7 @@ let $ = {
 
 /**
  * Adds a move trigger and returns it
- * @param {object} id Group ID of target object
+ * @param {group} id Group ID of target object
  * @param {number} x X amount of how much to move the object by
  * @param {number} Y Y amount of how much to move the object by
  * @returns {object} Returned object
@@ -1264,7 +1261,7 @@ let move_trigger = (group, x, y) => {
 
 /**
  * Creates a particle system
- * @param {object} props Dictionary holding particle properties (check particle properties)
+ * @param {dictionary} props Dictionary holding particle properties (check particle properties)
  * @param {boolean} [use_obj_color=false] Whether to make the particle system use the object color
  * @param {boolean} [animate_on_trigger=false] Whether to only start the particle system when the Animate trigger is used on the particle system instead of immediately
  * @param {boolean} [animate_active_only=false] Only makes animate_on_trigger true if the object is active 
@@ -1272,27 +1269,27 @@ let move_trigger = (group, x, y) => {
  * @returns {object} Returned particle system
  */
 let particle_system = (props, use_obj_color = false, animate_on_trigger = false, animate_active_only = false, quick_start = false) => {
-	let datalist = Array(72).fill(0);
-	for (let i in props) {
-		let x = props[i];
-		if (typeof x == "boolean") x = +x;
-		datalist[all_particles[i]] = x;
-	};
-	datalist = datalist.join('a');
-	let origin = {
-		OBJ_ID: 2065,
-		PARTICLE_DATA: datalist,
-		USE_OBJ_COLOR: use_obj_color,
-		UNIFORM_OBJ_COLOR: "UNIFORM_OBJ_COLOR" in props ? props.UNIFORM_OBJ_COLOR : false,
-		ANIMATE_ON_TRIGGER: animate_on_trigger,
-		ANIMATE_ACTIVE_ONLY: animate_active_only,
-		QUICK_START: quick_start
-	};
-	origin.with = (a, b) => {
-		origin[d[a]] = b;
-		return origin;
-	};
-	return origin;
+  let datalist = Array(72).fill(0);
+  for (let i in props) {
+    let x = props[i];
+    if (typeof x == "boolean") x = +x;
+    datalist[all_particles[i]] = x;
+  };
+  datalist = datalist.join('a');
+  let origin = {
+    OBJ_ID: 2065,
+    PARTICLE_DATA: datalist,
+    USE_OBJ_COLOR: use_obj_color,
+    UNIFORM_OBJ_COLOR: "UNIFORM_OBJ_COLOR" in props ? props.UNIFORM_OBJ_COLOR : false,
+    ANIMATE_ON_TRIGGER: animate_on_trigger,
+    ANIMATE_ACTIVE_ONLY: animate_active_only,
+    QUICK_START: quick_start
+  };
+  origin.with = (a, b) => {
+    origin[d[a]] = b;
+    return origin;
+  };
+  return origin;
 };
 
 /**
@@ -1300,21 +1297,22 @@ let particle_system = (props, use_obj_color = false, animate_on_trigger = false,
  * @param {number} value How much to warp time by
  */
 let timewarp = (val) => {
-	$.add({
-		OBJ_ID: 1935,
-		TIMEWARP_TIME_MOD: val
-	});
+  $.add({
+    OBJ_ID: 1935,
+    TIMEWARP_TIME_MOD: val
+  });
 };
 
 /**
  * Creates color trigger
- * @param {object} channel Color channel to set
+ * @param {color} channel Color channel to set
  * @param {number} r Red value in RGB to set
  * @param {number} g Green value in RGB to set
  * @param {number} b Blue value in RGB to set
  * @param {number} [duration=0] Duration that it takes for color to change
  * @param {number} [opacity=1] Opacity of color (1 = visible, 0 = invisible)
  * @param {boolean} [blending=false] Whether to blend color with others
+ * @returns {object} Resulting color trigger
  */
 let color_trigger = (
   channel,
@@ -1356,7 +1354,7 @@ function range(start, end, step = 1) {
     [start, end] = [end, start]; // Swap start and end
     step = Math.abs(step); // Ensure step is positive
   }
-  
+
   let result = Array.from({ length: Math.ceil((end - start) / step) }, (_, i) => start + i * step);
   if (sw) result = result.reverse();
   return result;
@@ -1380,29 +1378,29 @@ let wait = (time) => {
 
 let next_free = 1;
 let refs = {
-	types: [null, "ITEM", "TIMER", "POINTS", "TIME", "ATTEMPT"],
-	ops: ["EQ", "ADD", "SUB", "MUL", "DIV"],
-	compare_ops: [null, "GREATER", "GREATER_OR_EQ", "LESS", "LESS_OR_EQ", "NOT_EQ"],
-	absneg: [null, "ABS", "NEG"],
-	rfc: [null, "RND", "FLR", "CEI"],
+  types: [null, "ITEM", "TIMER", "POINTS", "TIME", "ATTEMPT"],
+  ops: ["EQ", "ADD", "SUB", "MUL", "DIV"],
+  compare_ops: [null, "GREATER", "GREATER_OR_EQ", "LESS", "LESS_OR_EQ", "NOT_EQ"],
+  absneg: [null, "ABS", "NEG"],
+  rfc: [null, "RND", "FLR", "CEI"],
 }
 for (let i in refs) {
-	i = refs[i];
-	i.forEach((x, i) => {
-		if (x) {
-			global[x] = i
-		}
-	})
+  i = refs[i];
+  i.forEach((x, i) => {
+    if (x) {
+      global[x] = i
+    }
+  })
 }
 
 /**
  * Implementation of Item Edit trigger
- * @param {number} item1 Item ID 1
- * @param {number} item2 Item ID 2
- * @param {number} target Target item ID
- * @param {number} type1 Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
- * @param {number} type2 Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
- * @param {number} target_type Type of target item ID (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {item} item1 Item ID 1 (can be retrieved from your_counter.item)
+ * @param {item} item2 Item ID 2 (can be retrieved from your_counter.item)
+ * @param {item} target Target item ID (can be retrieved from your_counter.item)
+ * @param {item_type} type1 Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {item_type} type2 Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {item_type} target_type Type of target item ID (ITEM, TIMER, POINTS, TIME, ATTEMPT)
  * @param {number} assign_op Assignment operator (EQ, ADD, SUB, MUL, DIV)
  * @param {number} op1 Operator 1 (ADD, SUB, MUL, DIV)
  * @param {number} op2 Operator 2 (ADD, SUB, MUL, DIV)
@@ -1414,35 +1412,35 @@ for (let i in refs) {
  * @returns {object} Resulting object
  */
 let item_edit = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = NONE, assign_op = EQ, op1 = ADD, op2 = MUL, mod = 1, absn1 = NONE, absn2 = NONE, rfc1 = NONE, rfc2 = NONE) => {
-	let or = {
-		OBJ_ID: 3619,
-		ITEM_ID_1: item1,
-		ITEM_ID_2: item2,
-		ITEM_TARGET: target,
-		TYPE_1: type1,
-		TYPE_2: type2,
-		TARGET_TYPE: targ_type,
-		ASSIGN_OP: assign_op,
-		OP_1: op1,
-		OP_2: op2,
-		MOD: mod,
-		ABSNEG_1: absn1,
-		ABSNEG_2: absn2,
-		RFC_1: rfc1,
-		RFC_2: rfc2,
-		with: (prop, val) => {
-		  or[d[prop]] = val;
-		  return or;
-		},
-	};
-	return or;
+  let or = {
+    OBJ_ID: 3619,
+    ITEM_ID_1: item1,
+    ITEM_ID_2: item2,
+    ITEM_TARGET: target,
+    TYPE_1: type1,
+    TYPE_2: type2,
+    TARGET_TYPE: targ_type,
+    ASSIGN_OP: assign_op,
+    OP_1: op1,
+    OP_2: op2,
+    MOD: mod,
+    ABSNEG_1: absn1,
+    ABSNEG_2: absn2,
+    RFC_1: rfc1,
+    RFC_2: rfc2,
+    with: (prop, val) => {
+      or[d[prop]] = val;
+      return or;
+    },
+  };
+  return or;
 }
 /**
  * Implementation of Item Comp trigger
- * @param {number} item_1 Item ID 1
- * @param {number} item_2 Item ID 2
- * @param {number} type1 Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
- * @param {number} type2 Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {item} item_1 Item ID 1 (can be retrieved from your_counter.item)
+ * @param {item} item_2 Item ID 2 (can be retrieved from your_counter.item)
+ * @param {item_type} type1 Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {item_type} type2 Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
  * @param {number} compare_op Operator to compare item ID 1 and 2 by (EQ, GREATER, GREATER_OR_EQ, LESS, LESS_OR_EQ, NOT_EQ)
  * @param {object} truei Group ID to call if comparison is true
  * @param {object} falsei Group ID to call if comparison is false
@@ -1458,54 +1456,163 @@ let item_edit = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = N
  * @returns {object} Resulting object
  */
 let item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = group(0), falsei = group(0), mod_1 = 1, mod_2 = 1, tol = 0, op_1 = MUL, op_2 = MUL, absneg_1 = NONE, absneg_2 = NONE, rfc_1 = NONE, rfc_2 = NONE) => {
-	let or = {
-		OBJ_ID: 3620,
-		ITEM_ID_1: item_1,
-		ITEM_ID_2: item_2,
-		MOD: mod_1,
-		MOD_2: mod_2,
-		TYPE_1: type_1,
-		TYPE_2: type_2,
-		COMP_OP: compare_op,
-		TRUE_ID: truei,
-		FALSE_ID: falsei,
-		TOL: tol,
-		COMP_OP_1: op_1,
-		COMP_OP_2: op_2,
-		ABSNEG_1: absneg_1,
-		ABSNEG_2: absneg_2,
-		RFC_1: rfc_1,
-		RFC_2: rfc_2,
-		with: (prop, val) => {
-		  or[d[prop]] = val;
-		  return or;
-		},
-	};
-	return or;
+  let or = {
+    OBJ_ID: 3620,
+    ITEM_ID_1: item_1,
+    ITEM_ID_2: item_2,
+    MOD: mod_1,
+    MOD_2: mod_2,
+    TYPE_1: type_1,
+    TYPE_2: type_2,
+    COMP_OP: compare_op,
+    TRUE_ID: truei,
+    FALSE_ID: falsei,
+    TOL: tol,
+    COMP_OP_1: op_1,
+    COMP_OP_2: op_2,
+    ABSNEG_1: absneg_1,
+    ABSNEG_2: absneg_2,
+    RFC_1: rfc_1,
+    RFC_2: rfc_2,
+    with: (prop, val) => {
+      or[d[prop]] = val;
+      return or;
+    },
+  };
+  return or;
 }
 
-// counter documentation: comig soom
+/**
+ * Represents a counter, which is a wrapper around item IDs
+ * @typedef {object} counter
+ * @property {item} item Item ID of a counter
+ * @property {item_type} type Type of a counter
+ * @property {add} add Adds a specific amount (or another counter) to the current counter
+ * @property {subtract} subtract Subtracts a specific amount (or another counter) from the current counter
+ * @property {multiply} multiply Multiplies the current counter by a specific amount (or another counter)
+ * @property {divide} divide Divides the current counter by a specific amount (or another counter)
+ * @property {set} set Sets the current counter to a specific amount or another counter
+ * @property {reset} reset Resets the current counter to 0
+ * @property {if_is} if_is Checks if a comparison is true, and if so calls a group (SMALLER_THAN/EQUAL_TO_LARGER_THAN)
+ * @property {to_const} to_const Converts the current counter to a plain number by taking in a range of possible values and a function
+ * @property {copy_to} copy_to Copies the current counter to another counter
+ * @property {display} display Displays the current counter at a specific position
+ * @property {to_obj} to_obj Returns item display for current counter as an object
+ * @property {add_to} add_to Adds the current counter to another and resets the current counter
+ * @property {subtract_from} subtract_from Subtracts the current counter from another and resets the current counter
+ */
+
+/**
+ * Adds a specific amount (or another counter) to the current counter
+ * @callback add
+ * @param {number|counter} amount Counter or number to add to the current counter
+ */
+
+/**
+ * Adds a specific amount (or another counter) to the current counter
+ * @callback subtract
+ * @param {number|counter} amount Counter or number to subtract from the current counter
+ */
+
+/**
+ * Adds a specific amount (or another counter) to the current counter
+ * @callback multiply
+ * @param {number|counter} amount Counter or number to multiply the current counter by
+ */
+
+/**
+ * Adds a specific amount (or another counter) to the current counter
+ * @callback divide
+ * @param {number|counter} amount Counter or number to divide the current counter by
+ */
+
+/**
+ * Adds a specific amount (or another counter) to the current counter
+ * @callback set
+ * @param {number|counter} amount Counter or number to set the current counter to
+ */
+
+/**
+ * Resets the current counter to 0
+ * @callback reset
+ */
+
+/**
+ * Returns item display for current counter as an object
+ * @callback to_obj
+ * @returns {object} Resulting item display
+ */
+
+/**
+ * Checks if a comparison is true, and if so calls a group (SMALLER_THAN/EQUAL_TO_LARGER_THAN)
+ * @callback if_is
+ * @param {comparison} comparison Condition to check for between the counter and number
+ * @param {number} other Number to compare the current counter to
+ * @param {group} trig_func Trigger function or group to run if the comparison is true
+ */
+
+/**
+ * Converts the current counter to a plain number by taking in a range of possible values and a function
+ * @callback to_const
+ * @param {array} range Possible range of values that the current counter is equal to
+ * @param {function} func Callback function to run that takes the plain numerical value as input
+ */
+
+/**
+ * Displays the current counter at a specific position
+ * @callback display
+ * @param {number} x X position of item display
+ * @param {number} y Y position of item display
+ */
+
+/**
+ * Copies the current counter to another counter
+ * @callback copy_to
+ * @param {counter} counter Counter to copy the current counter to
+ */
+
+/**
+ * Adds the current counter to another and resets the current counter
+ * @callback add_to
+ * @param {counter} counter Counter to add the current counter to
+ */
+
+/**
+ * Subtracts the current counter from another and resets the current counter
+ * @callback subtract_from
+ * @param {counter} counter Counter to be subtracted from
+ */
+
+/**
+ * Creates a counter, which has methods for editing items
+ * @param {number|boolean} [num=0] Number or boolean to be represented by counter
+ * @param {boolean} [use_id=false] Whether to use an existing item ID as a counter instead of creating a new item
+ * @param {boolean} [persistent=false] Whether to make the counter persistent between attempts
+ * @param {boolean} [timer=false] Whether to make the counter a timer
+ * @returns {function} Function to call
+ */
+
 let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
   let id = use_id ? num : next_free++;
   if (num > 0 && !use_id) {
-	if (!persistent) {
-		$.add({
-		  OBJ_ID: 1817,
-		  COUNT: num,
-		  ITEM: id,
-		});
-	}
+    if (!persistent) {
+      $.add({
+        OBJ_ID: 1817,
+        COUNT: num,
+        ITEM: id,
+      });
+    }
   }
   if (persistent) {
-	  $.add({
-		  OBJ_ID: 3641,
-		  PERSISTENT: true,
-		  ITEM: id
-	  });
+    $.add({
+      OBJ_ID: 3641,
+      PERSISTENT: true,
+      ITEM: id
+    });
   };
   let exports = {
     item: id,
-	type: timer ? TIMER : ITEM,
+    type: timer ? TIMER : ITEM,
     add: (amount) => {
       if (typeof amount == 'number') {
         $.add({
@@ -1514,22 +1621,21 @@ let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
           ITEM: id,
         });
       } else if (typeof amount == 'object') {
-        $.add(item_edit(id, amount.item, id, exports.type, amount.type, exports.type, EQ, ADD));
+        $.add(item_edit(amount.item, undefined, id, exports.type, NONE, exports.type, ADD));
       }
     },
-	set: (amount) => {
-		if (typeof amount == 'number') {
-			 $.add({
-			  OBJ_ID: 1817,
-			  COUNT: amount,
-			  OVERRIDE_COUNT: true,
-			  ITEM: id,
-			});
-		} else if (typeof amount == 'object') {
-			exports.reset();
-			$.add(item_edit(id, amount.item, id, exports.type, amount.type, exports.type, EQ, ADD));
-		}
-	},
+    set: (amount) => {
+      if (typeof amount == 'number') {
+        $.add({
+          OBJ_ID: 1817,
+          COUNT: amount,
+          OVERRIDE_COUNT: true,
+          ITEM: id,
+        });
+      } else if (typeof amount == 'object') {
+        $.add(item_edit(undefined, amount.item, id, exports.type, amount.type, exports.type, EQ));
+      }
+    },
     subtract: (amount) => {
       if (typeof amount == 'number') {
         $.add({
@@ -1538,31 +1644,31 @@ let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
           ITEM: id,
         });
       } else if (typeof amount == 'object') {
-        $.add(item_edit(id, amount.item, id, exports.type, amount.type, exports.type, EQ, SUB));
+        $.add(item_edit(amount.item, undefined, id, exports.type, NONE, exports.type, SUB));
       }
     },
-	multiply: (amount) => {
+    multiply: (amount) => {
       if (typeof amount == 'number') {
         $.add({
           OBJ_ID: 1817,
           COUNT: amount,
-		  MULT_DIV: 2,
+          MULT_DIV: 2,
           ITEM: id,
         });
       } else if (typeof amount == 'object') {
-        $.add(item_edit(id, amount.item, id, exports.type, amount.type, exports.type, EQ, MUL));
+        $.add(item_edit(amount.item, undefined, id, exports.type, NONE, exports.type, MUL));
       }
     },
-	divide: (amount) => {
+    divide: (amount) => {
       if (typeof amount == 'number') {
         $.add({
           OBJ_ID: 1817,
           COUNT: amount,
-		  MULT_DIV: 1,
+          MULT_DIV: 1,
           ITEM: id,
         });
       } else if (typeof amount == 'object') {
-        $.add(item_edit(id, amount.item, id, exports.type, amount.type, exports.type, EQ, DIV));
+        $.add(item_edit(amount.item, undefined, id, exports.type, NONE, exports.type, DIV));
       }
     },
     display: (x, y) =>
@@ -1573,18 +1679,18 @@ let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
         ITEM: id,
         COLOR: color(1),
       }),
-	to_obj: () => {
-		let or = {
-			OBJ_ID: 1615,
-			ITEM: id,
-			COLOR: color(1),
-			with: (prop, val) => {
-			  or[d[prop]] = val;
-			  return or;
-			},
-		};
-		return or;
-	},
+    to_obj: () => {
+      let or = {
+        OBJ_ID: 1615,
+        ITEM: id,
+        COLOR: color(1),
+        with: (prop, val) => {
+          or[d[prop]] = val;
+          return or;
+        },
+      };
+      return or;
+    },
     if_is: (comparison, other, trig_func) => {
       $.add({
         OBJ_ID: 1811,
@@ -1606,12 +1712,12 @@ let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
         exports.if_is(EQUAL_TO, i, context.group);
       }
     },
-    add_to: (item, factor = 1) => {
+    add_to: (item) => {
       item.add(exports);
-	  exports.reset();
+      exports.reset();
     },
-    copy_to: (item, factor = 1) => {
-      $.add(item_edit(id, 0, item.item, exports.type, NONE, item.type, EQ, ADD));
+    copy_to: (item) => {
+      $.add(item_edit(undefined, id, item.item, NONE, item.type, exports.type, EQ));
     },
     clone: () => {
       let n_counter = counter(0);
@@ -1621,67 +1727,67 @@ let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
     subtract_from: (b) => {
       // basically (a - b) then reset b to zero
       $.add(item_edit(id, b.item, id, exports.type, b.type, exports.type, EQ, SUB));
-	  b.reset();
+      b.reset();
     },
     reset: () => {
       exports.set(0);
     },
   };
   if (persistent) {
-		let tfr = trigger_function(() => {
-			$.add({
-			  OBJ_ID: 1817,
-			  COUNT: num,
-			  OVERRIDE_COUNT: true,
-			  ITEM: id,
-			});
-		});
-		exports.if_is(EQUAL_TO, 0, tfr);
-	}
+    let tfr = trigger_function(() => {
+      $.add({
+        OBJ_ID: 1817,
+        COUNT: num,
+        OVERRIDE_COUNT: true,
+        ITEM: id,
+      });
+    });
+    exports.if_is(EQUAL_TO, 0, tfr);
+  }
   return exports;
 };
 
 // this entire section docs: comig soom
 let timer = (start_seconds, end_seconds = 0, target_id = group(0), backwards = false, seconds_only = false, stop = true, time_mod = 1, ignore_timewarp = false, no_override = false) => {
-	 // START_IME, STOP_TIME, STOP_CHECKED, ITEM, TARGET, TIME_MOD, IGNORE_TIMEWARP, START_PAUSED, DONT_OVERRIDE
-	let c_item = counter(0, false, false, true);
-	let o = {
-		OBJ_ID: 3614,
-		START_TIME: start_seconds,
-		STOP_TIME: end_seconds,
-		STOP_CHECKED: stop,
-		ITEM: c_item.item,
-		TARGET: target_id,
-		TIMER_TIME_MOD: backwards ? -1 : time_mod,
-		IGNORE_TIMEWARP: ignore_timewarp,
-		DONT_OVERRIDE: no_override
-	};
-	c_item.display = (x, y) => $.add({
-        OBJ_ID: 1615,
-        X: x,
-        Y: y,
-        ITEM: c_item.item,
-		TIME_COUNTER: true,
-		SECONDS_ONLY: seconds_only,
-        COLOR: color(1),
-    });
-	c_item.set_start = (x) => o.START_TIME = x;
-	c_item.set_end = (x) => o.STOP_TIME = x;
-	c_item.start = () => {
-		$.add(o);
-	};
-	c_item.stop = () => {
-		$.add({
-			OBJ_ID: 3617,
-			ITEM: c_item.item,
-			START_STOP: true
-		})
-	};
-	return c_item;
+  // START_IME, STOP_TIME, STOP_CHECKED, ITEM, TARGET, TIME_MOD, IGNORE_TIMEWARP, START_PAUSED, DONT_OVERRIDE
+  let c_item = counter(0, false, false, true);
+  let o = {
+    OBJ_ID: 3614,
+    START_TIME: start_seconds,
+    STOP_TIME: end_seconds,
+    STOP_CHECKED: stop,
+    ITEM: c_item.item,
+    TARGET: target_id,
+    TIMER_TIME_MOD: backwards ? -1 : time_mod,
+    IGNORE_TIMEWARP: ignore_timewarp,
+    DONT_OVERRIDE: no_override
+  };
+  c_item.display = (x, y) => $.add({
+    OBJ_ID: 1615,
+    X: x,
+    Y: y,
+    ITEM: c_item.item,
+    TIME_COUNTER: true,
+    SECONDS_ONLY: seconds_only,
+    COLOR: color(1),
+  });
+  c_item.set_start = (x) => o.START_TIME = x;
+  c_item.set_end = (x) => o.STOP_TIME = x;
+  c_item.start = () => {
+    $.add(o);
+  };
+  c_item.stop = () => {
+    $.add({
+      OBJ_ID: 3617,
+      ITEM: c_item.item,
+      START_STOP: true
+    })
+  };
+  return c_item;
 }
 
 let compare = (c1, op, c2, truei, falsei) => {
-	$.add(item_comp(c1.item, c2.item, ITEM, ITEM, op, truei, falsei));
+  $.add(item_comp(c1.item, c2.item, ITEM, ITEM, op, truei, falsei));
 }
 
 let toggle_on_trigger = (group) => {
@@ -1791,16 +1897,16 @@ let x_position = (position) => {
 };
 
 let event = (ev, id, extra_id = group(0), extra_id2 = group(0)) => {
-	if (typeof ev == "object") ev = ev.join('.');
-	return {
-		event: (t) => $.add({
-			OBJ_ID: 3604,
-			TARGET: t,
-			EXTRA_ID: extra_id,
-			EXTRA_ID_2: extra_id2,
-			EVENTS: ev.toString()
-		})
-	}
+  if (typeof ev == "object") ev = ev.join('.');
+  return {
+    event: (t) => $.add({
+      OBJ_ID: 3604,
+      TARGET: t,
+      EXTRA_ID: extra_id,
+      EXTRA_ID_2: extra_id2,
+      EVENTS: ev.toString()
+    })
+  }
 };
 
 String.prototype.to_obj = function () {
@@ -1826,7 +1932,7 @@ let less_than = (count, other) => ({ count, comparison: SMALLER_THAN, other });
 
 /**
  * Creates a repeating trigger system that repeats while a condition is true
- * @param {object} condition Condition that defines whether the loop should keep on running (less_than/equal_to/greater_than(counter, number))
+ * @param {condition} condition Condition that defines whether the loop should keep on running (less_than/equal_to/greater_than(counter, number))
  * @param {function} func Function to run while the condition is true
  * @param {number} delay Delay between each cycle
  */
@@ -1869,59 +1975,59 @@ let hide_player = () => {
 // keyframe system docs: comig soom
 let ksys_id = 1;
 let keyframe_system = (gr, same = false) => {
-	let ksys_gr = same ? gr : unknown_g();
-	let oi = 0;
-	let tksys_id = ksys_id;
-	let o = {
-		keyframe: (x, y, duration = 0.50, curve = false, close = false, easing = NONE) => {
-			let o = {
-				OBJ_ID: 3032,
-				X: x,
-				Y: y,
-				DURATION: duration,
-				CURVE: curve,
-				CLOSE_LOOP: close,
-				GROUPS: ksys_gr,
-				ANIM_ID: tksys_id,
-				EASING: easing,
-				524: 1,
-				ACTIVE_TRIGGER: 1,
-				155: 2
-			};
-			if (oi > 0) o.ORDER_INDEX = oi;
-			$.add(o);
-			oi++;
-		},
-		start: () => {
-			$.add({
-				OBJ_ID: 3033,
-				ANIMATION_GID: ksys_gr,
-				TARGET: gr,
-				TIME_MOD: 1,
-				POSITION_X_MOD: 1,
-				POSITION_Y_MOD: 1,
-				ROTATION_MOD: 1,
-				SCALE_X_MOD: 1,
-				SCALE_Y_MOD: 1
-			});
-		},
-		anim_id: ksys_id
-	};
-	ksys_id++;
-	return o
+  let ksys_gr = same ? gr : unknown_g();
+  let oi = 0;
+  let tksys_id = ksys_id;
+  let o = {
+    keyframe: (x, y, duration = 0.50, curve = false, close = false, easing = NONE) => {
+      let o = {
+        OBJ_ID: 3032,
+        X: x,
+        Y: y,
+        DURATION: duration,
+        CURVE: curve,
+        CLOSE_LOOP: close,
+        GROUPS: ksys_gr,
+        ANIM_ID: tksys_id,
+        EASING: easing,
+        524: 1,
+        ACTIVE_TRIGGER: 1,
+        155: 2
+      };
+      if (oi > 0) o.ORDER_INDEX = oi;
+      $.add(o);
+      oi++;
+    },
+    start: () => {
+      $.add({
+        OBJ_ID: 3033,
+        ANIMATION_GID: ksys_gr,
+        TARGET: gr,
+        TIME_MOD: 1,
+        POSITION_X_MOD: 1,
+        POSITION_Y_MOD: 1,
+        ROTATION_MOD: 1,
+        SCALE_X_MOD: 1,
+        SCALE_Y_MOD: 1
+      });
+    },
+    anim_id: ksys_id
+  };
+  ksys_id++;
+  return o
 };
 
 /**
  * Calls a group with a delay
  * @param {number} delay How much to delay by
- * @param {object} group Group to call
+ * @param {group} group Group to call
  */
 let call_with_delay = (time, func) => {
-	$.add({
-		OBJ_ID: 1268,
-		SPAWN_DURATION: time,
-		TARGET: func,
-	});
+  $.add({
+    OBJ_ID: 1268,
+    SPAWN_DURATION: time,
+    TARGET: func,
+  });
 };
 
 /**
@@ -1931,96 +2037,96 @@ let call_with_delay = (time, func) => {
  * @param {number} [delay=0.05] How much to delay between cycle
  */
 let for_loop = (rang, fn, delay = 0.05) => {
-	let c = counter(rang[0]);
-	while_loop(less_than(c, rang[rang.length - 1]), () => {
-		fn();
-		c.add(1);
-	}, delay);
+  let c = counter(rang[0]);
+  while_loop(less_than(c, rang[rang.length - 1]), () => {
+    fn();
+    c.add(1);
+  }, delay);
 };
 
 // this other section docs: comig soom
 let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false, layer = 0) => {
-	let origin = {
-		OBJ_ID: 2903,
-		GR_BL: bl,
-		GR_BR: br,
-		GR_TL: tl,
-		GR_TR: tr,
-		GR_ID: grad_id,
-		COLOR: col,
-		COLOR_2: col2,
-		GR_VERTEX_MODE: true,
-		GR_LAYER: layer
-	};
-	origin.with = (a, b) => {
-		origin[d[a]] = b;
-		return origin;
-	};
-	return origin;	
+  let origin = {
+    OBJ_ID: 2903,
+    GR_BL: bl,
+    GR_BR: br,
+    GR_TL: tl,
+    GR_TR: tr,
+    GR_ID: grad_id,
+    COLOR: col,
+    COLOR_2: col2,
+    GR_VERTEX_MODE: true,
+    GR_LAYER: layer
+  };
+  origin.with = (a, b) => {
+    origin[d[a]] = b;
+    return origin;
+  };
+  return origin;
 };
 
 let random = (gr1, gr2, chance) => {
-	$.add({ 
-		OBJ_ID: 1912,
-		GROUP_ID_1: gr1,
-		GROUP_ID_2: gr2,
-		CHANCE: chance
-	});
+  $.add({
+    OBJ_ID: 1912,
+    GROUP_ID_1: gr1,
+    GROUP_ID_2: gr2,
+    CHANCE: chance
+  });
 };
 
 let advanced_random = (...chances) => {
-	$.add({
-		OBJ_ID: 2068,
-		ADV_RAND_STRING: chances.map(x => x[0].value + '.' + x[1]).join('.')
-	});
+  $.add({
+    OBJ_ID: 2068,
+    ADV_RAND_STRING: chances.map(x => x[0].value + '.' + x[1]).join('.')
+  });
 }
 
 let gravity = (grav, p1, p2, pt) => {
-	$.add({
-		OBJ_ID: 2066,
-		PLAYER_1: p1,
-		PLAYER_2: p2,
-		_PT: pt
-	})
+  $.add({
+    OBJ_ID: 2066,
+    PLAYER_1: p1,
+    PLAYER_2: p2,
+    _PT: pt
+  })
 };
 
 let options = () => {
-	let ob = {
-		OBJ_ID: 2899
-	};
-	return {
-		STREAK_ADDITIVE: (v = true) => ob.STREAK_ADDITIVE = v ? 1 : -1,
-		HIDE_GROUND: (v = true) => ob.HIDE_GROUND = v ? 1 : -1,
-		HIDE_MG: (v = true) => ob.HIDE_MG = v ? 1 : -1,
-		HIDE_P1: (v = true) => ob.HIDE_P1 = v ? 1 : -1,
-		HIDE_P2: (v = true) => ob.HIDE_P2 = v ? 1 : -1,
-		DISABLE_CONTROLS_P1: (v = true) => ob.DISABLE_CONTROLS_P1 = v ? 1 : -1,
-		DISABLE_CONTROLS_P2: (v = true) => ob.DISABLE_CONTROLS_P2 = v ? 1 : -1,
-		UNLINK_DUAL_GRAVITY: (v = true) => ob.UNLINK_DUAL_GRAVITY = v ? 1 : -1,
-		HIDE_ATTEMPTS: (v = true) => ob.HIDE_ATTEMPTS = v ? 1 : -1,
-		AUDIO_ON_DEATH: (v = true) => ob.AUDIO_ON_DEATH = v ? 1 : -1,
-		NO_DEATH_SFX: (v = true) => ob.NO_DEATH_SFX = v ? 1 : -1,
-		RESPAWN_TIME: (v) => {
-			ob.EDIT_RESPAWN_TIME = 1;
-			ob.RESPAWN_TIME = v;
-		},
-		add: () => $.add(ob)
-	};
+  let ob = {
+    OBJ_ID: 2899
+  };
+  return {
+    STREAK_ADDITIVE: (v = true) => ob.STREAK_ADDITIVE = v ? 1 : -1,
+    HIDE_GROUND: (v = true) => ob.HIDE_GROUND = v ? 1 : -1,
+    HIDE_MG: (v = true) => ob.HIDE_MG = v ? 1 : -1,
+    HIDE_P1: (v = true) => ob.HIDE_P1 = v ? 1 : -1,
+    HIDE_P2: (v = true) => ob.HIDE_P2 = v ? 1 : -1,
+    DISABLE_CONTROLS_P1: (v = true) => ob.DISABLE_CONTROLS_P1 = v ? 1 : -1,
+    DISABLE_CONTROLS_P2: (v = true) => ob.DISABLE_CONTROLS_P2 = v ? 1 : -1,
+    UNLINK_DUAL_GRAVITY: (v = true) => ob.UNLINK_DUAL_GRAVITY = v ? 1 : -1,
+    HIDE_ATTEMPTS: (v = true) => ob.HIDE_ATTEMPTS = v ? 1 : -1,
+    AUDIO_ON_DEATH: (v = true) => ob.AUDIO_ON_DEATH = v ? 1 : -1,
+    NO_DEATH_SFX: (v = true) => ob.NO_DEATH_SFX = v ? 1 : -1,
+    RESPAWN_TIME: (v) => {
+      ob.EDIT_RESPAWN_TIME = 1;
+      ob.RESPAWN_TIME = v;
+    },
+    add: () => $.add(ob)
+  };
 };
 
 let sequence = (sequence, mode = 0, min_int = 0, reset = 0) => {
-	let seq_gr = trigger_function(() => {
-		$.add({
-			OBJ_ID: 3607,
-			SEQUENCE: sequence.map(x => x[0].value + '.' + x[1]).join('.'),
-			MIN_INT: min_int,
-			RESET: reset,
-			MODE: mode
-		})
-	});
-	return {
-		step: () => seq_gr.call()
-	}
+  let seq_gr = trigger_function(() => {
+    $.add({
+      OBJ_ID: 3607,
+      SEQUENCE: sequence.map(x => x[0].value + '.' + x[1]).join('.'),
+      MIN_INT: min_int,
+      RESET: reset,
+      MODE: mode
+    })
+  });
+  return {
+    step: () => seq_gr.call()
+  }
 };
 
 /**
@@ -2029,14 +2135,14 @@ let sequence = (sequence, mode = 0, min_int = 0, reset = 0) => {
  * @returns {function} Function to call
  */
 let remappable = (fn) => {
-	let args_arr = Array(fn.length).fill(0).map((_, i) => i);
-	let r = trigger_function(() => fn(...args_arr));
-	return (...args) => {
-		// remap fn_args to args
-		let rmps = [];
-		args.forEach((x, i) => rmps.push([args_arr[i], args[i]]));
-		r.remap(...rmps).call();
-	};
+  let args_arr = Array(fn.length).fill(0).map((_, i) => i);
+  let r = trigger_function(() => fn(...args_arr));
+  return (...args) => {
+    // remap fn_args to args
+    let rmps = [];
+    args.forEach((x, i) => rmps.push([args_arr[i], args[i]]));
+    r.remap(...rmps).call();
+  };
 }
 
 /**
@@ -2044,18 +2150,18 @@ let remappable = (fn) => {
  * @param {boolean} instant_end Whether to end level instantly
  * @param {boolean} no_effects Whether to remove effects
  * @param {boolean} no_sfx Whether to remove SFX
- * @param {object} spawn_id Group to spawn on end
- * @param {object} target_pos Object defining end position
+ * @param {group} spawn_id Group to spawn on end
+ * @param {group} target_pos Object defining end position
  */
 let end = (instant_end = false, no_effects = false, no_sfx = false, spawn_id = group(0), target_pos = group(0)) => {
-	$.add({
-		OBJ_ID: 3600,
-		GROUP_ID_1: spawn_id,
-		GROUP_ID_2: target_pos,
-		NO_EFFECTS: no_effects,
-		NO_SFX: no_sfx,
-		INSTANT_END: instant_end
-	});
+  $.add({
+    OBJ_ID: 3600,
+    GROUP_ID_1: spawn_id,
+    GROUP_ID_2: target_pos,
+    NO_EFFECTS: no_effects,
+    NO_SFX: no_sfx,
+    INSTANT_END: instant_end
+  });
 };
 /**
  * Implementation of player control trigger
@@ -2067,15 +2173,15 @@ let end = (instant_end = false, no_effects = false, no_sfx = false, spawn_id = g
  * @param {boolean} stop_slide Stops player from sliding
  */
 let player_control = (p1 = false, p2 = false, stop_jump = false, stop_move = false, stop_rot = false, stop_slide = false) => {
-	$.add({
-		OBJ_ID: 1932,
-		PLAYER_1: p1,
-		PLAYER_2: p2,
-		STOP_JUMP: stop_jump,
-		STOP_MOVE: stop_move,
-		STOP_ROT: stop_rot,
-		STOP_SLIDE: stop_slide
-	});
+  $.add({
+    OBJ_ID: 1932,
+    PLAYER_1: p1,
+    PLAYER_2: p2,
+    STOP_JUMP: stop_jump,
+    STOP_MOVE: stop_move,
+    STOP_ROT: stop_rot,
+    STOP_SLIDE: stop_slide
+  });
 }
 
 // gamesecene documentation: comig soom
@@ -2314,9 +2420,9 @@ let exps = {
   event,
   events,
   reverse: () => {
-	$.add({
-		OBJ_ID: 1917
-	});
+    $.add({
+      OBJ_ID: 1917
+    });
   },
   rgb: (r, g, b) => [r, g, b],
   rgba: (r, g, b, a) => [r, g, b, a],

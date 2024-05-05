@@ -1,16 +1,11 @@
-## Members
-
-<dl>
-<dt><a href="#stored_classes">stored_classes</a> ⇒ <code>object</code></dt>
-<dd><p>Creates a spawn trigger and returns it</p>
-</dd>
-</dl>
-
 ## Functions
 
 <dl>
 <dt><a href="#extract">extract(object)</a></dt>
 <dd><p>Extracts values from object into global scope</p>
+</dd>
+<dt><a href="#spawn_trigger">spawn_trigger(group, time)</a> ⇒ <code>object</code></dt>
+<dd><p>Creates a spawn trigger and returns it</p>
 </dd>
 <dt><a href="#unknown_g">unknown_g()</a> ⇒ <code>object</code></dt>
 <dd><p>Creates and returns an unavailable group ID</p>
@@ -88,18 +83,6 @@
 </dd>
 </dl>
 
-<a name="stored_classes"></a>
-
-## stored\_classes ⇒ <code>object</code>
-Creates a spawn trigger and returns it
-
-**Kind**: global variable  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| group | <code>object</code> | group to be spawned |
-| time | <code>object</code> | delay to spawn group |
-
 <a name="extract"></a>
 
 ## extract(object)
@@ -110,6 +93,18 @@ Extracts values from object into global scope
 | Param | Type |
 | --- | --- |
 | object | <code>object</code> | 
+
+<a name="spawn_trigger"></a>
+
+## spawn\_trigger(group, time) ⇒ <code>object</code>
+Creates a spawn trigger and returns it
+
+**Kind**: global function  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| group | <code>object</code> |  | group to be spawned |
+| time | <code>object</code> | <code>0</code> | delay to spawn group |
 
 <a name="unknown_g"></a>
 

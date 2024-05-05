@@ -906,9 +906,8 @@ let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, spee
   });
 }
 /**
- * Makes one of the camera's edges a specific target object
+ * Teleports the player to a specific target object
  * @param {group} id Group ID of target object
- * @param {edge} edge Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE)
  */
 let teleport = (g) => {
   if (g?.length) {
@@ -1360,6 +1359,10 @@ function range(start, end, step = 1) {
   return result;
 };
 
+/**
+ * Waits for a specific amount of seconds
+ * @param {number} time How long to wait
+ */
 let wait = (time) => {
   let id = crypto.randomUUID();
   let o = current_context;

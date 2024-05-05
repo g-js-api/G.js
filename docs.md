@@ -62,6 +62,9 @@
 <dt><a href="#range">range(start, end, step)</a> ⇒ <code>array</code></dt>
 <dd><p>Generates an array holding a sequence of numbers starting at the &quot;start&quot; parameter, ending at the &quot;end&quot; parameter and incrementing by &quot;step&quot;</p>
 </dd>
+<dt><a href="#wait">wait(time)</a></dt>
+<dd><p>Waits for a specific amount of seconds</p>
+</dd>
 <dt><a href="#item_edit">item_edit(item1, item2, target, [type1], [type2], [target_type], [assign_op], [op1], [op2], [mod], [absn1], [absn2], [rfc1], [rfc2])</a> ⇒ <code>object</code></dt>
 <dd><p>Implementation of Item Edit trigger</p>
 </dd>
@@ -452,6 +455,17 @@ Generates an array holding a sequence of numbers starting at the "start" paramet
 | start | <code>number</code> |  | What number to start at |
 | end | <code>number</code> |  | What number to end at |
 | step | <code>number</code> | <code>1</code> | What number to increment by |
+
+<a name="wait"></a>
+
+## wait(time)
+Waits for a specific amount of seconds
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| time | <code>number</code> | How long to wait |
 
 <a name="item_edit"></a>
 

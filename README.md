@@ -60,7 +60,7 @@ $.print($.getLevelString({ info: true })); // Print as level string
 
 # Notes
 This is not finished yet - do not expect it to work exactly as SPWN yet!
-No docs have been written yet because I do not have the time or energy to write documentation, so the Usage section is the closest thing to docs for now.
+Docs can be found at [docs.md](https://github.com/RealSput/G.js/blob/main/docs.md), but they are uncomplete. Usage section below might help explaining more of the complex or unclear features.
 
 # Usage
 G.js has mostly the same usage as SPWN, with exceptions:

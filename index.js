@@ -7,6 +7,10 @@ const crypto = require('crypto');
 
 let explicit = {};
 
+/**
+ * Extracts values from object into global scope
+ * @param {object} object
+ */
 let extract = (x) => {
   for (let i in x) {
     global[i] = x[i];
@@ -21,6 +25,13 @@ let find_context = (group) => {
   }
 };
 
+/**
+ * Creates a spawn trigger and returns it
+ * @param {object} group group to be spawned
+ * @param {object} time delay to spawn group
+ * @returns {object}
+ */
+let stored_classes = {};
 let spawn_trigger = (group, time = 0) => {
   return {
     OBJ_ID: 1268,
@@ -35,298 +46,298 @@ let all_known = {
 	blocks: []	
 }
 
+// docs for classes: comig soom
+class $group {
+  constructor(a, specific = true) {
+    this.value = a;
+    this.type = 'group';
+    if (specific) all_known.groups.push(a);
+  }
+  remap(...mps) {
+    mps = mps.map(x => (x[0].value ? x[0].value : x[0]) + '.' + (x[1].value ? x[1].value : x[1])).join('.');
+    this.remaps = mps;
+    return this;
+  }
+
+  move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, delay_trig = true) {
+    $.add({
+      OBJ_ID: 901,
+      TARGET: this,
+      MOVE_X: multiply ? x * 3 * x_multiplier : x,
+      MOVE_Y: multiply ? y * 3 * y_multiplier : y,
+      DURATION: duration,
+      EASING: easing,
+      EASING_RATE: easing_rate,
+    });
+    if (delay_trig && duration !== 0) wait(duration);
+  }
+
+  call(delay = 0) {
+    let tr = spawn_trigger(this, delay);
+    if (this.remaps) tr.REMAPS = this.remaps;
+    $.add(tr);
+  }
+
+  alpha(opacity = 1, duration = 0) {
+    $.add({
+      OBJ_ID: 1007,
+      TARGET: this,
+      OPACITY: opacity,
+      DURATION: duration,
+    });
+    wait(duration);
+  }
+
+  lock_to_player(lock_x = true, lock_y = true, duration = 999) {
+    $.add({
+      OBJ_ID: 901,
+      TARGET: this,
+      DURATION: duration,
+      LOCK_TO_PLAYER_X: lock_x,
+      LOCK_TO_PLAYER_Y: lock_y,
+    });
+  }
+
+  stop() {
+    $.add({
+      OBJ_ID: 1616,
+      TARGET: this,
+    });
+  }
+
+  toggle_on() {
+    $.add({
+      OBJ_ID: 1049,
+      TARGET: this,
+      ACTIVATE_GROUP: true,
+    });
+  }
+
+  toggle_off() {
+    $.add({
+      OBJ_ID: 1049,
+      TARGET: this,
+      ACTIVATE_GROUP: false,
+    });
+  }
+
+  rotate(center, degrees, duration = 0, easing = NONE, easing_rate = 2, lock_object_rotation = false) {
+    $.add({
+      OBJ_ID: 1346,
+      TARGET: this,
+      CENTER: center,
+      ROTATE_DEGREES: degrees,
+      DURATION: duration,
+      EASING: easing.id,
+      EASING_RATE: easing_rate,
+      LOCK_OBJECT_ROTATION: lock_object_rotation
+    });
+    if (duration) wait(duration);
+  }
+
+  follow(other, x_mod = 1, y_mod = 1, duration = 999) {
+    $.add({
+      OBJ_ID: 1347,
+      X_MOD: x_mod,
+      Y_MOD: y_mod,
+      DURATION: duration,
+      TARGET: this,
+      FOLLOW: other,
+    });
+  }
+
+  follow_lerp(groupA, groupB, weight = 0.5, duration = 999) {
+    this.follow(groupA, 1 - weight, 1 - weight, duration);
+  }
+
+  follow_player_y(speed = 1, delay = 0, offset = 0, max_speed = 0, duration = 999) {
+    $.add({
+      OBJ_ID: 1814,
+      SPEED: speed,
+      DELAY: delay,
+      Y_OFFSET: offset,
+      MAX_SPEED: max_speed,
+      TARGET: this,
+      DURATION: duration,
+    });
+  }
+
+  move_to(target, duration = 0, x_only = false, y_only = false, easing = NONE, easing_rate = 2) {
+    $.add({
+      OBJ_ID: 901,
+      TARGET: this,
+      USE_TARGET: true,
+      TARGET_POS_AXES: x_only && y_only ? 0 : (x_only ? 1 : (y_only ? 2 : 0)),
+      TARGET_POS: target,
+      DURATION: duration,
+      EASING: easing,
+      EASING_RATE: easing_rate,
+    });
+    wait(duration);
+  }
+
+  move_to_xy(x = null, y = null, duration = 0, easing = NONE, easing_rate = 2) {
+    if (!x && !y) throw new Error("At least one coordinate must be specified!");
+    let target = unknown_g();
+    $.add({
+      OBJ_ID: 1765,
+      X: x ? x : 0,
+      Y: y ? y : 0,
+      GROUPS: target,
+    });
+    $.add({
+      OBJ_ID: 1007,
+      X: 0,
+      Y: 75 * 30,
+      TARGET: target,
+      OPACITY: 0,
+      DURATION: 0,
+    });
+  }
+
+  pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+    $.add({
+      OBJ_ID: 1006,
+      COPIED_COLOR_HVS: [h, s, b, +s_checked, +b_checked].join("a"),
+      EXCLUSIVE: exclusive,
+      FADE_IN: fade_in,
+      HOLD: hold,
+      FADE_OUT: fade_out,
+      TARGET: this,
+      PULSE_HSV: true,
+      TARGET_TYPE: 1,
+    });
+    wait(fade_in + hold + fade_out);
+  }
+
+  pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+    $.add({
+      OBJ_ID: 1006,
+      TRIGGER_RED: c[0],
+      TRIGGER_GREEN: c[1],
+      TRIGGER_BLUE: c[2],
+      EXCLUSIVE: exclusive,
+      FADE_IN: fade_in,
+      HOLD: hold,
+      FADE_OUT: fade_out,
+      TARGET: this,
+      PULSE_HSV: false,
+      TARGET_TYPE: 1,
+    });
+    wait(fade_in + hold + fade_out);
+  }
+}
+
+class $color {
+  constructor(a, specific = true) {
+    this.value = a;
+    this.type = 'color';
+    if (specific) all_known.colors.push(a);
+  }
+
+  set(c, duration = 0, blending = false, delay_trig = true) {
+    $.add({
+      OBJ_ID: 899,
+      DURATION: duration,
+      TRIGGER_RED: c[0],
+      TRIGGER_GREEN: c[1],
+      TRIGGER_BLUE: c[2],
+      OPACITY: c[3] || 1,
+      BLENDING: blending,
+      TARGET_COLOR: this,
+      ACTIVE_TRIGGER: true,
+    });
+    if (delay_trig && duration !== 0) wait(duration);
+  }
+
+  copy(c, duration = 0, hvs = "0a1a1a0a0a", blending = false, opacity = 1, copy_opacity = false) {
+    $.add({
+      OBJ_ID: 899,
+      DURATION: duration,
+      COPIED_COLOR_ID: c,
+      COPIED_COLOR_HVS: hvs,
+      COPY_OPACITY: copy_opacity,
+      OPACITY: opacity,
+      BLENDING: blending,
+      TARGET_COLOR: this,
+      36: 1,
+    });
+    if (duration) wait(duration);
+  }
+
+  pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+    $.add({
+      OBJ_ID: 1006,
+      COPIED_COLOR_HVS: [h, s, b, +s_checked, +b_checked].join("a"),
+      EXCLUSIVE: exclusive,
+      FADE_IN: fade_in,
+      HOLD: hold,
+      FADE_OUT: fade_out,
+      TARGET: this,
+      PULSE_HSV: true,
+    });
+    wait(fade_in + hold + fade_out);
+  }
+
+  pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+    $.add({
+      OBJ_ID: 1006,
+      TRIGGER_RED: c[0],
+      TRIGGER_GREEN: c[1],
+      TRIGGER_BLUE: c[2],
+      EXCLUSIVE: exclusive,
+      FADE_IN: fade_in,
+      HOLD: hold,
+      FADE_OUT: fade_out,
+      TARGET: this,
+      PULSE_HSV: false,
+    });
+    wait(fade_in + hold + fade_out);
+  }
+}
+
+class $block {
+  constructor(a, specific = true) {
+    this.value = a;
+    this.type = 'block';
+    if (specific) all_known.blocks.push(a);
+  }
+
+  if_colliding(b2, true_id, false_id) {
+    let j = {
+      OBJ_ID: 3609,
+      BLOCK_A: this,
+      BLOCK_B: b2
+    };
+    if (true_id) j.TRUE_ID = true_id;
+    if (false_id) j.FALSE_ID = false_id;
+    $.add(j);
+  }
+}
+
 let writeClasses = (arr) => {
   arr.forEach((class_) => {
-    let clases = class_.split('/');
-    let clas = clases.shift();
-    clases.forEach((expl) => {
-	  if (explicit[expl]) {
-		  // explicit[d_]
-		  explicit[expl] = [explicit[expl], clas];
-		  return;
-	  }
-      explicit[expl] = clas;
-    });
-
-    if (clas == 'group') {
-      eval(`class $${clas} {
-        constructor(a, specific = true) {
-          this.value = a;
-          this.type = '${clas}';
-		  if (specific) all_known.groups.push(a);
-        }
-		remap(...mps) {
-			mps = mps.map(x => (x[0].value ? x[0].value : x[0]) + '.' + (x[1].value ? x[1].value : x[1])).join('.');
-			this.remaps = mps;
-			return this;
-		}
-        move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, delay_trig = true) {
-              $.add({
-                  OBJ_ID: 901,
-                  TARGET: this,
-                  MOVE_X: multiply ? x * 3 * x_multiplier : x,
-                  MOVE_Y: multiply ? y * 3 * y_multiplier : y,
-                  DURATION: duration,
-                  EASING: easing,
-                  EASING_RATE: easing_rate,
-              })
-              if (delay_trig && duration !== 0) wait(duration);
-        }
-        call(delay = 0) {
-		  let tr = spawn_trigger(this, delay);
-		  if (this.remaps) tr.REMAPS = this.remaps;
-          $.add(tr);
-        }
-        
-        alpha(opacity = 1, duration = 0) {
-           $.add({
-               OBJ_ID: 1007,
-               TARGET: this,
-               OPACITY: opacity,
-               DURATION: duration,
-           })
-           wait(duration)
-       }
-
-       lock_to_player(lock_x = true, lock_y = true, duration = 999) {
-        $.add({
-            OBJ_ID: 901,
-            TARGET: this,
-            DURATION: duration,
-            LOCK_TO_PLAYER_X: lock_x,
-            LOCK_TO_PLAYER_Y: lock_y,
-        })
-      }
-	  
-	  stop() {
-		  $.add({
-				OBJ_ID: 1616,
-				TARGET: this,
-		  });
-	  }
-	  
-	  toggle_on() {
-		$.add({
-            OBJ_ID: 1049,
-            TARGET: this,
-            ACTIVATE_GROUP: true,
-        });
-	  }
-	  
-	  toggle_off() {
-		$.add({
-            OBJ_ID: 1049,
-            TARGET: this,
-            ACTIVATE_GROUP: false,
-        });
-	  }
-	
-	rotate(center, degrees, duration = 0, easing = NONE, easing_rate = 2, lock_object_rotation = false) {
-		$.add({
-            OBJ_ID: 1346,
-            TARGET: this,
-            CENTER: center,
-            ROTATE_DEGREES: degrees,
-            DURATION: duration,
-            EASING: easing.id,
-            EASING_RATE: easing_rate,
-            LOCK_OBJECT_ROTATION: lock_object_rotation
-        });
-        if (duration) wait(duration);
-	}
-	
-	follow(other, x_mod = 1, y_mod = 1, duration = 999) {
-		 $.add({
-            OBJ_ID: 1347,
-            X_MOD: x_mod,
-            Y_MOD: y_mod,
-            DURATION: duration,
-            TARGET: this,
-            FOLLOW: other,
-        });
-	}
-	
-	follow_lerp(groupA, groupB, weight = 0.5, duration = 999) {
-		this.follow(groupA, 1 - weight, 1 - weight, duration);
-	}
-	
-    follow_player_y(speed = 1, delay = 0, offset = 0, max_speed = 0, duration = 999) {
-        $.add({
-            OBJ_ID: 1814,
-            SPEED: speed,
-            DELAY: delay,
-            Y_OFFSET: offset,
-            MAX_SPEED: max_speed,
-            TARGET: this,
-            DURATION: duration,
-        })
-    }
-	
-	move_to(target, duration = 0, x_only = false, y_only = false, easing = NONE, easing_rate = 2) {
-		 $.add({
-            OBJ_ID: 901,
-            TARGET: this,
-            USE_TARGET: true,
-
-            TARGET_POS_AXES: x_only && y_only ? 0 : (x_only ? 1 : (y_only ? 2 : 0)),
-            TARGET_POS: target,
-
-            DURATION: duration,
-            EASING: easing,
-            EASING_RATE: easing_rate,
-        })
-        wait(duration);
-	}
-	
-	move_to_xy(x = null, y = null, duration = 0, easing = NONE, easing_rate = 2) {
-		if (!x && !y) throw new Error("At least one coordinate must be specified!");
-		let target = unknown_g();
-		$.add({
-            OBJ_ID: 1765,
-            X: x ? x : 0,
-            Y: y ? y : 0,
-            GROUPS: target,
-        });
-		$.add({
-            OBJ_ID: 1007,
-			X: 0,
-			Y: 75 * 30,
-            TARGET: target,
-            OPACITY: 0,
-            DURATION: 0,
-        });
-	}
-	
-	pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
-		$.add({
-            OBJ_ID: 1006,
-            COPIED_COLOR_HVS: [h, s, b, +s_checked, +b_checked].join("a"), 
-            EXCLUSIVE: exclusive,
-            FADE_IN: fade_in,
-            HOLD: hold,
-            FADE_OUT: fade_out,
-            TARGET: this,
-            PULSE_HSV: true,
-            TARGET_TYPE: 1,
-        });
-        wait(fade_in + hold + fade_out);
-	}
-	
-	pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
-		 $.add({
-            OBJ_ID: 1006,
-            TRIGGER_RED: c[0],
-            TRIGGER_GREEN: c[1],
-            TRIGGER_BLUE: c[2],
-            EXCLUSIVE: exclusive,
-            FADE_IN: fade_in,
-            HOLD: hold,
-            FADE_OUT: fade_out,
-            TARGET: this,
-            PULSE_HSV: false,
-            TARGET_TYPE: 1,
-        })
-        wait(fade_in + hold + fade_out)
-	}
-
-      }
-      global['${clas}'] = (x) => new $${clas}(x)`);
-    } else if (clas == 'color') {
-      eval(`class $${clas} {
-      constructor(a, specific = true) {
-        this.value = a;
-        this.type = '${clas}';
-		if (specific) all_known.colors.push(a);
-      }
-      set(c, duration = 0, blending = false, delay_trig = true) {
-        $.add({
-          OBJ_ID: 899,
-          DURATION: duration,
-          TRIGGER_RED: c[0],
-          TRIGGER_GREEN: c[1],
-          TRIGGER_BLUE: c[2],
-          OPACITY: c[3] || 1,
-          BLENDING: blending,
-          TARGET_COLOR: this,
-          ACTIVE_TRIGGER: true,
-        })
-        if (delay_trig && duration !== 0) wait(duration);
-      }
-	  copy(c, duration = 0, hvs = "0a1a1a0a0a", blending = false, opacity = 1, copy_opacity = false) {
-		$.add({
-            OBJ_ID: 899,
-            DURATION: duration,
-            COPIED_COLOR_ID: c,
-            COPIED_COLOR_HVS: hvs,
-            COPY_OPACITY: copy_opacity,
-            OPACITY: opacity,
-            BLENDING: blending,
-            TARGET_COLOR: this,
-            36: 1,
-        })
-        if (duration) wait(duration);
-	  }
-		pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
-			$.add({
-				OBJ_ID: 1006,
-				COPIED_COLOR_HVS: [h, s, b, +s_checked, +b_checked].join("a"), 
-				EXCLUSIVE: exclusive,
-				FADE_IN: fade_in,
-				HOLD: hold,
-				FADE_OUT: fade_out,
-				TARGET: this,
-				PULSE_HSV: true,
-			});
-			wait(fade_in + hold + fade_out);
-		}
-		
-		pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
-			 $.add({
-				OBJ_ID: 1006,
-				TRIGGER_RED: c[0],
-				TRIGGER_GREEN: c[1],
-				TRIGGER_BLUE: c[2],
-				EXCLUSIVE: exclusive,
-				FADE_IN: fade_in,
-				HOLD: hold,
-				FADE_OUT: fade_out,
-				TARGET: this,
-				PULSE_HSV: false,
-			})
-			wait(fade_in + hold + fade_out)
-		}
-    }
-    global['${clas}'] = (x) => new $${clas}(x)`);
-    } else if (clas == 'block') {
-      eval(`class $${clas} {
-      constructor(a, specific = true) {
-        this.value = a;
-        this.type = '${clas}';
-		if (specific) all_known.blocks.push(a);
-      }
-	  if_colliding(b2, true_id, false_id) {
-		  // todo: P1, P2, PP
-		  let j = {
-			  OBJ_ID: 3609,
-			  BLOCK_A: this,
-			  BLOCK_B: b2
-		  };
-		  if (true_id) j.TRUE_ID = true_id;
-		  if (false_id) j.FALSE_ID = false_id;
-		  $.add(j);
-	  }
-    }
-    global['${clas}'] = (x) => new $${clas}(x)`);
-    }
+      let clases = class_.split('/');
+      let clas = clases.shift();
+      clases.forEach((expl) => {
+          if (explicit[expl]) {
+              // explicit[d_]
+              explicit[expl] = [explicit[expl], clas];
+              return;
+          }
+          explicit[expl] = clas;
+      });
   });
-};
+  global['group'] = (x) => new $group(x); 
+  global['color'] = (x) => new $color(x); 
+  global['block'] = (x) => new $block(x); 
+}
 
 writeClasses([
   'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID/TARGET_POS/EXTRA_ID/EXTRA_ID_2',
   'color/TARGET/TARGET_COLOR/COLOR/COLOR_2',
   'block/BLOCK_A/BLOCK_B',
 ]);
-
 
 let d = {
     1: 'OBJ_ID',
@@ -608,22 +619,32 @@ let get_new = (n, prop) => {
 	return n;
 };
 
+/**
+ * Creates and returns an unavailable group ID
+ * @returns {object} Resulting block ID
+ */
 let unknown_g = () => {
   // todo: make this not use group 0
   unavailable_g++;
   unavailable_g = get_new(unavailable_g, 'groups');
   return group(unavailable_g);
 };
-
+/**
+ * Creates and returns an unavailable color ID
+ * @returns {object} Resulting color ID
+ */
 let unknown_c = () => {
   unavailable_c++;
   unavailable_c = get_new(unavailable_c, 'colors');
   return color(unavailable_c);
 };
-
+/**
+ * Creates and returns an unavailable block ID
+ * @returns {object} Resulting block ID
+ */
 let unknown_b = () => {
   unavailable_b++;
-  unavailable_b = get_new(unavailable_c++, 'blocks');
+  unavailable_b = get_new(unavailable_b, 'blocks');
   return block(unavailable_b);
 };
 
@@ -656,6 +677,11 @@ let create_context = (name, set_to_default = false) => {
   return contexts[name];
 };
 
+/**
+ * Creates a "trigger function" in which triggers can be stored inside of a single group
+ * @param {function} callback Function storing triggers to put inside of group
+ * @returns {object} Group ID of trigger function
+ */
 let trigger_function = (cb, autocall = true) => {
   let old_context = current_context;
   let context = create_context(crypto.randomUUID(), true);
@@ -695,7 +721,12 @@ let mappings = {
 	237894: '10',
 	347832: '70'
 }
-
+/**
+ * Offsets the camera by a position
+ * @param {x} x X offset of camera
+ * @param {y} y X offset of camera
+ * @param {duration} [duration=0] Duration that it takes for camera position to change
+ */
 let camera_offset = (x, y, duration = 0, easing = NONE) => {
 	$.add({
 		OBJ_ID: 1916,
@@ -708,7 +739,19 @@ let camera_offset = (x, y, duration = 0, easing = NONE) => {
 	});
 	if (duration) wait(duration);
 };
-
+/**
+ * Makes the camera static around a target object (group ID)
+ * @param {object} group Group storing object to be the center of camera
+ * @param {number} [duration=0] Duration that it takes for camera to be centered around object
+ * @param {number} [easing=NONE] How smoothly the camera moves to the object
+ * @param {boolean} [exit_instant=false] Stops static instantly
+ * @param {boolean} [exit_static=false] Stops static
+ * @param {boolean} [smooth_vel=false] Makes transition to target adapt to current camera velocity (no easing recommended)
+ * @param {number} [smooth_vel_mod=0] Modifier for smooth velocity
+ * @param {boolean} [follow=false] Makes camera change according to object movement
+ * @param {boolean} [x_only=false] Makes the camera only be static on X axis
+ * @param {boolean} [x_only=false] Makes the camera only be static on Y axis
+ */
 let camera_static = (gr, duration = 0, easing = NONE, exit_instant = false, exit_static = false, smooth_vel = false, smooth_vel_mod = 0, follow = false, x_only = false, y_only = false) => {
 	if (x_only && y_only) throw new Error("Only one of the x_only or y_only arguments must be true, but both values are true!");
 	let axisval = !x_only && !y_only ? 0 : (x_only ? 1 : 2);
@@ -728,6 +771,13 @@ let camera_static = (gr, duration = 0, easing = NONE, exit_instant = false, exit
 	});
 	if (duration) wait(duration);
 };
+/**
+ * @global
+ * Makes the camera zoom in/out by a specific amount
+ * @param {number} zoom_amount Amount to zoom the camera in by
+ * @param {number} [duration=0] How long it takes for camera to zoom in
+ * @param {number} [easing=NONE] How smoothly the camera zooms in
+ */
 let camera_zoom = (zoom_am, duration = 0, easing = NONE) => {
 	$.add({
 		OBJ_ID: 1913,
@@ -736,6 +786,14 @@ let camera_zoom = (zoom_am, duration = 0, easing = NONE) => {
 		EASING: easing
 	});
 };
+/**
+ * Toggles free mode
+ * @param {boolean} [free_mode=true] Whether to toggle free mode on or off
+ * @param {boolean} [disable_grid_snap=false] Removes default snapping to nearest grid space for the camera center
+ * @param {boolean} [edit_cam=false] Whether to edit camera settings
+ * @param {number} [easing=10] Easing for camera movement (requires edit_cam to be true)
+ * @param {number} [padding=0.50] Padding for camera movement (requires edit_cam to be true)
+ */
 let camera_mode = (free_mode = true, disable_grid_snap = false, edit_cam = false, easing = 10, padding = 0.50) => {
 	$.add({
 		OBJ_ID: 2925,
@@ -746,21 +804,30 @@ let camera_mode = (free_mode = true, disable_grid_snap = false, edit_cam = false
 		DISABLE_GRID_SNAP: disable_grid_snap
 	});
 };
-let camera_rotate = (degrees, move_time = 0, easing = none, add = false, snap360 = false) => {
+/**
+ * Rotates camera
+ * @param {number} degrees How many degrees to rotate camera by
+ * @param {number} [move_time=0] How fast rotation happens
+ * @param {number} [easing=NONE] How smooth rotation happens
+ * @param {boolean} [add=false] Adds input rotation to current camera rotation
+ * @param {boolean} [snap360=false] Converts rotation to closest 360
+ */
+let camera_rotate = (degrees, move_time = 0, easing = NONE, add = false, snap360 = false) => {
 	$.add({
 		OBJ_ID: 2015,
+    DURATION: move_time,
 		EASING: easing,
 		ROTATE_DEGREES: degrees,
 		ADD: add,
 		SNAP_360: snap360
 	});
 };
-// edge trigger
-// left = 1
-// right = 2
-// up = 3
-// down = 4
 
+/**
+ * Makes one of the camera's edges a specific target object
+ * @param {object} id Group ID of target object
+ * @param {number} edge Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE)
+ */
 let camera_edge = (id, edge) => {
 	$.add({
 		OBJ_ID: 2062,
@@ -768,6 +835,7 @@ let camera_edge = (id, edge) => {
 		CAMERA_EDGE: edge
 	});
 };
+// docs for song trigger: comig soom
 let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, speed = 0, start = 0, end = 0, fadein = 0, fadeout = 0) => {
 	if (preload) {
 		let m_obj = {
@@ -796,9 +864,6 @@ let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, spee
 				if (!al_load) al_load = true;
 			},
 			edit: (new_volume = volume, new_speed = speed, duration = 0.5, stop = false, stop_loop = false, gid_1 = group(0), gid_2 = group(0), vol_near = 1, vol_med = 0.5, vol_far = 0, min_dist = 0, dist_2 = 0, dist_3 = 0, p1 = false, p2 = false, cam = false, vol_dir = 0) => {
-				// SONG_CHANNEL, 138 (P1), 200 (P2),
-				// SONG_SPEED (404) int, SONG_VOLUME (406) int, SONG_STOP (417) bool, STOP_LOOP (414) bool, CHANGE_SPEED (419) bool, CHANGE_VOLUME (418) bool, GROUP ID 1 (51) int, GROUP ID 2 (71) int, VOL_NEAR (421), VOL_MED (422), VOL_FAR (423) int, MIN_DIST (424) int, DIST_2 (425) int, DIST_3 (426) int, 
-				// CAM (428) bool, VOLUME_DIRECTION (458) int[0-6]
 				$.add({
 					OBJ_ID: 3605,
 					SONG_CHANNEL: channel,
@@ -842,6 +907,11 @@ let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, spee
 		SONG_LOOP: loop
 	});
 }
+/**
+ * Makes one of the camera's edges a specific target object
+ * @param {object} id Group ID of target object
+ * @param {number} edge Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE)
+ */
 let teleport = (g) => {
 	if (g?.length) {
 		$.add({
@@ -1057,7 +1127,6 @@ extract(easings);
 global.obj_props = reverse;
 
 let last_contexts = {};
-
 let extend_trigger_func = (t, cb) => {
   for (let i in contexts) {
     i = contexts[i];
@@ -1172,6 +1241,13 @@ let $ = {
   trigger_fn_context: () => get_context().group,
 };
 
+/**
+ * Adds a move trigger and returns it
+ * @param {object} id Group ID of target object
+ * @param {number} x X amount of how much to move the object by
+ * @param {number} Y Y amount of how much to move the object by
+ * @returns {object} Returned object
+ */
 let move_trigger = (group, x, y) => {
   let origin = {
     OBJ_ID: 901,
@@ -1186,6 +1262,15 @@ let move_trigger = (group, x, y) => {
   return origin;
 };
 
+/**
+ * Creates a particle system
+ * @param {object} props Dictionary holding particle properties (check particle properties)
+ * @param {boolean} [use_obj_color=false] Whether to make the particle system use the object color
+ * @param {boolean} [animate_on_trigger=false] Whether to only start the particle system when the Animate trigger is used on the particle system instead of immediately
+ * @param {boolean} [animate_active_only=false] Only makes animate_on_trigger true if the object is active 
+ * @param {boolean} [quick_start=false] Makes normal movement be achieved instantly instead of gradually
+ * @returns {object} Returned particle system
+ */
 let particle_system = (props, use_obj_color = false, animate_on_trigger = false, animate_active_only = false, quick_start = false) => {
 	let datalist = Array(72).fill(0);
 	for (let i in props) {
@@ -1210,6 +1295,10 @@ let particle_system = (props, use_obj_color = false, animate_on_trigger = false,
 	return origin;
 };
 
+/**
+ * Warps all time by given amount
+ * @param {number} value How much to warp time by
+ */
 let timewarp = (val) => {
 	$.add({
 		OBJ_ID: 1935,
@@ -1217,6 +1306,16 @@ let timewarp = (val) => {
 	});
 };
 
+/**
+ * Creates color trigger
+ * @param {object} channel Color channel to set
+ * @param {number} r Red value in RGB to set
+ * @param {number} g Green value in RGB to set
+ * @param {number} b Blue value in RGB to set
+ * @param {number} [duration=0] Duration that it takes for color to change
+ * @param {number} [opacity=1] Opacity of color (1 = visible, 0 = invisible)
+ * @param {boolean} [blending=false] Whether to blend color with others
+ */
 let color_trigger = (
   channel,
   r,
@@ -1243,51 +1342,24 @@ let color_trigger = (
   return origin;
 };
 
-const range = (start, end, step) => {
-  start > 0 ? start-- : null;
-  end > 0 ? end-- : null;
-  var range = [];
-  var typeofStart = typeof start;
-  var typeofEnd = typeof end;
-
-  if (step === 0) {
-    throw TypeError('Step cannot be zero.');
+/**
+ * Generates an array holding a sequence of numbers starting at the "start" parameter, ending at the "end" parameter and incrementing by "step"
+ * @param {number} start What number to start at
+ * @param {number} end What number to end at
+ * @param {number} step What number to increment by
+ * @returns {array} Resulting sequence
+ */
+function range(start, end, step = 1) {
+  let sw = false;
+  if (start > end) {
+    sw = true;
+    [start, end] = [end, start]; // Swap start and end
+    step = Math.abs(step); // Ensure step is positive
   }
-
-  if (typeofStart == 'undefined' || typeofEnd == 'undefined') {
-    throw TypeError('Must pass start and end arguments.');
-  } else if (typeofStart != typeofEnd) {
-    throw TypeError('Start and end arguments must be of same type.');
-  }
-
-  typeof step == 'undefined' && (step = 1);
-
-  if (end < start) {
-    step = -step;
-  }
-
-  if (typeofStart == 'number') {
-    while (step > 0 ? end >= start : end <= start) {
-      range.push(start);
-      start += step;
-    }
-  } else if (typeofStart == 'string') {
-    if (start.length != 1 || end.length != 1) {
-      throw TypeError('Only strings with one character are supported.');
-    }
-
-    start = start.charCodeAt(0);
-    end = end.charCodeAt(0);
-
-    while (step > 0 ? end >= start : end <= start) {
-      range.push(String.fromCharCode(start));
-      start += step;
-    }
-  } else {
-    throw TypeError('Only string and number types are supported');
-  }
-
-  return range;
+  
+  let result = Array.from({ length: Math.ceil((end - start) / step) }, (_, i) => start + i * step);
+  if (sw) result = result.reverse();
+  return result;
 };
 
 let wait = (time) => {
@@ -1323,6 +1395,24 @@ for (let i in refs) {
 	})
 }
 
+/**
+ * Implementation of Item Edit trigger
+ * @param {number} item1 Item ID 1
+ * @param {number} item2 Item ID 2
+ * @param {number} target Target item ID
+ * @param {number} type1 Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {number} type2 Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {number} target_type Type of target item ID (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {number} assign_op Assignment operator (EQ, ADD, SUB, MUL, DIV)
+ * @param {number} op1 Operator 1 (ADD, SUB, MUL, DIV)
+ * @param {number} op2 Operator 2 (ADD, SUB, MUL, DIV)
+ * @param {number} mod How much to modify the entire operation by (influenced by op2)
+ * @param {number} absn1 Whether to get absolute/negative value of first side of operation (ABS, NEG)
+ * @param {number} absn2 Whether to get absolute/negative value of second side of operation (ABS, NEG)
+ * @param {number} rfc1 Whether to round/floor/ceil first side of operation (RND, FLR, CEI)
+ * @param {number} rfc2 Whether to round/floor/ceil second side of operation (RND, FLR, CEI)
+ * @returns {object} Resulting object
+ */
 let item_edit = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = NONE, assign_op = EQ, op1 = ADD, op2 = MUL, mod = 1, absn1 = NONE, absn2 = NONE, rfc1 = NONE, rfc2 = NONE) => {
 	let or = {
 		OBJ_ID: 3619,
@@ -1347,7 +1437,26 @@ let item_edit = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = N
 	};
 	return or;
 }
-
+/**
+ * Implementation of Item Comp trigger
+ * @param {number} item_1 Item ID 1
+ * @param {number} item_2 Item ID 2
+ * @param {number} type1 Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {number} type2 Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {number} compare_op Operator to compare item ID 1 and 2 by (EQ, GREATER, GREATER_OR_EQ, LESS, LESS_OR_EQ, NOT_EQ)
+ * @param {object} truei Group ID to call if comparison is true
+ * @param {object} falsei Group ID to call if comparison is false
+ * @param {number} mod1 How much to modify item ID 1 by (influenced by op1)
+ * @param {number} mod2 How much to modify item ID 2 by (influenced by op2)
+ * @param {number} tol How much to offset the result by
+ * @param {number} op_1 Operator 1 for mod1 (ADD, SUB, MUL, DIV)
+ * @param {number} op_2 Operator 2 for mod2 (ADD, SUB, MUL, DIV)
+ * @param {number} absneg_1 Whether to get absolute/negative value of first side of operation (ABS, NEG)
+ * @param {number} absneg_2 Whether to get absolute/negative value of second side of operation (ABS, NEG)
+ * @param {number} rfc1 Whether to round/floor/ceil first side of operation (RND, FLR, CEI)
+ * @param {number} rfc2 Whether to round/floor/ceil second side of operation (RND, FLR, CEI)
+ * @returns {object} Resulting object
+ */
 let item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = group(0), falsei = group(0), mod_1 = 1, mod_2 = 1, tol = 0, op_1 = MUL, op_2 = MUL, absneg_1 = NONE, absneg_2 = NONE, rfc_1 = NONE, rfc_2 = NONE) => {
 	let or = {
 		OBJ_ID: 3620,
@@ -1375,6 +1484,7 @@ let item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = group(0), f
 	return or;
 }
 
+// counter documentation: comig soom
 let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
   let id = use_id ? num : next_free++;
   if (num > 0 && !use_id) {
@@ -1531,6 +1641,7 @@ let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
   return exports;
 };
 
+// this entire section docs: comig soom
 let timer = (start_seconds, end_seconds = 0, target_id = group(0), backwards = false, seconds_only = false, stop = true, time_mod = 1, ignore_timewarp = false, no_override = false) => {
 	 // START_IME, STOP_TIME, STOP_CHECKED, ITEM, TARGET, TIME_MOD, IGNORE_TIMEWARP, START_PAUSED, DONT_OVERRIDE
 	let c_item = counter(0, false, false, true);
@@ -1713,6 +1824,12 @@ let greater_than = (count, other) => ({
 let equal_to = (count, other) => ({ count, comparison: EQUAL_TO, other });
 let less_than = (count, other) => ({ count, comparison: SMALLER_THAN, other });
 
+/**
+ * Creates a repeating trigger system that repeats while a condition is true
+ * @param {object} condition Condition that defines whether the loop should keep on running (less_than/equal_to/greater_than(counter, number))
+ * @param {function} func Function to run while the condition is true
+ * @param {number} delay Delay between each cycle
+ */
 let while_loop = (r, trig_fn, del = 0.05) => {
   let { count, comparison, other } = r;
   let old_context = current_context;
@@ -1740,12 +1857,16 @@ let while_loop = (r, trig_fn, del = 0.05) => {
   });
 };
 
+/**
+ * Hides player
+ */
 let hide_player = () => {
   $.add({
     OBJ_ID: 1612,
   });
 };
 
+// keyframe system docs: comig soom
 let ksys_id = 1;
 let keyframe_system = (gr, same = false) => {
 	let ksys_gr = same ? gr : unknown_g();
@@ -1790,6 +1911,11 @@ let keyframe_system = (gr, same = false) => {
 	return o
 };
 
+/**
+ * Calls a group with a delay
+ * @param {number} delay How much to delay by
+ * @param {object} group Group to call
+ */
 let call_with_delay = (time, func) => {
 	$.add({
 		OBJ_ID: 1268,
@@ -1798,6 +1924,12 @@ let call_with_delay = (time, func) => {
 	});
 };
 
+/**
+ * Loops a function a specific amount of times (defined by range)
+ * @param {array} range Range of numbers defining how many times to loop fn by
+ * @param {function} fn Function to loop
+ * @param {number} [delay=0.05] How much to delay between cycle
+ */
 let for_loop = (rang, fn, delay = 0.05) => {
 	let c = counter(rang[0]);
 	while_loop(less_than(c, rang[rang.length - 1]), () => {
@@ -1806,6 +1938,7 @@ let for_loop = (rang, fn, delay = 0.05) => {
 	}, delay);
 };
 
+// this other section docs: comig soom
 let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false, layer = 0) => {
 	let origin = {
 		OBJ_ID: 2903,
@@ -1890,6 +2023,11 @@ let sequence = (sequence, mode = 0, min_int = 0, reset = 0) => {
 	}
 };
 
+/**
+ * Creates trigger function-like systems, but can be called normally with item IDs as arguments (e.g. a remappable can be called like `my_remappable(counter1.item)`)
+ * @param {function} fn Function that remappable uses
+ * @returns {function} Function to call
+ */
 let remappable = (fn) => {
 	let args_arr = Array(fn.length).fill(0).map((_, i) => i);
 	let r = trigger_function(() => fn(...args_arr));
@@ -1901,7 +2039,14 @@ let remappable = (fn) => {
 	};
 }
 
-// GROUP_ID_1, GROUP_ID_2
+/**
+ * Ends level
+ * @param {boolean} instant_end Whether to end level instantly
+ * @param {boolean} no_effects Whether to remove effects
+ * @param {boolean} no_sfx Whether to remove SFX
+ * @param {object} spawn_id Group to spawn on end
+ * @param {object} target_pos Object defining end position
+ */
 let end = (instant_end = false, no_effects = false, no_sfx = false, spawn_id = group(0), target_pos = group(0)) => {
 	$.add({
 		OBJ_ID: 3600,
@@ -1912,7 +2057,15 @@ let end = (instant_end = false, no_effects = false, no_sfx = false, spawn_id = g
 		INSTANT_END: instant_end
 	});
 };
-
+/**
+ * Implementation of player control trigger
+ * @param {boolean} p1 Only controls P1
+ * @param {boolean} p2 Only controls P2
+ * @param {boolean} stop_jump Stops player from jumping
+ * @param {boolean} stop_move Stops player from moving
+ * @param {boolean} stop_rot Stops player from rotating
+ * @param {boolean} stop_slide Stops player from sliding
+ */
 let player_control = (p1 = false, p2 = false, stop_jump = false, stop_move = false, stop_rot = false, stop_slide = false) => {
 	$.add({
 		OBJ_ID: 1932,
@@ -1925,6 +2078,7 @@ let player_control = (p1 = false, p2 = false, stop_jump = false, stop_move = fal
 	});
 }
 
+// gamesecene documentation: comig soom
 let gamescene = () => {
   // Triggers and groups
   follow_x_group = unknown_g();

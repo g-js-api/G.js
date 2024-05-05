@@ -44,8 +44,8 @@
 <dt><a href="#camera_edge">camera_edge(id, edge)</a></dt>
 <dd><p>Makes one of the camera&#39;s edges a specific target object</p>
 </dd>
-<dt><a href="#teleport">teleport(id, edge)</a></dt>
-<dd><p>Makes one of the camera&#39;s edges a specific target object</p>
+<dt><a href="#teleport">teleport(id)</a></dt>
+<dd><p>Teleports the player to a specific target object</p>
 </dd>
 <dt><a href="#move_trigger">move_trigger(id, x, Y)</a> ⇒ <code>object</code></dt>
 <dd><p>Adds a move trigger and returns it</p>
@@ -371,15 +371,14 @@ Makes one of the camera's edges a specific target object
 
 <a name="teleport"></a>
 
-## teleport(id, edge)
-Makes one of the camera's edges a specific target object
+## teleport(id)
+Teleports the player to a specific target object
 
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | id | <code>group</code> | Group ID of target object |
-| edge | <code>edge</code> | Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE) |
 
 <a name="move_trigger"></a>
 

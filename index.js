@@ -25,13 +25,13 @@ let find_context = (group) => {
   }
 };
 
+let stored_classes = {};
 /**
  * Creates a spawn trigger and returns it
  * @param {object} group group to be spawned
  * @param {object} time delay to spawn group
  * @returns {object}
  */
-let stored_classes = {};
 let spawn_trigger = (group, time = 0) => {
   return {
     OBJ_ID: 1268,

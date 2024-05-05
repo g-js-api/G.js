@@ -1398,17 +1398,17 @@ for (let i in refs) {
  * @param {item} item1 Item ID 1 (can be retrieved from your_counter.item)
  * @param {item} item2 Item ID 2 (can be retrieved from your_counter.item)
  * @param {item} target Target item ID (can be retrieved from your_counter.item)
- * @param {item_type} type1 Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
- * @param {item_type} type2 Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
- * @param {item_type} target_type Type of target item ID (ITEM, TIMER, POINTS, TIME, ATTEMPT)
- * @param {number} assign_op Assignment operator (EQ, ADD, SUB, MUL, DIV)
- * @param {number} op1 Operator 1 (ADD, SUB, MUL, DIV)
- * @param {number} op2 Operator 2 (ADD, SUB, MUL, DIV)
- * @param {number} mod How much to modify the entire operation by (influenced by op2)
- * @param {number} absn1 Whether to get absolute/negative value of first side of operation (ABS, NEG)
- * @param {number} absn2 Whether to get absolute/negative value of second side of operation (ABS, NEG)
- * @param {number} rfc1 Whether to round/floor/ceil first side of operation (RND, FLR, CEI)
- * @param {number} rfc2 Whether to round/floor/ceil second side of operation (RND, FLR, CEI)
+ * @param {item_type} [type1=NONE] Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {item_type} [type2=NONE] Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {item_type} [target_type=NONE] Type of target item ID (ITEM, TIMER, POINTS, TIME, ATTEMPT)
+ * @param {number} [assign_op=EQ] Assignment operator (EQ, ADD, SUB, MUL, DIV)
+ * @param {number} [op1=ADD] Operator 1 (ADD, SUB, MUL, DIV)
+ * @param {number} [op2=MUL] Operator 2 (ADD, SUB, MUL, DIV)
+ * @param {number} [mod=1] How much to modify the entire operation by (influenced by op2)
+ * @param {number} [absn1=NONE] Whether to get absolute/negative value of first side of operation (ABS, NEG)
+ * @param {number} [absn2=NONE] Whether to get absolute/negative value of second side of operation (ABS, NEG)
+ * @param {number} [rfc1=NONE] Whether to round/floor/ceil first side of operation (RND, FLR, CEI)
+ * @param {number} [rfc2=NONE] Whether to round/floor/ceil second side of operation (RND, FLR, CEI)
  * @returns {object} Resulting object
  */
 let item_edit = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = NONE, assign_op = EQ, op1 = ADD, op2 = MUL, mod = 1, absn1 = NONE, absn2 = NONE, rfc1 = NONE, rfc2 = NONE) => {
@@ -1442,17 +1442,17 @@ let item_edit = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = N
  * @param {item_type} type1 Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
  * @param {item_type} type2 Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT)
  * @param {number} compare_op Operator to compare item ID 1 and 2 by (EQ, GREATER, GREATER_OR_EQ, LESS, LESS_OR_EQ, NOT_EQ)
- * @param {object} truei Group ID to call if comparison is true
- * @param {object} falsei Group ID to call if comparison is false
- * @param {number} mod1 How much to modify item ID 1 by (influenced by op1)
- * @param {number} mod2 How much to modify item ID 2 by (influenced by op2)
- * @param {number} tol How much to offset the result by
- * @param {number} op_1 Operator 1 for mod1 (ADD, SUB, MUL, DIV)
- * @param {number} op_2 Operator 2 for mod2 (ADD, SUB, MUL, DIV)
- * @param {number} absneg_1 Whether to get absolute/negative value of first side of operation (ABS, NEG)
- * @param {number} absneg_2 Whether to get absolute/negative value of second side of operation (ABS, NEG)
- * @param {number} rfc1 Whether to round/floor/ceil first side of operation (RND, FLR, CEI)
- * @param {number} rfc2 Whether to round/floor/ceil second side of operation (RND, FLR, CEI)
+ * @param {group} [truei=group(0)] Group ID to call if comparison is true
+ * @param {group} [falsei=group(0)] Group ID to call if comparison is false
+ * @param {number} [mod1=1] How much to modify item ID 1 by (influenced by op1)
+ * @param {number} [mod2=1] How much to modify item ID 2 by (influenced by op2)
+ * @param {number} [tol=0] How much to offset the result by
+ * @param {number} [op_1=MUL] Operator 1 for mod1 (ADD, SUB, MUL, DIV)
+ * @param {number} [op_2=MUL] Operator 2 for mod2 (ADD, SUB, MUL, DIV)
+ * @param {number} [absneg_1=NONE] Whether to get absolute/negative value of first side of operation (ABS, NEG)
+ * @param {number} [absneg_2=NONE] Whether to get absolute/negative value of second side of operation (ABS, NEG)
+ * @param {number} [rfc1=NONE] Whether to round/floor/ceil first side of operation (RND, FLR, CEI)
+ * @param {number} [rfc2=NONE] Whether to round/floor/ceil second side of operation (RND, FLR, CEI)
  * @returns {object} Resulting object
  */
 let item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = group(0), falsei = group(0), mod_1 = 1, mod_2 = 1, tol = 0, op_1 = MUL, op_2 = MUL, absneg_1 = NONE, absneg_2 = NONE, rfc_1 = NONE, rfc_2 = NONE) => {
@@ -1589,7 +1589,7 @@ let item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = group(0), f
  * @param {boolean} [use_id=false] Whether to use an existing item ID as a counter instead of creating a new item
  * @param {boolean} [persistent=false] Whether to make the counter persistent between attempts
  * @param {boolean} [timer=false] Whether to make the counter a timer
- * @returns {function} Function to call
+ * @returns {counter} Resulting counter
  */
 
 let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
@@ -1747,7 +1747,6 @@ let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
   return exports;
 };
 
-// this entire section docs: comig soom
 let timer = (start_seconds, end_seconds = 0, target_id = group(0), backwards = false, seconds_only = false, stop = true, time_mod = 1, ignore_timewarp = false, no_override = false) => {
   // START_IME, STOP_TIME, STOP_CHECKED, ITEM, TARGET, TIME_MOD, IGNORE_TIMEWARP, START_PAUSED, DONT_OVERRIDE
   let c_item = counter(0, false, false, true);
@@ -1786,10 +1785,23 @@ let timer = (start_seconds, end_seconds = 0, target_id = group(0), backwards = f
   return c_item;
 }
 
+/**
+ * Compares a counter with another
+ * @param {counter} c1 First counter to compare
+ * @param {compare_op} op Comparison operator to use (EQ, NOT_EQ, GREATER, LESS, GREATER_OR_EQ, LESS_OR_EQ)
+ * @param {counter} c2 Second counter to compare
+ * @param {group} truei Group to call if comparison is true
+ * @param {group} falsei Group to call if comparison is false
+ */
 let compare = (c1, op, c2, truei, falsei) => {
   $.add(item_comp(c1.item, c2.item, ITEM, ITEM, op, truei, falsei));
 }
 
+/**
+ * Returns an activated toggle trigger
+ * @param {group} group Group of object
+ * @returns {object} Resulting object
+ */
 let toggle_on_trigger = (group) => {
   return {
     OBJ_ID: 1049,
@@ -1798,6 +1810,11 @@ let toggle_on_trigger = (group) => {
   };
 };
 
+/**
+ * Returns an inactive toggle trigger
+ * @param {group} group Group of object
+ * @returns {object} Resulting object
+ */
 let toggle_off_trigger = (group) => {
   return {
     OBJ_ID: 1049,
@@ -1806,10 +1823,20 @@ let toggle_off_trigger = (group) => {
   };
 };
 
+/**
+ * Calls a group when an event occurs
+ * @param {event} event Event to listen to
+ * @param {group} group Group of object
+ */
 let on = (event, callback) => {
   event.event(callback);
 };
 
+/**
+ * Listens to when the screen is touched
+ * @param {boolean} [dual_side=false] Whether to only listen to dual side 
+ * @returns {event}
+ */
 let touch = (dual_side = false) => {
   return {
     event: (trig_func) =>
@@ -1822,7 +1849,11 @@ let touch = (dual_side = false) => {
       }),
   };
 };
-
+/**
+ * Listens to when the screen stops being touched
+ * @param {boolean} [dual_side=false] Whether to only listen to dual side 
+ * @returns {event}
+ */
 let touch_end = (dual_side = false) => {
   return {
     event: (trig_func) =>
@@ -1835,7 +1866,12 @@ let touch_end = (dual_side = false) => {
       }),
   };
 };
-
+/**
+ * Listens to when two collision blocks collide
+ * @param {block} block_a First block to listen to
+ * @param {block} block_b Second block to listen to
+ * @returns {event}
+ */
 let collision = (a, b) => {
   return {
     event: (t) =>
@@ -1850,6 +1886,12 @@ let collision = (a, b) => {
   };
 };
 
+/**
+ * Listens to when two collision blocks stop colliding
+ * @param {block} block_a First block to listen to
+ * @param {block} block_b Second block to listen to
+ * @returns {event}
+ */
 let collision_exit = (a, b) => {
   return {
     event: (t) =>
@@ -1864,6 +1906,10 @@ let collision_exit = (a, b) => {
   };
 };
 
+/**
+ * Listens to when the player dies
+ * @returns {event}
+ */
 let death = () => {
   return {
     event: (t) =>
@@ -1874,7 +1920,13 @@ let death = () => {
       }),
   };
 };
-
+/**
+ * Listens to when an item hits a specific number
+ * @param {item} item Item to listen to
+ * @param {number} num Number that triggers event when the item hits this 
+ * @param {boolean} multi Whether to trigger the event multiple time
+ * @returns {event}
+ */
 let count = (it, hits, multi = true) => {
   return {
     event: (t) => {
@@ -1890,13 +1942,25 @@ let count = (it, hits, multi = true) => {
   };
 };
 
+/**
+ * Listens to when the player reaches a specific X position
+ * @param {number} x X position where event is called
+ * @returns {event}
+ */
 let x_position = (position) => {
   return {
     event: (t) => $.add(spawn_trigger(t).with(X, position).with(Y, 2145)),
   };
 };
 
-let event = (ev, id, extra_id = group(0), extra_id2 = group(0)) => {
+/**
+ * Implementation of the event trigger that triggers an event
+ * @param {array|event_id} event Event(s) to be listened to (look at event properties for more info)
+ * @param {group} extra_id Implementation of extra ID 1
+ * @param {group} extra_id2 Implementation of extra ID 2
+ * @returns {event}
+ */
+let event = (ev, extra_id = group(0), extra_id2 = group(0)) => {
   if (typeof ev == "object") ev = ev.join('.');
   return {
     event: (t) => $.add({
@@ -1908,7 +1972,10 @@ let event = (ev, id, extra_id = group(0), extra_id2 = group(0)) => {
     })
   }
 };
-
+/**
+ * Converts a string to a text object and returns it
+ * @returns {object} Resulting text object
+ */
 String.prototype.to_obj = function () {
   let or = {
     OBJ_ID: 914,
@@ -1920,14 +1987,30 @@ String.prototype.to_obj = function () {
   };
   return or;
 };
-
+/**
+ * Returns a greater than condition
+ * @param {counter} counter Counter to compare to number
+ * @param {number} other Number to be compared to counter
+ * @returns {condition}
+ */
 let greater_than = (count, other) => ({
   count,
   comparison: LARGER_THAN,
   other,
 });
-
+/**
+ * Returns a equal to condition
+ * @param {counter} counter Counter to compare to number
+ * @param {number} other Number to be compared to counter
+ * @returns {condition}
+ */
 let equal_to = (count, other) => ({ count, comparison: EQUAL_TO, other });
+/**
+ * Returns a less than condition
+ * @param {counter} counter Counter to compare to number
+ * @param {number} other Number to be compared to counter
+ * @returns {condition}
+ */
 let less_than = (count, other) => ({ count, comparison: SMALLER_THAN, other });
 
 /**
@@ -1972,7 +2055,32 @@ let hide_player = () => {
   });
 };
 
-// keyframe system docs: comig soom
+/**
+ * Represents a keyframe system in GD
+ * @typedef {object} keyframe_system
+ * @property {keyframe} keyframe Creates a single keyframe at a specific position
+ * @property {start} start Starts a keyframe system
+ * @property {number} anim_id ID of animation
+ */
+/**
+ * Creates a single keyframe at a specific position
+ * @callback keyframe
+ * @param {number} x X position of keyframe
+ * @param {number} y Y position of keyframe
+ * @param {number} duration Duration of keyframe
+ * @param {boolean} curve Whether to make the keyframe curved
+ * @param {boolean} close Whether to set the keyframe as the last one + loop back to first keyframe
+ * @param {easing} easing How smoothly the keyframe moves
+ */
+/**
+ * Starts a keyframe system
+ * @callback start
+ */
+/**
+ * Creates a keyframe system
+ * @param {group} group Group of objects to animate
+ * @returns {keyframe_system}
+ */
 let ksys_id = 1;
 let keyframe_system = (gr, same = false) => {
   let ksys_gr = same ? gr : unknown_g();
@@ -2044,7 +2152,18 @@ let for_loop = (rang, fn, delay = 0.05) => {
   }, delay);
 };
 
-// this other section docs: comig soom
+/**
+ * Creates a gradient trigger and returns it
+ * @param {color} color1 First color of gradient
+ * @param {color} color2 Second color of gradient
+ * @param {group} bl Bottom left vertex
+ * @param {group} br Bottom right vertex
+ * @param {group} tl Top left vertex
+ * @param {group} tr Top right vertex
+ * @param {boolean} [vertex_mode=true] Whether to use vertex mode
+ * @param {boolean} [blending=false] Whether to make the gradient blending
+ * @param {number} [layer=0] Layer of gradient (0-15)
+ */
 let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false, layer = 0) => {
   let origin = {
     OBJ_ID: 2903,
@@ -2055,7 +2174,8 @@ let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false,
     GR_ID: grad_id,
     COLOR: col,
     COLOR_2: col2,
-    GR_VERTEX_MODE: true,
+    GR_VERTEX_MODE: vertex_mode,
+    GR_BLENDING: blending,
     GR_LAYER: layer
   };
   origin.with = (a, b) => {
@@ -2065,6 +2185,12 @@ let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false,
   return origin;
 };
 
+/**
+ * Implementation of random trigger
+ * @param {group} gr1 Group 1
+ * @param {group} gr2 Group 2
+ * @param {number} chance Chance of either group being called
+ */
 let random = (gr1, gr2, chance) => {
   $.add({
     OBJ_ID: 1912,
@@ -2073,7 +2199,10 @@ let random = (gr1, gr2, chance) => {
     CHANCE: chance
   });
 };
-
+/**
+ * Implementation of advanced random trigger
+ * @param {array} chances Chances of each group being called (e.g. [[group(1), 10], [group(2), 10]] is a valid input)
+ */
 let advanced_random = (...chances) => {
   $.add({
     OBJ_ID: 2068,
@@ -2081,15 +2210,44 @@ let advanced_random = (...chances) => {
   });
 }
 
-let gravity = (grav, p1, p2, pt) => {
+/**
+ * Implementation of gravity trigger
+ * @param {number} gravity Gravity magnitude
+ * @param {boolean} p1 Only affect player 1
+ * @param {boolean} p2 Only affect player 2
+ * @param {boolean} pt Only affect player that touches trigger
+ */
+let gravity = (grav, p1 = false, p2 = false, pt = false) => {
   $.add({
     OBJ_ID: 2066,
+    GRAVITY: grav,
     PLAYER_1: p1,
     PLAYER_2: p2,
     _PT: pt
   })
 };
 
+/**
+ * Represents an options trigger
+ * @typedef {object} options
+ * @property {function} STREAK_ADDITIVE Streak additive (arg = boolean, optional)
+ * @property {function} HIDE_GROUND Hide ground (arg = boolean, optional)
+ * @property {function} HIDE_MG Hide middle ground (arg = boolean, optional)
+ * @property {function} HIDE_P1 Hide player 1 (arg = boolean, optional)
+ * @property {function} HIDE_P2 Hide player 2 (arg = boolean, optional)
+ * @property {function} DISABLE_CONTROLS_P1 Disable player 1 controls (arg = boolean, optional)
+ * @property {function} DISABLE_CONTROLS_P2 Disable player 2 controls (arg = boolean, optional)
+ * @property {function} UNLINK_DUAL_GRAVITY Unlink dual gravity (arg = boolean, optional)
+ * @property {function} HIDE_ATTEMPTS Hide attempts (arg = boolean, optional)
+ * @property {function} AUDIO_ON_DEATH Audio on death (arg = boolean, optional)
+ * @property {function} NO_DEATH_SFX No death SFX (arg = boolean, optional)
+ * @property {function} RESPAWN_TIME Respawn time (arg = number, required)
+ * @property {function} add Adds options trigger
+ */
+/**
+ * Implementation of options trigger
+ * @returns {options} Options trigger
+ */
 let options = () => {
   let ob = {
     OBJ_ID: 2899
@@ -2114,6 +2272,14 @@ let options = () => {
   };
 };
 
+/**
+ * Implementation of sequence trigger
+ * @param {array} sequence Sequence of groups to be called (e.g. [[group(1), 1], [group(2), 1]] is a valid input)
+ * @param {number} [mode=0] Mode of sequence trigger (0 = stop, 1 = loop, 2 = last)
+ * @param {number} [min_int=0] MinInt of sequence trigger
+ * @param {number} [reset=0] Reset of sequence trigger (0 = full, 1 = step)
+ * @returns {function} Function that steps through the sequence once
+ */
 let sequence = (sequence, mode = 0, min_int = 0, reset = 0) => {
   let seq_gr = trigger_function(() => {
     $.add({
@@ -2124,9 +2290,7 @@ let sequence = (sequence, mode = 0, min_int = 0, reset = 0) => {
       MODE: mode
     })
   });
-  return {
-    step: () => seq_gr.call()
-  }
+  return () => seq_gr.call()
 };
 
 /**

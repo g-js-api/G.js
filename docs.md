@@ -1,3 +1,11 @@
+## Members
+
+<dl>
+<dt><a href="#ksys_id">ksys_id</a> ⇒ <code><a href="#keyframe_system">keyframe_system</a></code></dt>
+<dd><p>Creates a keyframe system</p>
+</dd>
+</dl>
+
 ## Functions
 
 <dl>
@@ -54,14 +62,59 @@
 <dt><a href="#range">range(start, end, step)</a> ⇒ <code>array</code></dt>
 <dd><p>Generates an array holding a sequence of numbers starting at the &quot;start&quot; parameter, ending at the &quot;end&quot; parameter and incrementing by &quot;step&quot;</p>
 </dd>
-<dt><a href="#item_edit">item_edit(item1, item2, target, type1, type2, target_type, assign_op, op1, op2, mod, absn1, absn2, rfc1, rfc2)</a> ⇒ <code>object</code></dt>
+<dt><a href="#item_edit">item_edit(item1, item2, target, [type1], [type2], [target_type], [assign_op], [op1], [op2], [mod], [absn1], [absn2], [rfc1], [rfc2])</a> ⇒ <code>object</code></dt>
 <dd><p>Implementation of Item Edit trigger</p>
 </dd>
-<dt><a href="#item_comp">item_comp(item_1, item_2, type1, type2, compare_op, truei, falsei, mod1, mod2, tol, op_1, op_2, absneg_1, absneg_2, rfc1, rfc2)</a> ⇒ <code>object</code></dt>
+<dt><a href="#item_comp">item_comp(item_1, item_2, type1, type2, compare_op, [truei], [falsei], [mod1], [mod2], [tol], [op_1], [op_2], [absneg_1], [absneg_2], [rfc1], [rfc2])</a> ⇒ <code>object</code></dt>
 <dd><p>Implementation of Item Comp trigger</p>
 </dd>
-<dt><a href="#counter">counter([num], [use_id], [persistent], [timer])</a> ⇒ <code>function</code></dt>
+<dt><a href="#counter">counter([num], [use_id], [persistent], [timer])</a> ⇒ <code><a href="#counter">counter</a></code></dt>
 <dd><p>Creates a counter, which has methods for editing items</p>
+</dd>
+<dt><a href="#compare">compare(c1, op, c2, truei, falsei)</a></dt>
+<dd><p>Compares a counter with another</p>
+</dd>
+<dt><a href="#toggle_on_trigger">toggle_on_trigger(group)</a> ⇒ <code>object</code></dt>
+<dd><p>Returns an activated toggle trigger</p>
+</dd>
+<dt><a href="#toggle_off_trigger">toggle_off_trigger(group)</a> ⇒ <code>object</code></dt>
+<dd><p>Returns an inactive toggle trigger</p>
+</dd>
+<dt><a href="#on">on(event, group)</a></dt>
+<dd><p>Calls a group when an event occurs</p>
+</dd>
+<dt><a href="#touch">touch([dual_side])</a> ⇒ <code><a href="#event">event</a></code></dt>
+<dd><p>Listens to when the screen is touched</p>
+</dd>
+<dt><a href="#touch_end">touch_end([dual_side])</a> ⇒ <code><a href="#event">event</a></code></dt>
+<dd><p>Listens to when the screen stops being touched</p>
+</dd>
+<dt><a href="#collision">collision(block_a, block_b)</a> ⇒ <code><a href="#event">event</a></code></dt>
+<dd><p>Listens to when two collision blocks collide</p>
+</dd>
+<dt><a href="#collision_exit">collision_exit(block_a, block_b)</a> ⇒ <code><a href="#event">event</a></code></dt>
+<dd><p>Listens to when two collision blocks stop colliding</p>
+</dd>
+<dt><a href="#death">death()</a> ⇒ <code><a href="#event">event</a></code></dt>
+<dd><p>Listens to when the player dies</p>
+</dd>
+<dt><a href="#count">count(item, num, multi)</a> ⇒ <code><a href="#event">event</a></code></dt>
+<dd><p>Listens to when an item hits a specific number</p>
+</dd>
+<dt><a href="#x_position">x_position(x)</a> ⇒ <code><a href="#event">event</a></code></dt>
+<dd><p>Listens to when the player reaches a specific X position</p>
+</dd>
+<dt><a href="#event">event(event, extra_id, extra_id2)</a> ⇒ <code><a href="#event">event</a></code></dt>
+<dd><p>Implementation of the event trigger that triggers an event</p>
+</dd>
+<dt><a href="#greater_than">greater_than(counter, other)</a> ⇒ <code>condition</code></dt>
+<dd><p>Returns a greater than condition</p>
+</dd>
+<dt><a href="#equal_to">equal_to(counter, other)</a> ⇒ <code>condition</code></dt>
+<dd><p>Returns a equal to condition</p>
+</dd>
+<dt><a href="#less_than">less_than(counter, other)</a> ⇒ <code>condition</code></dt>
+<dd><p>Returns a less than condition</p>
 </dd>
 <dt><a href="#while_loop">while_loop(condition, func, delay)</a></dt>
 <dd><p>Creates a repeating trigger system that repeats while a condition is true</p>
@@ -74,6 +127,24 @@
 </dd>
 <dt><a href="#for_loop">for_loop(range, fn, [delay])</a></dt>
 <dd><p>Loops a function a specific amount of times (defined by range)</p>
+</dd>
+<dt><a href="#gradient">gradient(color1, color2, bl, br, tl, tr, [vertex_mode], [blending], [layer])</a></dt>
+<dd><p>Creates a gradient trigger and returns it</p>
+</dd>
+<dt><a href="#random">random(gr1, gr2, chance)</a></dt>
+<dd><p>Implementation of random trigger</p>
+</dd>
+<dt><a href="#advanced_random">advanced_random(...chances)</a></dt>
+<dd><p>Implementation of advanced random trigger</p>
+</dd>
+<dt><a href="#gravity">gravity(gravity, p1, p2, pt)</a></dt>
+<dd><p>Implementation of gravity trigger</p>
+</dd>
+<dt><a href="#options">options()</a> ⇒ <code><a href="#options">options</a></code></dt>
+<dd><p>Implementation of options trigger</p>
+</dd>
+<dt><a href="#sequence">sequence(sequence, [mode], [min_int], [reset])</a> ⇒ <code>function</code></dt>
+<dd><p>Implementation of sequence trigger</p>
 </dd>
 <dt><a href="#remappable">remappable(fn)</a> ⇒ <code>function</code></dt>
 <dd><p>Creates trigger function-like systems, but can be called normally with item IDs as arguments (e.g. a remappable can be called like <code>my_remappable(counter1.item)</code>)</p>
@@ -131,7 +202,30 @@
 <dt><a href="#subtract_from">subtract_from</a> : <code>function</code></dt>
 <dd><p>Subtracts the current counter from another and resets the current counter</p>
 </dd>
+<dt><a href="#keyframe_system">keyframe_system</a> : <code>object</code></dt>
+<dd><p>Represents a keyframe system in GD</p>
+</dd>
+<dt><a href="#keyframe">keyframe</a> : <code>function</code></dt>
+<dd><p>Creates a single keyframe at a specific position</p>
+</dd>
+<dt><a href="#start">start</a> : <code>function</code></dt>
+<dd><p>Starts a keyframe system</p>
+</dd>
+<dt><a href="#options">options</a> : <code>object</code></dt>
+<dd><p>Represents an options trigger</p>
+</dd>
 </dl>
+
+<a name="ksys_id"></a>
+
+## ksys\_id ⇒ [<code>keyframe\_system</code>](#keyframe_system)
+Creates a keyframe system
+
+**Kind**: global variable  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| group | <code>group</code> | Group of objects to animate |
 
 <a name="extract"></a>
 
@@ -362,63 +456,63 @@ Generates an array holding a sequence of numbers starting at the "start" paramet
 
 <a name="item_edit"></a>
 
-## item\_edit(item1, item2, target, type1, type2, target_type, assign_op, op1, op2, mod, absn1, absn2, rfc1, rfc2) ⇒ <code>object</code>
+## item\_edit(item1, item2, target, [type1], [type2], [target_type], [assign_op], [op1], [op2], [mod], [absn1], [absn2], [rfc1], [rfc2]) ⇒ <code>object</code>
 Implementation of Item Edit trigger
 
 **Kind**: global function  
 **Returns**: <code>object</code> - Resulting object  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| item1 | <code>item</code> | Item ID 1 (can be retrieved from your_counter.item) |
-| item2 | <code>item</code> | Item ID 2 (can be retrieved from your_counter.item) |
-| target | <code>item</code> | Target item ID (can be retrieved from your_counter.item) |
-| type1 | <code>item\_type</code> | Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
-| type2 | <code>item\_type</code> | Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
-| target_type | <code>item\_type</code> | Type of target item ID (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
-| assign_op | <code>number</code> | Assignment operator (EQ, ADD, SUB, MUL, DIV) |
-| op1 | <code>number</code> | Operator 1 (ADD, SUB, MUL, DIV) |
-| op2 | <code>number</code> | Operator 2 (ADD, SUB, MUL, DIV) |
-| mod | <code>number</code> | How much to modify the entire operation by (influenced by op2) |
-| absn1 | <code>number</code> | Whether to get absolute/negative value of first side of operation (ABS, NEG) |
-| absn2 | <code>number</code> | Whether to get absolute/negative value of second side of operation (ABS, NEG) |
-| rfc1 | <code>number</code> | Whether to round/floor/ceil first side of operation (RND, FLR, CEI) |
-| rfc2 | <code>number</code> | Whether to round/floor/ceil second side of operation (RND, FLR, CEI) |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| item1 | <code>item</code> |  | Item ID 1 (can be retrieved from your_counter.item) |
+| item2 | <code>item</code> |  | Item ID 2 (can be retrieved from your_counter.item) |
+| target | <code>item</code> |  | Target item ID (can be retrieved from your_counter.item) |
+| [type1] | <code>item\_type</code> | <code>NONE</code> | Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
+| [type2] | <code>item\_type</code> | <code>NONE</code> | Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
+| [target_type] | <code>item\_type</code> | <code>NONE</code> | Type of target item ID (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
+| [assign_op] | <code>number</code> | <code>EQ</code> | Assignment operator (EQ, ADD, SUB, MUL, DIV) |
+| [op1] | <code>number</code> | <code>ADD</code> | Operator 1 (ADD, SUB, MUL, DIV) |
+| [op2] | <code>number</code> | <code>MUL</code> | Operator 2 (ADD, SUB, MUL, DIV) |
+| [mod] | <code>number</code> | <code>1</code> | How much to modify the entire operation by (influenced by op2) |
+| [absn1] | <code>number</code> | <code>NONE</code> | Whether to get absolute/negative value of first side of operation (ABS, NEG) |
+| [absn2] | <code>number</code> | <code>NONE</code> | Whether to get absolute/negative value of second side of operation (ABS, NEG) |
+| [rfc1] | <code>number</code> | <code>NONE</code> | Whether to round/floor/ceil first side of operation (RND, FLR, CEI) |
+| [rfc2] | <code>number</code> | <code>NONE</code> | Whether to round/floor/ceil second side of operation (RND, FLR, CEI) |
 
 <a name="item_comp"></a>
 
-## item\_comp(item_1, item_2, type1, type2, compare_op, truei, falsei, mod1, mod2, tol, op_1, op_2, absneg_1, absneg_2, rfc1, rfc2) ⇒ <code>object</code>
+## item\_comp(item_1, item_2, type1, type2, compare_op, [truei], [falsei], [mod1], [mod2], [tol], [op_1], [op_2], [absneg_1], [absneg_2], [rfc1], [rfc2]) ⇒ <code>object</code>
 Implementation of Item Comp trigger
 
 **Kind**: global function  
 **Returns**: <code>object</code> - Resulting object  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| item_1 | <code>item</code> | Item ID 1 (can be retrieved from your_counter.item) |
-| item_2 | <code>item</code> | Item ID 2 (can be retrieved from your_counter.item) |
-| type1 | <code>item\_type</code> | Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
-| type2 | <code>item\_type</code> | Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
-| compare_op | <code>number</code> | Operator to compare item ID 1 and 2 by (EQ, GREATER, GREATER_OR_EQ, LESS, LESS_OR_EQ, NOT_EQ) |
-| truei | <code>object</code> | Group ID to call if comparison is true |
-| falsei | <code>object</code> | Group ID to call if comparison is false |
-| mod1 | <code>number</code> | How much to modify item ID 1 by (influenced by op1) |
-| mod2 | <code>number</code> | How much to modify item ID 2 by (influenced by op2) |
-| tol | <code>number</code> | How much to offset the result by |
-| op_1 | <code>number</code> | Operator 1 for mod1 (ADD, SUB, MUL, DIV) |
-| op_2 | <code>number</code> | Operator 2 for mod2 (ADD, SUB, MUL, DIV) |
-| absneg_1 | <code>number</code> | Whether to get absolute/negative value of first side of operation (ABS, NEG) |
-| absneg_2 | <code>number</code> | Whether to get absolute/negative value of second side of operation (ABS, NEG) |
-| rfc1 | <code>number</code> | Whether to round/floor/ceil first side of operation (RND, FLR, CEI) |
-| rfc2 | <code>number</code> | Whether to round/floor/ceil second side of operation (RND, FLR, CEI) |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| item_1 | <code>item</code> |  | Item ID 1 (can be retrieved from your_counter.item) |
+| item_2 | <code>item</code> |  | Item ID 2 (can be retrieved from your_counter.item) |
+| type1 | <code>item\_type</code> |  | Type of item ID 1 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
+| type2 | <code>item\_type</code> |  | Type of item ID 2 (ITEM, TIMER, POINTS, TIME, ATTEMPT) |
+| compare_op | <code>number</code> |  | Operator to compare item ID 1 and 2 by (EQ, GREATER, GREATER_OR_EQ, LESS, LESS_OR_EQ, NOT_EQ) |
+| [truei] | <code>group</code> | <code>group(0)</code> | Group ID to call if comparison is true |
+| [falsei] | <code>group</code> | <code>group(0)</code> | Group ID to call if comparison is false |
+| [mod1] | <code>number</code> | <code>1</code> | How much to modify item ID 1 by (influenced by op1) |
+| [mod2] | <code>number</code> | <code>1</code> | How much to modify item ID 2 by (influenced by op2) |
+| [tol] | <code>number</code> | <code>0</code> | How much to offset the result by |
+| [op_1] | <code>number</code> | <code>MUL</code> | Operator 1 for mod1 (ADD, SUB, MUL, DIV) |
+| [op_2] | <code>number</code> | <code>MUL</code> | Operator 2 for mod2 (ADD, SUB, MUL, DIV) |
+| [absneg_1] | <code>number</code> | <code>NONE</code> | Whether to get absolute/negative value of first side of operation (ABS, NEG) |
+| [absneg_2] | <code>number</code> | <code>NONE</code> | Whether to get absolute/negative value of second side of operation (ABS, NEG) |
+| [rfc1] | <code>number</code> | <code>NONE</code> | Whether to round/floor/ceil first side of operation (RND, FLR, CEI) |
+| [rfc2] | <code>number</code> | <code>NONE</code> | Whether to round/floor/ceil second side of operation (RND, FLR, CEI) |
 
 <a name="counter"></a>
 
-## counter([num], [use_id], [persistent], [timer]) ⇒ <code>function</code>
+## counter([num], [use_id], [persistent], [timer]) ⇒ [<code>counter</code>](#counter)
 Creates a counter, which has methods for editing items
 
 **Kind**: global function  
-**Returns**: <code>function</code> - Function to call  
+**Returns**: [<code>counter</code>](#counter) - Resulting counter  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -426,6 +520,182 @@ Creates a counter, which has methods for editing items
 | [use_id] | <code>boolean</code> | <code>false</code> | Whether to use an existing item ID as a counter instead of creating a new item |
 | [persistent] | <code>boolean</code> | <code>false</code> | Whether to make the counter persistent between attempts |
 | [timer] | <code>boolean</code> | <code>false</code> | Whether to make the counter a timer |
+
+<a name="compare"></a>
+
+## compare(c1, op, c2, truei, falsei)
+Compares a counter with another
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| c1 | [<code>counter</code>](#counter) | First counter to compare |
+| op | <code>compare\_op</code> | Comparison operator to use (EQ, NOT_EQ, GREATER, LESS, GREATER_OR_EQ, LESS_OR_EQ) |
+| c2 | [<code>counter</code>](#counter) | Second counter to compare |
+| truei | <code>group</code> | Group to call if comparison is true |
+| falsei | <code>group</code> | Group to call if comparison is false |
+
+<a name="toggle_on_trigger"></a>
+
+## toggle\_on\_trigger(group) ⇒ <code>object</code>
+Returns an activated toggle trigger
+
+**Kind**: global function  
+**Returns**: <code>object</code> - Resulting object  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| group | <code>group</code> | Group of object |
+
+<a name="toggle_off_trigger"></a>
+
+## toggle\_off\_trigger(group) ⇒ <code>object</code>
+Returns an inactive toggle trigger
+
+**Kind**: global function  
+**Returns**: <code>object</code> - Resulting object  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| group | <code>group</code> | Group of object |
+
+<a name="on"></a>
+
+## on(event, group)
+Calls a group when an event occurs
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| event | [<code>event</code>](#event) | Event to listen to |
+| group | <code>group</code> | Group of object |
+
+<a name="touch"></a>
+
+## touch([dual_side]) ⇒ [<code>event</code>](#event)
+Listens to when the screen is touched
+
+**Kind**: global function  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [dual_side] | <code>boolean</code> | <code>false</code> | Whether to only listen to dual side |
+
+<a name="touch_end"></a>
+
+## touch\_end([dual_side]) ⇒ [<code>event</code>](#event)
+Listens to when the screen stops being touched
+
+**Kind**: global function  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [dual_side] | <code>boolean</code> | <code>false</code> | Whether to only listen to dual side |
+
+<a name="collision"></a>
+
+## collision(block_a, block_b) ⇒ [<code>event</code>](#event)
+Listens to when two collision blocks collide
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| block_a | <code>block</code> | First block to listen to |
+| block_b | <code>block</code> | Second block to listen to |
+
+<a name="collision_exit"></a>
+
+## collision\_exit(block_a, block_b) ⇒ [<code>event</code>](#event)
+Listens to when two collision blocks stop colliding
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| block_a | <code>block</code> | First block to listen to |
+| block_b | <code>block</code> | Second block to listen to |
+
+<a name="death"></a>
+
+## death() ⇒ [<code>event</code>](#event)
+Listens to when the player dies
+
+**Kind**: global function  
+<a name="count"></a>
+
+## count(item, num, multi) ⇒ [<code>event</code>](#event)
+Listens to when an item hits a specific number
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| item | <code>item</code> | Item to listen to |
+| num | <code>number</code> | Number that triggers event when the item hits this |
+| multi | <code>boolean</code> | Whether to trigger the event multiple time |
+
+<a name="x_position"></a>
+
+## x\_position(x) ⇒ [<code>event</code>](#event)
+Listens to when the player reaches a specific X position
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| x | <code>number</code> | X position where event is called |
+
+<a name="event"></a>
+
+## event(event, extra_id, extra_id2) ⇒ [<code>event</code>](#event)
+Implementation of the event trigger that triggers an event
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| event | <code>array</code> \| <code>event\_id</code> | Event(s) to be listened to (look at event properties for more info) |
+| extra_id | <code>group</code> | Implementation of extra ID 1 |
+| extra_id2 | <code>group</code> | Implementation of extra ID 2 |
+
+<a name="greater_than"></a>
+
+## greater\_than(counter, other) ⇒ <code>condition</code>
+Returns a greater than condition
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| counter | [<code>counter</code>](#counter) | Counter to compare to number |
+| other | <code>number</code> | Number to be compared to counter |
+
+<a name="equal_to"></a>
+
+## equal\_to(counter, other) ⇒ <code>condition</code>
+Returns a equal to condition
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| counter | [<code>counter</code>](#counter) | Counter to compare to number |
+| other | <code>number</code> | Number to be compared to counter |
+
+<a name="less_than"></a>
+
+## less\_than(counter, other) ⇒ <code>condition</code>
+Returns a less than condition
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| counter | [<code>counter</code>](#counter) | Counter to compare to number |
+| other | <code>number</code> | Number to be compared to counter |
 
 <a name="while_loop"></a>
 
@@ -470,6 +740,85 @@ Loops a function a specific amount of times (defined by range)
 | range | <code>array</code> |  | Range of numbers defining how many times to loop fn by |
 | fn | <code>function</code> |  | Function to loop |
 | [delay] | <code>number</code> | <code>0.05</code> | How much to delay between cycle |
+
+<a name="gradient"></a>
+
+## gradient(color1, color2, bl, br, tl, tr, [vertex_mode], [blending], [layer])
+Creates a gradient trigger and returns it
+
+**Kind**: global function  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| color1 | <code>color</code> |  | First color of gradient |
+| color2 | <code>color</code> |  | Second color of gradient |
+| bl | <code>group</code> |  | Bottom left vertex |
+| br | <code>group</code> |  | Bottom right vertex |
+| tl | <code>group</code> |  | Top left vertex |
+| tr | <code>group</code> |  | Top right vertex |
+| [vertex_mode] | <code>boolean</code> | <code>true</code> | Whether to use vertex mode |
+| [blending] | <code>boolean</code> | <code>false</code> | Whether to make the gradient blending |
+| [layer] | <code>number</code> | <code>0</code> | Layer of gradient (0-15) |
+
+<a name="random"></a>
+
+## random(gr1, gr2, chance)
+Implementation of random trigger
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gr1 | <code>group</code> | Group 1 |
+| gr2 | <code>group</code> | Group 2 |
+| chance | <code>number</code> | Chance of either group being called |
+
+<a name="advanced_random"></a>
+
+## advanced\_random(...chances)
+Implementation of advanced random trigger
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...chances | <code>array</code> | Chances of each group being called (e.g. [[group(1), 10], [group(2), 10]] is a valid input) |
+
+<a name="gravity"></a>
+
+## gravity(gravity, p1, p2, pt)
+Implementation of gravity trigger
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gravity | <code>number</code> | Gravity magnitude |
+| p1 | <code>boolean</code> | Only affect player 1 |
+| p2 | <code>boolean</code> | Only affect player 2 |
+| pt | <code>boolean</code> | Only affect player that touches trigger |
+
+<a name="options"></a>
+
+## options() ⇒ [<code>options</code>](#options)
+Implementation of options trigger
+
+**Kind**: global function  
+**Returns**: [<code>options</code>](#options) - Options trigger  
+<a name="sequence"></a>
+
+## sequence(sequence, [mode], [min_int], [reset]) ⇒ <code>function</code>
+Implementation of sequence trigger
+
+**Kind**: global function  
+**Returns**: <code>function</code> - Function that steps through the sequence once  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| sequence | <code>array</code> |  | Sequence of groups to be called (e.g. [[group(1), 1], [group(2), 1]] is a valid input) |
+| [mode] | <code>number</code> | <code>0</code> | Mode of sequence trigger (0 = stop, 1 = loop, 2 = last) |
+| [min_int] | <code>number</code> | <code>0</code> | MinInt of sequence trigger |
+| [reset] | <code>number</code> | <code>0</code> | Reset of sequence trigger (0 = full, 1 = step) |
 
 <a name="remappable"></a>
 
@@ -677,4 +1026,64 @@ Subtracts the current counter from another and resets the current counter
 | Param | Type | Description |
 | --- | --- | --- |
 | counter | [<code>counter</code>](#counter) | Counter to be subtracted from |
+
+<a name="keyframe_system"></a>
+
+## keyframe\_system : <code>object</code>
+Represents a keyframe system in GD
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| keyframe | [<code>keyframe</code>](#keyframe) | Creates a single keyframe at a specific position |
+| start | [<code>start</code>](#start) | Starts a keyframe system |
+| anim_id | <code>number</code> | ID of animation |
+
+<a name="keyframe"></a>
+
+## keyframe : <code>function</code>
+Creates a single keyframe at a specific position
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| x | <code>number</code> | X position of keyframe |
+| y | <code>number</code> | Y position of keyframe |
+| duration | <code>number</code> | Duration of keyframe |
+| curve | <code>boolean</code> | Whether to make the keyframe curved |
+| close | <code>boolean</code> | Whether to set the keyframe as the last one + loop back to first keyframe |
+| easing | <code>easing</code> | How smoothly the keyframe moves |
+
+<a name="start"></a>
+
+## start : <code>function</code>
+Starts a keyframe system
+
+**Kind**: global typedef  
+<a name="options"></a>
+
+## options : <code>object</code>
+Represents an options trigger
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| STREAK_ADDITIVE | <code>function</code> | Streak additive (arg = boolean, optional) |
+| HIDE_GROUND | <code>function</code> | Hide ground (arg = boolean, optional) |
+| HIDE_MG | <code>function</code> | Hide middle ground (arg = boolean, optional) |
+| HIDE_P1 | <code>function</code> | Hide player 1 (arg = boolean, optional) |
+| HIDE_P2 | <code>function</code> | Hide player 2 (arg = boolean, optional) |
+| DISABLE_CONTROLS_P1 | <code>function</code> | Disable player 1 controls (arg = boolean, optional) |
+| DISABLE_CONTROLS_P2 | <code>function</code> | Disable player 2 controls (arg = boolean, optional) |
+| UNLINK_DUAL_GRAVITY | <code>function</code> | Unlink dual gravity (arg = boolean, optional) |
+| HIDE_ATTEMPTS | <code>function</code> | Hide attempts (arg = boolean, optional) |
+| AUDIO_ON_DEATH | <code>function</code> | Audio on death (arg = boolean, optional) |
+| NO_DEATH_SFX | <code>function</code> | No death SFX (arg = boolean, optional) |
+| RESPAWN_TIME | <code>function</code> | Respawn time (arg = number, required) |
+| add | <code>function</code> | Adds options trigger |
 

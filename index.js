@@ -96,7 +96,7 @@ class $group {
    * @param {number} y Movement on Y axis
    * @param {number} duration Duration for move trigger
    * @param {easing} easing How smoothly object moves
-   * @param {easing_rate} easing_rate Easing rate for move trigger
+   * @param {number} easing_rate Easing rate for move trigger
    * @param {number} x_multiplier How much to multiply the amount by on X axis
    * @param {number} y_multiplier How much to multiply the amount by on Y axis
    * @param {boolean} multiply Whether to fit the amount of units moved into GD units (multiplying by 3 does this)
@@ -1029,7 +1029,56 @@ let camera_edge = (id, edge) => {
     CAMERA_EDGE: edge
   });
 };
-// docs for song trigger: comig soom
+/**
+ * Represents a song trigger in GD
+ * @typedef {object} song
+ * @property {start_song} start Starts song
+ * @property {edit} edit Edit Song trigger implementation
+ * @property {stop} stop Stops playing the song
+ */
+/**
+ * Starts playing the song
+ * @callback start_song
+ */
+/**
+ * Implementation of Edit Song trigger
+ * @callback edit
+ * @param {number} new_volume 
+ * @param {number} new_speed 
+ * @param {number} duration 
+ * @param {boolean} stop 
+ * @param {boolean} stop_loop 
+ * @param {group} gid_1 
+ * @param {group} gid_2 
+ * @param {number} vol_near 
+ * @param {number} vol_med 
+ * @param {number} vol_far 
+ * @param {number} min_dist 
+ * @param {number} dist_2 
+ * @param {number} dist_3 
+ * @param {boolean} p1 
+ * @param {boolean} p2 
+ * @param {boolean} cam 
+ * @param {0} vol_dir 
+ */
+/**
+ * Stops song
+ * @callback stop
+ */
+/**
+ * Implementation of song trigger in GD
+ * @param {number} song_id ID of song in-game
+ * @param {boolean} [loop=false] Whether to loop the song
+ * @param {boolean} [preload=true] Whether to preload the song first before playing
+ * @param {number} [channel=0] What channel to put the song on
+ * @param {number} [volume=1] Volume of song
+ * @param {number} [speed=0] Speed of song
+ * @param {number} [start=0] Where the song should start in MS
+ * @param {number} [end=0] Where the song should end in MS
+ * @param {number} [fadein=0] When to fade the song in
+ * @param {number} [fadeout=0] When to fade the song out
+ * @returns {song}
+ */
 let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, speed = 0, start = 0, end = 0, fadein = 0, fadeout = 0) => {
   if (preload) {
     let m_obj = {
@@ -1060,6 +1109,7 @@ let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, spee
       edit: (new_volume = volume, new_speed = speed, duration = 0.5, stop = false, stop_loop = false, gid_1 = group(0), gid_2 = group(0), vol_near = 1, vol_med = 0.5, vol_far = 0, min_dist = 0, dist_2 = 0, dist_3 = 0, p1 = false, p2 = false, cam = false, vol_dir = 0) => {
         $.add({
           OBJ_ID: 3605,
+          DURATION: duration,
           SONG_CHANNEL: channel,
           SONG_SPEED: new_speed,
           SONG_VOLUME: new_volume,
@@ -1294,6 +1344,27 @@ let exportLevel = () => {
   return encode_level(resulting);
 };
 
+/**
+ * @typedef {object} easing
+ * @property {number} EASE_IN_OUT Ease in out easing
+ * @property {number} EASE_IN Ease in easing
+ * @property {number} EASE_OUT Ease out easing
+ * @property {number} EXPONENTIAL_IN_OUT Exponential in out easing
+ * @property {number} EXPONENTIAL_IN Exponential in easing
+ * @property {number} EXPONENTIAL_OUT Exponential out easing
+ * @property {number} SINE_IN_OUT Sine in out easing
+ * @property {number} SINE_IN Sine in easing
+ * @property {number} SINE_OUT Sine out easing
+ * @property {number} ELASTIC_IN_OUT Elastic in out easing
+ * @property {number} ELASTIC_IN Elastic in easing
+ * @property {number} ELASTIC_OUT Elastic out easing
+ * @property {number} BACK_IN_OUT Back in out easing
+ * @property {number} BACK_IN Back in easing
+ * @property {number} BACK_OUT Back out easing
+ * @property {number} BOUNCE_IN_OUT Bounce in out easing
+ * @property {number} BOUNCE_IN Bounce in easing
+ * @property {number} BOUNCE_OUT Bounce out easing
+*/
 let easings = {
   ELASTIC_OUT: 6,
   BACK_IN_OUT: 16,
@@ -2559,7 +2630,19 @@ let player_control = (p1 = false, p2 = false, stop_jump = false, stop_move = fal
   });
 }
 
-// gamesecene documentation: comig soom
+/**
+ * Represents gamescene (all functions in this type are made to be used with on())
+ * @typedef {object} gamescene
+ * @property {function} button_a Returns an event when the left side is pressed
+ * @property {function} button_b Returns an event when the right side is pressed
+ * @property {function} button_a_end Returns an event when the left side is no longer pressed
+ * @property {function} button_b_end Returns an event when the right side is no longer pressed
+ * @property {stop} stop Stops playing the song
+ */
+/**
+ * Simple input control abstraction
+ @returns {gamescene} 
+*/
 let gamescene = () => {
   // Triggers and groups
   follow_x_group = unknown_g();

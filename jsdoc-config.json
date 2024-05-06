@@ -3,12 +3,5 @@
       "template": "node_modules/docdash",
       "tutorials": "./tutorials"
     }
-  }
-  
-{
-    "opts": {
-      "template": "node_modules/docdash",
-      "tutorials": "./tutorials"
-    }
-  }
+}
   

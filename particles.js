@@ -75,19 +75,4 @@ let parts = [
 ];
 let d_parts = {};
 parts.forEach((x, i) => d_parts[x] = i);
-// Convert object to Markdown table
-function objectToMarkdownTable(obj, key, val) {
-    let markdown = `| ${key} | ${val} |\n`;
-    markdown += '| --- | ----- |\n';
-
-    for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            markdown += `| ${key} | ${obj[key]} |\n`;
-        }
-    }
-
-    return markdown;
-}
-const markdownTable = objectToMarkdownTable(d_parts, 'Particle Property Name', 'Particle Property ID');
-require('fs').writeFileSync('particle_docs.md', markdownTable);
 module.exports = d_parts;

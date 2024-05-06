@@ -45,38 +45,89 @@ let all_known = {
   blocks: []
 }
 
-// docs for classes: comig soom
+/**
+ * @typedef {object} group
+ * @property {function} remap Remaps multiple IDs inside of the group to others
+ * @property {function} move Moves the group
+ * @property {function} call Calls the group
+ * @property {function} alpha Alpha trigger implementation
+ * @property {function} lock_to_player Locks group to player
+ * @property {function} stop Stops the current group
+ * @property {function} toggle_on Toggles the group on
+ * @property {function} toggle_off Toggles the group off
+ * @property {function} rotate Rotates the group
+ * @property {function} follow Makes the group follow another
+ * @property {function} follow_lerp Keeps an object's position proportionally between 2 others
+ * @property {function} follow_player_y Follows player Y
+ * @property {function} move_to Move target implementation
+ * @property {function} move_to_xy Moves group to specific coordinate
+ * @property {function} pulse_hsv Pulses group w/ HSV
+ * @property {function} pulse Pulses group
+ */
+/**
+ * Representation of groups
+ * @class
+ * @constructor
+ * @public
+ */
 class $group {
+  /**
+   * Creates a group from a number
+   * @param {number} number Group ID
+   * @param {boolean} [specific=true] Whether to disallow G.js from using that specific group again
+   */
   constructor(a, specific = true) {
     this.value = a;
     this.type = 'group';
     if (specific) all_known.groups.push(a);
   }
+  /**
+  * Remaps multiple IDs inside of the group to others
+  * @param {...array} remaps Array of groups to remap, e.g. remap([group(1), group(2)], [group(4), group(3)]) is valid
+  */
   remap(...mps) {
     mps = mps.map(x => (x[0].value ? x[0].value : x[0]) + '.' + (x[1].value ? x[1].value : x[1])).join('.');
     this.remaps = mps;
     return this;
   }
-
+  /**
+   * Moves the group
+   * @param {number} x Movement on X axis
+   * @param {number} y Movement on Y axis
+   * @param {number} duration Duration for move trigger
+   * @param {easing} easing How smoothly object moves
+   * @param {easing_rate} easing_rate Easing rate for move trigger
+   * @param {number} x_multiplier How much to multiply the amount by on X axis
+   * @param {number} y_multiplier How much to multiply the amount by on Y axis
+   * @param {boolean} multiply Whether to fit the amount of units moved into GD units (multiplying by 3 does this)
+   * @param {boolean} delay_trig Whether to do wait(duration)
+   */
   move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, delay_trig = true) {
     $.add({
       OBJ_ID: 901,
       TARGET: this,
-      MOVE_X: multiply ? x * 3 * x_multiplier : x,
-      MOVE_Y: multiply ? y * 3 * y_multiplier : y,
+      MOVE_X: multiply ? x * 3 * x_multiplier : x * x_multiplier,
+      MOVE_Y: multiply ? y * 3 * y_multiplier : y * y_multiplier,
       DURATION: duration,
       EASING: easing,
       EASING_RATE: easing_rate,
     });
     if (delay_trig && duration !== 0) wait(duration);
   }
-
+  /**
+   * Calls the group
+   * @param {number} delay How long to delay the group being called
+   */
   call(delay = 0) {
     let tr = spawn_trigger(this, delay);
     if (this.remaps) tr.REMAPS = this.remaps;
     $.add(tr);
   }
-
+  /**
+   * Alpha trigger implementation
+   * @param {number} opacity Changed opacity
+   * @param {number} duration How long it takes for the opacity to change
+   */
   alpha(opacity = 1, duration = 0) {
     $.add({
       OBJ_ID: 1007,
@@ -86,7 +137,12 @@ class $group {
     });
     wait(duration);
   }
-
+  /**
+   * Locks group to player
+   * @param {boolean} [lock_x=true] Whether to lock to X axis of player
+   * @param {boolean} [lock_y=true] Whether to lock to Y axis of player
+   * @param {number} [duration=999] How long group is locked to player
+   */
   lock_to_player(lock_x = true, lock_y = true, duration = 999) {
     $.add({
       OBJ_ID: 901,
@@ -97,6 +153,9 @@ class $group {
     });
   }
 
+  /**
+   * Stops the current group
+   */
   stop() {
     $.add({
       OBJ_ID: 1616,
@@ -104,6 +163,9 @@ class $group {
     });
   }
 
+  /**
+   * Toggles the group on
+   */
   toggle_on() {
     $.add({
       OBJ_ID: 1049,
@@ -111,7 +173,9 @@ class $group {
       ACTIVATE_GROUP: true,
     });
   }
-
+  /**
+   * Toggles the group off
+   */
   toggle_off() {
     $.add({
       OBJ_ID: 1049,
@@ -119,7 +183,15 @@ class $group {
       ACTIVATE_GROUP: false,
     });
   }
-
+  /**
+   * Rotates the group
+   * @param {group} center Group to rotate around
+   * @param {number} degrees How many degrees to rotate
+   * @param {number} [duration=0] How long it takes for the group to rotate
+   * @param {easing} [easing=NONE] How smoothly the object rotates
+   * @param {number} [easing_rate=2] Easing rate of rotation
+   * @param {boolean} [lock_object_rotation=false] Whether to turn on "lock object rotation"
+   */
   rotate(center, degrees, duration = 0, easing = NONE, easing_rate = 2, lock_object_rotation = false) {
     $.add({
       OBJ_ID: 1346,
@@ -134,6 +206,13 @@ class $group {
     if (duration) wait(duration);
   }
 
+  /**
+   * Makes the group follow another
+   * @param {group} other Group to follow
+   * @param {number} x_mod How much to speed up/slow down movement on X axis
+   * @param {number} y_mod How much to speed up/slow down movement on Y axis
+   * @param {number} duration How long to follow other group
+   */
   follow(other, x_mod = 1, y_mod = 1, duration = 999) {
     $.add({
       OBJ_ID: 1347,
@@ -144,11 +223,26 @@ class $group {
       FOLLOW: other,
     });
   }
-
+  /**
+   * Keeps an object's position proportionally between 2 others
+   * @param {group} groupA Group of object A to follow
+   * @param {group} groupB Group of object B to follow
+   * @param {number} weight How much of the way the group should be kept in
+   * @param {number} duration How long to follow
+   */
   follow_lerp(groupA, groupB, weight = 0.5, duration = 999) {
     this.follow(groupA, 1 - weight, 1 - weight, duration);
+    this.follow(groupB, weight, weight, duration)
   }
 
+  /**
+   * Follows player Y
+   * @param {number} [speed=0] How fast group snaps to player Y position
+   * @param {number} [delay=0] Delay of movement
+   * @param {number} [offset=0] Offset of group
+   * @param {number} [max_speed=0] How fast movement of group can be
+   * @param {number} [duration=0] How long the group is locked to player Y axis
+   */
   follow_player_y(speed = 1, delay = 0, offset = 0, max_speed = 0, duration = 999) {
     $.add({
       OBJ_ID: 1814,
@@ -160,7 +254,15 @@ class $group {
       DURATION: duration,
     });
   }
-
+  /**
+   * Move target implementation
+   * @param {group} target Group to move to
+   * @param {number} duration How long it takes to move to target
+   * @param {boolean} x_only Whether to only move on X axis
+   * @param {boolean} y_only Whether to only move on Y axis
+   * @param {easing} easing Easing of movement
+   * @param {number} easing_rate Easing rate of movement
+   */
   move_to(target, duration = 0, x_only = false, y_only = false, easing = NONE, easing_rate = 2) {
     $.add({
       OBJ_ID: 901,
@@ -174,8 +276,15 @@ class $group {
     });
     wait(duration);
   }
-
-  move_to_xy(x = null, y = null, duration = 0, easing = NONE, easing_rate = 2) {
+  /**
+   * Moves group to specific coordinate
+   * @param {number} x X coordinate
+   * @param {number} y Y coordinate
+   * @param {number} [duration=0] Duration of movement
+   * @param {easing} [easing=0] Easing of movement
+   * @param {number} [easing_rate=2] Easing rate of movement
+   */
+  move_to_xy(x, y, duration = 0, easing = NONE, easing_rate = 2) {
     if (!x && !y) throw new Error("At least one coordinate must be specified!");
     let target = unknown_g();
     $.add({
@@ -192,8 +301,20 @@ class $group {
       OPACITY: 0,
       DURATION: 0,
     });
+    this.move_to(target, duration, !y, !x, easing, easing_rate);
   }
-
+  /**
+   * Pulses group w/ HSV
+   * @param {number} h Hue
+   * @param {number} s Saturation
+   * @param {number} b Brightness
+   * @param {boolean} [s_checked=false] Saturation is checked
+   * @param {boolean} [b_checked=false] Brightness is checked
+   * @param {number} [fade_in=0] Fade in
+   * @param {number} [hold=0] Hold
+   * @param {number} [fade_out=0] Fade out
+   * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
+   */
   pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
     $.add({
       OBJ_ID: 1006,
@@ -208,7 +329,14 @@ class $group {
     });
     wait(fade_in + hold + fade_out);
   }
-
+  /**
+   * Pulses group
+   * @param {array} color RGB color to pulse
+   * @param {number} [fade_in=0] Fade in
+   * @param {number} [hold=0] Hold
+   * @param {number} [fade_out=0] Fade out
+   * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
+   */
   pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
     $.add({
       OBJ_ID: 1006,
@@ -226,14 +354,37 @@ class $group {
     wait(fade_in + hold + fade_out);
   }
 }
-
+/**
+ * @typedef {object} color
+ * @property {function} set Sets color to RGB value
+ * @property {function} copy Copy a color channel to another
+ * @property {function} pulse_hsv Pulses color w/ HSV
+ * @property {function} pulse Pulses color
+ */
+/**
+ * Representation of colors
+ * @class
+ * @constructor
+ * @public
+ */
 class $color {
+  /**
+   * Creates a color from a number
+   * @param {number} number Color ID
+   * @param {boolean} [specific=true] Whether to disallow G.js from using that specific color again
+   */
   constructor(a, specific = true) {
     this.value = a;
     this.type = 'color';
     if (specific) all_known.colors.push(a);
   }
-
+  /**
+   * Sets color to RGB value
+   * @param {array} c RGB value
+   * @param {number} [duration=0] How long it takes for color to change
+   * @param {boolean} [blending=false] Whether to make color blending
+   * @param {boolean} [delay_trig=true] Whether to do wait(duration)
+   */
   set(c, duration = 0, blending = false, delay_trig = true) {
     $.add({
       OBJ_ID: 899,
@@ -248,7 +399,15 @@ class $color {
     });
     if (delay_trig && duration !== 0) wait(duration);
   }
-
+  /**
+   * Copy a color channel to another
+   * @param {color} c Color channel to be copied
+   * @param {number} [duration=0] Duration of color change
+   * @param {string} [hvs="0a1a1a0a0"] HVS color to copy
+   * @param {boolean} [blending=false] Toggle blending on color
+   * @param {number} [opacity=1] Channel opacity
+   * @param {boolean} [copy_opacity=false] Copy target opacity
+   */
   copy(c, duration = 0, hvs = "0a1a1a0a0a", blending = false, opacity = 1, copy_opacity = false) {
     $.add({
       OBJ_ID: 899,
@@ -263,7 +422,18 @@ class $color {
     });
     if (duration) wait(duration);
   }
-
+  /**
+   * Pulses color w/ HSV
+   * @param {number} h Hue
+   * @param {number} s Saturation
+   * @param {number} b Brightness
+   * @param {boolean} [s_checked=false] Saturation is checked
+   * @param {boolean} [b_checked=false] Brightness is checked
+   * @param {number} [fade_in=0] Fade in
+   * @param {number} [hold=0] Hold
+   * @param {number} [fade_out=0] Fade out
+   * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
+   */
   pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
     $.add({
       OBJ_ID: 1006,
@@ -277,7 +447,14 @@ class $color {
     });
     wait(fade_in + hold + fade_out);
   }
-
+  /**
+ * Pulses color
+ * @param {array} color RGB color to pulse
+ * @param {number} [fade_in=0] Fade in
+ * @param {number} [hold=0] Hold
+ * @param {number} [fade_out=0] Fade out
+ * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
+ */
   pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
     $.add({
       OBJ_ID: 1006,
@@ -295,14 +472,34 @@ class $color {
   }
 }
 
+/**
+ * @typedef {object} block
+ * @property {function} if_colliding Returns whether the block is colliding with another one
+ */
+/**
+ * Representation of blocks
+ * @class
+ * @constructor
+ * @public
+ */
 class $block {
+  /**
+   * Creates a block from a number
+   * @param {number} number Block ID
+   * @param {boolean} [specific=true] Whether to disallow G.js from using that specific block again
+   */
   constructor(a, specific = true) {
     this.value = a;
     this.type = 'block';
     if (specific) all_known.blocks.push(a);
   }
-
-  if_colliding(b2, true_id, false_id) {
+  /**
+   * 
+   * @param {block} b2 Other block to check for collision
+   * @param {group} true_id Group to call if colliding with b2
+   * @param {group} false_id Group to call if not colliding with b2
+   */
+  if_colliding(b2, true_id = group(0), false_id = group(0)) {
     let j = {
       OBJ_ID: 3609,
       BLOCK_A: this,
@@ -332,7 +529,7 @@ let writeClasses = (arr) => {
 }
 
 writeClasses([
-  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID/TARGET_POS/EXTRA_ID/EXTRA_ID_2',
+  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID/TARGET_POS/EXTRA_ID/EXTRA_ID_2/FOLLOW',
   'color/TARGET/TARGET_COLOR/COLOR/COLOR_2',
   'block/BLOCK_A/BLOCK_B',
 ]);
@@ -770,7 +967,6 @@ let camera_static = (gr, duration = 0, easing = NONE, exit_instant = false, exit
   if (duration) wait(duration);
 };
 /**
- * @global
  * Makes the camera zoom in/out by a specific amount
  * @param {number} zoom_amount Amount to zoom the camera in by
  * @param {number} [duration=0] How long it takes for camera to zoom in
@@ -1260,7 +1456,7 @@ let move_trigger = (group, x, y) => {
 
 /**
  * Creates a particle system
- * @param {dictionary} props Dictionary holding particle properties (check particle properties)
+ * @param {dictionary} props Dictionary holding particle properties (check {@tutorial Particles} for more info)
  * @param {boolean} [use_obj_color=false] Whether to make the particle system use the object color
  * @param {boolean} [animate_on_trigger=false] Whether to only start the particle system when the Animate trigger is used on the particle system instead of immediately
  * @param {boolean} [animate_active_only=false] Only makes animate_on_trigger true if the object is active 
@@ -1749,7 +1945,19 @@ let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
   }
   return exports;
 };
-
+/**
+ * Implementation of timers
+ * @param {number} start_seconds Start seconds
+ * @param {number} end_seconds End seconds
+ * @param {group} target_id ID to call when timer stops
+ * @param {boolean} backwards Whether to go backwards
+ * @param {boolean} seconds_only Whether to only count seconds
+ * @param {boolean} stop Whether to stop the timer at end_seconds
+ * @param {number} time_mod How much to modify the timer by w/ multiplication (cannot be used if backwards is true)
+ * @param {boolean} ignore_timewarp Whether to ignore timewarp
+ * @param {boolean} no_override Whether to ignore when the timer is overridden by another
+ * @returns {timer}
+ */
 let timer = (start_seconds, end_seconds = 0, target_id = group(0), backwards = false, seconds_only = false, stop = true, time_mod = 1, ignore_timewarp = false, no_override = false) => {
   // START_IME, STOP_TIME, STOP_CHECKED, ITEM, TARGET, TIME_MOD, IGNORE_TIMEWARP, START_PAUSED, DONT_OVERRIDE
   let c_item = counter(0, false, false, true);
@@ -1958,7 +2166,7 @@ let x_position = (position) => {
 
 /**
  * Implementation of the event trigger that triggers an event
- * @param {array|event_id} event Event(s) to be listened to (look at event properties for more info)
+ * @param {array|event_id} event Event(s) to be listened to (look at {@tutorial Events} for more info)
  * @param {group} extra_id Implementation of extra ID 1
  * @param {group} extra_id2 Implementation of extra ID 2
  * @returns {event}

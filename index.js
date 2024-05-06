@@ -1910,7 +1910,6 @@ let item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = group(0), f
  * @param {boolean} [timer=false] Whether to make the counter a timer
  * @returns {counter} Resulting counter
  */
-
 let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
   let id = use_id ? num : next_free++;
   if (num > 0 && !use_id) {
@@ -2494,6 +2493,7 @@ let for_loop = (rang, fn, delay = 0.05) => {
  * @param {boolean} [vertex_mode=true] Whether to use vertex mode
  * @param {boolean} [blending=false] Whether to make the gradient blending
  * @param {number} [layer=0] Layer of gradient (0-15)
+ * @returns {object} Resulting gradient trigger
  */
 let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false, layer = 0) => {
   let origin = {

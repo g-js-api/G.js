@@ -1331,9 +1331,9 @@ let getLevelString = (options = {}) => {
     }
   } else {
     if (
-      (options.hasOwnProperty('object_count_warning') &&
-        options.object_count_warning == true) ||
-      !options.hasOwnProperty('object_count_warning')
+      (options.hasOwnProperty('group_count_warning') &&
+        options.group_count_warning == true) ||
+      !options.hasOwnProperty('group_count_warning')
     )
       throw new Error(`Group count surpasses the limit! (${unavailable_g}/${limit})`);
   }
@@ -1443,9 +1443,9 @@ let exportToSavefile = (options = {}) => {
       }
     } else {
       if (
-        (options.hasOwnProperty('object_count_warning') &&
-          options.object_count_warning == true) ||
-        !options.hasOwnProperty('object_count_warning')
+        (options.hasOwnProperty('group_count_warning') &&
+          options.group_count_warning == true) ||
+        !options.hasOwnProperty('group_count_warning')
       )
         throw new Error(`Group count surpasses the limit! (${unavailable_g}/${limit})`);
     }
@@ -1485,19 +1485,68 @@ let liveEditor = (conf) => {
     throw new Error(`Connecting to WSLiveEditor failed! Make sure you have installed the WSLiveEditor mod inside of Geode!`);
   });
 };
+/**
+ * Configuration for exporting levels
+ * @typedef {object} save_config 
+ * @property {boolean} info Whether to log information to console when finished
+ * @property {boolean} group_count_warning Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
+ * @property {string} level_name Name of level (only for exportToSavefile)
+ */
+/**
+ * Core type holding important functions for adding to levels, exporting and modifying scripts
+ * @typedef {object} $
+ * @property {add} add Adds an object
+ * @property {print} print Prints to console
+ * @property {getLevelString} getLevelString Returns level string of the script
+ * @property {extend_trigger_func} extend_trigger_func Extends a trigger function by adding more triggers to it
+ * @property {exportToSavefile} exportToSavefile Exports script to savefile
+ * @property {liveEditor} liveEditor Exports script to live editor using WSLiveEditor (requires Geode)
+ * @property {trigger_fn_context} trigger_fn_context Returns group of current trigger function context
+ */
+/**
+ * Adds an object
+ * @callback add
+ * @param {object} object Object to add
+ */
+/**
+ * Prints to console
+ * @callback print
+ * @param {*} value Value to print 
+ */
+/**
+ * Extends a trigger function by adding more triggers to it
+ * @callback extend_trigger_func
+ * @param {group} trigger_func Trigger function to extend
+ * @param {function} callback Function that adds more triggers to trigger_func
+ */
+/**
+ * Returns level string
+ * @callback getLevelString
+ * @param {save_config} config Configuration for exporting to levelstring
+ * @returns {string} Resulting level string
+ */
+/**
+ * Exports script to savefile
+ * @callback exportToSavefile
+ * @param {save_config} config Configuration for exporting to savefile
+ */
+/**
+ * Exports script to live editor using WSLiveEditor (requires Geode)
+ * @callback liveEditor
+ * @param {save_config} config Configuration for exporting to live editor
+ */
+/**
+ * Returns group of current trigger function context
+ * @callback trigger_fn_context
+ * @returns {group} Group of current trigger function context
+ */
 
 let $ = {
   add,
   print: function () {
     console.log(...Array.from(arguments));
   },
-  exportLevel,
   getLevelString,
-  encode_level,
-  decode_level,
-  arr_to_levelstring,
-  obj_to_levelstring,
-  levelstring_to_obj,
   extend_trigger_func,
   exportToSavefile,
   liveEditor,

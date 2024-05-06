@@ -5,3 +5,10 @@
     }
   }
   
+{
+    "opts": {
+      "template": "node_modules/docdash",
+      "tutorials": "./tutorials"
+    }
+  }
+  

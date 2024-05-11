@@ -208,6 +208,7 @@ module.exports = {
     438: "RESET",
     439: "RESET_FULL_STEP",
     447: "EXTRA_ID",
+    449: "MODIFIER",
     453: "SMOOTH_VELOCITY",
     454: "SMOOTH_VELOCITY_MODIFIER",
     455: "SFX_GROUP",

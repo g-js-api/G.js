@@ -2,6 +2,8 @@
     "opts": {
       "template": "node_modules/docdash",
       "tutorials": "./tutorials"
+    },
+    "source": {
+      "include": ["index.js", "types/group.js", "types/color.js", "types/block.js"]
     }
 }
-  

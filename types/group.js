@@ -23,6 +23,7 @@
  * @constructor
  * @public
  */
+let all_known_groups = [];
 class $group {
     /**
      * Creates a group from a number
@@ -32,7 +33,7 @@ class $group {
     constructor(a, specific = true) {
         this.value = a;
         this.type = 'group';
-        if (specific) all_known.groups.push(a);
+        if (specific) all_known_groups.push(a);
     }
     /**
     * Remaps multiple IDs inside of the group to others

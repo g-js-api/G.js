@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>$block - Documentation</title>
+    <title>types/block.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -35,431 +35,56 @@
 
 <div id="main">
     
-    <h1 class="page-title">$block</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        
-            $block
-        
-        </h2>
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-
-    
-
-    <h4 class="name" id="$block"><span class="type-signature"></span>new $block<span class="signature">(number, specific<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li>Creates a block from a number</li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types_block.js.html">types/block.js</a>, <a href="types_block.js.html#line11">line 11</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>number</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Block ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>specific</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>true</code>
-                
-                </td>
-            
-
-            <td class="description last">Whether to disallow G.js from using that specific block again</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="if_colliding"><span class="type-signature"></span>if_colliding<span class="signature">(b2, true_id, false_id)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types_block.js.html">types/block.js</a>, <a href="types_block.js.html#line28">line 28</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>b2</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#block">block</a></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Other block to check for collision</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>true_id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#group">group</a></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Group to call if colliding with b2</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>false_id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#group">group</a></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Group to call if not colliding with b2</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">types/block.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @typedef {object} block
+ * @property {function} if_colliding Returns whether the block is colliding with another one
+ */
+/**
+ * Representation of blocks
+ * @class
+ * @constructor
+ * @public
+ */
+class $block {
+    /**
+     * Creates a block from a number
+     * @param {number} number Block ID
+     * @param {boolean} [specific=true] Whether to disallow G.js from using that specific block again
+     */
+    constructor(a, specific = true) {
+      this.value = a;
+      this.type = 'block';
+      if (specific) all_known.blocks.push(a);
+    }
+    /**
+     * 
+     * @param {block} b2 Other block to check for collision
+     * @param {group} true_id Group to call if colliding with b2
+     * @param {group} false_id Group to call if not colliding with b2
+     */
+    if_colliding(b2, true_id = group(0), false_id = group(0)) {
+      let j = {
+        OBJ_ID: 3609,
+        BLOCK_A: this,
+        BLOCK_B: b2
+      };
+      if (true_id) j.TRUE_ID = true_id;
+      if (false_id) j.FALSE_ID = false_id;
+      $.add(j);
+    }
+  }</code></pre>
+        </article>
+    </section>
 
 
 

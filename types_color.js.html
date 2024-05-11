@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>$block - Documentation</title>
+    <title>types/color.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -35,431 +35,135 @@
 
 <div id="main">
     
-    <h1 class="page-title">$block</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        
-            $block
-        
-        </h2>
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-
-    
-
-    <h4 class="name" id="$block"><span class="type-signature"></span>new $block<span class="signature">(number, specific<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li>Creates a block from a number</li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types_block.js.html">types/block.js</a>, <a href="types_block.js.html#line11">line 11</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>number</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Block ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>specific</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>true</code>
-                
-                </td>
-            
-
-            <td class="description last">Whether to disallow G.js from using that specific block again</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="if_colliding"><span class="type-signature"></span>if_colliding<span class="signature">(b2, true_id, false_id)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types_block.js.html">types/block.js</a>, <a href="types_block.js.html#line28">line 28</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>b2</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#block">block</a></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Other block to check for collision</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>true_id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#group">group</a></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Group to call if colliding with b2</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>false_id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#group">group</a></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Group to call if not colliding with b2</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">types/color.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @typedef {object} color
+ * @property {function} set Sets color to RGB value
+ * @property {function} copy Copy a color channel to another
+ * @property {function} pulse_hsv Pulses color w/ HSV
+ * @property {function} pulse Pulses color
+ */
+/**
+ * Representation of colors
+ * @class
+ * @constructor
+ * @public
+ */
+class $color {
+    /**
+     * Creates a color from a number
+     * @param {number} number Color ID
+     * @param {boolean} [specific=true] Whether to disallow G.js from using that specific color again
+     */
+    constructor(a, specific = true) {
+      this.value = a;
+      this.type = 'color';
+      if (specific) all_known.colors.push(a);
+    }
+    /**
+     * Sets color to RGB value
+     * @param {array} c RGB value
+     * @param {number} [duration=0] How long it takes for color to change
+     * @param {boolean} [blending=false] Whether to make color blending
+     * @param {boolean} [delay_trig=true] Whether to do wait(duration)
+     */
+    set(c, duration = 0, blending = false, delay_trig = true) {
+      $.add({
+        OBJ_ID: 899,
+        DURATION: duration,
+        TRIGGER_RED: c[0],
+        TRIGGER_GREEN: c[1],
+        TRIGGER_BLUE: c[2],
+        OPACITY: c[3] || 1,
+        BLENDING: blending,
+        TARGET_COLOR: this,
+        ACTIVE_TRIGGER: true,
+      });
+      if (delay_trig &amp;&amp; duration !== 0) wait(duration);
+    }
+    /**
+     * Copy a color channel to another
+     * @param {color} c Color channel to be copied
+     * @param {number} [duration=0] Duration of color change
+     * @param {string} [hvs="0a1a1a0a0"] HVS color to copy
+     * @param {boolean} [blending=false] Toggle blending on color
+     * @param {number} [opacity=1] Channel opacity
+     * @param {boolean} [copy_opacity=false] Copy target opacity
+     */
+    copy(c, duration = 0, hvs = "0a1a1a0a0a", blending = false, opacity = 1, copy_opacity = false) {
+      $.add({
+        OBJ_ID: 899,
+        DURATION: duration,
+        COPIED_COLOR_ID: c,
+        COPIED_COLOR_HVS: hvs,
+        COPY_OPACITY: copy_opacity,
+        OPACITY: opacity,
+        BLENDING: blending,
+        TARGET_COLOR: this,
+        36: 1,
+      });
+      if (duration) wait(duration);
+    }
+    /**
+     * Pulses color w/ HSV
+     * @param {number} h Hue
+     * @param {number} s Saturation
+     * @param {number} b Brightness
+     * @param {boolean} [s_checked=false] Saturation is checked
+     * @param {boolean} [b_checked=false] Brightness is checked
+     * @param {number} [fade_in=0] Fade in
+     * @param {number} [hold=0] Hold
+     * @param {number} [fade_out=0] Fade out
+     * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
+     */
+    pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+      $.add({
+        OBJ_ID: 1006,
+        COPIED_COLOR_HVS: [h, s, b, +s_checked, +b_checked].join("a"),
+        EXCLUSIVE: exclusive,
+        FADE_IN: fade_in,
+        HOLD: hold,
+        FADE_OUT: fade_out,
+        TARGET: this,
+        PULSE_HSV: true,
+      });
+      wait(fade_in + hold + fade_out);
+    }
+    /**
+   * Pulses color
+   * @param {array} color RGB color to pulse
+   * @param {number} [fade_in=0] Fade in
+   * @param {number} [hold=0] Hold
+   * @param {number} [fade_out=0] Fade out
+   * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
+   */
+    pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+      $.add({
+        OBJ_ID: 1006,
+        TRIGGER_RED: c[0],
+        TRIGGER_GREEN: c[1],
+        TRIGGER_BLUE: c[2],
+        EXCLUSIVE: exclusive,
+        FADE_IN: fade_in,
+        HOLD: hold,
+        FADE_OUT: fade_out,
+        TARGET: this,
+        PULSE_HSV: false,
+      });
+      wait(fade_in + hold + fade_out);
+    }
+  }</code></pre>
+        </article>
+    </section>
 
 
 

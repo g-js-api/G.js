@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>classes/group.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="$block.html">$block</a><ul class='methods'><li data-type='method'><a href="$block.html#if_colliding">if_colliding</a></li></ul></li><li><a href="$color.html">$color</a><ul class='methods'><li data-type='method'><a href="$color.html#copy">copy</a></li><li data-type='method'><a href="$color.html#pulse">pulse</a></li><li data-type='method'><a href="$color.html#pulse_hsv">pulse_hsv</a></li><li data-type='method'><a href="$color.html#set">set</a></li></ul></li><li><a href="module-group-$group.html">$group</a><ul class='methods'><li data-type='method'><a href="module-group-$group.html#alpha">alpha</a></li><li data-type='method'><a href="module-group-$group.html#call">call</a></li><li data-type='method'><a href="module-group-$group.html#follow">follow</a></li><li data-type='method'><a href="module-group-$group.html#follow_lerp">follow_lerp</a></li><li data-type='method'><a href="module-group-$group.html#follow_player_y">follow_player_y</a></li><li data-type='method'><a href="module-group-$group.html#lock_to_player">lock_to_player</a></li><li data-type='method'><a href="module-group-$group.html#move">move</a></li><li data-type='method'><a href="module-group-$group.html#move_to">move_to</a></li><li data-type='method'><a href="module-group-$group.html#move_to_xy">move_to_xy</a></li><li data-type='method'><a href="module-group-$group.html#pulse">pulse</a></li><li data-type='method'><a href="module-group-$group.html#pulse_hsv">pulse_hsv</a></li><li data-type='method'><a href="module-group-$group.html#remap">remap</a></li><li data-type='method'><a href="module-group-$group.html#rotate">rotate</a></li><li data-type='method'><a href="module-group-$group.html#stop">stop</a></li><li data-type='method'><a href="module-group-$group.html#toggle_off">toggle_off</a></li><li data-type='method'><a href="module-group-$group.html#toggle_on">toggle_on</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-group.html">group</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Particles.html">Particles</a></li></ul><h3>Global</h3><ul><li><a href="global.html#advanced_random">advanced_random</a></li><li><a href="global.html#all_particles">all_particles</a></li><li><a href="global.html#call_with_delay">call_with_delay</a></li><li><a href="global.html#camera_edge">camera_edge</a></li><li><a href="global.html#camera_mode">camera_mode</a></li><li><a href="global.html#camera_offset">camera_offset</a></li><li><a href="global.html#camera_rotate">camera_rotate</a></li><li><a href="global.html#camera_static">camera_static</a></li><li><a href="global.html#camera_zoom">camera_zoom</a></li><li><a href="global.html#collision">collision</a></li><li><a href="global.html#collision_exit">collision_exit</a></li><li><a href="global.html#color_trigger">color_trigger</a></li><li><a href="global.html#compare">compare</a></li><li><a href="global.html#count">count</a></li><li><a href="global.html#death">death</a></li><li><a href="global.html#end">end</a></li><li><a href="global.html#equal_to">equal_to</a></li><li><a href="global.html#event">event</a></li><li><a href="global.html#extract">extract</a></li><li><a href="global.html#for_loop">for_loop</a></li><li><a href="global.html#gradient">gradient</a></li><li><a href="global.html#gravity">gravity</a></li><li><a href="global.html#greater_than">greater_than</a></li><li><a href="global.html#hide_player">hide_player</a></li><li><a href="global.html#item_comp">item_comp</a></li><li><a href="global.html#item_edit">item_edit</a></li><li><a href="global.html#less_than">less_than</a></li><li><a href="global.html#move_trigger">move_trigger</a></li><li><a href="global.html#on">on</a></li><li><a href="global.html#particle_system">particle_system</a></li><li><a href="global.html#player_control">player_control</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#range">range</a></li><li><a href="global.html#remappable">remappable</a></li><li><a href="global.html#sequence">sequence</a></li><li><a href="global.html#spawn_trigger">spawn_trigger</a></li><li><a href="global.html#teleport">teleport</a></li><li><a href="global.html#timer">timer</a></li><li><a href="global.html#timewarp">timewarp</a></li><li><a href="global.html#toggle_off_trigger">toggle_off_trigger</a></li><li><a href="global.html#toggle_on_trigger">toggle_on_trigger</a></li><li><a href="global.html#touch">touch</a></li><li><a href="global.html#touch_end">touch_end</a></li><li><a href="global.html#trigger_function">trigger_function</a></li><li><a href="global.html#unknown_b">unknown_b</a></li><li><a href="global.html#unknown_c">unknown_c</a></li><li><a href="global.html#unknown_g">unknown_g</a></li><li><a href="global.html#wait">wait</a></li><li><a href="global.html#while_loop">while_loop</a></li><li><a href="global.html#x_position">x_position</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">classes/group.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Group class
+ * @module group
+ */
+
+/**
+ * @typedef {object} group
+ * @property {function} remap Remaps multiple IDs inside of the group to others
+ * @property {function} move Moves the group
+ * @property {function} call Calls the group
+ * @property {function} alpha Alpha trigger implementation
+ * @property {function} lock_to_player Locks group to player
+ * @property {function} stop Stops the current group
+ * @property {function} toggle_on Toggles the group on
+ * @property {function} toggle_off Toggles the group off
+ * @property {function} rotate Rotates the group
+ * @property {function} follow Makes the group follow another
+ * @property {function} follow_lerp Keeps an object's position proportionally between 2 others
+ * @property {function} follow_player_y Follows player Y
+ * @property {function} move_to Move target implementation
+ * @property {function} move_to_xy Moves group to specific coordinate
+ * @property {function} pulse_hsv Pulses group w/ HSV
+ * @property {function} pulse Pulses group
+ */
+/**
+ * Representation of groups
+ * @class
+ * @constructor
+ * @public
+ */
+class $group {
+    /**
+     * Creates a group from a number
+     * @param {number} number Group ID
+     * @param {boolean} [specific=true] Whether to disallow G.js from using that specific group again
+     */
+    constructor(a, specific = true) {
+        this.value = a;
+        this.type = 'group';
+        if (specific) all_known.groups.push(a);
+    }
+    /**
+    * Remaps multiple IDs inside of the group to others
+    * @param {...array} remaps Array of groups to remap, e.g. remap([group(1), group(2)], [group(4), group(3)]) is valid
+    */
+    remap(...mps) {
+        mps = mps.map(x => (x[0].value ? x[0].value : x[0]) + '.' + (x[1].value ? x[1].value : x[1])).join('.');
+        this.remaps = mps;
+        return this;
+    }
+    /**
+     * Moves the group
+     * @param {number} x Movement on X axis
+     * @param {number} y Movement on Y axis
+     * @param {number} duration Duration for move trigger
+     * @param {easing} easing How smoothly object moves
+     * @param {number} easing_rate Easing rate for move trigger
+     * @param {number} x_multiplier How much to multiply the amount by on X axis
+     * @param {number} y_multiplier How much to multiply the amount by on Y axis
+     * @param {boolean} multiply Whether to fit the amount of units moved into GD units (multiplying by 3 does this)
+     * @param {boolean} delay_trig Whether to do wait(duration)
+     */
+    move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, delay_trig = true) {
+        $.add({
+            OBJ_ID: 901,
+            TARGET: this,
+            MOVE_X: multiply ? x * 3 * x_multiplier : x * x_multiplier,
+            MOVE_Y: multiply ? y * 3 * y_multiplier : y * y_multiplier,
+            DURATION: duration,
+            EASING: easing,
+            EASING_RATE: easing_rate,
+        });
+        if (delay_trig &amp;&amp; duration !== 0) wait(duration);
+    }
+    /**
+     * Calls the group
+     * @param {number} delay How long to delay the group being called
+     */
+    call(delay = 0) {
+        let tr = spawn_trigger(this, delay);
+        if (this.remaps) tr.REMAPS = this.remaps;
+        $.add(tr);
+    }
+    /**
+     * Alpha trigger implementation
+     * @param {number} opacity Changed opacity
+     * @param {number} duration How long it takes for the opacity to change
+     */
+    alpha(opacity = 1, duration = 0) {
+        $.add({
+            OBJ_ID: 1007,
+            TARGET: this,
+            OPACITY: opacity,
+            DURATION: duration,
+        });
+        wait(duration);
+    }
+    /**
+     * Locks group to player
+     * @param {boolean} [lock_x=true] Whether to lock to X axis of player
+     * @param {boolean} [lock_y=true] Whether to lock to Y axis of player
+     * @param {number} [duration=999] How long group is locked to player
+     */
+    lock_to_player(lock_x = true, lock_y = true, duration = 999) {
+        $.add({
+            OBJ_ID: 901,
+            TARGET: this,
+            DURATION: duration,
+            LOCK_TO_PLAYER_X: lock_x,
+            LOCK_TO_PLAYER_Y: lock_y,
+        });
+    }
+
+    /**
+     * Stops the current group
+     */
+    stop() {
+        $.add({
+            OBJ_ID: 1616,
+            TARGET: this,
+        });
+    }
+
+    /**
+     * Toggles the group on
+     */
+    toggle_on() {
+        $.add({
+            OBJ_ID: 1049,
+            TARGET: this,
+            ACTIVATE_GROUP: true,
+        });
+    }
+    /**
+     * Toggles the group off
+     */
+    toggle_off() {
+        $.add({
+            OBJ_ID: 1049,
+            TARGET: this,
+            ACTIVATE_GROUP: false,
+        });
+    }
+    /**
+     * Rotates the group
+     * @param {group} center Group to rotate around
+     * @param {number} degrees How many degrees to rotate
+     * @param {number} [duration=0] How long it takes for the group to rotate
+     * @param {easing} [easing=NONE] How smoothly the object rotates
+     * @param {number} [easing_rate=2] Easing rate of rotation
+     * @param {boolean} [lock_object_rotation=false] Whether to turn on "lock object rotation"
+     */
+    rotate(center, degrees, duration = 0, easing = NONE, easing_rate = 2, lock_object_rotation = false) {
+        $.add({
+            OBJ_ID: 1346,
+            TARGET: this,
+            CENTER: center,
+            ROTATE_DEGREES: degrees,
+            DURATION: duration,
+            EASING: easing.id,
+            EASING_RATE: easing_rate,
+            LOCK_OBJECT_ROTATION: lock_object_rotation
+        });
+        if (duration) wait(duration);
+    }
+
+    /**
+     * Makes the group follow another
+     * @param {group} other Group to follow
+     * @param {number} x_mod How much to speed up/slow down movement on X axis
+     * @param {number} y_mod How much to speed up/slow down movement on Y axis
+     * @param {number} duration How long to follow other group
+     */
+    follow(other, x_mod = 1, y_mod = 1, duration = 999) {
+        $.add({
+            OBJ_ID: 1347,
+            X_MOD: x_mod,
+            Y_MOD: y_mod,
+            DURATION: duration,
+            TARGET: this,
+            FOLLOW: other,
+        });
+    }
+    /**
+     * Keeps an object's position proportionally between 2 others
+     * @param {group} groupA Group of object A to follow
+     * @param {group} groupB Group of object B to follow
+     * @param {number} weight How much of the way the group should be kept in
+     * @param {number} duration How long to follow
+     */
+    follow_lerp(groupA, groupB, weight = 0.5, duration = 999) {
+        this.follow(groupA, 1 - weight, 1 - weight, duration);
+        this.follow(groupB, weight, weight, duration)
+    }
+
+    /**
+     * Follows player Y
+     * @param {number} [speed=0] How fast group snaps to player Y position
+     * @param {number} [delay=0] Delay of movement
+     * @param {number} [offset=0] Offset of group
+     * @param {number} [max_speed=0] How fast movement of group can be
+     * @param {number} [duration=0] How long the group is locked to player Y axis
+     */
+    follow_player_y(speed = 1, delay = 0, offset = 0, max_speed = 0, duration = 999) {
+        $.add({
+            OBJ_ID: 1814,
+            SPEED: speed,
+            DELAY: delay,
+            Y_OFFSET: offset,
+            MAX_SPEED: max_speed,
+            TARGET: this,
+            DURATION: duration,
+        });
+    }
+    /**
+     * Move target implementation
+     * @param {group} target Group to move to
+     * @param {number} duration How long it takes to move to target
+     * @param {boolean} x_only Whether to only move on X axis
+     * @param {boolean} y_only Whether to only move on Y axis
+     * @param {easing} easing Easing of movement
+     * @param {number} easing_rate Easing rate of movement
+     */
+    move_to(target, duration = 0, x_only = false, y_only = false, easing = NONE, easing_rate = 2) {
+        $.add({
+            OBJ_ID: 901,
+            TARGET: this,
+            USE_TARGET: true,
+            TARGET_POS_AXES: x_only &amp;&amp; y_only ? 0 : (x_only ? 1 : (y_only ? 2 : 0)),
+            TARGET_POS: target,
+            DURATION: duration,
+            EASING: easing,
+            EASING_RATE: easing_rate,
+        });
+        wait(duration);
+    }
+    /**
+     * Moves group to specific coordinate
+     * @param {number} x X coordinate
+     * @param {number} y Y coordinate
+     * @param {number} [duration=0] Duration of movement
+     * @param {easing} [easing=0] Easing of movement
+     * @param {number} [easing_rate=2] Easing rate of movement
+     */
+    move_to_xy(x, y, duration = 0, easing = NONE, easing_rate = 2) {
+        if (!x &amp;&amp; !y) throw new Error("At least one coordinate must be specified!");
+        let target = unknown_g();
+        $.add({
+            OBJ_ID: 1765,
+            X: x ? x : 0,
+            Y: y ? y : 0,
+            GROUPS: target,
+        });
+        $.add({
+            OBJ_ID: 1007,
+            X: 0,
+            Y: 75 * 30,
+            TARGET: target,
+            OPACITY: 0,
+            DURATION: 0,
+        });
+        this.move_to(target, duration, !y, !x, easing, easing_rate);
+    }
+    /**
+     * Pulses group w/ HSV
+     * @param {number} h Hue
+     * @param {number} s Saturation
+     * @param {number} b Brightness
+     * @param {boolean} [s_checked=false] Saturation is checked
+     * @param {boolean} [b_checked=false] Brightness is checked
+     * @param {number} [fade_in=0] Fade in
+     * @param {number} [hold=0] Hold
+     * @param {number} [fade_out=0] Fade out
+     * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
+     */
+    pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+        $.add({
+            OBJ_ID: 1006,
+            COPIED_COLOR_HVS: [h, s, b, +s_checked, +b_checked].join("a"),
+            EXCLUSIVE: exclusive,
+            FADE_IN: fade_in,
+            HOLD: hold,
+            FADE_OUT: fade_out,
+            TARGET: this,
+            PULSE_HSV: true,
+            TARGET_TYPE: 1,
+        });
+        wait(fade_in + hold + fade_out);
+    }
+    /**
+     * Pulses group
+     * @param {array} color RGB color to pulse
+     * @param {number} [fade_in=0] Fade in
+     * @param {number} [hold=0] Hold
+     * @param {number} [fade_out=0] Fade out
+     * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
+     */
+    pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+        $.add({
+            OBJ_ID: 1006,
+            TRIGGER_RED: c[0],
+            TRIGGER_GREEN: c[1],
+            TRIGGER_BLUE: c[2],
+            EXCLUSIVE: exclusive,
+            FADE_IN: fade_in,
+            HOLD: hold,
+            FADE_OUT: fade_out,
+            TARGET: this,
+            PULSE_HSV: false,
+            TARGET_TYPE: 1,
+        });
+        wait(fade_in + hold + fade_out);
+    }
+}
+
+module.exports = $group</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Sat May 11 2024 10:16:20 GMT-0500 (Central Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

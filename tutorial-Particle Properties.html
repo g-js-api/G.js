@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>$block - Documentation</title>
+    <title>Tutorial: Particle Properties - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -35,434 +35,319 @@
 
 <div id="main">
     
-    <h1 class="page-title">$block</h1>
+    <h1 class="page-title">Tutorial: Particle Properties</h1>
     
 
-    
-
-
-
-
-<section>
+    <section>
 
 <header>
     
-        <h2>
-        
-            $block
-        
-        </h2>
-        
-    
+
+    <h2>Particle Properties</h2>
 </header>
 
 <article>
-    
-        <div class="container-overview">
-        
-            
-
-    
-
-    <h4 class="name" id="$block"><span class="type-signature"></span>new $block<span class="signature">(number, specific<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li>Creates a block from a number</li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types_block.js.html">types/block.js</a>, <a href="types_block.js.html#line11">line 11</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>number</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Block ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>specific</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>true</code>
-                
-                </td>
-            
-
-            <td class="description last">Whether to disallow G.js from using that specific block again</td>
-        </tr>
-
-    
-    </tbody>
+    <table>
+<thead>
+<tr>
+<th>Particle Property Name</th>
+<th>Particle Property ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAX_PARTICLES</td>
+<td>0</td>
+</tr>
+<tr>
+<td>DURATION</td>
+<td>1</td>
+</tr>
+<tr>
+<td>LIFETIME</td>
+<td>2</td>
+</tr>
+<tr>
+<td>LIFETIME_VAR</td>
+<td>3</td>
+</tr>
+<tr>
+<td>EMISSION</td>
+<td>4</td>
+</tr>
+<tr>
+<td>ANGLE</td>
+<td>5</td>
+</tr>
+<tr>
+<td>ANGLE_VAR</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SPEED</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SPEED_VAR</td>
+<td>8</td>
+</tr>
+<tr>
+<td>POSVAR_X</td>
+<td>9</td>
+</tr>
+<tr>
+<td>POSVAR_Y</td>
+<td>10</td>
+</tr>
+<tr>
+<td>GRAVITY_X</td>
+<td>11</td>
+</tr>
+<tr>
+<td>GRAVITY_Y</td>
+<td>12</td>
+</tr>
+<tr>
+<td>ACCEL_RAD</td>
+<td>13</td>
+</tr>
+<tr>
+<td>ACCEL_RAD_VAR</td>
+<td>14</td>
+</tr>
+<tr>
+<td>ACCEL_TAN</td>
+<td>15</td>
+</tr>
+<tr>
+<td>ACCEL_TAN_VAR</td>
+<td>16</td>
+</tr>
+<tr>
+<td>START_SIZE</td>
+<td>17</td>
+</tr>
+<tr>
+<td>START_SIZE_VAR</td>
+<td>18</td>
+</tr>
+<tr>
+<td>START_SPIN</td>
+<td>19</td>
+</tr>
+<tr>
+<td>START_SPIN_VAR</td>
+<td>20</td>
+</tr>
+<tr>
+<td>START_R</td>
+<td>21</td>
+</tr>
+<tr>
+<td>START_R_VAR</td>
+<td>22</td>
+</tr>
+<tr>
+<td>START_G</td>
+<td>23</td>
+</tr>
+<tr>
+<td>START_G_VAR</td>
+<td>24</td>
+</tr>
+<tr>
+<td>START_B</td>
+<td>25</td>
+</tr>
+<tr>
+<td>START_B_VAR</td>
+<td>26</td>
+</tr>
+<tr>
+<td>START_A</td>
+<td>27</td>
+</tr>
+<tr>
+<td>START_A_VAR</td>
+<td>28</td>
+</tr>
+<tr>
+<td>END_SIZE</td>
+<td>29</td>
+</tr>
+<tr>
+<td>END_SIZE_VAR</td>
+<td>30</td>
+</tr>
+<tr>
+<td>END_SPIN</td>
+<td>31</td>
+</tr>
+<tr>
+<td>END_SPIN_VAR</td>
+<td>32</td>
+</tr>
+<tr>
+<td>END_R</td>
+<td>33</td>
+</tr>
+<tr>
+<td>END_R_VAR</td>
+<td>34</td>
+</tr>
+<tr>
+<td>END_G</td>
+<td>35</td>
+</tr>
+<tr>
+<td>END_G_VAR</td>
+<td>36</td>
+</tr>
+<tr>
+<td>END_B</td>
+<td>37</td>
+</tr>
+<tr>
+<td>END_B_VAR</td>
+<td>38</td>
+</tr>
+<tr>
+<td>END_A</td>
+<td>39</td>
+</tr>
+<tr>
+<td>END_A_VAR</td>
+<td>40</td>
+</tr>
+<tr>
+<td>FADE_IN</td>
+<td>41</td>
+</tr>
+<tr>
+<td>FADE_IN_VAR</td>
+<td>42</td>
+</tr>
+<tr>
+<td>FADE_OUT</td>
+<td>43</td>
+</tr>
+<tr>
+<td>FADE_OUT_VAR</td>
+<td>44</td>
+</tr>
+<tr>
+<td>START_RAD</td>
+<td>45</td>
+</tr>
+<tr>
+<td>START_RAD_VAR</td>
+<td>46</td>
+</tr>
+<tr>
+<td>END_RAD</td>
+<td>47</td>
+</tr>
+<tr>
+<td>END_RAD_VAR</td>
+<td>48</td>
+</tr>
+<tr>
+<td>ROT_SEC</td>
+<td>49</td>
+</tr>
+<tr>
+<td>ROT_SEC_VAR</td>
+<td>50</td>
+</tr>
+<tr>
+<td>GRAVITY_RADIUS</td>
+<td>51</td>
+</tr>
+<tr>
+<td>FREE_RELATIVE_GROUPED</td>
+<td>52</td>
+</tr>
+<tr>
+<td>ADDITIVE</td>
+<td>53</td>
+</tr>
+<tr>
+<td>START_SPIN_END</td>
+<td>54</td>
+</tr>
+<tr>
+<td>START_ROT_IS_DIR</td>
+<td>55</td>
+</tr>
+<tr>
+<td>DYNAMIC_ROTATION</td>
+<td>56</td>
+</tr>
+<tr>
+<td>TEXTURE</td>
+<td>57</td>
+</tr>
+<tr>
+<td>UNIFORM_OBJ_COLOR</td>
+<td>58</td>
+</tr>
+<tr>
+<td>FRICTION_P</td>
+<td>59</td>
+</tr>
+<tr>
+<td>FRICTION_P_VAR</td>
+<td>60</td>
+</tr>
+<tr>
+<td>RESPAWN</td>
+<td>61</td>
+</tr>
+<tr>
+<td>RESPAWN_VAR</td>
+<td>62</td>
+</tr>
+<tr>
+<td>ORDER_SENSITIVE</td>
+<td>63</td>
+</tr>
+<tr>
+<td>START_SIZE_END</td>
+<td>64</td>
+</tr>
+<tr>
+<td>START_RAD_END</td>
+<td>65</td>
+</tr>
+<tr>
+<td>START_RGB_VAR_SYNC</td>
+<td>66</td>
+</tr>
+<tr>
+<td>END_RGB_VAR_SYNC</td>
+<td>67</td>
+</tr>
+<tr>
+<td>FRICTION_S</td>
+<td>68</td>
+</tr>
+<tr>
+<td>FRICTION_S_VAR</td>
+<td>69</td>
+</tr>
+<tr>
+<td>FRICTION_R</td>
+<td>70</td>
+</tr>
+<tr>
+<td>FRICTON_R_VAR</td>
+<td>71</td>
+</tr>
+</tbody>
 </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="if_colliding"><span class="type-signature"></span>if_colliding<span class="signature">(b2, true_id, false_id)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types_block.js.html">types/block.js</a>, <a href="types_block.js.html#line28">line 28</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>b2</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#block">block</a></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Other block to check for collision</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>true_id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#group">group</a></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Group to call if colliding with b2</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>false_id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#group">group</a></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Group to call if not colliding with b2</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-
-    
-
-    
 </article>
 
 </section>
-
-
-
 
     
     

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Tutorial: Particles - Documentation</title>
+    <title>classes/color.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -35,319 +35,138 @@
 
 <div id="main">
     
-    <h1 class="page-title">Tutorial: Particles</h1>
+    <h1 class="page-title">classes/color.js</h1>
     
 
+    
+
+
+
+    
     <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @typedef {object} color
+ * @property {function} set Sets color to RGB value
+ * @property {function} copy Copy a color channel to another
+ * @property {function} pulse_hsv Pulses color w/ HSV
+ * @property {function} pulse Pulses color
+ */
+/**
+ * Representation of colors
+ * @class
+ * @constructor
+ * @public
+ */
+class $color {
+    /**
+     * Creates a color from a number
+     * @param {number} number Color ID
+     * @param {boolean} [specific=true] Whether to disallow G.js from using that specific color again
+     */
+    constructor(a, specific = true) {
+      this.value = a;
+      this.type = 'color';
+      if (specific) all_known.colors.push(a);
+    }
+    /**
+     * Sets color to RGB value
+     * @param {array} c RGB value
+     * @param {number} [duration=0] How long it takes for color to change
+     * @param {boolean} [blending=false] Whether to make color blending
+     * @param {boolean} [delay_trig=true] Whether to do wait(duration)
+     */
+    set(c, duration = 0, blending = false, delay_trig = true) {
+      $.add({
+        OBJ_ID: 899,
+        DURATION: duration,
+        TRIGGER_RED: c[0],
+        TRIGGER_GREEN: c[1],
+        TRIGGER_BLUE: c[2],
+        OPACITY: c[3] || 1,
+        BLENDING: blending,
+        TARGET_COLOR: this,
+        ACTIVE_TRIGGER: true,
+      });
+      if (delay_trig &amp;&amp; duration !== 0) wait(duration);
+    }
+    /**
+     * Copy a color channel to another
+     * @param {color} c Color channel to be copied
+     * @param {number} [duration=0] Duration of color change
+     * @param {string} [hvs="0a1a1a0a0"] HVS color to copy
+     * @param {boolean} [blending=false] Toggle blending on color
+     * @param {number} [opacity=1] Channel opacity
+     * @param {boolean} [copy_opacity=false] Copy target opacity
+     */
+    copy(c, duration = 0, hvs = "0a1a1a0a0a", blending = false, opacity = 1, copy_opacity = false) {
+      $.add({
+        OBJ_ID: 899,
+        DURATION: duration,
+        COPIED_COLOR_ID: c,
+        COPIED_COLOR_HVS: hvs,
+        COPY_OPACITY: copy_opacity,
+        OPACITY: opacity,
+        BLENDING: blending,
+        TARGET_COLOR: this,
+        36: 1,
+      });
+      if (duration) wait(duration);
+    }
+    /**
+     * Pulses color w/ HSV
+     * @param {number} h Hue
+     * @param {number} s Saturation
+     * @param {number} b Brightness
+     * @param {boolean} [s_checked=false] Saturation is checked
+     * @param {boolean} [b_checked=false] Brightness is checked
+     * @param {number} [fade_in=0] Fade in
+     * @param {number} [hold=0] Hold
+     * @param {number} [fade_out=0] Fade out
+     * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
+     */
+    pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+      $.add({
+        OBJ_ID: 1006,
+        COPIED_COLOR_HVS: [h, s, b, +s_checked, +b_checked].join("a"),
+        EXCLUSIVE: exclusive,
+        FADE_IN: fade_in,
+        HOLD: hold,
+        FADE_OUT: fade_out,
+        TARGET: this,
+        PULSE_HSV: true,
+      });
+      wait(fade_in + hold + fade_out);
+    }
+    /**
+   * Pulses color
+   * @param {array} color RGB color to pulse
+   * @param {number} [fade_in=0] Fade in
+   * @param {number} [hold=0] Hold
+   * @param {number} [fade_out=0] Fade out
+   * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
+   */
+    pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
+      $.add({
+        OBJ_ID: 1006,
+        TRIGGER_RED: c[0],
+        TRIGGER_GREEN: c[1],
+        TRIGGER_BLUE: c[2],
+        EXCLUSIVE: exclusive,
+        FADE_IN: fade_in,
+        HOLD: hold,
+        FADE_OUT: fade_out,
+        TARGET: this,
+        PULSE_HSV: false,
+      });
+      wait(fade_in + hold + fade_out);
+    }
+  }</code></pre>
+        </article>
+    </section>
 
-<header>
-    
 
-    <h2>Particles</h2>
-</header>
 
-<article>
-    <table>
-<thead>
-<tr>
-<th>Particle Property Name</th>
-<th>Particle Property ID</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>MAX_PARTICLES</td>
-<td>0</td>
-</tr>
-<tr>
-<td>DURATION</td>
-<td>1</td>
-</tr>
-<tr>
-<td>LIFETIME</td>
-<td>2</td>
-</tr>
-<tr>
-<td>LIFETIME_VAR</td>
-<td>3</td>
-</tr>
-<tr>
-<td>EMISSION</td>
-<td>4</td>
-</tr>
-<tr>
-<td>ANGLE</td>
-<td>5</td>
-</tr>
-<tr>
-<td>ANGLE_VAR</td>
-<td>6</td>
-</tr>
-<tr>
-<td>SPEED</td>
-<td>7</td>
-</tr>
-<tr>
-<td>SPEED_VAR</td>
-<td>8</td>
-</tr>
-<tr>
-<td>POSVAR_X</td>
-<td>9</td>
-</tr>
-<tr>
-<td>POSVAR_Y</td>
-<td>10</td>
-</tr>
-<tr>
-<td>GRAVITY_X</td>
-<td>11</td>
-</tr>
-<tr>
-<td>GRAVITY_Y</td>
-<td>12</td>
-</tr>
-<tr>
-<td>ACCEL_RAD</td>
-<td>13</td>
-</tr>
-<tr>
-<td>ACCEL_RAD_VAR</td>
-<td>14</td>
-</tr>
-<tr>
-<td>ACCEL_TAN</td>
-<td>15</td>
-</tr>
-<tr>
-<td>ACCEL_TAN_VAR</td>
-<td>16</td>
-</tr>
-<tr>
-<td>START_SIZE</td>
-<td>17</td>
-</tr>
-<tr>
-<td>START_SIZE_VAR</td>
-<td>18</td>
-</tr>
-<tr>
-<td>START_SPIN</td>
-<td>19</td>
-</tr>
-<tr>
-<td>START_SPIN_VAR</td>
-<td>20</td>
-</tr>
-<tr>
-<td>START_R</td>
-<td>21</td>
-</tr>
-<tr>
-<td>START_R_VAR</td>
-<td>22</td>
-</tr>
-<tr>
-<td>START_G</td>
-<td>23</td>
-</tr>
-<tr>
-<td>START_G_VAR</td>
-<td>24</td>
-</tr>
-<tr>
-<td>START_B</td>
-<td>25</td>
-</tr>
-<tr>
-<td>START_B_VAR</td>
-<td>26</td>
-</tr>
-<tr>
-<td>START_A</td>
-<td>27</td>
-</tr>
-<tr>
-<td>START_A_VAR</td>
-<td>28</td>
-</tr>
-<tr>
-<td>END_SIZE</td>
-<td>29</td>
-</tr>
-<tr>
-<td>END_SIZE_VAR</td>
-<td>30</td>
-</tr>
-<tr>
-<td>END_SPIN</td>
-<td>31</td>
-</tr>
-<tr>
-<td>END_SPIN_VAR</td>
-<td>32</td>
-</tr>
-<tr>
-<td>END_R</td>
-<td>33</td>
-</tr>
-<tr>
-<td>END_R_VAR</td>
-<td>34</td>
-</tr>
-<tr>
-<td>END_G</td>
-<td>35</td>
-</tr>
-<tr>
-<td>END_G_VAR</td>
-<td>36</td>
-</tr>
-<tr>
-<td>END_B</td>
-<td>37</td>
-</tr>
-<tr>
-<td>END_B_VAR</td>
-<td>38</td>
-</tr>
-<tr>
-<td>END_A</td>
-<td>39</td>
-</tr>
-<tr>
-<td>END_A_VAR</td>
-<td>40</td>
-</tr>
-<tr>
-<td>FADE_IN</td>
-<td>41</td>
-</tr>
-<tr>
-<td>FADE_IN_VAR</td>
-<td>42</td>
-</tr>
-<tr>
-<td>FADE_OUT</td>
-<td>43</td>
-</tr>
-<tr>
-<td>FADE_OUT_VAR</td>
-<td>44</td>
-</tr>
-<tr>
-<td>START_RAD</td>
-<td>45</td>
-</tr>
-<tr>
-<td>START_RAD_VAR</td>
-<td>46</td>
-</tr>
-<tr>
-<td>END_RAD</td>
-<td>47</td>
-</tr>
-<tr>
-<td>END_RAD_VAR</td>
-<td>48</td>
-</tr>
-<tr>
-<td>ROT_SEC</td>
-<td>49</td>
-</tr>
-<tr>
-<td>ROT_SEC_VAR</td>
-<td>50</td>
-</tr>
-<tr>
-<td>GRAVITY_RADIUS</td>
-<td>51</td>
-</tr>
-<tr>
-<td>FREE_RELATIVE_GROUPED</td>
-<td>52</td>
-</tr>
-<tr>
-<td>ADDITIVE</td>
-<td>53</td>
-</tr>
-<tr>
-<td>START_SPIN_END</td>
-<td>54</td>
-</tr>
-<tr>
-<td>START_ROT_IS_DIR</td>
-<td>55</td>
-</tr>
-<tr>
-<td>DYNAMIC_ROTATION</td>
-<td>56</td>
-</tr>
-<tr>
-<td>TEXTURE</td>
-<td>57</td>
-</tr>
-<tr>
-<td>UNIFORM_OBJ_COLOR</td>
-<td>58</td>
-</tr>
-<tr>
-<td>FRICTION_P</td>
-<td>59</td>
-</tr>
-<tr>
-<td>FRICTION_P_VAR</td>
-<td>60</td>
-</tr>
-<tr>
-<td>RESPAWN</td>
-<td>61</td>
-</tr>
-<tr>
-<td>RESPAWN_VAR</td>
-<td>62</td>
-</tr>
-<tr>
-<td>ORDER_SENSITIVE</td>
-<td>63</td>
-</tr>
-<tr>
-<td>START_SIZE_END</td>
-<td>64</td>
-</tr>
-<tr>
-<td>START_RAD_END</td>
-<td>65</td>
-</tr>
-<tr>
-<td>START_RGB_VAR_SYNC</td>
-<td>66</td>
-</tr>
-<tr>
-<td>END_RGB_VAR_SYNC</td>
-<td>67</td>
-</tr>
-<tr>
-<td>FRICTION_S</td>
-<td>68</td>
-</tr>
-<tr>
-<td>FRICTION_S_VAR</td>
-<td>69</td>
-</tr>
-<tr>
-<td>FRICTION_R</td>
-<td>70</td>
-</tr>
-<tr>
-<td>FRICTON_R_VAR</td>
-<td>71</td>
-</tr>
-</tbody>
-</table>
-</article>
-
-</section>
 
     
     

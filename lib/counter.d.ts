@@ -65,6 +65,16 @@ declare interface counter {
 }
 
 /**
+ * Creates a counter, which has methods for editing items
+ * @param num Number or boolean to be represented by counter
+ * @param use_id Whether to use an existing item ID as a counter instead of creating a new item
+ * @param persistent Whether to make the counter persistent between attempts
+ * @param timer Whether to make the counter a timer
+ * @returns Resulting counter
+ */
+declare function counter(num?: number | boolean, use_id?: boolean, persistent?: boolean, timer?: boolean): counter;
+
+/**
  * Adds a specific amount (or another counter) to the current counter
  * @param amount Counter or number to add to the current counter
  */

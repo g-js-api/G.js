@@ -5,15 +5,15 @@ declare interface counter {
     /**
      * Item ID of a counter
      */
-    item: number;
+    item: item;
     /**
      * Type of a counter
      */
-    type: string;
+    type: item_type;
     /**
      * Adds a specific amount (or another counter) to the current counter
      */
-    add: add_counter;
+    add: add;
     /**
      * Subtracts a specific amount (or another counter) from the current counter
      */
@@ -64,39 +64,32 @@ declare interface counter {
     subtract_from: subtract_from;
 }
 
-declare function counter(
-    num?: number | boolean,
-    use_id?: boolean,
-    persistent?: boolean,
-    timer?: boolean
-): counter;
-
 /**
  * Adds a specific amount (or another counter) to the current counter
  * @param amount Counter or number to add to the current counter
  */
-declare type add_counter = (amount: number | counter)=>void;
+declare type add = (amount: number | counter)=>void;
 
 /**
- * Adds a specific amount (or another counter) to the current counter
+ * Subtracts a specific amount (or another counter) from the current counter
  * @param amount Counter or number to subtract from the current counter
  */
 declare type subtract = (amount: number | counter)=>void;
 
 /**
- * Adds a specific amount (or another counter) to the current counter
+ * Multiplies the current counter by a specific amount (or another counter)
  * @param amount Counter or number to multiply the current counter by
  */
 declare type multiply = (amount: number | counter)=>void;
 
 /**
- * Adds a specific amount (or another counter) to the current counter
+ * Divides the current counter by a specific amount (or another counter)
  * @param amount Counter or number to divide the current counter by
  */
 declare type divide = (amount: number | counter)=>void;
 
 /**
- * Adds a specific amount (or another counter) to the current counter
+ * Sets the current counter to a specific amount (or another counter)
  * @param amount Counter or number to set the current counter to
  */
 declare type set = (amount: number | counter)=>void;
@@ -118,7 +111,7 @@ declare type to_obj = ()=>object;
  * @param other Number to compare the current counter to
  * @param trig_func Trigger function or group to run if the comparison is true
  */
-declare type if_is = (comparison: number, other: number, trig_func: group)=>void;
+declare type if_is = (comparison: comparison, other: number, trig_func: group)=>void;
 
 /**
  * Converts the current counter to a plain number by taking in a range of possible values and a function

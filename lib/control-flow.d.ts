@@ -1,12 +1,4 @@
 /**
- * Creates a spawn trigger and returns it
- * @param group group to be spawned
- * @param time delay to spawn group
- * @returns
- */
-declare function spawn_trigger(group: group, time?: number): object;
-
-/**
  * Returns a greater than condition
  * @param counter Counter to compare to number
  * @param other Number to be compared to counter

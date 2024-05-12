@@ -550,7 +550,7 @@ let remove_past_objects = (lvlstring, name) => {
 }
 let exportToSavefile = (options = {}) => {
   (async () => {
-    const level = await new LevelReader(options.level_name);
+    const level = await new LevelReader(options.level_name, options.path);
     let last = remove_past_objects(level.data.levelstring, level.data.name);
     prep_lvl();
     if (unavailable_g <= limit) {
@@ -611,6 +611,7 @@ let liveEditor = (conf) => {
  * @property {boolean} info Whether to log information to console when finished
  * @property {boolean} group_count_warning Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
  * @property {string} level_name Name of level (only for exportToSavefile)
+ * @property {string} path Path to CCLocalLevels.dat savefile (only for exportToSavefile)
  */
 /**
  * Core type holding important functions for adding to levels, exporting and modifying scripts

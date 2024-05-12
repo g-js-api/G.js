@@ -25,10 +25,9 @@ let decode_level = (data) => {
 class LevelReader {
     constructor(
         level_name,
-        backup = false
+        filename = `${process.env.localappdata}\\GeometryDash\\CCLocalLevels.dat`
     ) {
         return new Promise((resolve, reject) => {
-            const [filename, filename_2] = [`${process.env.localappdata}\\GeometryDash\\CCLocalLevels.dat`, `${process.env.localappdata}\\GeometryDash\\CCLocalLevels2.dat`];
             let addr = this;
             let output = [];
             const readStream = fs.createReadStream(filename);
@@ -106,7 +105,6 @@ class LevelReader {
                             alm[i] = alm[i] ^ 11; // XOR decrypts buffer
                         }
                         fs.writeFileSync(filename, alm);
-                        if (backup) fs.writeFileSync(filename_2, alm)
                     },
                 });
             });

@@ -68,6 +68,36 @@ class $group {
         });
         if (delay_trig && duration !== 0) wait(duration);
     }
+
+    /**
+     * Scales the group
+     * @param {group} center Center of group for scaling
+     * @param {number} scale_x Scaling on X axis
+     * @param {number} scale_y Scaling on Y axis
+     * @param {number} [duration=0] Duration for scale trigger
+     * @param {easing} [easing=NONE] How smoothly object gets scaled
+     * @param {number} [easing_rate=2] Easing rate for scale trigger
+     * @param {boolean} [x_divide=false] Whether to divide the current scaling by scale_x
+     * @param {boolean} [y_divide=false] Whether to divide the current scaling by scale_y
+     * @param {boolean} [move_only=false] Whether to emulate the effect of scaling without actually scaling the group by moving the group instead
+     * @param {boolean} [relative_scale=false] Bases scaling on the reference object
+     * @param {boolean} [relative_rot=false] Whether to rotate the X and Y axis
+     */
+    scale(center, scale_x, scale_y, duration = 0, easing = NONE, easing_rate = 2, x_divide = false, y_divide = false, move_only = false, relative_scale = false, relative_rot = false) {
+        $.add({
+            OBJ_ID: 2067,
+            CENTER: center,
+            DURATION: duration,
+            EASING_RATE: easing_rate,
+            SCALE_X_BY: scale_x,
+            SCALE_Y_BY: scale_y,
+            DIVIDE_X_BY: x_divide,
+            DIVIDE_Y_BY: y_divide,
+            ONLY_MOVE: move_only,
+            RELATIVE_SCALE: relative_scale,
+            RELATIVE_ROT: relative_rot,
+        })
+    }
     /**
      * Calls the group
      * @param {number} delay How long to delay the group being called

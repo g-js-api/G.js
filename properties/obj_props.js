@@ -62,6 +62,7 @@ module.exports = {
     70: 'LOCK_OBJECT_ROTATION',
     347832: 'ADD',
     71: 'TARGET_POS',
+    3478234: "CENTER",
     8459: "GROUP_ID_2",
     584932: "FALSE_ID",
     72: 'X_MOD',
@@ -209,6 +210,7 @@ module.exports = {
     439: "RESET_FULL_STEP",
     447: "EXTRA_ID",
     449: "MODIFIER",
+    452: "RELATIVE_ROT",
     453: "SMOOTH_VELOCITY",
     454: "SMOOTH_VELOCITY_MODIFIER",
     455: "SFX_GROUP",
@@ -264,6 +266,7 @@ module.exports = {
     574: "RESPAWN_TIME",
     575: "AUDIO_ON_DEATH",
     576: "NO_DEATH_SFX",
+    577: "RELATIVE_SCALE",
     578: "ABSNEG_1",
     579: "ABSNEG_2",
 };

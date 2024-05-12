@@ -18,7 +18,6 @@ const {
   remappable,
   sequence,
   call_with_delay,
-  while_loop,
   equal_to,
   less_than,
   greater_than,
@@ -84,6 +83,39 @@ let find_context = (group) => {
       return contexts[i];
     }
   }
+};
+
+/**
+ * Creates a repeating trigger system that repeats while a condition is true
+ * @param {condition} condition Condition that defines whether the loop should keep on running (less_than/equal_to/greater_than(counter, number))
+ * @param {function} func Function to run while the condition is true
+ * @param {number} delay Delay between each cycle
+ */
+let while_loop = (r, trig_fn, del = 0.05) => {
+  let { count, comparison, other } = r;
+  let old_context = current_context;
+
+  let context = create_context(crypto.randomUUID());
+  count.if_is(comparison, other, context.group);
+
+  set_context(context.name);
+  trig_fn(context.group);
+  set_context(old_context);
+
+  trig_fn = context.group;
+
+  let ctx_name = find_context(trig_fn).name;
+  let curr_g = contexts[last_context_children[ctx_name]];
+
+  if (curr_g) {
+      curr_g = curr_g.group;
+  } else {
+      curr_g = trig_fn;
+  }
+
+  $.extend_trigger_func(curr_g, () => {
+      contexts[old_context].group.call(del);
+  });
 };
 
 let all_known = {

@@ -64,6 +64,13 @@ declare interface counter {
     subtract_from: subtract_from;
 }
 
+declare function counter(
+    num?: number | boolean,
+    use_id?: boolean,
+    persistent?: boolean,
+    timer?: boolean
+): counter;
+
 /**
  * Adds a specific amount (or another counter) to the current counter
  * @param amount Counter or number to add to the current counter

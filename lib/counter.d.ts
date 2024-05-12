@@ -5,15 +5,15 @@ declare interface counter {
     /**
      * Item ID of a counter
      */
-    item: item;
+    item: number;
     /**
      * Type of a counter
      */
-    type: item_type;
+    type: string;
     /**
      * Adds a specific amount (or another counter) to the current counter
      */
-    add: add;
+    add: add_counter;
     /**
      * Subtracts a specific amount (or another counter) from the current counter
      */
@@ -75,7 +75,7 @@ declare function counter(
  * Adds a specific amount (or another counter) to the current counter
  * @param amount Counter or number to add to the current counter
  */
-declare type add = (amount: number | counter)=>void;
+declare type add_counter = (amount: number | counter)=>void;
 
 /**
  * Adds a specific amount (or another counter) to the current counter
@@ -118,7 +118,7 @@ declare type to_obj = ()=>object;
  * @param other Number to compare the current counter to
  * @param trig_func Trigger function or group to run if the comparison is true
  */
-declare type if_is = (comparison: comparison, other: number, trig_func: group)=>void;
+declare type if_is = (comparison: number, other: number, trig_func: group)=>void;
 
 /**
  * Converts the current counter to a plain number by taking in a range of possible values and a function

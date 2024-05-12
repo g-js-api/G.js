@@ -2,7 +2,7 @@
  * Extracts values from dictionary into global scope
  * @param dict Dictionary to extract
  */
-declare function extract(dict: dictionary): void;
+declare function extract(dict: object): void;
 
 /**
  * Creates a repeating trigger system that repeats while a condition is true
@@ -10,7 +10,7 @@ declare function extract(dict: dictionary): void;
  * @param func Function to run while the condition is true
  * @param delay Delay between each cycle
  */
-declare function while_loop(condition: condition, func: Function, delay: number): void;
+declare function while_loop(condition: object, func: Function, delay: number): void;
 
 /**
  * Creates and returns an unavailable group ID
@@ -223,7 +223,7 @@ declare type trigger_fn_context = ()=>group;
  * @param quick_start Makes normal movement be achieved instantly instead of gradually
  * @returns Returned particle system
  */
-declare function particle_system(props: dictionary, use_obj_color?: boolean, animate_on_trigger?: boolean, animate_active_only?: boolean, quick_start?: boolean): object;
+declare function particle_system(props: object, use_obj_color?: boolean, animate_on_trigger?: boolean, animate_active_only?: boolean, quick_start?: boolean): object;
 
 /**
  * Generates an array holding a sequence of numbers starting at the "start" parameter, ending at the "end" parameter and incrementing by "step"

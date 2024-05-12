@@ -1,3 +1,4 @@
+let all_known_blocks = [];
 /**
  * @typedef {object} block
  * @property {function} if_colliding Returns whether the block is colliding with another one
@@ -8,7 +9,6 @@
  * @constructor
  * @public
  */
-let all_known_blocks = [];
 class $block {
   /**
    * Creates a block from a number

@@ -1,3 +1,4 @@
+let all_known_groups = [];
 /**
  * @typedef {object} group
  * @property {function} remap Remaps multiple IDs inside of the group to others
@@ -23,7 +24,6 @@
  * @constructor
  * @public
  */
-let all_known_groups = [];
 class $group {
     /**
      * Creates a group from a number

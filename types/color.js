@@ -1,3 +1,4 @@
+let all_known_colors = [];
 /**
  * @typedef {object} color
  * @property {function} set Sets color to RGB value
@@ -11,7 +12,6 @@
  * @constructor
  * @public
  */
-let all_known_colors = [];
 class $color {
   /**
    * Creates a color from a number

@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@otris/jsdoc-tsd": "^3.0.0",
     "docdash": "^2.0.2",
     "jsdoc": "^4.0.3",
     "node-html-parser": "^6.1.10",

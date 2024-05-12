@@ -161,21 +161,21 @@ let writeClasses = (arr) => {
    * @param {number} x - The number to convert to a group.
    * @returns {group}
    */
-  global['group'] = (x) => new $group(x);
+  global.group = (x) => new $group(x);
   /**
    * Converts a number to a color
    * @global
    * @param {number} x - The number to convert to a color.
    * @returns {color}
    */
-  global['color'] = (x) => new $color(x);
+  global.color = (x) => new $color(x);
   /**
    * Converts a number to a block
    * @global
    * @param {number} x - The number to convert to a block.
    * @returns {block}
    */
-  global['block'] = (x) => new $block(x);
+  global.block = (x) => new $block(x);
 }
 
 writeClasses([

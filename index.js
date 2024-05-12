@@ -21,7 +21,6 @@ const {
   equal_to,
   less_than,
   greater_than,
-  spawn_trigger,
   for_loop
 } = require('./lib/control-flow');
 const {
@@ -67,6 +66,26 @@ const d = require('./properties/obj_props.js');
 const counter = require('./lib/counter');
 
 let explicit = {};
+
+/**
+* Creates a spawn trigger and returns it
+* @param {group} group group to be spawned
+* @param {number} time delay to spawn group
+* @returns {object}
+*/
+let spawn_trigger = (group, time = 0) => {
+  let origin = {
+      OBJ_ID: 1268,
+      SPAWN_DURATION: time,
+      TARGET: group,
+  };
+  origin.with = (a, b) => {
+      origin[d[a]] = b;
+      return origin;
+  };
+  return origin;
+};
+
 /**
  * Extracts values from dictionary into global scope
  * @param {dictionary} dict Dictionary to extract

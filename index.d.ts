@@ -21,6 +21,33 @@ declare function extract(dict: dictionary): void;
 declare function while_loop(condition: condition, func: Function, delay: number): void;
 
 /**
+ * Converts a number to a group
+ * @param x - The number to convert to a group.
+ * @returns
+ */
+/* Illegal function name ''group'' can't be used here
+declare function 'group'(x: number): group;
+*/
+
+/**
+ * Converts a number to a color
+ * @param x - The number to convert to a color.
+ * @returns
+ */
+/* Illegal function name ''color'' can't be used here
+declare function 'color'(x: number): color;
+*/
+
+/**
+ * Converts a number to a block
+ * @param x - The number to convert to a block.
+ * @returns
+ */
+/* Illegal function name ''block'' can't be used here
+declare function 'block'(x: number): block;
+*/
+
+/**
  * Creates and returns an unavailable group ID
  * @returns Resulting group ID
  */

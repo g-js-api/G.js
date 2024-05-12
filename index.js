@@ -155,8 +155,26 @@ let writeClasses = (arr) => {
       explicit[expl] = clas;
     });
   });
+  /**
+   * Converts a number to a group
+   * @global
+   * @param {number} x - The number to convert to a group.
+   * @returns {group}
+   */
   global['group'] = (x) => new $group(x);
+  /**
+   * Converts a number to a color
+   * @global
+   * @param {number} x - The number to convert to a color.
+   * @returns {color}
+   */
   global['color'] = (x) => new $color(x);
+  /**
+   * Converts a number to a block
+   * @global
+   * @param {number} x - The number to convert to a block.
+   * @returns {block}
+   */
   global['block'] = (x) => new $block(x);
 }
 
@@ -301,35 +319,6 @@ let mappings = {
   237894: '10',
   347832: '70'
 }
-
-let levelstring_to_obj = (string) => {
-  let objects = [];
-  string
-    .split(';')
-    .slice(0, -1)
-    .forEach((x) => {
-      let r = {};
-      let spl = x.split(',');
-      spl.forEach((x, i) => {
-        // 0, 2, 4, 8, etc..
-        if (i % 2 == 0) {
-          r[d[x]] = null;
-        } else {
-          if (x.includes('.')) x = x.split('.');
-          if (typeof x == 'string' && !isNaN(parseInt(x))) x = parseInt(x);
-          if (
-            typeof x == 'object' &&
-            !x.filter((e) => isNaN(parseInt(e))).length
-          )
-            x = x.map((e) => parseInt(e));
-          if (typeof x == 'boolean') x = +x;
-          r[d[spl[i - 1]]] = x;
-        }
-      });
-      objects.push(r);
-    });
-  return objects;
-};
 let obj_to_levelstring = (l) => {
   let res = '';
   // { x: 15, Y: 10 };
@@ -361,24 +350,6 @@ let obj_to_levelstring = (l) => {
   }
   return res.slice(0, -1) + ';';
 };
-let arr_to_levelstring = (a) => {
-  let str = '';
-  a.forEach((x) => (str += obj_to_levelstring(x)));
-  return str;
-};
-
-let encode_level = (level_string) => {
-  let gzipped = zlib.gzipSync(level_string);
-  let base64_encoded = gzipped.toString('base64url');
-  return base64_encoded;
-};
-
-function decode_level(data) {
-  const base64_decoded = Buffer.from(data, 'base64url');
-  const decompressed = zlib.gunzipSync(base64_decoded);
-  return decompressed.toString();
-}
-
 let resulting = '';
 
 let add = (o) => {

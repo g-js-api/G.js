@@ -1,4 +1,5 @@
 /**
+ * @module index
  * @requires group
  * @requires color
  * @requires block

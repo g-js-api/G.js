@@ -1,23 +1,204 @@
-/**
- * Creates a spawn trigger and returns it
- * @param group - group to be spawned
- * @param time - delay to spawn group
- */
-declare function spawn_trigger(group: group, time: number): any;
-
-/**
- * Extracts values from dictionary into global scope
- * @param dict - Dictionary to extract
- */
-declare function extract(dict: dictionary): void;
-
-/**
- * Creates a repeating trigger system that repeats while a condition is true
- * @param condition - Condition that defines whether the loop should keep on running (less_than/equal_to/greater_than(counter, number))
- * @param func - Function to run while the condition is true
- * @param delay - Delay between each cycle
- */
-declare function while_loop(condition: condition, func: (...params: any[]) => any, delay: number): void;
+declare module "index" {
+    /**
+     * Creates a spawn trigger and returns it
+     * @param group - group to be spawned
+     * @param time - delay to spawn group
+     */
+    function spawn_trigger(group: group, time: number): any;
+    /**
+     * Extracts values from dictionary into global scope
+     * @param dict - Dictionary to extract
+     */
+    function extract(dict: dictionary): void;
+    /**
+     * Creates a repeating trigger system that repeats while a condition is true
+     * @param condition - Condition that defines whether the loop should keep on running (less_than/equal_to/greater_than(counter, number))
+     * @param func - Function to run while the condition is true
+     * @param delay - Delay between each cycle
+     */
+    function while_loop(condition: condition, func: (...params: any[]) => any, delay: number): void;
+    /**
+     * Creates and returns an unavailable group ID
+     * @returns Resulting group ID
+     */
+    function unknown_g(): group;
+    /**
+     * Creates and returns an unavailable color ID
+     * @returns Resulting color ID
+     */
+    function unknown_c(): color;
+    /**
+     * Creates and returns an unavailable block ID
+     * @returns Resulting block ID
+     */
+    function unknown_b(): block;
+    /**
+     * Creates a "trigger function" in which triggers can be stored inside of a single group
+     * @param callback - Function storing triggers to put inside of group
+     * @returns Group ID of trigger function
+     */
+    function trigger_function(callback: (...params: any[]) => any): group;
+    /**
+     * Waits for a specific amount of seconds
+     * @param time - How long to wait
+     */
+    function wait(time: number): void;
+    /**
+     * @property EASE_IN_OUT - Ease in out easing
+     * @property EASE_IN - Ease in easing
+     * @property EASE_OUT - Ease out easing
+     * @property EXPONENTIAL_IN_OUT - Exponential in out easing
+     * @property EXPONENTIAL_IN - Exponential in easing
+     * @property EXPONENTIAL_OUT - Exponential out easing
+     * @property SINE_IN_OUT - Sine in out easing
+     * @property SINE_IN - Sine in easing
+     * @property SINE_OUT - Sine out easing
+     * @property ELASTIC_IN_OUT - Elastic in out easing
+     * @property ELASTIC_IN - Elastic in easing
+     * @property ELASTIC_OUT - Elastic out easing
+     * @property BACK_IN_OUT - Back in out easing
+     * @property BACK_IN - Back in easing
+     * @property BACK_OUT - Back out easing
+     * @property BOUNCE_IN_OUT - Bounce in out easing
+     * @property BOUNCE_IN - Bounce in easing
+     * @property BOUNCE_OUT - Bounce out easing
+     */
+    type easing = {
+        EASE_IN_OUT: number;
+        EASE_IN: number;
+        EASE_OUT: number;
+        EXPONENTIAL_IN_OUT: number;
+        EXPONENTIAL_IN: number;
+        EXPONENTIAL_OUT: number;
+        SINE_IN_OUT: number;
+        SINE_IN: number;
+        SINE_OUT: number;
+        ELASTIC_IN_OUT: number;
+        ELASTIC_IN: number;
+        ELASTIC_OUT: number;
+        BACK_IN_OUT: number;
+        BACK_IN: number;
+        BACK_OUT: number;
+        BOUNCE_IN_OUT: number;
+        BOUNCE_IN: number;
+        BOUNCE_OUT: number;
+    };
+    /**
+     * Configuration for exporting levels
+     * @property info - Whether to log information to console when finished
+     * @property group_count_warning - Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
+     * @property level_name - Name of level (only for exportToSavefile)
+     * @property path - Path to CCLocalLevels.dat savefile (only for exportToSavefile)
+     */
+    type save_config = {
+        info: boolean;
+        group_count_warning: boolean;
+        level_name: string;
+        path: string;
+    };
+    /**
+     * Core type holding important functions for adding to levels, exporting and modifying scripts
+     * @property add - Adds an object
+     * @property print - Prints to console
+     * @property getLevelString - Returns level string of the script
+     * @property extend_trigger_func - Extends a trigger function by adding more triggers to it
+     * @property exportToSavefile - Exports script to savefile
+     * @property liveEditor - Exports script to live editor using WSLiveEditor (requires Geode)
+     * @property trigger_fn_context - Returns group of current trigger function context
+     */
+    type $ = {
+        add: add;
+        print: print;
+        getLevelString: getLevelString;
+        extend_trigger_func: extend_trigger_func;
+        exportToSavefile: exportToSavefile;
+        liveEditor: liveEditor;
+        trigger_fn_context: trigger_fn_context;
+    };
+    /**
+     * Adds an object
+     * @param object - Object to add
+     */
+    type add = (object: any) => void;
+    /**
+     * Prints to console
+     * @param value - Value to print
+     */
+    type print = (value: any) => void;
+    /**
+     * Extends a trigger function by adding more triggers to it
+     * @param trigger_func - Trigger function to extend
+     * @param callback - Function that adds more triggers to trigger_func
+     */
+    type extend_trigger_func = (trigger_func: group, callback: (...params: any[]) => any) => void;
+    /**
+     * Returns level string
+     * @param config - Configuration for exporting to levelstring
+     */
+    type getLevelString = (config: save_config) => string;
+    /**
+     * Exports script to savefile
+     * @param config - Configuration for exporting to savefile
+     */
+    type exportToSavefile = (config: save_config) => void;
+    /**
+     * Exports script to live editor using WSLiveEditor (requires Geode)
+     * @param config - Configuration for exporting to live editor
+     */
+    type liveEditor = (config: save_config) => void;
+    /**
+     * Returns group of current trigger function context
+     */
+    type trigger_fn_context = () => group;
+    /**
+     * Creates a particle system
+     * @param props - Dictionary holding particle properties (check {@tutorial Particles} for more info)
+     * @param [use_obj_color = false] - Whether to make the particle system use the object color
+     * @param [animate_on_trigger = false] - Whether to only start the particle system when the Animate trigger is used on the particle system instead of immediately
+     * @param [animate_active_only = false] - Only makes animate_on_trigger true if the object is active
+     * @param [quick_start = false] - Makes normal movement be achieved instantly instead of gradually
+     * @returns Returned particle system
+     */
+    function particle_system(props: dictionary, use_obj_color?: boolean, animate_on_trigger?: boolean, animate_active_only?: boolean, quick_start?: boolean): any;
+    /**
+     * Generates an array holding a sequence of numbers starting at the "start" parameter, ending at the "end" parameter and incrementing by "step"
+     * @param start - What number to start at
+     * @param end - What number to end at
+     * @param step - What number to increment by
+     * @returns Resulting sequence
+     */
+    function range(start: number, end: number, step?: number): any[];
+    /**
+     * Represents gamescene (all functions in this type are made to be used with on())
+     * @property button_a - Returns an event when the left side is pressed
+     * @property button_b - Returns an event when the right side is pressed
+     * @property button_a_end - Returns an event when the left side is no longer pressed
+     * @property button_b_end - Returns an event when the right side is no longer pressed
+     * @property stop - Stops playing the song
+     */
+    type gamescene = {
+        button_a: (...params: any[]) => any;
+        button_b: (...params: any[]) => any;
+        button_a_end: (...params: any[]) => any;
+        button_b_end: (...params: any[]) => any;
+        stop: stop;
+    };
+    /**
+     * Represents gamescene (all functions in this type are made to be used with on())
+     * @property button_a - Returns an event when the left side is pressed
+     * @property button_b - Returns an event when the right side is pressed
+     * @property button_a_end - Returns an event when the left side is no longer pressed
+     * @property button_b_end - Returns an event when the right side is no longer pressed
+     * @property stop - Stops playing the song
+     */
+    type gamescene = {
+        button_a: (...params: any[]) => any;
+        button_b: (...params: any[]) => any;
+        button_a_end: (...params: any[]) => any;
+        button_b_end: (...params: any[]) => any;
+        stop: stop;
+    };
+}
 
 /**
  * Converts a number to a group
@@ -36,206 +217,6 @@ declare function color(x: number): color;
  * @param x - The number to convert to a block.
  */
 declare function block(x: number): block;
-
-/**
- * Creates and returns an unavailable group ID
- * @returns Resulting group ID
- */
-declare function unknown_g(): group;
-
-/**
- * Creates and returns an unavailable color ID
- * @returns Resulting color ID
- */
-declare function unknown_c(): color;
-
-/**
- * Creates and returns an unavailable block ID
- * @returns Resulting block ID
- */
-declare function unknown_b(): block;
-
-/**
- * Creates a "trigger function" in which triggers can be stored inside of a single group
- * @param callback - Function storing triggers to put inside of group
- * @returns Group ID of trigger function
- */
-declare function trigger_function(callback: (...params: any[]) => any): group;
-
-/**
- * Waits for a specific amount of seconds
- * @param time - How long to wait
- */
-declare function wait(time: number): void;
-
-/**
- * @property EASE_IN_OUT - Ease in out easing
- * @property EASE_IN - Ease in easing
- * @property EASE_OUT - Ease out easing
- * @property EXPONENTIAL_IN_OUT - Exponential in out easing
- * @property EXPONENTIAL_IN - Exponential in easing
- * @property EXPONENTIAL_OUT - Exponential out easing
- * @property SINE_IN_OUT - Sine in out easing
- * @property SINE_IN - Sine in easing
- * @property SINE_OUT - Sine out easing
- * @property ELASTIC_IN_OUT - Elastic in out easing
- * @property ELASTIC_IN - Elastic in easing
- * @property ELASTIC_OUT - Elastic out easing
- * @property BACK_IN_OUT - Back in out easing
- * @property BACK_IN - Back in easing
- * @property BACK_OUT - Back out easing
- * @property BOUNCE_IN_OUT - Bounce in out easing
- * @property BOUNCE_IN - Bounce in easing
- * @property BOUNCE_OUT - Bounce out easing
- */
-declare type easing = {
-    EASE_IN_OUT: number;
-    EASE_IN: number;
-    EASE_OUT: number;
-    EXPONENTIAL_IN_OUT: number;
-    EXPONENTIAL_IN: number;
-    EXPONENTIAL_OUT: number;
-    SINE_IN_OUT: number;
-    SINE_IN: number;
-    SINE_OUT: number;
-    ELASTIC_IN_OUT: number;
-    ELASTIC_IN: number;
-    ELASTIC_OUT: number;
-    BACK_IN_OUT: number;
-    BACK_IN: number;
-    BACK_OUT: number;
-    BOUNCE_IN_OUT: number;
-    BOUNCE_IN: number;
-    BOUNCE_OUT: number;
-};
-
-/**
- * Configuration for exporting levels
- * @property info - Whether to log information to console when finished
- * @property group_count_warning - Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
- * @property level_name - Name of level (only for exportToSavefile)
- * @property path - Path to CCLocalLevels.dat savefile (only for exportToSavefile)
- */
-declare type save_config = {
-    info: boolean;
-    group_count_warning: boolean;
-    level_name: string;
-    path: string;
-};
-
-/**
- * Core type holding important functions for adding to levels, exporting and modifying scripts
- * @property add - Adds an object
- * @property print - Prints to console
- * @property getLevelString - Returns level string of the script
- * @property extend_trigger_func - Extends a trigger function by adding more triggers to it
- * @property exportToSavefile - Exports script to savefile
- * @property liveEditor - Exports script to live editor using WSLiveEditor (requires Geode)
- * @property trigger_fn_context - Returns group of current trigger function context
- */
-declare type $ = {
-    add: add;
-    print: print;
-    getLevelString: getLevelString;
-    extend_trigger_func: extend_trigger_func;
-    exportToSavefile: exportToSavefile;
-    liveEditor: liveEditor;
-    trigger_fn_context: trigger_fn_context;
-};
-
-/**
- * Adds an object
- * @param object - Object to add
- */
-declare type add = (object: any) => void;
-
-/**
- * Prints to console
- * @param value - Value to print
- */
-declare type print = (value: any) => void;
-
-/**
- * Extends a trigger function by adding more triggers to it
- * @param trigger_func - Trigger function to extend
- * @param callback - Function that adds more triggers to trigger_func
- */
-declare type extend_trigger_func = (trigger_func: group, callback: (...params: any[]) => any) => void;
-
-/**
- * Returns level string
- * @param config - Configuration for exporting to levelstring
- */
-declare type getLevelString = (config: save_config) => string;
-
-/**
- * Exports script to savefile
- * @param config - Configuration for exporting to savefile
- */
-declare type exportToSavefile = (config: save_config) => void;
-
-/**
- * Exports script to live editor using WSLiveEditor (requires Geode)
- * @param config - Configuration for exporting to live editor
- */
-declare type liveEditor = (config: save_config) => void;
-
-/**
- * Returns group of current trigger function context
- */
-declare type trigger_fn_context = () => group;
-
-/**
- * Creates a particle system
- * @param props - Dictionary holding particle properties (check {@tutorial Particles} for more info)
- * @param [use_obj_color = false] - Whether to make the particle system use the object color
- * @param [animate_on_trigger = false] - Whether to only start the particle system when the Animate trigger is used on the particle system instead of immediately
- * @param [animate_active_only = false] - Only makes animate_on_trigger true if the object is active
- * @param [quick_start = false] - Makes normal movement be achieved instantly instead of gradually
- * @returns Returned particle system
- */
-declare function particle_system(props: dictionary, use_obj_color?: boolean, animate_on_trigger?: boolean, animate_active_only?: boolean, quick_start?: boolean): any;
-
-/**
- * Generates an array holding a sequence of numbers starting at the "start" parameter, ending at the "end" parameter and incrementing by "step"
- * @param start - What number to start at
- * @param end - What number to end at
- * @param step - What number to increment by
- * @returns Resulting sequence
- */
-declare function range(start: number, end: number, step?: number): any[];
-
-/**
- * Represents gamescene (all functions in this type are made to be used with on())
- * @property button_a - Returns an event when the left side is pressed
- * @property button_b - Returns an event when the right side is pressed
- * @property button_a_end - Returns an event when the left side is no longer pressed
- * @property button_b_end - Returns an event when the right side is no longer pressed
- * @property stop - Stops playing the song
- */
-declare type gamescene = {
-    button_a: (...params: any[]) => any;
-    button_b: (...params: any[]) => any;
-    button_a_end: (...params: any[]) => any;
-    button_b_end: (...params: any[]) => any;
-    stop: stop;
-};
-
-/**
- * Represents gamescene (all functions in this type are made to be used with on())
- * @property button_a - Returns an event when the left side is pressed
- * @property button_b - Returns an event when the right side is pressed
- * @property button_a_end - Returns an event when the left side is no longer pressed
- * @property button_b_end - Returns an event when the right side is no longer pressed
- * @property stop - Stops playing the song
- */
-declare type gamescene = {
-    button_a: (...params: any[]) => any;
-    button_b: (...params: any[]) => any;
-    button_a_end: (...params: any[]) => any;
-    button_b_end: (...params: any[]) => any;
-    stop: stop;
-};
 
 /**
  * Returns a greater than condition
@@ -327,10 +308,10 @@ declare type counter = {
 };
 
 /**
- * Adds an object
- * @param object - Object to add
+ * Adds a specific amount (or another counter) to the current counter
+ * @param amount - Counter or number to add to the current counter
  */
-declare type add = (object: any) => void;
+declare type add = (amount: number | counter) => void;
 
 /**
  * Subtracts a specific amount (or another counter) from the current counter

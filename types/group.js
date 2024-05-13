@@ -1,3 +1,6 @@
+/**
+ * @module group
+ */
 let all_known_groups = [];
 /**
  * @typedef {object} group

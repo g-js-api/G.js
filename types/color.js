@@ -1,3 +1,6 @@
+/**
+ * @module color
+ */
 let all_known_colors = [];
 /**
  * @typedef {object} color

@@ -1,5 +1,6 @@
 /**
  * @module index
+ * @exports index
  * @requires group
  * @requires color
  * @requires block
@@ -587,7 +588,7 @@ let liveEditor = (conf) => {
  */
 /**
  * Core type holding important functions for adding to levels, exporting and modifying scripts
- * @typedef {object} $
+ * @typedef {Object} $
  * @property {add} add Adds an object
  * @property {print} print Prints to console
  * @property {getLevelString} getLevelString Returns level string of the script

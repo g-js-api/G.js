@@ -1,4 +1,7 @@
 /**
+ * @module events
+ */
+/**
  * @typedef {object} events
  * @property {number} NONE
  * @property {number} TINY_LANDING

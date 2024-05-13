@@ -1,4 +1,7 @@
 /**
+ * @module obj_props
+ */
+/**
  * @typedef {object} obj_props
  * @property {number} OBJ_ID
  * @property {number} X

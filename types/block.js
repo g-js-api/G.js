@@ -1,3 +1,6 @@
+/**
+ * @module block
+ */
 let all_known_blocks = [];
 /**
  * @typedef {object} block

@@ -9,6 +9,7 @@
   "keywords": [
     "geometrydash"
   ],
+  "types": "types.d.ts",
   "author": "",
   "license": "ISC",
   "dependencies": {

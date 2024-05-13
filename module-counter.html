@@ -1,0 +1,2673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>counter - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-block-$block.html">$block</a><ul class='methods'><li data-type='method'><a href="module-block-$block.html#if_colliding">if_colliding</a></li></ul></li><li><a href="module-color-$color.html">$color</a><ul class='methods'><li data-type='method'><a href="module-color-$color.html#copy">copy</a></li><li data-type='method'><a href="module-color-$color.html#pulse">pulse</a></li><li data-type='method'><a href="module-color-$color.html#pulse_hsv">pulse_hsv</a></li><li data-type='method'><a href="module-color-$color.html#set">set</a></li></ul></li><li><a href="module-group-$group.html">$group</a><ul class='methods'><li data-type='method'><a href="module-group-$group.html#alpha">alpha</a></li><li data-type='method'><a href="module-group-$group.html#call">call</a></li><li data-type='method'><a href="module-group-$group.html#follow">follow</a></li><li data-type='method'><a href="module-group-$group.html#follow_lerp">follow_lerp</a></li><li data-type='method'><a href="module-group-$group.html#follow_player_y">follow_player_y</a></li><li data-type='method'><a href="module-group-$group.html#lock_to_player">lock_to_player</a></li><li data-type='method'><a href="module-group-$group.html#move">move</a></li><li data-type='method'><a href="module-group-$group.html#move_to">move_to</a></li><li data-type='method'><a href="module-group-$group.html#move_to_xy">move_to_xy</a></li><li data-type='method'><a href="module-group-$group.html#pulse">pulse</a></li><li data-type='method'><a href="module-group-$group.html#pulse_hsv">pulse_hsv</a></li><li data-type='method'><a href="module-group-$group.html#remap">remap</a></li><li data-type='method'><a href="module-group-$group.html#rotate">rotate</a></li><li data-type='method'><a href="module-group-$group.html#scale">scale</a></li><li data-type='method'><a href="module-group-$group.html#stop">stop</a></li><li data-type='method'><a href="module-group-$group.html#toggle_off">toggle_off</a></li><li data-type='method'><a href="module-group-$group.html#toggle_on">toggle_on</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-block.html">block</a></li><li><a href="module-color.html">color</a></li><li><a href="module-control-flow.html">control-flow</a><ul class='methods'><li data-type='method'><a href="module-control-flow.html#~call_with_delay">call_with_delay</a></li><li data-type='method'><a href="module-control-flow.html#~equal_to">equal_to</a></li><li data-type='method'><a href="module-control-flow.html#~for_loop">for_loop</a></li><li data-type='method'><a href="module-control-flow.html#~greater_than">greater_than</a></li><li data-type='method'><a href="module-control-flow.html#~less_than">less_than</a></li><li data-type='method'><a href="module-control-flow.html#~remappable">remappable</a></li><li data-type='method'><a href="module-control-flow.html#~sequence">sequence</a></li></ul></li><li><a href="module-counter.html">counter</a><ul class='methods'><li data-type='method'><a href="module-counter.html#~counter">counter</a></li></ul></li><li><a href="module-events.html">events</a><ul class='methods'><li data-type='method'><a href="module-events.html#~collision">collision</a></li><li data-type='method'><a href="module-events.html#~collision_exit">collision_exit</a></li><li data-type='method'><a href="module-events.html#~count">count</a></li><li data-type='method'><a href="module-events.html#~death">death</a></li><li data-type='method'><a href="module-events.html#~event">event</a></li><li data-type='method'><a href="module-events.html#~on">on</a></li><li data-type='method'><a href="module-events.html#~touch">touch</a></li><li data-type='method'><a href="module-events.html#~touch_end">touch_end</a></li><li data-type='method'><a href="module-events.html#~x_position">x_position</a></li></ul></li><li><a href="module-general-purpose.html">general-purpose</a><ul class='methods'><li data-type='method'><a href="module-general-purpose.html#~advanced_random">advanced_random</a></li><li data-type='method'><a href="module-general-purpose.html#~camera_edge">camera_edge</a></li><li data-type='method'><a href="module-general-purpose.html#~camera_mode">camera_mode</a></li><li data-type='method'><a href="module-general-purpose.html#~camera_offset">camera_offset</a></li><li data-type='method'><a href="module-general-purpose.html#~camera_rotate">camera_rotate</a></li><li data-type='method'><a href="module-general-purpose.html#~camera_static">camera_static</a></li><li data-type='method'><a href="module-general-purpose.html#~camera_zoom">camera_zoom</a></li><li data-type='method'><a href="module-general-purpose.html#~color_trigger">color_trigger</a></li><li data-type='method'><a href="module-general-purpose.html#~end">end</a></li><li data-type='method'><a href="module-general-purpose.html#~gradient">gradient</a></li><li data-type='method'><a href="module-general-purpose.html#~gravity">gravity</a></li><li data-type='method'><a href="module-general-purpose.html#~hide_player">hide_player</a></li><li data-type='method'><a href="module-general-purpose.html#~move_trigger">move_trigger</a></li><li data-type='method'><a href="module-general-purpose.html#~options">options</a></li><li data-type='method'><a href="module-general-purpose.html#~player_control">player_control</a></li><li data-type='method'><a href="module-general-purpose.html#~random">random</a></li><li data-type='method'><a href="module-general-purpose.html#~song">song</a></li><li data-type='method'><a href="module-general-purpose.html#~teleport">teleport</a></li><li data-type='method'><a href="module-general-purpose.html#~timewarp">timewarp</a></li><li data-type='method'><a href="module-general-purpose.html#~toggle_off_trigger">toggle_off_trigger</a></li><li data-type='method'><a href="module-general-purpose.html#~toggle_on_trigger">toggle_on_trigger</a></li></ul></li><li><a href="module-group.html">group</a></li><li><a href="module-index.html">index</a><ul class='methods'><li data-type='method'><a href="module-index.html#~extract">extract</a></li><li data-type='method'><a href="module-index.html#~extract">extract</a></li><li data-type='method'><a href="module-index.html#~gamescene">gamescene</a></li><li data-type='method'><a href="module-index.html#~gamescene">gamescene</a></li><li data-type='method'><a href="module-index.html#~particle_system">particle_system</a></li><li data-type='method'><a href="module-index.html#~particle_system">particle_system</a></li><li data-type='method'><a href="module-index.html#~range">range</a></li><li data-type='method'><a href="module-index.html#~range">range</a></li><li data-type='method'><a href="module-index.html#~spawn_trigger">spawn_trigger</a></li><li data-type='method'><a href="module-index.html#~spawn_trigger">spawn_trigger</a></li><li data-type='method'><a href="module-index.html#~trigger_function">trigger_function</a></li><li data-type='method'><a href="module-index.html#~trigger_function">trigger_function</a></li><li data-type='method'><a href="module-index.html#~unknown_b">unknown_b</a></li><li data-type='method'><a href="module-index.html#~unknown_b">unknown_b</a></li><li data-type='method'><a href="module-index.html#~unknown_c">unknown_c</a></li><li data-type='method'><a href="module-index.html#~unknown_c">unknown_c</a></li><li data-type='method'><a href="module-index.html#~unknown_g">unknown_g</a></li><li data-type='method'><a href="module-index.html#~unknown_g">unknown_g</a></li><li data-type='method'><a href="module-index.html#~wait">wait</a></li><li data-type='method'><a href="module-index.html#~wait">wait</a></li><li data-type='method'><a href="module-index.html#~while_loop">while_loop</a></li><li data-type='method'><a href="module-index.html#~while_loop">while_loop</a></li></ul></li><li></li><li><a href="module-items.html">items</a><ul class='methods'><li data-type='method'><a href="module-items.html#~compare">compare</a></li><li data-type='method'><a href="module-items.html#~item_comp">item_comp</a></li><li data-type='method'><a href="module-items.html#~item_edit">item_edit</a></li><li data-type='method'><a href="module-items.html#~timer">timer</a></li></ul></li><li><a href="module-keyframes.html">keyframes</a><ul class='methods'><li data-type='method'><a href="module-keyframes.html#~keyframe_system">keyframe_system</a></li></ul></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Event IDs.html">Event IDs</a></li><li><a href="tutorial-Object Properties.html">Object Properties</a></li><li><a href="tutorial-Particle Properties.html">Particle Properties</a></li></ul><h3>Global</h3><ul><li><a href="global.html#block">block</a></li><li><a href="global.html#color">color</a></li><li><a href="global.html#group">group</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">counter</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="~counter"><span class="type-signature type-signature-inner">(inner) </span>counter<span class="signature">(num<span class="signature-attributes">opt</span>, use_id<span class="signature-attributes">opt</span>, persistent<span class="signature-attributes">opt</span>, timer<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {counter}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Creates a counter, which has methods for editing items</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line115">line 115</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>0</code>
+                
+                </td>
+            
+
+            <td class="description last">Number or boolean to be represented by counter</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>use_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last">Whether to use an existing item ID as a counter instead of creating a new item</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>persistent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last">Whether to make the counter persistent between attempts</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>timer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last">Whether to make the counter a timer</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    Resulting counter
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">counter</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+
+    
+
+    <h4 class="name" id="~add"><span class="type-signature"></span>add<span class="signature">(amount)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Adds a specific amount (or another counter) to the current counter</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>amount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">counter</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Counter or number to add to the current counter</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id="~add_to"><span class="type-signature"></span>add_to<span class="signature">(counter)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Adds the current counter to another and resets the current counter</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line94">line 94</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>counter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">counter</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Counter to add the current counter to</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id="~copy_to"><span class="type-signature"></span>copy_to<span class="signature">(counter)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Copies the current counter to another counter</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line88">line 88</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>counter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">counter</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Counter to copy the current counter to</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="~counter">counter</h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Represents a counter, which is a wrapper around item IDs</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line5">line 5</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>item</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">item</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Item ID of a counter</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">item_type</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Type of a counter</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>add</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">add</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Adds a specific amount (or another counter) to the current counter</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subtract</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">subtract</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Subtracts a specific amount (or another counter) from the current counter</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>multiply</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">multiply</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Multiplies the current counter by a specific amount (or another counter)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>divide</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">divide</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Divides the current counter by a specific amount (or another counter)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>set</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">set</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Sets the current counter to a specific amount or another counter</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>reset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">reset</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Resets the current counter to 0</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>if_is</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">if_is</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Checks if a comparison is true, and if so calls a group (SMALLER_THAN/EQUAL_TO_LARGER_THAN)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>to_const</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">to_const</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Converts the current counter to a plain number by taking in a range of possible values and a function</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>copy_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">copy_to</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Copies the current counter to another counter</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>display</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">display</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Displays the current counter at a specific position</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>to_obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">to_obj</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Returns item display for current counter as an object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>add_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">add_to</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Adds the current counter to another and resets the current counter</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subtract_from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">subtract_from</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Subtracts the current counter from another and resets the current counter</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description usertext">
+    Represents a counter, which is a wrapper around item IDs
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id="~display"><span class="type-signature"></span>display<span class="signature">(x, y)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Displays the current counter at a specific position</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line81">line 81</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">X position of item display</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Y position of item display</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id="~divide"><span class="type-signature"></span>divide<span class="signature">(amount)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Divides the current counter by a specific amount (or another counter)</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line43">line 43</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>amount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">counter</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Counter or number to divide the current counter by</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id="~if_is"><span class="type-signature"></span>if_is<span class="signature">(comparison, other, trig_func)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Checks if a comparison is true, and if so calls a group (SMALLER_THAN/EQUAL_TO_LARGER_THAN)</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line66">line 66</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>comparison</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">comparison</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Condition to check for between the counter and number</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>other</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Number to compare the current counter to</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>trig_func</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#group">group</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Trigger function or group to run if the comparison is true</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id="~multiply"><span class="type-signature"></span>multiply<span class="signature">(amount)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Multiplies the current counter by a specific amount (or another counter)</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line37">line 37</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>amount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">counter</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Counter or number to multiply the current counter by</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id="~reset"><span class="type-signature"></span>reset<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Resets the current counter to 0</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line55">line 55</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id="~set"><span class="type-signature"></span>set<span class="signature">(amount)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Sets the current counter to a specific amount (or another counter)</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line49">line 49</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>amount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">counter</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Counter or number to set the current counter to</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id="~subtract"><span class="type-signature"></span>subtract<span class="signature">(amount)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Subtracts a specific amount (or another counter) from the current counter</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>amount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">counter</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Counter or number to subtract from the current counter</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id="~subtract_from"><span class="type-signature"></span>subtract_from<span class="signature">(counter)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Subtracts the current counter from another and resets the current counter</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line100">line 100</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>counter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">counter</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Counter to be subtracted from</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id="~to_const"><span class="type-signature"></span>to_const<span class="signature">(range, func)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Converts the current counter to a plain number by taking in a range of possible values and a function</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line74">line 74</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>range</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Possible range of values that the current counter is equal to</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>func</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Callback function to run that takes the plain numerical value as input</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id="~to_obj"><span class="type-signature"></span>to_obj<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Returns item display for current counter as an object</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_counter.js.html">lib/counter.js</a>, <a href="lib_counter.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    Resulting item display
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+            
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Sun May 12 2024 23:56:26 GMT-0500 (Central Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

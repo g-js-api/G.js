@@ -717,10 +717,7 @@ for (let i in refs) {
     }
   })
 }
-/**
- * Converts a string to a text object and returns it
- * @returns {object} Resulting text object
- */
+
 String.prototype.to_obj = function () {
   let or = {
     OBJ_ID: 914,

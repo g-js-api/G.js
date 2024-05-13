@@ -291,6 +291,158 @@ declare function remappable(fn: (...params: any[]) => any): (...params: any[]) =
 declare function for_loop(range: any[], fn: (...params: any[]) => any, delay?: number): void;
 
 /**
+ * Represents a counter, which is a wrapper around item IDs
+ * @property item - Item ID of a counter
+ * @property type - Type of a counter
+ * @property add - Adds a specific amount (or another counter) to the current counter
+ * @property subtract - Subtracts a specific amount (or another counter) from the current counter
+ * @property multiply - Multiplies the current counter by a specific amount (or another counter)
+ * @property divide - Divides the current counter by a specific amount (or another counter)
+ * @property set - Sets the current counter to a specific amount or another counter
+ * @property reset - Resets the current counter to 0
+ * @property if_is - Checks if a comparison is true, and if so calls a group (SMALLER_THAN/EQUAL_TO_LARGER_THAN)
+ * @property to_const - Converts the current counter to a plain number by taking in a range of possible values and a function
+ * @property copy_to - Copies the current counter to another counter
+ * @property display - Displays the current counter at a specific position
+ * @property to_obj - Returns item display for current counter as an object
+ * @property add_to - Adds the current counter to another and resets the current counter
+ * @property subtract_from - Subtracts the current counter from another and resets the current counter
+ */
+declare type counter = {
+    item: item;
+    type: item_type;
+    add: add;
+    subtract: subtract;
+    multiply: multiply;
+    divide: divide;
+    set: set;
+    reset: reset;
+    if_is: if_is;
+    to_const: to_const;
+    copy_to: copy_to;
+    display: display;
+    to_obj: to_obj;
+    add_to: add_to;
+    subtract_from: subtract_from;
+};
+
+/**
+ * Adds an object
+ * @param object - Object to add
+ */
+declare type add = (object: any) => void;
+
+/**
+ * Subtracts a specific amount (or another counter) from the current counter
+ * @param amount - Counter or number to subtract from the current counter
+ */
+declare type subtract = (amount: number | counter) => void;
+
+/**
+ * Multiplies the current counter by a specific amount (or another counter)
+ * @param amount - Counter or number to multiply the current counter by
+ */
+declare type multiply = (amount: number | counter) => void;
+
+/**
+ * Divides the current counter by a specific amount (or another counter)
+ * @param amount - Counter or number to divide the current counter by
+ */
+declare type divide = (amount: number | counter) => void;
+
+/**
+ * Sets the current counter to a specific amount (or another counter)
+ * @param amount - Counter or number to set the current counter to
+ */
+declare type set = (amount: number | counter) => void;
+
+/**
+ * Resets the current counter to 0
+ */
+declare type reset = () => void;
+
+/**
+ * Returns item display for current counter as an object
+ */
+declare type to_obj = () => any;
+
+/**
+ * Checks if a comparison is true, and if so calls a group (SMALLER_THAN/EQUAL_TO_LARGER_THAN)
+ * @param comparison - Condition to check for between the counter and number
+ * @param other - Number to compare the current counter to
+ * @param trig_func - Trigger function or group to run if the comparison is true
+ */
+declare type if_is = (comparison: comparison, other: number, trig_func: group) => void;
+
+/**
+ * Converts the current counter to a plain number by taking in a range of possible values and a function
+ * @param range - Possible range of values that the current counter is equal to
+ * @param func - Callback function to run that takes the plain numerical value as input
+ */
+declare type to_const = (range: any[], func: (...params: any[]) => any) => void;
+
+/**
+ * Displays the current counter at a specific position
+ * @param x - X position of item display
+ * @param y - Y position of item display
+ */
+declare type display = (x: number, y: number) => void;
+
+/**
+ * Copies the current counter to another counter
+ * @param counter - Counter to copy the current counter to
+ */
+declare type copy_to = (counter: counter) => void;
+
+/**
+ * Adds the current counter to another and resets the current counter
+ * @param counter - Counter to add the current counter to
+ */
+declare type add_to = (counter: counter) => void;
+
+/**
+ * Subtracts the current counter from another and resets the current counter
+ * @param counter - Counter to be subtracted from
+ */
+declare type subtract_from = (counter: counter) => void;
+
+/**
+ * Represents a counter, which is a wrapper around item IDs
+ * @property item - Item ID of a counter
+ * @property type - Type of a counter
+ * @property add - Adds a specific amount (or another counter) to the current counter
+ * @property subtract - Subtracts a specific amount (or another counter) from the current counter
+ * @property multiply - Multiplies the current counter by a specific amount (or another counter)
+ * @property divide - Divides the current counter by a specific amount (or another counter)
+ * @property set - Sets the current counter to a specific amount or another counter
+ * @property reset - Resets the current counter to 0
+ * @property if_is - Checks if a comparison is true, and if so calls a group (SMALLER_THAN/EQUAL_TO_LARGER_THAN)
+ * @property to_const - Converts the current counter to a plain number by taking in a range of possible values and a function
+ * @property copy_to - Copies the current counter to another counter
+ * @property display - Displays the current counter at a specific position
+ * @property to_obj - Returns item display for current counter as an object
+ * @property add_to - Adds the current counter to another and resets the current counter
+ * @property subtract_from - Subtracts the current counter from another and resets the current counter
+ */
+declare type counter = {
+    item: item;
+    type: item_type;
+    add: add;
+    subtract: subtract;
+    multiply: multiply;
+    divide: divide;
+    set: set;
+    reset: reset;
+    if_is: if_is;
+    to_const: to_const;
+    copy_to: copy_to;
+    display: display;
+    to_obj: to_obj;
+    add_to: add_to;
+    subtract_from: subtract_from;
+};
+
+/**
  * Calls a group when an event occurs
  * @param event - Event to listen to
  * @param group - Group of object

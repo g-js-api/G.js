@@ -197,7 +197,15 @@ let get_new = (n, prop) => {
   }
   return n;
 };
-
+let object = (or) => {
+  return {
+    ...or,
+    with: (prop, val) => {
+      or[d[prop]] = val;
+      return or;
+    }
+  };
+};
 /**
  * Creates and returns an unavailable group ID
  * @returns {group} Resulting group ID
@@ -621,11 +629,13 @@ let liveEditor = (conf) => {
  */
 /**
  * Exports script to savefile
+ * @deprecated
  * @callback exportToSavefile
  * @param {save_config} config Configuration for exporting to savefile
  */
 /**
  * Exports script to live editor using WSLiveEditor (requires Geode)
+ * @deprecated
  * @callback liveEditor
  * @param {save_config} config Configuration for exporting to live editor
  */
@@ -646,7 +656,6 @@ let $ = {
   liveEditor,
   trigger_fn_context: () => get_context().group,
 };
-
 
 
 /**
@@ -721,14 +730,10 @@ for (let i in refs) {
 }
 
 String.prototype.to_obj = function () {
-  let or = {
+  let or = object({
     OBJ_ID: 914,
-    TEXT: btoa(this),
-    with: (prop, val) => {
-      or[d[prop]] = val;
-      return or;
-    },
-  };
+    TEXT: btoa(this)
+  });
   return or;
 };
 
@@ -979,6 +984,7 @@ let exps = {
   timewarp,
   event,
   events,
+  object,
   reverse: () => {
     $.add({
       OBJ_ID: 1917

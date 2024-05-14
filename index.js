@@ -17,6 +17,7 @@ const {
   event
 } = require('./lib/events');
 const {
+  spawn_trigger,
   remappable,
   sequence,
   call_with_delay,
@@ -52,7 +53,8 @@ const {
   gravity,
   options,
   end,
-  player_control
+  player_control,
+  particle_system
 } = require('./lib/general-purpose');
 const keyframe_system = require('./lib/keyframes.js');
 const all_particles = require('./properties/particles.js');
@@ -68,25 +70,6 @@ const d = require('./properties/obj_props.js');
 const counter = require('./lib/counter');
 
 let explicit = {};
-
-/**
-* Creates a spawn trigger and returns it
-* @param {group} group group to be spawned
-* @param {number} time delay to spawn group
-* @returns {object}
-*/
-let spawn_trigger = (group, time = 0) => {
-  let origin = {
-      OBJ_ID: 1268,
-      SPAWN_DURATION: time,
-      TARGET: group,
-  };
-  origin.with = (a, b) => {
-      origin[d[a]] = b;
-      return origin;
-  };
-  return origin;
-};
 
 /**
  * Extracts values from dictionary into global scope
@@ -186,6 +169,23 @@ writeClasses([
   'block/BLOCK_A/BLOCK_B',
 ]);
 
+/**
+ * Takes a dictionary with object props & converts into an object
+ * @param {dictionary} dict Dictionary to convert to object
+ * @returns {object}
+ */
+let object = (dict) => {
+  return {
+    obj_props: dict,
+    with: (prop, val) => {
+      dict[d[prop]] = val;
+      return dict;
+    },
+    // copied old $.add code here so I can migrate to enforcing object() usage in the future
+    add: () => add_to_context(dict)
+  };
+};
+
 let [unavailable_g, unavailable_c, unavailable_b] = [0, 0, 0];
 
 let get_new = (n, prop) => {
@@ -196,15 +196,6 @@ let get_new = (n, prop) => {
     n++;
   }
   return n;
-};
-let object = (or) => {
-  return {
-    ...or,
-    with: (prop, val) => {
-      or[d[prop]] = val;
-      return or;
-    }
-  };
 };
 /**
  * Creates and returns an unavailable group ID
@@ -363,6 +354,15 @@ let obj_to_levelstring = (l) => {
 let resulting = '';
 
 let add = (o) => {
+  if (o?.type !== "object") {
+    process.emitWarning('Using plain dictionaries as an argument to $.add is deprecated and using the object() function will be enforced in the future.', {
+      type: 'DeprecationWarning',
+      detail: 'Wrap the object() function around the dictionary as an argument to $.add instead of using plain dictionaries.'
+    });
+  } else {
+    o.add(); // does the same thing as below, only reason $.add is not removed is so I can customize $.add in the future
+    return;
+  };
   let newo = o;
   if (newo.with) delete newo.with;
   add_to_context(newo);
@@ -656,41 +656,6 @@ let $ = {
   liveEditor,
   trigger_fn_context: () => get_context().group,
 };
-
-
-/**
- * Creates a particle system
- * @param {dictionary} props Dictionary holding particle properties (check {@tutorial Particles} for more info)
- * @param {boolean} [use_obj_color=false] Whether to make the particle system use the object color
- * @param {boolean} [animate_on_trigger=false] Whether to only start the particle system when the Animate trigger is used on the particle system instead of immediately
- * @param {boolean} [animate_active_only=false] Only makes animate_on_trigger true if the object is active 
- * @param {boolean} [quick_start=false] Makes normal movement be achieved instantly instead of gradually
- * @returns {object} Returned particle system
- */
-let particle_system = (props, use_obj_color = false, animate_on_trigger = false, animate_active_only = false, quick_start = false) => {
-  let datalist = Array(72).fill(0);
-  for (let i in props) {
-    let x = props[i];
-    if (typeof x == "boolean") x = +x;
-    datalist[all_particles[i]] = x;
-  };
-  datalist = datalist.join('a');
-  let origin = {
-    OBJ_ID: 2065,
-    PARTICLE_DATA: datalist,
-    USE_OBJ_COLOR: use_obj_color,
-    UNIFORM_OBJ_COLOR: "UNIFORM_OBJ_COLOR" in props ? props.UNIFORM_OBJ_COLOR : false,
-    ANIMATE_ON_TRIGGER: animate_on_trigger,
-    ANIMATE_ACTIVE_ONLY: animate_active_only,
-    QUICK_START: quick_start
-  };
-  origin.with = (a, b) => {
-    origin[d[a]] = b;
-    return origin;
-  };
-  return origin;
-};
-
 
 /**
  * Generates an array holding a sequence of numbers starting at the "start" parameter, ending at the "end" parameter and incrementing by "step"

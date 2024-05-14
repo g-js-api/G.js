@@ -1,11 +1,5 @@
 declare module "index" {
     /**
-     * Creates a spawn trigger and returns it
-     * @param group - group to be spawned
-     * @param time - delay to spawn group
-     */
-    function spawn_trigger(group: group, time: number): any;
-    /**
      * Extracts values from dictionary into global scope
      * @param dict - Dictionary to extract
      */
@@ -17,6 +11,11 @@ declare module "index" {
      * @param delay - Delay between each cycle
      */
     function while_loop(condition: condition, func: (...params: any[]) => any, delay: number): void;
+    /**
+     * Takes a dictionary with object props & converts into an object
+     * @param dict - Dictionary to convert to object
+     */
+    function object(dict: dictionary): any;
     /**
      * Creates and returns an unavailable group ID
      * @returns Resulting group ID
@@ -151,16 +150,6 @@ declare module "index" {
      */
     type trigger_fn_context = () => group;
     /**
-     * Creates a particle system
-     * @param props - Dictionary holding particle properties (check {@tutorial Particles} for more info)
-     * @param [use_obj_color = false] - Whether to make the particle system use the object color
-     * @param [animate_on_trigger = false] - Whether to only start the particle system when the Animate trigger is used on the particle system instead of immediately
-     * @param [animate_active_only = false] - Only makes animate_on_trigger true if the object is active
-     * @param [quick_start = false] - Makes normal movement be achieved instantly instead of gradually
-     * @returns Returned particle system
-     */
-    function particle_system(props: dictionary, use_obj_color?: boolean, animate_on_trigger?: boolean, animate_active_only?: boolean, quick_start?: boolean): any;
-    /**
      * Generates an array holding a sequence of numbers starting at the "start" parameter, ending at the "end" parameter and incrementing by "step"
      * @param start - What number to start at
      * @param end - What number to end at
@@ -219,6 +208,12 @@ declare function color(x: number): color;
 declare function block(x: number): block;
 
 declare module "control-flow" {
+    /**
+     * Creates a spawn trigger and returns it
+     * @param group - group to be spawned
+     * @param time - delay to spawn group
+     */
+    function spawn_trigger(group: group, time: number): any;
     /**
      * Returns a greater than condition
      * @param counter - Counter to compare to number
@@ -689,6 +684,16 @@ declare module "general-purpose" {
      * @returns Resulting gradient trigger
      */
     function gradient(color1: color, color2: color, bl: group, br: group, tl: group, tr: group, vertex_mode?: boolean, blending?: boolean, layer?: number): any;
+    /**
+     * Creates a particle system
+     * @param props - Dictionary holding particle properties (check {@tutorial Particles} for more info)
+     * @param [use_obj_color = false] - Whether to make the particle system use the object color
+     * @param [animate_on_trigger = false] - Whether to only start the particle system when the Animate trigger is used on the particle system instead of immediately
+     * @param [animate_active_only = false] - Only makes animate_on_trigger true if the object is active
+     * @param [quick_start = false] - Makes normal movement be achieved instantly instead of gradually
+     * @returns Returned particle system
+     */
+    function particle_system(props: dictionary, use_obj_color?: boolean, animate_on_trigger?: boolean, animate_active_only?: boolean, quick_start?: boolean): any;
     /**
      * Implementation of random trigger
      * @param gr1 - Group 1

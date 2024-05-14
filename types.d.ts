@@ -1575,3 +1575,4 @@ declare module "group" {
         pulse(color: any[], fade_in?: number, hold?: number, fade_out?: number, exclusive?: number): void;
     }
 }
+

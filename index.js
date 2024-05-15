@@ -170,12 +170,19 @@ writeClasses([
 ]);
 
 /**
+ * @typedef {dictionary} object
+ * @property {string} type String dictating that the type of the resulting dictionary is an object
+ * @property {dictionary} obj_props Dictionary inside of object holding the actual object properties of the object
+ * @property {function} with Modifies/adds an object property (e.g. `object.with(obj_props.X, 15)`)
+ * @property {function} add Adds the object
+ */
+
+/**
  * Takes a dictionary with object props & converts into an object
  * @param {dictionary} dict Dictionary to convert to object
  * @returns {object}
  */
 let object = (dict) => {
-  console.log('dict', dict)
   return {
     type: 'object',
     obj_props: dict,
@@ -734,68 +741,68 @@ let gamescene = () => {
   hide_player();
 
   // Portals
-  $.add({
+  $.add(object({
     OBJ_ID: obj_ids.portals.DUAL_ON,
     X: 0,
     Y: 30,
     GROUPS: hidden_group,
-  });
-  $.add({
+  }));
+  $.add(object({
     OBJ_ID: obj_ids.portals.WAVE,
     X: 0,
     Y: 30,
     GROUPS: hidden_group,
-  });
-  $.add({
+  }));
+  $.add(({
     OBJ_ID: obj_ids.portals.SIZE_MINI,
     X: 0,
     Y: 30,
     GROUPS: hidden_group,
-  });
+  }));
 
   // Top and bottom blocks
-  $.add({
+  $.add(({
     OBJ_ID: 1,
     X: 0,
     Y: 33,
     GROUPS: [hidden_group, follow_x_group],
-  });
-  $.add({
+  }));
+  $.add(object({
     OBJ_ID: 1,
     X: 0,
     Y: -12,
     GROUPS: [hidden_group, follow_x_group],
-  });
+  }));
 
   // Collision blocks
   player_block = unknown_b();
   collide_block = unknown_b();
 
-  $.add({
+  $.add(object({
     OBJ_ID: obj_ids.special.COLLISION_BLOCK,
     DYNAMIC_BLOCK: true,
     BLOCK_A: player_block,
     X: 0,
     Y: 0,
     GROUPS: [hidden_group, follow_x_group, follow_y_group],
-  });
-  $.add({
+  }));
+  $.add(({
     OBJ_ID: obj_ids.special.COLLISION_BLOCK,
     DYNAMIC_BLOCK: false,
     BLOCK_A: collide_block,
     X: 0,
     Y: 37,
     GROUPS: [hidden_group, follow_x_group],
-  });
+  }));
 
   // D block
-  $.add({
+  $.add(({
     OBJ_ID: obj_ids.special.D_BLOCK,
     SCALING: 2,
     X: 0,
     Y: 15,
     GROUPS: [hidden_group, follow_x_group],
-  });
+  }));
 
   return {
     button_a: () => {
@@ -957,9 +964,9 @@ let exps = {
   events,
   object,
   reverse: () => {
-    $.add({
+    $.add(object({
       OBJ_ID: 1917
-    });
+    }));
   },
   rgb: (r, g, b) => [r, g, b],
   rgba: (r, g, b, a) => [r, g, b, a],

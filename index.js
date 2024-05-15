@@ -57,7 +57,7 @@ const {
   particle_system
 } = require('./lib/general-purpose');
 const keyframe_system = require('./lib/keyframes.js');
-const all_particles = require('./properties/particles.js');
+const particle_props = require('./properties/particles.js');
 const events = require('./properties/game_events.js');
 const WebSocket = require('ws');
 const crypto = require('crypto');
@@ -962,6 +962,7 @@ let exps = {
   timewarp,
   event,
   events,
+  particle_props,
   object,
   reverse: () => {
     $.add(object({

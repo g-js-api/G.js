@@ -12,10 +12,19 @@ declare module "index" {
      */
     function while_loop(condition: condition, func: (...params: any[]) => any, delay: number): void;
     /**
-     * Takes a dictionary with object props & converts into an object
-     * @param dict - Dictionary to convert to object
+     * @property type - String dictating that the type of the resulting dictionary is an object
+     * @property obj_props - Dictionary inside of object holding the actual object properties of the object
+     * @property with - Modifies/adds an object property (e.g. `object.with(obj_props.X, 15)`)
+     * @property add - Adds the object
      */
-    function object(dict: dictionary): any;
+    type object = dictionary;
+    /**
+     * @property type - String dictating that the type of the resulting dictionary is an object
+     * @property obj_props - Dictionary inside of object holding the actual object properties of the object
+     * @property with - Modifies/adds an object property (e.g. `object.with(obj_props.X, 15)`)
+     * @property add - Adds the object
+     */
+    type object = dictionary;
     /**
      * Creates and returns an unavailable group ID
      * @returns Resulting group ID
@@ -1306,6 +1315,157 @@ declare module "obj_props" {
         ITEM_ID_2: number;
         TRUE_ID: number;
         MULT_DIV: number;
+    };
+}
+
+declare module "particle" {
+    /**
+     * @property MAX_PARTICLES - Maximum number of particles.
+     * @property DURATION - Duration of the particle effect.
+     * @property LIFETIME - Lifetime of particles.
+     * @property LIFETIME_VAR - Variance in particle lifetime.
+     * @property EMISSION - Rate of particle emission.
+     * @property ANGLE - Emission angle.
+     * @property ANGLE_VAR - Variance in emission angle.
+     * @property SPEED - Speed of particles.
+     * @property SPEED_VAR - Variance in particle speed.
+     * @property POSVAR_X - Variance in particle position along the X axis.
+     * @property POSVAR_Y - Variance in particle position along the Y axis.
+     * @property GRAVITY_X - Gravity effect on particles along the X axis.
+     * @property GRAVITY_Y - Gravity effect on particles along the Y axis.
+     * @property ACCEL_RAD - Radial acceleration.
+     * @property ACCEL_RAD_VAR - Variance in radial acceleration.
+     * @property ACCEL_TAN - Tangential acceleration.
+     * @property ACCEL_TAN_VAR - Variance in tangential acceleration.
+     * @property START_SIZE - Initial size of particles.
+     * @property START_SIZE_VAR - Variance in initial size.
+     * @property START_SPIN - Initial spin of particles.
+     * @property START_SPIN_VAR - Variance in initial spin.
+     * @property START_R - Initial red color value.
+     * @property START_R_VAR - Variance in initial red color.
+     * @property START_G - Initial green color value.
+     * @property START_G_VAR - Variance in initial green color.
+     * @property START_B - Initial blue color value.
+     * @property START_B_VAR - Variance in initial blue color.
+     * @property START_A - Initial alpha (opacity) value.
+     * @property START_A_VAR - Variance in initial alpha value.
+     * @property END_SIZE - Final size of particles.
+     * @property END_SIZE_VAR - Variance in final size.
+     * @property END_SPIN - Final spin of particles.
+     * @property END_SPIN_VAR - Variance in final spin.
+     * @property END_R - Final red color value.
+     * @property END_R_VAR - Variance in final red color.
+     * @property END_G - Final green color value.
+     * @property END_G_VAR - Variance in final green color.
+     * @property END_B - Final blue color value.
+     * @property END_B_VAR - Variance in final blue color.
+     * @property END_A - Final alpha (opacity) value.
+     * @property END_A_VAR - Variance in final alpha value.
+     * @property FADE_IN - Fade-in duration.
+     * @property FADE_IN_VAR - Variance in fade-in duration.
+     * @property FADE_OUT - Fade-out duration.
+     * @property FADE_OUT_VAR - Variance in fade-out duration.
+     * @property START_RAD - Initial radial position.
+     * @property START_RAD_VAR - Variance in initial radial position.
+     * @property END_RAD - Final radial position.
+     * @property END_RAD_VAR - Variance in final radial position.
+     * @property ROT_SEC - Rotation per second.
+     * @property ROT_SEC_VAR - Variance in rotation per second.
+     * @property GRAVITY_RADIUS - Radius for gravity effect.
+     * @property FREE_RELATIVE_GROUPED - Indicates if particles are free, relative, or grouped.
+     * @property ADDITIVE - Indicates if additive blending is used.
+     * @property START_SPIN_END - Indicates if the initial spin is used at the end.
+     * @property START_ROT_IS_DIR - Indicates if the initial rotation is the direction.
+     * @property DYNAMIC_ROTATION - Indicates if dynamic rotation is applied.
+     * @property TEXTURE - Texture used for particles.
+     * @property UNIFORM_OBJ_COLOR - Uniform object color flag.
+     * @property FRICTION_P - Friction parallel to direction of movement.
+     * @property FRICTION_P_VAR - Variance in parallel friction.
+     * @property RESPAWN - Respawn rate of particles.
+     * @property RESPAWN_VAR - Variance in respawn rate.
+     * @property ORDER_SENSITIVE - Indicates if the order of particles is sensitive.
+     * @property START_SIZE_END - Indicates if the start size is used at the end.
+     * @property START_RAD_END - Indicates if the initial radial position is used at the end.
+     * @property START_RGB_VAR_SYNC - Sync variance in initial RGB values.
+     * @property END_RGB_VAR_SYNC - Sync variance in final RGB values.
+     * @property FRICTION_S - Friction perpendicular to direction of movement.
+     * @property FRICTION_S_VAR - Variance in perpendicular friction.
+     * @property FRICTION_R - Rotational friction.
+     * @property FRICTION_R_VAR - Variance in rotational friction.
+     */
+    type particle_props = {
+        MAX_PARTICLES: number;
+        DURATION: number;
+        LIFETIME: number;
+        LIFETIME_VAR: number;
+        EMISSION: number;
+        ANGLE: number;
+        ANGLE_VAR: number;
+        SPEED: number;
+        SPEED_VAR: number;
+        POSVAR_X: number;
+        POSVAR_Y: number;
+        GRAVITY_X: number;
+        GRAVITY_Y: number;
+        ACCEL_RAD: number;
+        ACCEL_RAD_VAR: number;
+        ACCEL_TAN: number;
+        ACCEL_TAN_VAR: number;
+        START_SIZE: number;
+        START_SIZE_VAR: number;
+        START_SPIN: number;
+        START_SPIN_VAR: number;
+        START_R: number;
+        START_R_VAR: number;
+        START_G: number;
+        START_G_VAR: number;
+        START_B: number;
+        START_B_VAR: number;
+        START_A: number;
+        START_A_VAR: number;
+        END_SIZE: number;
+        END_SIZE_VAR: number;
+        END_SPIN: number;
+        END_SPIN_VAR: number;
+        END_R: number;
+        END_R_VAR: number;
+        END_G: number;
+        END_G_VAR: number;
+        END_B: number;
+        END_B_VAR: number;
+        END_A: number;
+        END_A_VAR: number;
+        FADE_IN: number;
+        FADE_IN_VAR: number;
+        FADE_OUT: number;
+        FADE_OUT_VAR: number;
+        START_RAD: number;
+        START_RAD_VAR: number;
+        END_RAD: number;
+        END_RAD_VAR: number;
+        ROT_SEC: number;
+        ROT_SEC_VAR: number;
+        GRAVITY_RADIUS: number;
+        FREE_RELATIVE_GROUPED: number;
+        ADDITIVE: number;
+        START_SPIN_END: number;
+        START_ROT_IS_DIR: number;
+        DYNAMIC_ROTATION: number;
+        TEXTURE: number;
+        UNIFORM_OBJ_COLOR: number;
+        FRICTION_P: number;
+        FRICTION_P_VAR: number;
+        RESPAWN: number;
+        RESPAWN_VAR: number;
+        ORDER_SENSITIVE: number;
+        START_SIZE_END: number;
+        START_RAD_END: number;
+        START_RGB_VAR_SYNC: number;
+        END_RGB_VAR_SYNC: number;
+        FRICTION_S: number;
+        FRICTION_S_VAR: number;
+        FRICTION_R: number;
+        FRICTION_R_VAR: number;
     };
 }
 

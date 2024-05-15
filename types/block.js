@@ -37,7 +37,7 @@ class $block {
     };
     if (true_id) j.TRUE_ID = true_id;
     if (false_id) j.FALSE_ID = false_id;
-    $.add(j);
+    $.add(object(j));
   }
 }
 

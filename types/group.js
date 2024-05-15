@@ -60,7 +60,7 @@ class $group {
      * @param {boolean} delay_trig Whether to do wait(duration)
      */
     move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, delay_trig = true) {
-        $.add({
+        $.add(object({
             OBJ_ID: 901,
             TARGET: this,
             MOVE_X: multiply ? x * 3 * x_multiplier : x * x_multiplier,
@@ -68,7 +68,7 @@ class $group {
             DURATION: duration,
             EASING: easing,
             EASING_RATE: easing_rate,
-        });
+        }));
         if (delay_trig && duration !== 0) wait(duration);
     }
 
@@ -87,7 +87,7 @@ class $group {
      * @param {boolean} [relative_rot=false] Whether to rotate the X and Y axis
      */
     scale(center, scale_x, scale_y, duration = 0, easing = NONE, easing_rate = 2, x_divide = false, y_divide = false, move_only = false, relative_scale = false, relative_rot = false) {
-        $.add({
+        $.add(object({
             OBJ_ID: 2067,
             CENTER: center,
             DURATION: duration,
@@ -99,7 +99,7 @@ class $group {
             ONLY_MOVE: move_only,
             RELATIVE_SCALE: relative_scale,
             RELATIVE_ROT: relative_rot,
-        })
+        }))
     }
     /**
      * Calls the group
@@ -116,12 +116,12 @@ class $group {
      * @param {number} duration How long it takes for the opacity to change
      */
     alpha(opacity = 1, duration = 0) {
-        $.add({
+        $.add(object({
             OBJ_ID: 1007,
             TARGET: this,
             OPACITY: opacity,
             DURATION: duration,
-        });
+        }));
         wait(duration);
     }
     /**
@@ -131,44 +131,44 @@ class $group {
      * @param {number} [duration=999] How long group is locked to player
      */
     lock_to_player(lock_x = true, lock_y = true, duration = 999) {
-        $.add({
+        $.add(object({
             OBJ_ID: 901,
             TARGET: this,
             DURATION: duration,
             LOCK_TO_PLAYER_X: lock_x,
             LOCK_TO_PLAYER_Y: lock_y,
-        });
+        }));
     }
 
     /**
      * Stops the current group
      */
     stop() {
-        $.add({
+        $.add(object({
             OBJ_ID: 1616,
             TARGET: this,
-        });
+        }));
     }
 
     /**
      * Toggles the group on
      */
     toggle_on() {
-        $.add({
+        $.add(object({
             OBJ_ID: 1049,
             TARGET: this,
             ACTIVATE_GROUP: true,
-        });
+        }));
     }
     /**
      * Toggles the group off
      */
     toggle_off() {
-        $.add({
+        $.add(object({
             OBJ_ID: 1049,
             TARGET: this,
             ACTIVATE_GROUP: false,
-        });
+        }));
     }
     /**
      * Rotates the group
@@ -180,7 +180,7 @@ class $group {
      * @param {boolean} [lock_object_rotation=false] Whether to turn on "lock object rotation"
      */
     rotate(center, degrees, duration = 0, easing = NONE, easing_rate = 2, lock_object_rotation = false) {
-        $.add({
+        $.add(object({
             OBJ_ID: 1346,
             TARGET: this,
             CENTER: center,
@@ -189,7 +189,7 @@ class $group {
             EASING: easing.id,
             EASING_RATE: easing_rate,
             LOCK_OBJECT_ROTATION: lock_object_rotation
-        });
+        }));
         if (duration) wait(duration);
     }
 
@@ -201,14 +201,14 @@ class $group {
      * @param {number} duration How long to follow other group
      */
     follow(other, x_mod = 1, y_mod = 1, duration = 999) {
-        $.add({
+        $.add(object({
             OBJ_ID: 1347,
             X_MOD: x_mod,
             Y_MOD: y_mod,
             DURATION: duration,
             TARGET: this,
             FOLLOW: other,
-        });
+        }));
     }
     /**
      * Keeps an object's position proportionally between 2 others
@@ -231,7 +231,7 @@ class $group {
      * @param {number} [duration=0] How long the group is locked to player Y axis
      */
     follow_player_y(speed = 1, delay = 0, offset = 0, max_speed = 0, duration = 999) {
-        $.add({
+        $.add(object({
             OBJ_ID: 1814,
             SPEED: speed,
             DELAY: delay,
@@ -239,7 +239,7 @@ class $group {
             MAX_SPEED: max_speed,
             TARGET: this,
             DURATION: duration,
-        });
+        }));
     }
     /**
      * Move target implementation
@@ -251,7 +251,7 @@ class $group {
      * @param {number} easing_rate Easing rate of movement
      */
     move_to(target, duration = 0, x_only = false, y_only = false, easing = NONE, easing_rate = 2) {
-        $.add({
+        $.add(object({
             OBJ_ID: 901,
             TARGET: this,
             USE_TARGET: true,
@@ -260,7 +260,7 @@ class $group {
             DURATION: duration,
             EASING: easing,
             EASING_RATE: easing_rate,
-        });
+        }));
         wait(duration);
     }
     /**
@@ -274,20 +274,20 @@ class $group {
     move_to_xy(x, y, duration = 0, easing = NONE, easing_rate = 2) {
         if (!x && !y) throw new Error("At least one coordinate must be specified!");
         let target = unknown_g();
-        $.add({
+        $.add(object({
             OBJ_ID: 1765,
             X: x ? x : 0,
             Y: y ? y : 0,
             GROUPS: target,
-        });
-        $.add({
+        }));
+        $.add(object({
             OBJ_ID: 1007,
             X: 0,
             Y: 75 * 30,
             TARGET: target,
             OPACITY: 0,
             DURATION: 0,
-        });
+        }));
         this.move_to(target, duration, !y, !x, easing, easing_rate);
     }
     /**
@@ -303,7 +303,7 @@ class $group {
      * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
      */
     pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
-        $.add({
+        $.add(object({
             OBJ_ID: 1006,
             COPIED_COLOR_HVS: [h, s, b, +s_checked, +b_checked].join("a"),
             EXCLUSIVE: exclusive,
@@ -313,7 +313,7 @@ class $group {
             TARGET: this,
             PULSE_HSV: true,
             TARGET_TYPE: 1,
-        });
+        }));
         wait(fade_in + hold + fade_out);
     }
     /**
@@ -325,7 +325,7 @@ class $group {
      * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
      */
     pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
-        $.add({
+        $.add(object({
             OBJ_ID: 1006,
             TRIGGER_RED: c[0],
             TRIGGER_GREEN: c[1],
@@ -337,7 +337,7 @@ class $group {
             TARGET: this,
             PULSE_HSV: false,
             TARGET_TYPE: 1,
-        });
+        }));
         wait(fade_in + hold + fade_out);
     }
 }

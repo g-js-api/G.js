@@ -1,6 +1,6 @@
 // "var" stands for variation, aka += in GD
 /**
- * @module particle
+ * @module particles
  */
 /**
  * @typedef {Object} particle_props

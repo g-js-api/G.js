@@ -4,7 +4,7 @@
       "tutorials": "./tutorials"
     },
     "source": {
-      "include": ["index.js", "types/group.js", "types/color.js", "types/block.js", "lib/events.js", "lib/counter.js", "lib/control-flow.js", "lib/general-purpose.js", "lib/items.js", "lib/keyframes.js"],
+      "include": ["index.js", "types/group.js", "types/color.js", "types/block.js", "lib/events.js", "lib/counter.js", "lib/control-flow.js", "lib/general-purpose.js", "lib/items.js", "lib/keyframes.js", "properties/particles.js", "properties/game_events.js", "properties/obj_props.js"],
       "exclude": ["node_modules"]      
     }
 }

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>lib/counter.js - Documentation</title>
+    <title>properties/particles.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -35,7 +35,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">lib/counter.js</h1>
+    <h1 class="page-title">properties/particles.js</h1>
     
 
     
@@ -45,272 +45,164 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @module counter
- */
-let next_free = 1;
+            <pre class="prettyprint source linenums"><code>// "var" stands for variation, aka += in GD
 /**
- * Represents a counter, which is a wrapper around item IDs
- * @typedef {object} counter
- * @property {item} item Item ID of a counter
- * @property {item_type} type Type of a counter
- * @property {add} add Adds a specific amount (or another counter) to the current counter
- * @property {subtract} subtract Subtracts a specific amount (or another counter) from the current counter
- * @property {multiply} multiply Multiplies the current counter by a specific amount (or another counter)
- * @property {divide} divide Divides the current counter by a specific amount (or another counter)
- * @property {set} set Sets the current counter to a specific amount or another counter
- * @property {reset} reset Resets the current counter to 0
- * @property {if_is} if_is Checks if a comparison is true, and if so calls a group (SMALLER_THAN/EQUAL_TO_LARGER_THAN)
- * @property {to_const} to_const Converts the current counter to a plain number by taking in a range of possible values and a function
- * @property {copy_to} copy_to Copies the current counter to another counter
- * @property {display} display Displays the current counter at a specific position
- * @property {to_obj} to_obj Returns item display for current counter as an object
- * @property {add_to} add_to Adds the current counter to another and resets the current counter
- * @property {subtract_from} subtract_from Subtracts the current counter from another and resets the current counter
+ * @module particles
  */
-
 /**
- * Adds a specific amount (or another counter) to the current counter
- * @callback add
- * @param {number|counter} amount Counter or number to add to the current counter
+ * @typedef {Object} particle_props
+ * @property {number} MAX_PARTICLES - Maximum number of particles.
+ * @property {number} DURATION - Duration of the particle effect.
+ * @property {number} LIFETIME - Lifetime of particles.
+ * @property {number} LIFETIME_VAR - Variance in particle lifetime.
+ * @property {number} EMISSION - Rate of particle emission.
+ * @property {number} ANGLE - Emission angle.
+ * @property {number} ANGLE_VAR - Variance in emission angle.
+ * @property {number} SPEED - Speed of particles.
+ * @property {number} SPEED_VAR - Variance in particle speed.
+ * @property {number} POSVAR_X - Variance in particle position along the X axis.
+ * @property {number} POSVAR_Y - Variance in particle position along the Y axis.
+ * @property {number} GRAVITY_X - Gravity effect on particles along the X axis.
+ * @property {number} GRAVITY_Y - Gravity effect on particles along the Y axis.
+ * @property {number} ACCEL_RAD - Radial acceleration.
+ * @property {number} ACCEL_RAD_VAR - Variance in radial acceleration.
+ * @property {number} ACCEL_TAN - Tangential acceleration.
+ * @property {number} ACCEL_TAN_VAR - Variance in tangential acceleration.
+ * @property {number} START_SIZE - Initial size of particles.
+ * @property {number} START_SIZE_VAR - Variance in initial size.
+ * @property {number} START_SPIN - Initial spin of particles.
+ * @property {number} START_SPIN_VAR - Variance in initial spin.
+ * @property {number} START_R - Initial red color value.
+ * @property {number} START_R_VAR - Variance in initial red color.
+ * @property {number} START_G - Initial green color value.
+ * @property {number} START_G_VAR - Variance in initial green color.
+ * @property {number} START_B - Initial blue color value.
+ * @property {number} START_B_VAR - Variance in initial blue color.
+ * @property {number} START_A - Initial alpha (opacity) value.
+ * @property {number} START_A_VAR - Variance in initial alpha value.
+ * @property {number} END_SIZE - Final size of particles.
+ * @property {number} END_SIZE_VAR - Variance in final size.
+ * @property {number} END_SPIN - Final spin of particles.
+ * @property {number} END_SPIN_VAR - Variance in final spin.
+ * @property {number} END_R - Final red color value.
+ * @property {number} END_R_VAR - Variance in final red color.
+ * @property {number} END_G - Final green color value.
+ * @property {number} END_G_VAR - Variance in final green color.
+ * @property {number} END_B - Final blue color value.
+ * @property {number} END_B_VAR - Variance in final blue color.
+ * @property {number} END_A - Final alpha (opacity) value.
+ * @property {number} END_A_VAR - Variance in final alpha value.
+ * @property {number} FADE_IN - Fade-in duration.
+ * @property {number} FADE_IN_VAR - Variance in fade-in duration.
+ * @property {number} FADE_OUT - Fade-out duration.
+ * @property {number} FADE_OUT_VAR - Variance in fade-out duration.
+ * @property {number} START_RAD - Initial radial position.
+ * @property {number} START_RAD_VAR - Variance in initial radial position.
+ * @property {number} END_RAD - Final radial position.
+ * @property {number} END_RAD_VAR - Variance in final radial position.
+ * @property {number} ROT_SEC - Rotation per second.
+ * @property {number} ROT_SEC_VAR - Variance in rotation per second.
+ * @property {number} GRAVITY_RADIUS - Radius for gravity effect.
+ * @property {number} FREE_RELATIVE_GROUPED - Indicates if particles are free, relative, or grouped.
+ * @property {number} ADDITIVE - Indicates if additive blending is used.
+ * @property {number} START_SPIN_END - Indicates if the initial spin is used at the end.
+ * @property {number} START_ROT_IS_DIR - Indicates if the initial rotation is the direction.
+ * @property {number} DYNAMIC_ROTATION - Indicates if dynamic rotation is applied.
+ * @property {number} TEXTURE - Texture used for particles.
+ * @property {number} UNIFORM_OBJ_COLOR - Uniform object color flag.
+ * @property {number} FRICTION_P - Friction parallel to direction of movement.
+ * @property {number} FRICTION_P_VAR - Variance in parallel friction.
+ * @property {number} RESPAWN - Respawn rate of particles.
+ * @property {number} RESPAWN_VAR - Variance in respawn rate.
+ * @property {number} ORDER_SENSITIVE - Indicates if the order of particles is sensitive.
+ * @property {number} START_SIZE_END - Indicates if the start size is used at the end.
+ * @property {number} START_RAD_END - Indicates if the initial radial position is used at the end.
+ * @property {number} START_RGB_VAR_SYNC - Sync variance in initial RGB values.
+ * @property {number} END_RGB_VAR_SYNC - Sync variance in final RGB values.
+ * @property {number} FRICTION_S - Friction perpendicular to direction of movement.
+ * @property {number} FRICTION_S_VAR - Variance in perpendicular friction.
+ * @property {number} FRICTION_R - Rotational friction.
+ * @property {number} FRICTION_R_VAR - Variance in rotational friction.
  */
-
-/**
- * Subtracts a specific amount (or another counter) from the current counter
- * @callback subtract
- * @param {number|counter} amount Counter or number to subtract from the current counter
- */
-
-/**
- * Multiplies the current counter by a specific amount (or another counter)
- * @callback multiply
- * @param {number|counter} amount Counter or number to multiply the current counter by
- */
-
-/**
- * Divides the current counter by a specific amount (or another counter)
- * @callback divide
- * @param {number|counter} amount Counter or number to divide the current counter by
- */
-
-/**
- * Sets the current counter to a specific amount (or another counter)
- * @callback set
- * @param {number|counter} amount Counter or number to set the current counter to
- */
-
-/**
- * Resets the current counter to 0
- * @callback reset
- */
-
-/**
- * Returns item display for current counter as an object
- * @callback to_obj
- * @returns {object} Resulting item display
- */
-
-/**
- * Checks if a comparison is true, and if so calls a group (SMALLER_THAN/EQUAL_TO_LARGER_THAN)
- * @callback if_is
- * @param {comparison} comparison Condition to check for between the counter and number
- * @param {number} other Number to compare the current counter to
- * @param {group} trig_func Trigger function or group to run if the comparison is true
- */
-
-/**
- * Converts the current counter to a plain number by taking in a range of possible values and a function
- * @callback to_const
- * @param {array} range Possible range of values that the current counter is equal to
- * @param {function} func Callback function to run that takes the plain numerical value as input
- */
-
-/**
- * Displays the current counter at a specific position
- * @callback display
- * @param {number} x X position of item display
- * @param {number} y Y position of item display
- */
-
-/**
- * Copies the current counter to another counter
- * @callback copy_to
- * @param {counter} counter Counter to copy the current counter to
- */
-
-/**
- * Adds the current counter to another and resets the current counter
- * @callback add_to
- * @param {counter} counter Counter to add the current counter to
- */
-
-/**
- * Subtracts the current counter from another and resets the current counter
- * @callback subtract_from
- * @param {counter} counter Counter to be subtracted from
- */
-
-/**
- * Creates a counter, which has methods for editing items
- * @function
- * @param {number|boolean} [num=0] Number or boolean to be represented by counter
- * @param {boolean} [use_id=false] Whether to use an existing item ID as a counter instead of creating a new item
- * @param {boolean} [persistent=false] Whether to make the counter persistent between attempts
- * @param {boolean} [timer=false] Whether to make the counter a timer
- * @returns {counter} Resulting counter
- */
-let counter = (num = 0, use_id = false, persistent = false, timer = false) => {
-    let id = use_id ? num : next_free++;
-    if (num > 0 &amp;&amp; !use_id) {
-        if (!persistent) {
-            $.add(object({
-                OBJ_ID: 1817,
-                COUNT: num,
-                ITEM: id,
-            }));
-        }
-    }
-    if (persistent) {
-        $.add(object({
-            OBJ_ID: 3641,
-            PERSISTENT: true,
-            ITEM: id
-        }));
-    };
-    let exports = {
-        item: id,
-        type: timer ? TIMER : ITEM,
-        add: (amount) => {
-            if (typeof amount == 'number') {
-                $.add(object({
-                    OBJ_ID: 1817,
-                    COUNT: amount,
-                    ITEM: id,
-                }));
-            } else if (typeof amount == 'object') {
-                $.add(item_edit(amount.item, undefined, id, exports.type, NONE, exports.type, ADD));
-            }
-        },
-        set: (amount) => {
-            if (typeof amount == 'number') {
-                $.add(object({
-                    OBJ_ID: 1817,
-                    COUNT: amount,
-                    OVERRIDE_COUNT: true,
-                    ITEM: id,
-                }));
-            } else if (typeof amount == 'object') {
-                $.add(item_edit(undefined, amount.item, id, exports.type, amount.type, exports.type, EQ));
-            }
-        },
-        subtract: (amount) => {
-            if (typeof amount == 'number') {
-                $.add(object({
-                    OBJ_ID: 1817,
-                    COUNT: -amount,
-                    ITEM: id,
-                }));
-            } else if (typeof amount == 'object') {
-                $.add(item_edit(amount.item, undefined, id, exports.type, NONE, exports.type, SUB));
-            }
-        },
-        multiply: (amount) => {
-            if (typeof amount == 'number') {
-                $.add(object({
-                    OBJ_ID: 1817,
-                    MODIFIER: amount,
-                    MULT_DIV: 1,
-                    ITEM: id,
-                }));
-            } else if (typeof amount == 'object') {
-                $.add(item_edit(amount.item, undefined, id, exports.type, NONE, exports.type, MUL));
-            }
-        },
-        divide: (amount) => {
-            if (typeof amount == 'number') {
-                $.add(object({
-                    OBJ_ID: 1817,
-                    MODIFIER: amount,
-                    MULT_DIV: 2,
-                    ITEM: id,
-                }));
-            } else if (typeof amount == 'object') {
-                $.add(item_edit(amount.item, undefined, id, exports.type, NONE, exports.type, DIV));
-            }
-        },
-        display: (x, y) =>
-            $.add(object({
-                OBJ_ID: 1615,
-                X: x,
-                Y: y,
-                ITEM: id,
-                COLOR: color(1),
-            })),
-        to_obj: () => {
-            let or = object({
-                OBJ_ID: 1615,
-                ITEM: id,
-                COLOR: color(1)
-            });
-            return or;
-        },
-        if_is: (comparison, other, trig_func) => {
-            $.add(object({
-                OBJ_ID: 1811,
-                TARGET: trig_func,
-                COUNT: other,
-                ACTIVATE_GROUP: true,
-                COMPARISON: comparison,
-                ITEM: id,
-            }));
-        },
-        to_const: (range, cb) => {
-            let old_ctx = current_context;
-            for (let i in range) {
-                i = range[i];
-                let id = crypto.randomUUID();
-                let context = create_context(id, true);
-                cb(i);
-                set_context(old_ctx);
-                exports.if_is(EQUAL_TO, i, context.group);
-            }
-        },
-        add_to: (item) => {
-            item.add(exports);
-            exports.reset();
-        },
-        copy_to: (item) => {
-            $.add(item_edit(undefined, id, item.item, NONE, item.type, exports.type, EQ));
-        },
-        clone: () => {
-            let n_counter = counter(0);
-            exports.copy_to(n_counter);
-            return n_counter;
-        },
-        subtract_from: (b) => {
-            // basically (a - b) then reset b to zero
-            $.add(item_edit(id, b.item, id, exports.type, b.type, exports.type, EQ, SUB));
-            b.reset();
-        },
-        reset: () => {
-            exports.set(0);
-        },
-    };
-    if (persistent) {
-        let tfr = trigger_function(() => {
-            $.add(object({
-                OBJ_ID: 1817,
-                COUNT: num,
-                OVERRIDE_COUNT: true,
-                ITEM: id,
-            }));
-        });
-        exports.if_is(EQUAL_TO, 0, tfr);
-    }
-    return exports;
-};
-
-module.exports = counter;</code></pre>
+let parts = [
+    'MAX_PARTICLES',
+    'DURATION',
+    'LIFETIME',
+    'LIFETIME_VAR',
+    'EMISSION',
+    'ANGLE',
+    'ANGLE_VAR',
+    'SPEED',
+    'SPEED_VAR',
+    'POSVAR_X',
+    'POSVAR_Y',
+    'GRAVITY_X',
+    'GRAVITY_Y',
+    'ACCEL_RAD',
+    'ACCEL_RAD_VAR',
+    'ACCEL_TAN',
+    'ACCEL_TAN_VAR',
+    'START_SIZE',
+    'START_SIZE_VAR',
+    'START_SPIN',
+    'START_SPIN_VAR',
+    'START_R',
+    'START_R_VAR',
+    'START_G',
+    'START_G_VAR',
+    'START_B',
+    'START_B_VAR',
+    'START_A',
+    'START_A_VAR',
+    'END_SIZE',
+    'END_SIZE_VAR',
+    'END_SPIN',
+    'END_SPIN_VAR',
+    'END_R',
+    'END_R_VAR',
+    'END_G',
+    'END_G_VAR',
+    'END_B',
+    'END_B_VAR',
+    'END_A',
+    'END_A_VAR',
+    'FADE_IN',
+    'FADE_IN_VAR',
+    'FADE_OUT',
+    'FADE_OUT_VAR',
+    'START_RAD',
+    'START_RAD_VAR',
+    'END_RAD',
+    'END_RAD_VAR',
+    'ROT_SEC',
+    'ROT_SEC_VAR',
+    'GRAVITY_RADIUS',
+    'FREE_RELATIVE_GROUPED',
+    'ADDITIVE',
+    'START_SPIN_END',
+    'START_ROT_IS_DIR',
+    'DYNAMIC_ROTATION',
+    'TEXTURE',
+    'UNIFORM_OBJ_COLOR',
+    'FRICTION_P',
+    'FRICTION_P_VAR',
+    'RESPAWN',
+    'RESPAWN_VAR',
+    'ORDER_SENSITIVE',
+    'START_SIZE_END',
+    'START_RAD_END',
+    'START_RGB_VAR_SYNC',
+    'END_RGB_VAR_SYNC',
+    'FRICTION_S',
+    'FRICTION_S_VAR',
+    'FRICTION_R',
+    'FRICTON_R_VAR'
+];
+let d_parts = {};
+parts.forEach((x, i) => d_parts[x] = i);
+console.log(d_parts)
+module.exports = d_parts;
+</code></pre>
         </article>
     </section>
 

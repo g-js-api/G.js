@@ -55,7 +55,7 @@
  * @param {number} [duration=0] Duration that it takes for camera position to change
  */
 let camera_offset = (x, y, duration = 0, easing = NONE) => {
-    $.add({
+    $.add(object({
         OBJ_ID: 1916,
         155: 1,
         MOVE_X: x * 3,
@@ -63,7 +63,7 @@ let camera_offset = (x, y, duration = 0, easing = NONE) => {
         ACTIVE_TRIGGER: true,
         DURATION: duration,
         EASING_RATE: easing
-    });
+    }));
     if (duration) wait(duration);
 };
 /**
@@ -82,7 +82,7 @@ let camera_offset = (x, y, duration = 0, easing = NONE) => {
 let camera_static = (gr, duration = 0, easing = NONE, exit_instant = false, exit_static = false, smooth_vel = false, smooth_vel_mod = 0, follow = false, x_only = false, y_only = false) => {
     if (x_only &amp;&amp; y_only) throw new Error("Only one of the x_only or y_only arguments must be true, but both values are true!");
     let axisval = !x_only &amp;&amp; !y_only ? 0 : (x_only ? 1 : 2);
-    $.add({
+    $.add(object({
         OBJ_ID: 1914,
         155: 1,
         DURATION: duration,
@@ -95,7 +95,7 @@ let camera_static = (gr, duration = 0, easing = NONE, exit_instant = false, exit
         SMOOTH_VELOCITY_MODIFIER: smooth_vel_mod,
         EXIT_INSTANT: exit_instant,
         EXIT_STATIC: exit_static
-    });
+    }));
     if (duration) wait(duration);
 };
 /**
@@ -105,12 +105,12 @@ let camera_static = (gr, duration = 0, easing = NONE, exit_instant = false, exit
  * @param {easing} [easing=NONE] How smoothly the camera zooms in
  */
 let camera_zoom = (zoom_am, duration = 0, easing = NONE) => {
-    $.add({
+    $.add(object({
         OBJ_ID: 1913,
         ZOOM: zoom_am,
         DURATION: duration,
         EASING: easing
-    });
+    }));
 };
 /**
  * Toggles free mode
@@ -121,14 +121,14 @@ let camera_zoom = (zoom_am, duration = 0, easing = NONE) => {
  * @param {number} [padding=0.50] Padding for camera movement (requires edit_cam to be true)
  */
 let camera_mode = (free_mode = true, disable_grid_snap = false, edit_cam = false, easing = 10, padding = 0.50) => {
-    $.add({
+    $.add(object({
         OBJ_ID: 2925,
         FREE_MODE: free_mode,
         EDIT_FREE_CAM_SETTINGS: edit_cam,
         FREE_CAM_EASING: easing,
         FREE_CAM_PADDING: padding,
         DISABLE_GRID_SNAP: disable_grid_snap
-    });
+    }));
 };
 /**
  * Rotates camera
@@ -139,14 +139,14 @@ let camera_mode = (free_mode = true, disable_grid_snap = false, edit_cam = false
  * @param {boolean} [snap360=false] Converts rotation to closest 360
  */
 let camera_rotate = (degrees, move_time = 0, easing = NONE, add = false, snap360 = false) => {
-    $.add({
+    $.add(object({
         OBJ_ID: 2015,
         DURATION: move_time,
         EASING: easing,
         ROTATE_DEGREES: degrees,
         ADD: add,
         SNAP_360: snap360
-    });
+    }));
 };
 
 /**
@@ -155,11 +155,11 @@ let camera_rotate = (degrees, move_time = 0, easing = NONE, add = false, snap360
  * @param {edge} edge Defines the edge to set (LEFT_EDGE, RIGHT_EDGE, UP_EDGE, DOWN_EDGE)
  */
 let camera_edge = (id, edge) => {
-    $.add({
+    $.add(object({
         OBJ_ID: 2062,
         TARGET: id,
         CAMERA_EDGE: edge
-    });
+    }));
 };
 
 /**
@@ -232,15 +232,15 @@ let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, spee
         let exp = {
             start: () => {
                 if (al_load) $.add(m_obj);
-                $.add({
+                $.add(object({
                     OBJ_ID: 1934,
                     SONG_CHANNEL: channel,
                     LOAD_PREP: true
-                });
+                }));
                 if (!al_load) al_load = true;
             },
             edit: (new_volume = volume, new_speed = speed, duration = 0.5, stop = false, stop_loop = false, gid_1 = group(0), gid_2 = group(0), vol_near = 1, vol_med = 0.5, vol_far = 0, min_dist = 0, dist_2 = 0, dist_3 = 0, p1 = false, p2 = false, cam = false, vol_dir = 0) => {
-                $.add({
+                $.add(object({
                     OBJ_ID: 3605,
                     DURATION: duration,
                     SONG_CHANNEL: channel,
@@ -262,7 +262,7 @@ let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, spee
                     P2: p2,
                     CAM: cam,
                     VOLUME_DIRECTION: vol_dir
-                });
+                }));
             },
             stop: () => {
                 exp.edit(volume, speed, 0.5, true, true);
@@ -271,7 +271,7 @@ let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, spee
         };
         return exp;
     }
-    $.add({
+    $.add(object({
         OBJ_ID: 1934,
         SONG_ID: song_id,
         SONG_CHANNEL: channel,
@@ -282,7 +282,7 @@ let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, spee
         SONG_FADE_IN: fadein,
         SONG_FADE_OUT: fadeout,
         SONG_LOOP: loop
-    });
+    }));
 }
 
 /**
@@ -291,7 +291,7 @@ let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, spee
 */
 let teleport = (g) => {
     if (g?.length) {
-        $.add({
+        $.add(object({
             OBJ_ID: 3022,
             X: g[0],
             Y: g[1],
@@ -299,17 +299,17 @@ let teleport = (g) => {
             13: 1,
             ACTIVE_TRIGGER: 1,
             350: 1
-        });
+        }));
         return;
     }
-    $.add({
+    $.add(object({
         OBJ_ID: 3022,
         155: 1,
         13: 1,
         ACTIVE_TRIGGER: 1,
         TARGET: g,
         350: 1
-    });
+    }));
 };
 
 /**
@@ -320,27 +320,22 @@ let teleport = (g) => {
  * @returns {object} Returned object
  */
 let move_trigger = (group, x, y) => {
-    let origin = {
+    return object({
         OBJ_ID: 901,
         TARGET: group,
         MOVE_X: x * 3,
         MOVE_Y: y * 3,
-    };
-    origin.with = (a, b) => {
-        origin[d[a]] = b;
-        return origin;
-    };
-    return origin;
+    });
 };
 /**
  * Warps all time by given amount
  * @param {number} value How much to warp time by
  */
 let timewarp = (val) => {
-    $.add({
+    $.add(object({
         OBJ_ID: 1935,
         TIMEWARP_TIME_MOD: val
-    });
+    }));
 };
 
 /**
@@ -363,7 +358,7 @@ let color_trigger = (
     opacity = 1,
     blending = false
 ) => {
-    let origin = object({
+    return object({
         OBJ_ID: 899,
         DURATION: duration,
         TRIGGER_RED: r,
@@ -373,7 +368,6 @@ let color_trigger = (
         BLENDING: blending,
         TARGET_COLOR: channel,
     });
-    return origin;
 };
 /**
 * Returns an activated toggle trigger
@@ -394,20 +388,20 @@ let toggle_on_trigger = (group) => {
  * @returns {object} Resulting object
  */
 let toggle_off_trigger = (group) => {
-    return {
+    return object({
         OBJ_ID: 1049,
         TARGET: group,
         ACTIVATE_GROUP: false,
-    };
+    });
 };
 
 /**
 * Hides player
 */
 let hide_player = () => {
-    $.add({
+    $.add(object({
         OBJ_ID: 1612,
-    });
+    }));
 };
 
 /**
@@ -424,7 +418,7 @@ let hide_player = () => {
 * @returns {object} Resulting gradient trigger
 */
 let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false, layer = 0) => {
-    let origin = object({
+    return object({
         OBJ_ID: 2903,
         GR_BL: bl,
         GR_BR: br,
@@ -437,7 +431,6 @@ let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false,
         GR_BLENDING: blending,
         GR_LAYER: layer
     });
-    return origin;
 };
 
 /**
@@ -475,22 +468,22 @@ let particle_system = (props, use_obj_color = false, animate_on_trigger = false,
  * @param {number} chance Chance of either group being called
  */
 let random = (gr1, gr2, chance) => {
-    $.add({
+    $.add(object({
         OBJ_ID: 1912,
         GROUP_ID_1: gr1,
         GROUP_ID_2: gr2,
         CHANCE: chance
-    });
+    }));
 };
 /**
  * Implementation of advanced random trigger
  * @param {array} chances Chances of each group being called (e.g. [[group(1), 10], [group(2), 10]] is a valid input)
  */
 let advanced_random = (...chances) => {
-    $.add({
+    $.add(object({
         OBJ_ID: 2068,
         ADV_RAND_STRING: chances.map(x => x[0].value + '.' + x[1]).join('.')
-    });
+    }));
 }
 
 /**
@@ -501,13 +494,13 @@ let advanced_random = (...chances) => {
 * @param {boolean} pt Only affect player that touches trigger
 */
 let gravity = (grav, p1 = false, p2 = false, pt = false) => {
-    $.add({
+    $.add(object({
         OBJ_ID: 2066,
         GRAVITY: grav,
         PLAYER_1: p1,
         PLAYER_2: p2,
         _PT: pt
-    })
+    }))
 };
 
 /**
@@ -564,14 +557,14 @@ let options = () => {
  * @param {group} target_pos Object defining end position
  */
 let end = (instant_end = false, no_effects = false, no_sfx = false, spawn_id = group(0), target_pos = group(0)) => {
-    $.add({
+    $.add(object({
         OBJ_ID: 3600,
         GROUP_ID_1: spawn_id,
         GROUP_ID_2: target_pos,
         NO_EFFECTS: no_effects,
         NO_SFX: no_sfx,
         INSTANT_END: instant_end
-    });
+    }));
 };
 /**
  * Implementation of player control trigger
@@ -583,7 +576,7 @@ let end = (instant_end = false, no_effects = false, no_sfx = false, spawn_id = g
  * @param {boolean} stop_slide Stops player from sliding
  */
 let player_control = (p1 = false, p2 = false, stop_jump = false, stop_move = false, stop_rot = false, stop_slide = false) => {
-    $.add({
+    $.add(object({
         OBJ_ID: 1932,
         PLAYER_1: p1,
         PLAYER_2: p2,
@@ -591,7 +584,7 @@ let player_control = (p1 = false, p2 = false, stop_jump = false, stop_move = fal
         STOP_MOVE: stop_move,
         STOP_ROT: stop_rot,
         STOP_SLIDE: stop_slide
-    });
+    }));
 }
 
 module.exports = {
@@ -631,7 +624,7 @@ module.exports = {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Tue May 14 2024 18:47:19 GMT-0500 (Central Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Tue May 14 2024 21:04:57 GMT-0500 (Central Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

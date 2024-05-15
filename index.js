@@ -164,7 +164,7 @@ let writeClasses = (arr) => {
 }
 
 writeClasses([
-  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID/TARGET_POS/EXTRA_ID/EXTRA_ID_2/FOLLOW',
+  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID/TARGET_POS/EXTRA_ID/EXTRA_ID_2/FOLLOW/CENTER',
   'color/TARGET/TARGET_COLOR/COLOR/COLOR_2',
   'block/BLOCK_A/BLOCK_B',
 ]);
@@ -175,7 +175,9 @@ writeClasses([
  * @returns {object}
  */
 let object = (dict) => {
+  console.log('dict', dict)
   return {
+    type: 'object',
     obj_props: dict,
     with: (prop, val) => {
       dict[d[prop]] = val;
@@ -359,7 +361,8 @@ let add = (o) => {
       type: 'DeprecationWarning',
       detail: 'Wrap the object() function around the dictionary as an argument to $.add instead of using plain dictionaries.'
     });
-  } else {
+  }
+  if (o?.type == "object") {
     o.add(); // does the same thing as below, only reason $.add is not removed is so I can customize $.add in the future
     return;
   };
@@ -369,8 +372,10 @@ let add = (o) => {
 };
 
 let remove_group = 9999;
+let already_prepped = false;
 
 let prep_lvl = () => {
+  if (already_prepped) return;
   let name = 'GLOBAL_FULL';
   contexts[name] = {
     name,
@@ -422,6 +427,7 @@ let prep_lvl = () => {
       resulting += r;
     }
   }
+  already_prepped = true;
 };
 
 let limit = 9999;

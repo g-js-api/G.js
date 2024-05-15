@@ -153,5 +153,4 @@ let parts = [
 ];
 let d_parts = {};
 parts.forEach((x, i) => d_parts[x] = i);
-console.log(d_parts)
 module.exports = d_parts;

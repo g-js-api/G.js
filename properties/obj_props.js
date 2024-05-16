@@ -504,7 +504,7 @@ module.exports = {
     474: "STOP_CHECKED",
     476: "TYPE_1",
     477: "TYPE_2",
-    478: "TARGET_TYPE",
+    478: "ITEM_TARGET_TYPE",
     479: "MOD",
     480: "ASSIGN_OP",
     78534: "COMP_OP_1",

@@ -1,53 +1,54 @@
-| Name | Obj Prop ID |
-| --- | ----- |
-| OBJ_ID | 1 |
-| X | 2 |
-| Y | 3 |
-| HORIZONTAL_FLIP | 4 |
-| VERTICAL_FLIP | 5 |
-| ROTATION | 6 |
-| TRIGGER_RED | 7 |
-| TRIGGER_GREEN | 8 |
-| TRIGGER_BLUE | 9 |
-| DURATION | 10 |
-| CHANCE | 10 |
-| TOUCH_TRIGGERED | 11 |
-| PORTAL_CHECKED | 13 |
-| PLAYER_COLOR_1 | 15 |
-| PLAYER_COLOR_2 | 16 |
-| BLENDING | 17 |
-| EDITOR_LAYER_1 | 20 |
-| COLOR | 21 |
-| COLOR_2 | 22 |
-| TARGET_COLOR | 23 |
-| Z_LAYER | 24 |
-| Z_ORDER | 25 |
-| MOVE_X | 28 |
-| MOVE_Y | 29 |
-| EASING | 30 |
-| TEXT | 31 |
-| SCALING | 32 |
-| GROUP_PARENT | 34 |
-| OPACITY | 35 |
-| ACTIVE_TRIGGER | 36 |
-| HVS_ENABLED | 41 |
-| COLOR_2_HVS_ENABLED | 42 |
-| HVS | 43 |
-| COLOR_2_HVS | 44 |
-| FADE_IN | 45 |
-| HOLD | 46 |
-| FADE_OUT | 47 |
-| PULSE_HSV | 48 |
-| COPIED_COLOR_HVS | 49 |
-| COPIED_COLOR_ID | 50 |
-| TARGET | 51 |
-| ITEM_TARGET | 51 |
-| TRUE_ID | 51 |
-| GROUP_ID_1 | 51 |
-| TARGET_TYPE | 52 |
-| YELLOW_TELEPORTATION_PORTAL_DISTANCE | 54 |
-| ACTIVATE_GROUP | 56 |
-| GROUPS | 57 |
+# Note: not all descriptions are finished.
+| Name | Obj Prop ID | Description
+| --- | ----- | ----- |
+| OBJ_ID | 1 | Object ID (int) |
+| X | 2 | X position (float) |
+| Y | 3 | Y position (float) |
+| HORIZONTAL_FLIP | 4 | Whether to flip horizontally (bool) |
+| VERTICAL_FLIP | 5 | Whether to flip vertically (bool) |
+| ROTATION | 6 | How much to rotate in degrees (float) |
+| TRIGGER_RED | 7 | Red value in color & pulse trigger (int) |
+| TRIGGER_GREEN | 8 | Green value in color & pulse trigger (int) |
+| TRIGGER_BLUE | 9 | Blue value in color & pulse trigger (int) |
+| DURATION | 10 | Duration of a trigger (float) |
+| CHANCE | 10 | Chance of one of the two groups being ran in a random trigger (float) |
+| TOUCH_TRIGGERED | 11 | Whether to make the trigger touch triggered (bool) |
+| PORTAL_CHECKED | 13 | Whether the Preview check is on for a portal (bool) |
+| PLAYER_COLOR_1 | 15 | If player color 1 is checked on a color (bool) |
+| PLAYER_COLOR_2 | 16 | If player color 2 is checked on a color (bool) |
+| BLENDING | 17 | If blending is checked on a color (bool) |
+| EDITOR_LAYER_1 | 20 | The first editor layer of an object (int) |
+| COLOR | 21 | Base color of an object (color) |
+| COLOR_2 | 22 | Detail color of an object (color) |
+| TARGET_COLOR | 23 | The target color ID of a color trigger (color) |
+| Z_LAYER | 24 | The Z layer an object is located on (int) |
+| Z_ORDER | 25 | The Z order an object is set to (int) |
+| MOVE_X | 28 | The X movement of a move trigger (int) |
+| MOVE_Y | 29 | The Y movement of a move trigger (int) |
+| EASING | 30 | Easing type of a trigger (can be a pre-defined easing from docs or a number) |
+| TEXT | 31 | The text to display on a text object (base64 encoded string) |
+| SCALING | 32 | The scale of an object (float) |
+| GROUP_PARENT | 34 | If group parent is checked on an object (bool) |
+| OPACITY | 35 | Changes the opacity of the object (float) |
+| ACTIVE_TRIGGER | 36 | No known usage (bool) |
+| HVS_ENABLED | 41 | Whether the hue, saturation and brightness/value of the "Main" color is modified (bool) |
+| COLOR_2_HVS_ENABLED | 42 | Whether the hue, saturation and brightness/value of the "Detail" color is modified (bool) |
+| HVS | 43 | An object's "Main" color HSV value (a-separated list, e.g. `<hue>a<saturation>a<value>a<saturation checked(bool)>a<brightness checked(bool)>`)
+| COLOR_2_HVS | 44 | An object's "Detail" color HSV value
+| FADE_IN | 45 | A pulse trigger's fade in time (float)
+| HOLD | 46 | A pulse trigger's hold time (float)
+| FADE_OUT | 47 | A pulse trigger's fade out time (float)
+| PULSE_HSV | 48 | Whether a pulse trigger uses HSV (bool)
+| COPIED_COLOR_HVS | 49 | Unknown description (string)
+| COPIED_COLOR_ID | 50 | Unknown description (string)
+| TARGET | 51 | ID affected by the trigger (color/group) |
+| ITEM_TARGET | 51 | Item ID of target item in Item Edit (number) |
+| TRUE_ID | 51 | ID to call if condition is true (group) |
+| GROUP_ID_1 | 51 | First group ID
+| TARGET_TYPE | 52 | The target of a pulse trigger (bool, false = color channel, true = group ID)
+| YELLOW_TELEPORTATION_PORTAL_DISTANCE | 54 | The distance from the blue teleportation portal to the orange one (float)
+| ACTIVATE_GROUP | 56 |	Whether "Activate group" is checked in count & collision trigger (bool) |
+| GROUPS | 57 | The group(s) an object should have (group or array of groups) |
 | LOCK_TO_PLAYER_X | 58 |
 | LOCK_TO_PLAYER_Y | 59 |
 | COPY_OPACITY | 60 |
@@ -231,7 +232,7 @@
 | STOP_CHECKED | 474 |
 | TYPE_1 | 476 |
 | TYPE_2 | 477 |
-| TARGET_TYPE | 478 |
+| ITEM_TARGET_TYPE | 478 | Type of the target in an Item Edit trigger
 | MOD | 479 |
 | ASSIGN_OP | 480 |
 | COMP_OP_1 | 480 |

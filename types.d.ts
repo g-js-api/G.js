@@ -1318,7 +1318,7 @@ declare module "obj_props" {
     };
 }
 
-declare module "particle" {
+declare module "particles" {
     /**
      * @property MAX_PARTICLES - Maximum number of particles.
      * @property DURATION - Duration of the particle effect.

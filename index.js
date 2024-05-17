@@ -182,16 +182,17 @@ writeClasses([
  * @returns {object}
  */
 let object = (dict) => {
-  return {
+  let return_val = {
     type: 'object',
     obj_props: dict,
     with: (prop, val) => {
       dict[d[prop]] = val;
-      return dict;
+      return return_val;
     },
     // copied old $.add code here so I can migrate to enforcing object() usage in the future
     add: () => add_to_context(dict)
   };
+  return return_val;
 };
 
 let [unavailable_g, unavailable_c, unavailable_b] = [0, 0, 0];

@@ -392,7 +392,6 @@ let prep_lvl = () => {
   set_context(name);
   // contexts.global.group.call();
   for (let i in contexts) {
-    console.log(JSON.stringify(i), i !== 'global', i !== 'GLOBAL_FULL', !(+(i !== 'GLOBAL_FULL') ^ +(i !== 'global')))
     if (!(+(i !== 'GLOBAL_FULL') ^ +(i !== 'global'))) { // XOR if it was logical
       let context = contexts[i];
       // gives groups to objects in context

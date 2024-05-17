@@ -413,8 +413,7 @@ let prep_lvl = () => {
         // end
       }
     } else {
-      console.log('a', contexts[name])
-      let context = contexts[name];
+      let context = contexts[i];
       let objects = context.objects;
       for (let i = 0; i < objects.length; i++) {
         let object = objects[i];

@@ -175,6 +175,7 @@
 | SONG_ID | 392 |
 | SILENT | 393 |
 | SNAP_360 | 394 |
+| TARGET_DIR_CENTER | 395 |
 | SFX_ID | 392 |
 | PREP | 399 |
 | LOAD_PREP | 400 |

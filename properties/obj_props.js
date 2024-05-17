@@ -447,6 +447,7 @@ module.exports = {
     392: "SONG_ID",
     393: "SMALL_STEP",
     394: "SNAP_360",
+    395: "TARGET_DIR_CENTER",
     45893: "SFX_ID",
     399: "PREP",
     400: "LOAD_PREP",

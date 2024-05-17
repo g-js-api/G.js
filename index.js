@@ -62,7 +62,6 @@ const events = require('./properties/game_events.js');
 const WebSocket = require('ws');
 const crypto = require('crypto');
 const LevelReader = require('./reader');
-const zlib = require('zlib');
 const $group = require('./types/group.js');
 const $color = require('./types/color.js');
 const $block = require('./types/block.js');
@@ -391,9 +390,10 @@ let prep_lvl = () => {
   };
   last_contexts[name] = name;
   set_context(name);
-  contexts.global.group.call();
+  // contexts.global.group.call();
   for (let i in contexts) {
-    if (i !== 'GLOBAL_FULL') {
+    console.log(JSON.stringify(i), i !== 'global', i !== 'GLOBAL_FULL', !(+(i !== 'GLOBAL_FULL') ^ +(i !== 'global')))
+    if (!(+(i !== 'GLOBAL_FULL') ^ +(i !== 'global'))) { // XOR if it was logical
       let context = contexts[i];
       // gives groups to objects in context
       let objects = context.objects;
@@ -414,6 +414,7 @@ let prep_lvl = () => {
         // end
       }
     } else {
+      console.log('a', contexts[name])
       let context = contexts[name];
       let objects = context.objects;
       for (let i = 0; i < objects.length; i++) {

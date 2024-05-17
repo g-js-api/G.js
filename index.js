@@ -126,33 +126,32 @@ let unknown_b = () => {
   return new $block(unavailable_b);
 };
 
-Context = {
-  current: "global",
-  list: {},
-  set: function (name) {
-    Context.current = name;
-  },
-  add: function (context) {
-    Context.list[context.name] = context;
-  },
-  create: function(name, setToDefault = false, group = unknown_g()) {
-    context = {
-      name: name,
-      group: group,
-      objects: []
-    }
+class Context {
+  constructor (name, setToDefault = false, group = unknown_g()) {
+    this.name = name;
+    this.group = group;
+    this.objects = [];
     if (setToDefault) Context.set(name);
-    Context.add(context);
-    return context;
-  },
-  addObject: function (objectToAdd) {
+    Context.add(this);
+  }
+  
+  static current = "global";
+  static list = {};
+  
+  static set (name) {
+    Context.current = name;
+  }
+  static add (context) {
+    Context.list[context.name] = context;
+  }
+  static addObject (objectToAdd) {
     if (objectToAdd.type == "object") {
       Context.findByName(Context.current).objects.push(objectToAdd.obj_props);
       return;
     }
     Context.findByName(Context.current).objects.push(objectToAdd);
-  },
-  findByGroup: function(groupToSearch) {
+  }
+  static findByGroup (groupToSearch) {
     if (typeof groupToSearch == "number") {
       groupToSearch = group(groupToSearch);
     } else if (!groupToSearch instanceof $group) {
@@ -163,13 +162,13 @@ Context = {
         return Context.list[key];
       }
     }
-  },
-  findByName: function(name) {
+  }
+  static findByName (name) {
     return Context.list[name];
-  },
+  }
 }
 
-Context.add(Context.create("global"))
+Context.add(new Context("global"))
 
 /**
  * Creates a repeating trigger system that repeats while a condition is true
@@ -181,7 +180,7 @@ let while_loop = (r, triggerFunction, del = 0.05) => {
   let { count, comparison, other } = r;
   let oldContextName = Context.current;
 
-  let newContext = Context.create(crypto.randomUUID());
+  let newContext = new Context(crypto.randomUUID());
   count.if_is(comparison, other, newContext.group);
 
   Context.set(newContext.name);
@@ -281,7 +280,7 @@ let object = (dict) => {
  */
 let trigger_function = (cb, autocall = true) => {
   let oldContext = Context.current;
-  let newContext = Context.create(crypto.randomUUID(), true);
+  let newContext = new Context(crypto.randomUUID(), true);
   cb(newContext.group);
   Context.set(oldContext);
   return newContext.group;
@@ -294,7 +293,7 @@ let trigger_function = (cb, autocall = true) => {
 let wait = (time) => {
   let id = crypto.randomUUID();
   let oldContext = Context.current;
-  let newContext = Context.create(id);
+  let newContext = new Context(id);
   $.add(spawn_trigger(newContext.group, time));
   Context.set(id);
 };
@@ -382,7 +381,7 @@ let already_prepped = false;
 let prep_lvl = () => {
   if (already_prepped) return;
   let name = 'GLOBAL_FULL';
-  Context.add(Context.create(name, true, group(0)))
+  Context.add(new Context(name, true, group(0)))
   // contexts.global.group.call();
   for (let i in Context.list) {
     if (!(+(i !== 'GLOBAL_FULL') ^ +(i !== 'global'))) { // XOR if it was logical

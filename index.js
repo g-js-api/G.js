@@ -186,6 +186,10 @@ let object = (dict) => {
     type: 'object',
     obj_props: dict,
     with: (prop, val) => {
+      if (typeof prop == "string"){
+        return_val.obj_props[prop] = val;
+        return return_val;
+      }
       dict[d[prop]] = val;
       return return_val;
     },

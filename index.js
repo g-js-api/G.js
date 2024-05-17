@@ -80,13 +80,95 @@ let extract = (x) => {
   }
 };
 
-let find_context = (group) => {
-  for (let i in contexts) {
-    if (contexts[i].group.value == group.value) {
-      return contexts[i];
+let all_known = {
+  groups: [],
+  colors: [],
+  blocks: []
+}
+
+let [unavailable_g, unavailable_c, unavailable_b] = [0, 0, 0];
+
+let get_new = (n, prop) => {
+  if (all_known[prop].indexOf(n) == -1) return n;
+  let cond = true;
+  while (cond) {
+    cond = all_known[prop].indexOf(n) != -1;
+    n++;
+  }
+  return n;
+};
+/**
+ * Creates and returns an unavailable group ID
+ * @returns {group} Resulting group ID
+ */
+let unknown_g = () => {
+  // todo: make this not use group 0
+  unavailable_g++;
+  unavailable_g = get_new(unavailable_g, 'groups');
+  return new $group(unavailable_g);
+};
+/**
+ * Creates and returns an unavailable color ID
+ * @returns {color} Resulting color ID
+ */
+let unknown_c = () => {
+  unavailable_c++;
+  unavailable_c = get_new(unavailable_c, 'colors');
+  return new $color(unavailable_c);
+};
+/**
+ * Creates and returns an unavailable block ID
+ * @returns {block} Resulting block ID
+ */
+let unknown_b = () => {
+  unavailable_b++;
+  unavailable_b = get_new(unavailable_b, 'blocks');
+  return new $block(unavailable_b);
+};
+
+class Context {
+  constructor (name, setToDefault = false, group = unknown_g()) {
+    this.name = name;
+    this.group = group;
+    this.objects = [];
+    if (setToDefault) Context.set(name);
+    Context.add(this);
+  }
+  
+  static current = "global";
+  static list = {};
+  
+  static set (name) {
+    Context.current = name;
+  }
+  static add (context) {
+    Context.list[context.name] = context;
+  }
+  static addObject (objectToAdd) {
+    if (objectToAdd.type == "object") {
+      Context.findByName(Context.current).objects.push(objectToAdd.obj_props);
+      return;
+    }
+    Context.findByName(Context.current).objects.push(objectToAdd);
+  }
+  static findByGroup (groupToSearch) {
+    if (typeof groupToSearch == "number") {
+      groupToSearch = group(groupToSearch);
+    } else if (!groupToSearch instanceof $group) {
+      throw new Error(`Expected number or $group instance, got ${groupToSearch} with type ${typeof groupToSearch}`)
+    }
+    for (const key in Context.list) {
+      if (Context.list[key].group.value == groupToSearch.value) {
+        return Context.list[key];
+      }
     }
   }
-};
+  static findByName (name) {
+    return Context.list[name];
+  }
+}
+
+Context.add(new Context("global"))
 
 /**
  * Creates a repeating trigger system that repeats while a condition is true
@@ -94,38 +176,30 @@ let find_context = (group) => {
  * @param {function} func Function to run while the condition is true
  * @param {number} delay Delay between each cycle
  */
-let while_loop = (r, trig_fn, del = 0.05) => {
+let while_loop = (r, triggerFunction, del = 0.05) => {
   let { count, comparison, other } = r;
-  let old_context = current_context;
+  let oldContextName = Context.current;
 
-  let context = create_context(crypto.randomUUID());
-  count.if_is(comparison, other, context.group);
+  let newContext = new Context(crypto.randomUUID());
+  count.if_is(comparison, other, newContext.group);
 
-  set_context(context.name);
-  trig_fn(context.group);
-  set_context(old_context);
+  Context.set(newContext.name);
+  triggerFunction(newContext.group);
+  Context.set(oldContextName);
 
-  trig_fn = context.group;
+  triggerFunction = newContext.group;
 
-  let ctx_name = find_context(trig_fn).name;
-  let curr_g = contexts[last_context_children[ctx_name]];
+  let context = Context.findByGroup(triggerFunction);
+  let currentG = context.group;
 
-  if (curr_g) {
-      curr_g = curr_g.group;
-  } else {
-      curr_g = trig_fn;
+  if (!currentG) {
+      currentG = triggerFunction;
   }
 
-  $.extend_trigger_func(curr_g, () => {
-      contexts[old_context].group.call(del);
+  $.extend_trigger_func(currentG, () => {
+      Context.findByName(oldContextName).group.call(del);
   });
 };
-
-let all_known = {
-  groups: [],
-  colors: [],
-  blocks: []
-}
 
 let writeClasses = (arr) => {
   arr.forEach((class_) => {
@@ -194,67 +268,9 @@ let object = (dict) => {
       return return_val;
     },
     // copied old $.add code here so I can migrate to enforcing object() usage in the future
-    add: () => add_to_context(dict)
+    add: () => Context.addObject(dict)
   };
   return return_val;
-};
-
-let [unavailable_g, unavailable_c, unavailable_b] = [0, 0, 0];
-
-let get_new = (n, prop) => {
-  if (all_known[prop].indexOf(n) == -1) return n;
-  let cond = true;
-  while (cond) {
-    cond = all_known[prop].indexOf(n) != -1;
-    n++;
-  }
-  return n;
-};
-/**
- * Creates and returns an unavailable group ID
- * @returns {group} Resulting group ID
- */
-let unknown_g = () => {
-  // todo: make this not use group 0
-  unavailable_g++;
-  unavailable_g = get_new(unavailable_g, 'groups');
-  return group(unavailable_g);
-};
-/**
- * Creates and returns an unavailable color ID
- * @returns {color} Resulting color ID
- */
-let unknown_c = () => {
-  unavailable_c++;
-  unavailable_c = get_new(unavailable_c, 'colors');
-  return color(unavailable_c);
-};
-/**
- * Creates and returns an unavailable block ID
- * @returns {block} Resulting block ID
- */
-let unknown_b = () => {
-  unavailable_b++;
-  unavailable_b = get_new(unavailable_b, 'blocks');
-  return block(unavailable_b);
-};
-
-let contexts = {
-  global: {
-    name: 'global',
-    group: unknown_g(),
-    objects: [],
-  },
-};
-
-let last_context_children = {};
-
-let current_context = 'global';
-let set_context = (name) => {
-  current_context = name;
-};
-let get_context = () => {
-  return contexts[current_context];
 };
 
 /**
@@ -263,11 +279,11 @@ let get_context = () => {
  * @returns {group} Group ID of trigger function
  */
 let trigger_function = (cb, autocall = true) => {
-  let old_context = current_context;
-  let context = create_context(crypto.randomUUID(), true);
-  cb(context.group);
-  set_context(old_context);
-  return context.group;
+  let oldContext = Context.current;
+  let newContext = new Context(crypto.randomUUID(), true);
+  cb(newContext.group);
+  Context.set(oldContext);
+  return newContext.group;
 };
 
 /**
@@ -276,33 +292,10 @@ let trigger_function = (cb, autocall = true) => {
  */
 let wait = (time) => {
   let id = crypto.randomUUID();
-  let o = current_context;
-  let context = create_context(id);
-  $.add(spawn_trigger(context.group, time));
-  if (get_context().linked_to) {
-      context.linked_to = get_context().linked_to;
-      last_context_children[context.linked_to] = id;
-  } else {
-      context.linked_to = o;
-      last_contexts[o] = context.name;
-      last_context_children[o] = id;
-  }
-  set_context(id);
-};
-
-let create_context = (name, set_to_default = false) => {
-  contexts[name] = {
-    name,
-    group: unknown_g(),
-    objects: [],
-  };
-  last_contexts[name] = name;
-  if (set_to_default) set_context(name);
-  return contexts[name];
-};
-
-let add_to_context = (obj) => {
-  get_context().objects.push(obj);
+  let oldContext = Context.current;
+  let newContext = new Context(id);
+  $.add(spawn_trigger(newContext.group, time));
+  Context.set(id);
 };
 
 let reverse = {};
@@ -379,7 +372,7 @@ let add = (o) => {
   };
   let newo = o;
   if (newo.with) delete newo.with;
-  add_to_context(newo);
+  Context.addObject(newo);
 };
 
 let remove_group = 9999;
@@ -388,17 +381,11 @@ let already_prepped = false;
 let prep_lvl = () => {
   if (already_prepped) return;
   let name = 'GLOBAL_FULL';
-  contexts[name] = {
-    name,
-    group: group(0),
-    objects: [],
-  };
-  last_contexts[name] = name;
-  set_context(name);
+  Context.add(new Context(name, true, group(0)))
   // contexts.global.group.call();
-  for (let i in contexts) {
+  for (let i in Context.list) {
     if (!(+(i !== 'GLOBAL_FULL') ^ +(i !== 'global'))) { // XOR if it was logical
-      let context = contexts[i];
+      let context = Context.findByName(i);
       // gives groups to objects in context
       let objects = context.objects;
       for (let i = 0; i < objects.length; i++) {
@@ -412,13 +399,17 @@ let prep_lvl = () => {
             object.GROUPS = [object.GROUPS, context.group, group(remove_group)];
           }
         }
-
-        object.SPAWN_TRIGGERED = 1;
-        object.MULTI_TRIGGER = 1;
+        
+        if (!(object.hasOwnProperty("SPAWN_TRIGGERED") || object.hasOwnProperty(obj_props.SPAWN_TRIGGERED))) {
+          object.SPAWN_TRIGGERED = 1;
+        }
+        if (!(object.hasOwnProperty("MULTI_TRIGGER") || object.hasOwnProperty(obj_props.MULTI_TRIGGER))) {
+          object.MULTI_TRIGGER = 1;
+        }
         // end
       }
     } else {
-      let context = contexts[i];
+      let context = Context.findByName(i);
       let objects = context.objects;
       for (let i = 0; i < objects.length; i++) {
         let object = objects[i];
@@ -433,8 +424,8 @@ let prep_lvl = () => {
         }
       }
     }
-    for (let x in contexts[i].objects) {
-      let r = obj_to_levelstring(contexts[i].objects[x]);
+    for (let x in Context.findByName(i).objects) {
+      let r = obj_to_levelstring(Context.findByName(i).objects[x]);
       resulting += r;
     }
   }
@@ -507,17 +498,12 @@ let easings = {
 extract(easings);
 global.obj_props = reverse;
 
-let last_contexts = {};
 let extend_trigger_func = (t, cb) => {
-  for (let i in contexts) {
-    i = contexts[i];
-    if (i.group == t) {
-      let o = current_context;
-      set_context(last_contexts[i.name]);
-      cb(i.group);
-      set_context(o);
-    }
-  }
+  const context = Context.findByGroup(t);
+  const oldContext = Context.current;
+  Context.set(context.name);
+  cb(context.group);
+  Context.set(oldContext);
 };
 
 let remove_past_objects = (lvlstring, name) => {
@@ -671,7 +657,7 @@ let $ = {
   extend_trigger_func,
   exportToSavefile,
   liveEditor,
-  trigger_fn_context: () => get_context().group,
+  trigger_fn_context: () => Context.findByName(Context.current).group,
 };
 
 /**
@@ -924,11 +910,10 @@ let exps = {
   x_position,
   wait,
   range,
-  get_context,
+  Context,
   extract,
   while_loop,
   obj_ids,
-  find_context,
   greater_than,
   equal_to,
   less_than,

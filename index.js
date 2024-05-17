@@ -187,7 +187,7 @@ let object = (dict) => {
     obj_props: dict,
     with: (prop, val) => {
       if (typeof prop == "string"){
-        return_val.obj_props[prop] = val;
+        dict[prop] = val;
         return return_val;
       }
       dict[d[prop]] = val;

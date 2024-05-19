@@ -89,10 +89,10 @@ let all_known = {
 let [unavailable_g, unavailable_c, unavailable_b] = [0, 0, 0];
 
 let get_new = (n, prop) => {
-  if (all_known[prop].indexOf(n) == -1) return n;
+  if (!all_known[prop].includes(n)) return n;
   let cond = true;
   while (cond) {
-    cond = all_known[prop].indexOf(n) != -1;
+    cond = !all_known[prop].includes(n);
     n++;
   }
   return n;
@@ -127,31 +127,31 @@ let unknown_b = () => {
 };
 
 class Context {
-  constructor (name, setToDefault = false, group = unknown_g()) {
+  constructor(name, setToDefault = false, group = unknown_g()) {
     this.name = name;
     this.group = group;
     this.objects = [];
     if (setToDefault) Context.set(name);
     Context.add(this);
   }
-  
+
   static current = "global";
   static list = {};
-  
-  static set (name) {
+
+  static set(name) {
     Context.current = name;
   }
-  static add (context) {
+  static add(context) {
     Context.list[context.name] = context;
   }
-  static addObject (objectToAdd) {
+  static addObject(objectToAdd) {
     if (objectToAdd.type == "object") {
       Context.findByName(Context.current).objects.push(objectToAdd.obj_props);
       return;
     }
     Context.findByName(Context.current).objects.push(objectToAdd);
   }
-  static findByGroup (groupToSearch) {
+  static findByGroup(groupToSearch) {
     if (typeof groupToSearch == "number") {
       groupToSearch = group(groupToSearch);
     } else if (!groupToSearch instanceof $group) {
@@ -163,7 +163,7 @@ class Context {
       }
     }
   }
-  static findByName (name) {
+  static findByName(name) {
     return Context.list[name];
   }
 }
@@ -193,11 +193,11 @@ let while_loop = (r, triggerFunction, del = 0.05) => {
   let currentG = context.group;
 
   if (!currentG) {
-      currentG = triggerFunction;
+    currentG = triggerFunction;
   }
 
   $.extend_trigger_func(currentG, () => {
-      Context.findByName(oldContextName).group.call(del);
+    Context.findByName(oldContextName).group.call(del);
   });
 };
 
@@ -260,7 +260,7 @@ let object = (dict) => {
     type: 'object',
     obj_props: dict,
     with: (prop, val) => {
-      if (typeof prop == "string"){
+      if (typeof prop == "string") {
         dict[prop] = val;
         return return_val;
       }
@@ -326,6 +326,44 @@ let mappings = {
   237894: '10',
   347832: '70'
 }
+let find_free = (str) => {
+  let startIndex = 0;
+  let endIndex;
+
+  while ((endIndex = str.indexOf(';', startIndex)) !== -1) {
+    let segment = str.substring(startIndex, endIndex);
+    startIndex = endIndex + 1;
+
+    if (!segment) continue;
+
+    let ro = segment.split(',');
+    for (let i = 0; i < ro.length; i += 2) {
+      let key = ro[i];
+      let value = ro[i + 1];
+      switch (key) {
+        case "57":
+          let detected_groups = value.split('.').map(Number).filter(num => num !== remove_group);
+          for (let group of detected_groups) {
+            if (!all_known.groups.includes(group)) all_known.groups.push(group);
+            unavailable_g = get_new(group, 'groups');
+          }
+          break;
+        case "21":
+        case "22":
+          let detected_color = parseInt(value);
+          if (!all_known.colors.includes(detected_color)) all_known.colors.push(detected_color);
+          unavailable_c = get_new(detected_color, 'colors');
+          break;
+        case "80":
+        case "95":
+          let detected_block = parseInt(value);
+          if (!all_known.blocks.includes(detected_block)) all_known.blocks.push(detected_block);
+          unavailable_b = get_new(detected_block, 'blocks');
+          break;
+      }
+    }
+  }
+};
 let obj_to_levelstring = (l) => {
   let res = '';
   // { x: 15, Y: 10 };
@@ -399,7 +437,7 @@ let prep_lvl = () => {
             object.GROUPS = [object.GROUPS, context.group, group(remove_group)];
           }
         }
-        
+
         if (!(object.hasOwnProperty("SPAWN_TRIGGERED") || object.hasOwnProperty(obj_props.SPAWN_TRIGGERED))) {
           object.SPAWN_TRIGGERED = 1;
         }
@@ -433,7 +471,12 @@ let prep_lvl = () => {
 };
 
 let limit = 9999;
+let warn_lvlstr = true;
 let getLevelString = (options = {}) => {
+  if (warn_lvlstr) process.emitWarning('Using $.getLevelString is deprecated and will be removed in the future.', {
+    type: 'DeprecationWarning',
+    detail: `Migrate by using \`await $.exportConfig({ type: 'levelstring', options: <your options here> })\`. Note that instead of using $.exportConfig at the end of the program, use it at the top, below the G.js import but above all other code.`
+  });
   prep_lvl();
   if (unavailable_g <= limit) {
     if (options.info) {
@@ -533,6 +576,10 @@ let remove_past_objects = (lvlstring, name) => {
   }).join(';');
 }
 let exportToSavefile = (options = {}) => {
+  process.emitWarning('Using $.exportToSavefile is deprecated and will be removed in the future.', {
+    type: 'DeprecationWarning',
+    detail: `Migrate by using \`await $.exportConfig({ type: 'savefile', options: <your options here> })\`. Note that instead of using $.exportConfig at the end of the program, use it at the top, below the G.js import but above all other code.`
+  });
   (async () => {
     const level = await new LevelReader(options.level_name, options.path);
     let last = remove_past_objects(level.data.levelstring, level.data.name);
@@ -559,10 +606,139 @@ let exportToSavefile = (options = {}) => {
   })()
 };
 
+/**
+ * @typedef {Object} export_config
+ * @property {string} type Type of export (can be "levelstring", "savefile" or "live_editor")
+ * @property {save_config} options Configuration for specific export type
+ */
+/**
+ * One-size-fits-all function for exporting a level to GD
+ * @param {export_config} conf Configuration for exporting level
+ * @returns {null|string} Levelstring if using "levelstring" type, otherwise null
+ */
+let exportConfig = (conf) => {
+  return new Promise(async (resolve) => {
+    let options = conf.options;
+    switch (conf.type) {
+      case "levelstring":
+        prep_lvl();
+        if (unavailable_g <= limit) {
+          if (options?.info) {
+            console.log('Finished, result stats:');
+            console.log('Object count:', resulting.split(';').length - 1);
+            console.log('Group count:', unavailable_g);
+            console.log('Color count:', unavailable_c);
+          }
+        } else {
+          if (
+            (options?.hasOwnProperty('group_count_warning') &&
+              options?.group_count_warning == true) ||
+            !options?.hasOwnProperty('group_count_warning')
+          )
+            throw new Error(`Group count surpasses the limit! (${unavailable_g}/${limit})`);
+        }
+        resolve(resulting);
+        break;
+
+      case "savefile":
+        const level = await new LevelReader(options?.level_name, options?.path);
+        let last = remove_past_objects(level.data.levelstring, level.data.name);
+        find_free(last);
+        resolve(true);
+        process.on('beforeExit', error => {
+          if (!error) {
+            prep_lvl();
+            if (unavailable_g <= limit) {
+              if (options?.info) {
+                console.log(`Writing to level: ${level.data.name}`);
+                console.log('Finished, result stats:');
+                console.log('Object count:', resulting.split(';').length - 1);
+                console.log('Group count:', unavailable_g);
+                console.log('Color count:', unavailable_c);
+              }
+            } else {
+              if (
+                (options.hasOwnProperty('group_count_warning') &&
+                  options.group_count_warning == true) ||
+                !options.hasOwnProperty('group_count_warning')
+              )
+                throw new Error(`Group count surpasses the limit! (${unavailable_g}/${limit})`);
+            }
+            last += resulting;
+            level.set(last);
+            level.save();
+            process.exit(0);
+          }
+        });
+        break;
+      case "live_editor":
+        let socket = new WebSocket('ws://127.0.0.1:1313');
+        socket.addEventListener('message', (event) => {
+          event = JSON.parse(event.data);
+          if (event.response) {
+            find_free(event.response.split(';').slice(1).join(';'));
+            resolve(true);
+          }
+          if (event.status !== "successful") throw new Error(`Live editor failed, ${event.error}: ${event.message}`)
+        });
+
+        socket.addEventListener('open', (event) => {
+          socket.send(JSON.stringify({
+            action: 'REMOVE_OBJECTS',
+            group: 9999,
+          })); // clears extra objects
+          socket.send(JSON.stringify({
+            action: 'GET_LEVEL_STRING',
+            close: true
+          })); // thing to get free groups
+          process.on('beforeExit', error => {
+            if (!error) {
+              let socket2 = new WebSocket('ws://127.0.0.1:1313');
+              socket2.addEventListener('message', (event) => {
+                event = JSON.parse(event.data);
+                if (event.response) {
+                  find_free(event.response.split(';').slice(1).join(';'));
+                }
+                if (event.status !== "successful") throw new Error(`Live editor failed, ${event.error}: ${event.message}`)
+              });
+              socket2.addEventListener('open', async (event) => {
+                let pre_lvlstr = await exportConfig({ type: "levelstring", options });
+                let lvlString = group_arr(pre_lvlstr.split(';'), 250).map(x => x.join(';'));
+                if (!error) {
+                  lvlString.forEach((chunk, i) => {
+                    setTimeout(() => {
+                      socket2.send(JSON.stringify({
+                        action: 'ADD_OBJECTS',
+                        objects: chunk + ';',
+                        close: i == lvlString.length - 1
+                      }));
+                      if (i == lvlString.length - 1) process.exit(0);
+                    }, i * 75);
+                  });
+                }
+              });
+            }
+          });
+        });
+
+        socket.addEventListener('error', () => {
+          throw new Error(`Connecting to WSLiveEditor failed! Make sure you have installed the WSLiveEditor mod inside of Geode and have the editor open!`);
+        });
+        break;
+        default: throw new Error(`The "${conf.type}" configuration type is not valid!`)
+    }
+  });
+};
+
 const group_arr = (arr, x) => arr.reduce((acc, _, i) => (i % x ? acc[acc.length - 1].push(arr[i]) : acc.push([arr[i]]), acc), []);
 
 let liveEditor = (conf) => {
+  process.emitWarning('Using $.liveEditor is deprecated and will be removed in the future.', {
+    type: 'DeprecationWarning',
+    detail: `Migrate by using \`await $.exportConfig({ type: 'live_editor', options: <your options here> })\`. Note that instead of using $.exportConfig at the end of the program, use it at the top, below the G.js import but above all other code.`
+  });
   const socket = new WebSocket('ws://127.0.0.1:1313');
+  warn_lvlstr = false;
   let lvlString = group_arr($.getLevelString(conf).split(';'), 250).map(x => x.join(';'));
   socket.addEventListener('message', (event) => {
     event = JSON.parse(event.data);
@@ -611,7 +787,7 @@ let liveEditor = (conf) => {
 /**
  * Adds an object
  * @callback add
- * @param {object} object Object to add
+ * @param {object} object Object to add (wrap `object()` function around a dictionary)
  */
 /**
  * Prints to console
@@ -626,6 +802,7 @@ let liveEditor = (conf) => {
  */
 /**
  * Returns level string
+ * @deprecated
  * @callback getLevelString
  * @param {save_config} config Configuration for exporting to levelstring
  * @returns {string} Resulting level string
@@ -654,6 +831,7 @@ let $ = {
     console.log(...Array.from(arguments));
   },
   getLevelString,
+  exportConfig,
   extend_trigger_func,
   exportToSavefile,
   liveEditor,

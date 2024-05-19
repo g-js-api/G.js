@@ -15,43 +15,45 @@ npm install @g-js-api/g.js
 Here is a functional example of G.js:
 ```js
 require('@g-js-api/g.js');
+(async () => {
+	await $.exportConfig({
+		type: 'savefile', // type can be 'savefile' to export to savefile, 'levelstring' to return levelstring or 'live_editor' to export to WSLiveEditor (must have Geode installed)
+		options: { info: true } // you can use { level_name: "my level" } if you must specify a level to save to if using savefile export config
+	});
 
-// Creating counters
-let my_counter = counter();
-my_counter.display(15, 15);
+	// Creating counters
+	let my_counter = counter();
+	my_counter.display(15, 15);
 
-// Events
-on(
-  touch(),
-  trigger_function(() => {
-    my_counter.add(1);
-  })
-);
+	// Events
+	on(
+	touch(),
+	trigger_function(() => {
+		my_counter.add(1);
+	})
+	);
 
-// Waiting
-wait(1);
-my_counter.add(15);
+	// Waiting
+	wait(1);
+	my_counter.add(15);
 
-// While loops
-let g = unknown_g();
-$.add({
-	OBJ_ID: 1,
-	X: 15,
-	Y: 15,
-	GROUPS: g
-})
+	// While loops
+	let g = unknown_g();
+	$.add({
+		OBJ_ID: 1,
+		X: 15,
+		Y: 15,
+		GROUPS: g
+	})
 
-let i = counter();
-i.display(45, 45);
+	let i = counter();
+	i.display(45, 45);
 
-while_loop(less_than(i, 10), () => {
-    i.add(1);
-    g.move(15, 0, 0.5);
+	while_loop(less_than(i, 10), () => {
+		i.add(1);
+		g.move(15, 0, 0.5);
+	});
 });
-
-$.print($.getLevelString({ info: true })); // Print as level string
-// you can also use $.exportToSavefile() to save level (newest level by default), use "$.exportToSavefile({ level_name: "my level" })" to specify a level to save to
-// and $.liveEditor() to write to level live using WSLiveEditor
 ```
 
 # Features that make this different from SPWN:
@@ -64,7 +66,7 @@ Docs can be found at [https://realsput.github.io/G.js](https://realsput.github.i
 
 # Usage
 G.js has mostly the same usage as SPWN, with exceptions:
-- File must end in `$.exportToSavefile()` in order to export to save, or must use `$.getLevelString()` in order to export levelstring into variable
+- File must start with `$.exportConfig(...)` for exporting to a level (check example above or docs)
 - Since JS cannot do something like `!{}` for trigger functions, use `trigger_function(() => { /* ... */ })` for trigger functions
 - GD objects are just done with normal JS objects, obj props are mostly the same
 - Use while loops with the `less_than(a, b)`, `equal_to(a, b)` or `greater_than(a, b)` functions followed by a normal function, not trigger function

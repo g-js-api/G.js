@@ -5,6 +5,21 @@ declare module "index" {
      */
     function extract(dict: dictionary): void;
     /**
+     * Creates and returns an unavailable group ID
+     * @returns Resulting group ID
+     */
+    function unknown_g(): group;
+    /**
+     * Creates and returns an unavailable color ID
+     * @returns Resulting color ID
+     */
+    function unknown_c(): color;
+    /**
+     * Creates and returns an unavailable block ID
+     * @returns Resulting block ID
+     */
+    function unknown_b(): block;
+    /**
      * Creates a repeating trigger system that repeats while a condition is true
      * @param condition - Condition that defines whether the loop should keep on running (less_than/equal_to/greater_than(counter, number))
      * @param func - Function to run while the condition is true
@@ -25,21 +40,6 @@ declare module "index" {
      * @property add - Adds the object
      */
     type object = dictionary;
-    /**
-     * Creates and returns an unavailable group ID
-     * @returns Resulting group ID
-     */
-    function unknown_g(): group;
-    /**
-     * Creates and returns an unavailable color ID
-     * @returns Resulting color ID
-     */
-    function unknown_c(): color;
-    /**
-     * Creates and returns an unavailable block ID
-     * @returns Resulting block ID
-     */
-    function unknown_b(): block;
     /**
      * Creates a "trigger function" in which triggers can be stored inside of a single group
      * @param callback - Function storing triggers to put inside of group
@@ -92,6 +92,20 @@ declare module "index" {
         BOUNCE_OUT: number;
     };
     /**
+     * @property type - Type of export (can be "levelstring", "savefile" or "live_editor")
+     * @property options - Configuration for specific export type
+     */
+    type export_config = {
+        type: string;
+        options: save_config;
+    };
+    /**
+     * One-size-fits-all function for exporting a level to GD
+     * @param conf - Configuration for exporting level
+     * @returns Levelstring if using "levelstring" type, otherwise null
+     */
+    function exportConfig(conf: export_config): null | string;
+    /**
      * Configuration for exporting levels
      * @property info - Whether to log information to console when finished
      * @property group_count_warning - Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
@@ -125,7 +139,7 @@ declare module "index" {
     };
     /**
      * Adds an object
-     * @param object - Object to add
+     * @param object - Object to add (wrap `object()` function around a dictionary)
      */
     type add = (object: any) => void;
     /**
@@ -681,18 +695,8 @@ declare module "general-purpose" {
     function hide_player(): void;
     /**
      * Creates a gradient trigger and returns it
-     * @param color1 - First color of gradient
-     * @param color2 - Second color of gradient
-     * @param bl - Bottom left vertex
-     * @param br - Bottom right vertex
-     * @param tl - Top left vertex
-     * @param tr - Top right vertex
-     * @param [vertex_mode = true] - Whether to use vertex mode
-     * @param [blending = false] - Whether to make the gradient blending
-     * @param [layer = 0] - Layer of gradient (0-15)
-     * @returns Resulting gradient trigger
      */
-    function gradient(color1: color, color2: color, bl: group, br: group, tl: group, tr: group, vertex_mode?: boolean, blending?: boolean, layer?: number): any;
+    var gradient_id: any;
     /**
      * Creates a particle system
      * @param props - Dictionary holding particle properties (check {@tutorial Particles} for more info)

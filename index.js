@@ -101,6 +101,7 @@ let get_new = (n, prop, push = true) => {
     }
     if (!result) result = arr[arr.length - 1] + 1;
     if (push) all_known[prop].push(result);
+    console.log(result)
     return result;
 };
 /**

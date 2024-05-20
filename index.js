@@ -88,14 +88,20 @@ let all_known = {
 
 let [unavailable_g, unavailable_c, unavailable_b] = [0, 0, 0];
 
-let get_new = (n, prop) => {
-  if (!all_known[prop].includes(n)) return n;
-  let cond = true;
-  while (cond) {
-    cond = !all_known[prop].includes(n);
-    n++;
-  }
-  return n;
+let get_new = (n, prop, push = true) => {
+    let arr = all_known[prop];
+    if (arr.length == 0) return 1;
+    arr.sort((a, b) => a - b);
+    let result;
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] !== arr[i - 1] + 1) {
+            result = arr[i - 1] + 1;
+            break;
+        }
+    }
+    if (!result) result = arr[arr.length - 1] + 1;
+    if (push) all_known[prop].push(result);
+    return result;
 };
 /**
  * Creates and returns an unavailable group ID
@@ -345,20 +351,20 @@ let find_free = (str) => {
           let detected_groups = value.split('.').map(Number).filter(num => num !== remove_group);
           for (let group of detected_groups) {
             if (!all_known.groups.includes(group)) all_known.groups.push(group);
-            unavailable_g = get_new(group, 'groups');
+            unavailable_g = get_new(group, 'groups', false);
           }
           break;
         case "21":
         case "22":
           let detected_color = parseInt(value);
           if (!all_known.colors.includes(detected_color)) all_known.colors.push(detected_color);
-          unavailable_c = get_new(detected_color, 'colors');
+          unavailable_c = get_new(detected_color, 'colors', false);
           break;
         case "80":
         case "95":
           let detected_block = parseInt(value);
           if (!all_known.blocks.includes(detected_block)) all_known.blocks.push(detected_block);
-          unavailable_b = get_new(detected_block, 'blocks');
+          unavailable_b = get_new(detected_block, 'blocks', false);
           break;
       }
     }
@@ -372,7 +378,6 @@ let obj_to_levelstring = (l) => {
     let key = reverse[d_];
     if (!isNaN(parseInt(d_))) key = d_
     if (typeof val == 'boolean') val = +val;
-    // if (d_ == "GR_LAYER") console.log(val, key)
     if (explicit[d_] && !val.hasOwnProperty('value')) { // if type is explicitly required for current object property and it is not a group/color/block
       if (typeof val == 'object' && dot_separated_keys.includes(key)) { // if val is an array and it is dot separated
         val = val.map((x) => x.value).filter(x => x && x != '').join('.');

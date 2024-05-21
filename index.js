@@ -14,7 +14,8 @@ const {
   death,
   count,
   x_position,
-  event
+  event,
+  gamescene
 } = require('./lib/events');
 const {
   spawn_trigger,
@@ -90,7 +91,10 @@ let [unavailable_g, unavailable_c, unavailable_b] = [0, 0, 0];
 
 let get_new = (n, prop, push = true) => {
     let arr = all_known[prop];
-    if (arr.length == 0) return 1;
+    if (arr.length == 0) {
+      arr.push(1);
+      return 1;
+    }
     arr.sort((a, b) => a - b);
     if (arr[0] > 1 && push) {
       arr.unshift(1);
@@ -141,10 +145,12 @@ class Context {
     this.name = name;
     this.group = group;
     this.objects = [];
+    Context.last_contexts[name] = name;
     if (setToDefault) Context.set(name);
     Context.add(this);
   }
-
+  static last_contexts = {};
+  static last_context_children = {};
   static current = "global";
   static list = {};
 
@@ -160,6 +166,21 @@ class Context {
       return;
     }
     Context.findByName(Context.current).objects.push(objectToAdd);
+  }
+  static link(context) {
+    let input_context = Context.findByName(context);
+    let curr_ctx = Context.findByName(Context.current);
+    if (Context.isLinked(input_context)) {
+      input_context.linked_to = curr_ctx.linked_to;
+      Context.last_context_children[input_context.linked_to] = context;
+    } else {
+      input_context.linked_to = curr_ctx.name;
+      Context.last_contexts[context] = input_context.name;
+      Context.last_context_children[context] = curr_ctx.name;
+    }
+  }
+  static isLinked(ctx) {
+    return !!ctx?.linked_to;
   }
   static findByGroup(groupToSearch) {
     if (typeof groupToSearch == "number") {
@@ -180,6 +201,19 @@ class Context {
 
 Context.add(new Context("global"))
 
+let findDeepestChildContext = (name) => {
+  let cond = true;
+  let res_name = name;
+  while (cond) {
+    cond = !!Context.last_context_children[name];
+    if (cond) {
+      res_name = Context.last_context_children[res_name];
+      cond = !!Context.last_context_children[res_name];
+    } else { break };
+  }
+  return res_name;
+};
+
 /**
  * Creates a repeating trigger system that repeats while a condition is true
  * @param {condition} condition Condition that defines whether the loop should keep on running (less_than/equal_to/greater_than(counter, number))
@@ -191,7 +225,14 @@ let while_loop = (r, triggerFunction, del = 0.05) => {
   let oldContextName = Context.current;
 
   let newContext = new Context(crypto.randomUUID());
-  count.if_is(comparison, other, newContext.group);
+  let check_func;
+  if (oldContextName == "global") {
+    check_func = trigger_function(() => {
+      count.if_is(comparison, other, newContext.group);
+    });
+  } else {
+    count.if_is(comparison, other, newContext.group);
+  }
 
   Context.set(newContext.name);
   triggerFunction(newContext.group);
@@ -200,15 +241,15 @@ let while_loop = (r, triggerFunction, del = 0.05) => {
   triggerFunction = newContext.group;
 
   let context = Context.findByGroup(triggerFunction);
-  let currentG = context.group;
-
+  let currentG = Context.findByName(findDeepestChildContext(context.name)).group;
   if (!currentG) {
     currentG = triggerFunction;
   }
-
   $.extend_trigger_func(currentG, () => {
-    Context.findByName(oldContextName).group.call(del);
+    // Context.findByName(oldContextName)
+    oldContextName == "global" ? check_func.call(del) : Context.findByName(oldContextName).group.call(del);
   });
+  if (check_func) check_func.call(del);
 };
 
 let writeClasses = (arr) => {
@@ -306,6 +347,7 @@ let wait = (time) => {
   let newContext = new Context(id);
   $.add(spawn_trigger(newContext.group, time));
   Context.set(id);
+  Context.link(oldContext);
 };
 
 let reverse = {};
@@ -429,6 +471,7 @@ let prep_lvl = () => {
   if (already_prepped) return;
   let name = 'GLOBAL_FULL';
   Context.add(new Context(name, true, group(0)))
+  Context.last_contexts[name] = name;
   // contexts.global.group.call();
   for (let i in Context.list) {
     if (!(+(i !== 'GLOBAL_FULL') ^ +(i !== 'global'))) { // XOR if it was logical
@@ -553,7 +596,7 @@ global.obj_props = reverse;
 let extend_trigger_func = (t, cb) => {
   const context = Context.findByGroup(t);
   const oldContext = Context.current;
-  Context.set(context.name);
+  Context.set(Context.last_contexts[context.name]);
   cb(context.group);
   Context.set(oldContext);
 };
@@ -892,112 +935,6 @@ String.prototype.to_obj = function () {
   return or;
 };
 
-/**
- * Represents gamescene (all functions in this type are made to be used with on())
- * @typedef {object} gamescene
- * @property {function} button_a Returns an event when the left side is pressed
- * @property {function} button_b Returns an event when the right side is pressed
- * @property {function} button_a_end Returns an event when the left side is no longer pressed
- * @property {function} button_b_end Returns an event when the right side is no longer pressed
- * @property {stop} stop Stops playing the song
- */
-/**
- * Simple input control abstraction
- @returns {gamescene} 
-*/
-let gamescene = () => {
-  // Triggers and groups
-  follow_x_group = unknown_g();
-  follow_y_group = unknown_g();
-  hidden_group = unknown_g();
-
-  hidden_group.alpha(0);
-  follow_x_group.lock_to_player((lock_x = true), (lock_y = false));
-  follow_x_group.move((x = 0), (y = 5), (duration = 0.01));
-  follow_y_group.follow_player_y();
-  hide_player();
-
-  // Portals
-  $.add(object({
-    OBJ_ID: obj_ids.portals.DUAL_ON,
-    X: 0,
-    Y: 30,
-    GROUPS: hidden_group,
-  }));
-  $.add(object({
-    OBJ_ID: obj_ids.portals.WAVE,
-    X: 0,
-    Y: 30,
-    GROUPS: hidden_group,
-  }));
-  $.add(({
-    OBJ_ID: obj_ids.portals.SIZE_MINI,
-    X: 0,
-    Y: 30,
-    GROUPS: hidden_group,
-  }));
-
-  // Top and bottom blocks
-  $.add(({
-    OBJ_ID: 1,
-    X: 0,
-    Y: 33,
-    GROUPS: [hidden_group, follow_x_group],
-  }));
-  $.add(object({
-    OBJ_ID: 1,
-    X: 0,
-    Y: -12,
-    GROUPS: [hidden_group, follow_x_group],
-  }));
-
-  // Collision blocks
-  player_block = unknown_b();
-  collide_block = unknown_b();
-
-  $.add(object({
-    OBJ_ID: obj_ids.special.COLLISION_BLOCK,
-    DYNAMIC_BLOCK: true,
-    BLOCK_A: player_block,
-    X: 0,
-    Y: 0,
-    GROUPS: [hidden_group, follow_x_group, follow_y_group],
-  }));
-  $.add(({
-    OBJ_ID: obj_ids.special.COLLISION_BLOCK,
-    DYNAMIC_BLOCK: false,
-    BLOCK_A: collide_block,
-    X: 0,
-    Y: 37,
-    GROUPS: [hidden_group, follow_x_group],
-  }));
-
-  // D block
-  $.add(({
-    OBJ_ID: obj_ids.special.D_BLOCK,
-    SCALING: 2,
-    X: 0,
-    Y: 15,
-    GROUPS: [hidden_group, follow_x_group],
-  }));
-
-  return {
-    button_a: () => {
-      return collision(player_block, collide_block);
-    },
-    button_b: () => {
-      return touch(true);
-    },
-    button_a_end: () => {
-      return collision_exit(player_block, collide_block);
-    },
-    button_b_end: () => {
-      return touch_end(true);
-    },
-    hidden_group: hidden_group,
-  };
-};
-
 let obj_ids = {
   special: {
     USER_COIN: 1329,
@@ -1140,6 +1077,7 @@ let exps = {
   events,
   particle_props,
   object,
+  Context,
   reverse: () => {
     $.add(object({
       OBJ_ID: 1917

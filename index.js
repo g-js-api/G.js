@@ -92,6 +92,10 @@ let get_new = (n, prop, push = true) => {
     let arr = all_known[prop];
     if (arr.length == 0) return 1;
     arr.sort((a, b) => a - b);
+    if (arr[0] > 1 && push) {
+      arr.unshift(1);
+      return 1;
+    }
     let result;
     for (let i = 1; i < arr.length; i++) {
         if (arr[i] !== arr[i - 1] + 1) {
@@ -101,7 +105,6 @@ let get_new = (n, prop, push = true) => {
     }
     if (!result) result = arr[arr.length - 1] + 1;
     if (push) all_known[prop].push(result);
-    console.log(result)
     return result;
 };
 /**

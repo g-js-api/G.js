@@ -15,22 +15,20 @@ npm install @g-js-api/g.js
 Here is a functional example of G.js:
 ```js
 require('@g-js-api/g.js');
-(async () => {
-	await $.exportConfig({
-		type: 'savefile', // type can be 'savefile' to export to savefile, 'levelstring' to return levelstring or 'live_editor' to export to WSLiveEditor (must have Geode installed)
-		options: { info: true } // you can use { level_name: "my level" } if you must specify a level to save to if using savefile export config
-	});
-
+$.exportConfig({
+	type: 'savefile', // type can be 'savefile' to export to savefile, 'levelstring' to return levelstring or 'live_editor' to export to WSLiveEditor (must have Geode installed)
+	options: { info: true } // you can use { level_name: "my level" } if you must specify a level to save to if using savefile export config
+}).then(x => {
 	// Creating counters
 	let my_counter = counter();
 	my_counter.display(15, 15);
 
 	// Events
 	on(
-	touch(),
-	trigger_function(() => {
-		my_counter.add(1);
-	})
+		touch(),
+		trigger_function(() => {
+			my_counter.add(1);
+		})
 	);
 
 	// Waiting

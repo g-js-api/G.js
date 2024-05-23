@@ -449,7 +449,6 @@ let obj_to_levelstring = (l) => {
 let resulting = '';
 
 let add = (o) => {
-  console.log(o)
   if (o?.type !== "object") {
     process.emitWarning('Using plain dictionaries as an argument to $.add is deprecated and using the object() function will be enforced in the future.', {
       type: 'DeprecationWarning',

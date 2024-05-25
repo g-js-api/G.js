@@ -47,7 +47,7 @@
 | GROUP_ID_1 | 51 | First group ID
 | TARGET_TYPE | 52 | The target of a pulse trigger (bool, false = color channel, true = group ID)
 | YELLOW_TELEPORTATION_PORTAL_DISTANCE | 54 | The distance from the blue teleportation portal to the orange one (float)
-| ACTIVATE_GROUP | 56 |	Whether "Activate group" is checked in count & collision trigger (bool) |
+| ACTIVATE_GROUP | 56 |	Whether "Activate Group" is checked in count, collision or toggle triggers (bool) |
 | GROUPS | 57 | The group(s) an object should have (group or array of groups) |
 | LOCK_TO_PLAYER_X | 58 |
 | LOCK_TO_PLAYER_Y | 59 |

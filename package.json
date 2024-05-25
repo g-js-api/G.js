@@ -13,10 +13,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "docdash": "^2.0.2",
-    "jsdoc": "^4.0.3",
     "node-html-parser": "^6.1.10",
-    "tsd-jsdoc": "^2.5.0",
     "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "docdash": "^2.0.2",
+    "jsdoc": "^3.6.11",
+    "tsd-jsdoc": "^2.5.0"
   }
 }

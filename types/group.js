@@ -149,6 +149,27 @@ class $group {
             TARGET: this,
         }));
     }
+    /**
+     * Pauses the current group
+     */
+    pause() {
+        $.add(object({
+            OBJ_ID: 1616,
+            TARGET: this,
+            STOP_PAUSE_RESUME: 1
+        }));
+    }
+
+    /**
+     * Resumes the current group
+     */
+    resume() {
+        $.add(object({
+            OBJ_ID: 1616,
+            TARGET: this,
+            STOP_PAUSE_RESUME: 2
+        }));
+    }
 
     /**
      * Toggles the group on

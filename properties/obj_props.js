@@ -546,4 +546,5 @@ module.exports = {
     577: "RELATIVE_SCALE",
     578: "ABSNEG_1",
     579: "ABSNEG_2",
+    580: "STOP_PAUSE_RESUME"
 };

@@ -356,9 +356,63 @@ for (var i in d) {
 }
 
 // stuff for custom things
-
 let dot_separated_keys = [57, 442];
 dot_separated_keys = dot_separated_keys.map(x => x.toString())
+
+let levelstring_to_obj = (string) => {
+  let objects = [];
+  string
+    .split(';')
+    .slice(0, -1)
+    .forEach((x) => {
+      let r = {};
+      let spl = x.split(',');
+      spl.forEach((x, i) => {
+        if (!(i % 2)) {
+          let obj_prop = parseInt(x);
+          let value = spl[i + 1];
+          if (value.includes('.') && dot_separated_keys.includes(obj_prop)) value = value.split('.').map(x => parseInt(x));
+          if (!isNaN(parseInt(value))) value = parseInt(value);
+          r[d[obj_prop] || obj_prop] = value;
+        }
+      });
+      objects.push(r);
+    });
+  return objects;
+};
+
+/**
+ * Helper functions and variables holding existing level info.
+ * @namespace level
+ */
+let level = {
+  /**
+   * Array of all objects in the level.
+   * @type {Array<Object>}
+   */
+  objects: [],
+
+  /**
+   * Raw level string of the current level.
+   * @type {string}
+   */
+  raw_levelstring: '',
+
+  /**
+   * Returns an array of all the objects in the level with a property whose value matches the pattern.
+   * @param {string|number} prop - The property to check in each object.
+   * @param {Function} pattern - The function to test the property value.
+   * @returns {Array<Object>} An array of objects that match the given property and pattern.
+   */
+  get_objects: function(prop, pattern) {
+    let level_arr = levelstring_to_obj(this.raw_levelstring);
+    return level_arr.filter(o => {
+      let cond_1 = prop in o, cond_2;
+      if (cond_1) cond_2 = pattern(o[prop]);
+      return cond_1 && cond_2;
+    });
+  }
+};
 
 let mappings = {
   696969: '80',
@@ -387,7 +441,10 @@ let find_free = (str) => {
     startIndex = endIndex + 1;
 
     if (!segment) continue;
-
+    
+    level.objects.push(segment);
+    level.raw_levelstring += segment + ';';
+    
     let ro = segment.split(',');
     for (let i = 0; i < ro.length; i += 2) {
       let key = ro[i];
@@ -891,6 +948,16 @@ let $ = {
 };
 
 /**
+ * Ignores context changes inside of a function
+ * @param {function} fn Function containing code where context changes should be ignored
+ */
+let ignore_context_change = (fn) => {
+  let old_context = Context.current;
+  fn();
+  Context.set(old_context);
+};
+
+/**
  * Generates an array holding a sequence of numbers starting at the "start" parameter, ending at the "end" parameter and incrementing by "step"
  * @param {number} start What number to start at
  * @param {number} end What number to end at
@@ -1078,6 +1145,8 @@ let exps = {
   particle_props,
   object,
   Context,
+  ignore_context_change,
+  level,
   reverse: () => {
     $.add(object({
       OBJ_ID: 1917

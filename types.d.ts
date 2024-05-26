@@ -52,6 +52,26 @@ declare module "index" {
      */
     function wait(time: number): void;
     /**
+     * Helper functions and variables holding existing level info.
+     */
+    namespace level {
+        /**
+         * Array of all objects in the level.
+         */
+        var objects: object[];
+        /**
+         * Raw level string of the current level.
+         */
+        var raw_levelstring: string;
+        /**
+         * Returns an array of all the objects in the level with a property whose value matches the pattern.
+         * @param prop - The property to check in each object.
+         * @param pattern - The function to test the property value.
+         * @returns An array of objects that match the given property and pattern.
+         */
+        function get_objects(prop: string | number, pattern: (...params: any[]) => any): object[];
+    }
+    /**
      * @property EASE_IN_OUT - Ease in out easing
      * @property EASE_IN - Ease in easing
      * @property EASE_OUT - Ease out easing
@@ -173,6 +193,11 @@ declare module "index" {
      */
     type trigger_fn_context = () => group;
     /**
+     * Ignores context changes inside of a function
+     * @param fn - Function containing code where context changes should be ignored
+     */
+    function ignore_context_change(fn: (...params: any[]) => any): void;
+    /**
      * Generates an array holding a sequence of numbers starting at the "start" parameter, ending at the "end" parameter and incrementing by "step"
      * @param start - What number to start at
      * @param end - What number to end at
@@ -180,36 +205,6 @@ declare module "index" {
      * @returns Resulting sequence
      */
     function range(start: number, end: number, step?: number): any[];
-    /**
-     * Represents gamescene (all functions in this type are made to be used with on())
-     * @property button_a - Returns an event when the left side is pressed
-     * @property button_b - Returns an event when the right side is pressed
-     * @property button_a_end - Returns an event when the left side is no longer pressed
-     * @property button_b_end - Returns an event when the right side is no longer pressed
-     * @property stop - Stops playing the song
-     */
-    type gamescene = {
-        button_a: (...params: any[]) => any;
-        button_b: (...params: any[]) => any;
-        button_a_end: (...params: any[]) => any;
-        button_b_end: (...params: any[]) => any;
-        stop: stop;
-    };
-    /**
-     * Represents gamescene (all functions in this type are made to be used with on())
-     * @property button_a - Returns an event when the left side is pressed
-     * @property button_b - Returns an event when the right side is pressed
-     * @property button_a_end - Returns an event when the left side is no longer pressed
-     * @property button_b_end - Returns an event when the right side is no longer pressed
-     * @property stop - Stops playing the song
-     */
-    type gamescene = {
-        button_a: (...params: any[]) => any;
-        button_b: (...params: any[]) => any;
-        button_a_end: (...params: any[]) => any;
-        button_b_end: (...params: any[]) => any;
-        stop: stop;
-    };
 }
 
 /**
@@ -477,6 +472,36 @@ declare module "events" {
      * @param extra_id2 - Implementation of extra ID 2
      */
     function event(event: any[] | event_id, extra_id: group, extra_id2: group): event;
+    /**
+     * Represents gamescene (all functions in this type are made to be used with on())
+     * @property button_a - Returns an event when the left side is pressed
+     * @property button_b - Returns an event when the right side is pressed
+     * @property button_a_end - Returns an event when the left side is no longer pressed
+     * @property button_b_end - Returns an event when the right side is no longer pressed
+     * @property stop - Stops playing the song
+     */
+    type gamescene = {
+        button_a: (...params: any[]) => any;
+        button_b: (...params: any[]) => any;
+        button_a_end: (...params: any[]) => any;
+        button_b_end: (...params: any[]) => any;
+        stop: stop;
+    };
+    /**
+     * Represents gamescene (all functions in this type are made to be used with on())
+     * @property button_a - Returns an event when the left side is pressed
+     * @property button_b - Returns an event when the right side is pressed
+     * @property button_a_end - Returns an event when the left side is no longer pressed
+     * @property button_b_end - Returns an event when the right side is no longer pressed
+     * @property stop - Stops playing the song
+     */
+    type gamescene = {
+        button_a: (...params: any[]) => any;
+        button_b: (...params: any[]) => any;
+        button_a_end: (...params: any[]) => any;
+        button_b_end: (...params: any[]) => any;
+        stop: stop;
+    };
     type events = {
         NONE: number;
         TINY_LANDING: number;
@@ -966,6 +991,36 @@ declare module "events" {
      * @param extra_id2 - Implementation of extra ID 2
      */
     function event(event: any[] | event_id, extra_id: group, extra_id2: group): event;
+    /**
+     * Represents gamescene (all functions in this type are made to be used with on())
+     * @property button_a - Returns an event when the left side is pressed
+     * @property button_b - Returns an event when the right side is pressed
+     * @property button_a_end - Returns an event when the left side is no longer pressed
+     * @property button_b_end - Returns an event when the right side is no longer pressed
+     * @property stop - Stops playing the song
+     */
+    type gamescene = {
+        button_a: (...params: any[]) => any;
+        button_b: (...params: any[]) => any;
+        button_a_end: (...params: any[]) => any;
+        button_b_end: (...params: any[]) => any;
+        stop: stop;
+    };
+    /**
+     * Represents gamescene (all functions in this type are made to be used with on())
+     * @property button_a - Returns an event when the left side is pressed
+     * @property button_b - Returns an event when the right side is pressed
+     * @property button_a_end - Returns an event when the left side is no longer pressed
+     * @property button_b_end - Returns an event when the right side is no longer pressed
+     * @property stop - Stops playing the song
+     */
+    type gamescene = {
+        button_a: (...params: any[]) => any;
+        button_b: (...params: any[]) => any;
+        button_a_end: (...params: any[]) => any;
+        button_b_end: (...params: any[]) => any;
+        stop: stop;
+    };
     type events = {
         NONE: number;
         TINY_LANDING: number;
@@ -1658,6 +1713,14 @@ declare module "group" {
          * Stops the current group
          */
         stop(): void;
+        /**
+         * Pauses the current group
+         */
+        pause(): void;
+        /**
+         * Resumes the current group
+         */
+        resume(): void;
         /**
          * Toggles the group on
          */

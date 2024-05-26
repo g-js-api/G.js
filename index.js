@@ -875,77 +875,66 @@ let liveEditor = (conf) => {
   });
 };
 /**
- * Configuration for exporting levels
+ * Configuration for exporting levels.
  * @typedef {object} save_config 
  * @property {boolean} info Whether to log information to console when finished
  * @property {boolean} group_count_warning Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
  * @property {string} level_name Name of level (only for exportToSavefile)
  * @property {string} path Path to CCLocalLevels.dat savefile (only for exportToSavefile)
  */
-/**
- * Core type holding important functions for adding to levels, exporting and modifying scripts
- * @typedef {Object} $
- * @property {add} add Adds an object
- * @property {print} print Prints to console
- * @property {getLevelString} getLevelString Returns level string of the script
- * @property {extend_trigger_func} extend_trigger_func Extends a trigger function by adding more triggers to it
- * @property {exportToSavefile} exportToSavefile Exports script to savefile
- * @property {liveEditor} liveEditor Exports script to live editor using WSLiveEditor (requires Geode)
- * @property {trigger_fn_context} trigger_fn_context Returns group of current trigger function context
- */
-/**
- * Adds an object
- * @callback add
- * @param {object} object Object to add (wrap `object()` function around a dictionary)
- */
-/**
- * Prints to console
- * @callback print
- * @param {*} value Value to print 
- */
-/**
- * Extends a trigger function by adding more triggers to it
- * @callback extend_trigger_func
- * @param {group} trigger_func Trigger function to extend
- * @param {function} callback Function that adds more triggers to trigger_func
- */
-/**
- * Returns level string
- * @deprecated
- * @callback getLevelString
- * @param {save_config} config Configuration for exporting to levelstring
- * @returns {string} Resulting level string
- */
-/**
- * Exports script to savefile
- * @deprecated
- * @callback exportToSavefile
- * @param {save_config} config Configuration for exporting to savefile
- */
-/**
- * Exports script to live editor using WSLiveEditor (requires Geode)
- * @deprecated
- * @callback liveEditor
- * @param {save_config} config Configuration for exporting to live editor
- */
-/**
- * Returns group of current trigger function context
- * @callback trigger_fn_context
- * @returns {group} Group of current trigger function context
- */
 
+/**
+ * Core type holding important functions for adding to levels, exporting, and modifying scripts.
+ * @namespace $
+ */
 let $ = {
+  /**
+   * Adds an object.
+   * @param {object} object - Object to add (wrap `object()` function around a dictionary).
+   */
   add,
-  print: function () {
-    console.log(...Array.from(arguments));
-  },
+
+  /**
+   * Prints to console.
+   * @param {*} value - Value to print.
+   */
+  print,
+
+  /**
+   * Returns level string of the script.
+   * @deprecated Replaced by `$.exportConfig({ type: "levelstring", options: ... })`
+   * @param {save_config} config - Configuration for exporting to level string.
+   * @returns {string} Resulting level string.
+   */
   getLevelString,
-  exportConfig,
-  extend_trigger_func,
+
+  /**
+   * Exports script to savefile.
+   * @deprecated Replaced by `$.exportConfig({ type: "savefile", options: ... })`
+   * @param {save_config} config - Configuration for exporting to savefile.
+   */
   exportToSavefile,
+
+  /**
+   * Exports script to live editor using WSLiveEditor (requires Geode).
+   * @deprecated Replaced by `$.exportConfig({ type: "live_editor", options: ... })`
+   * @param {save_config} config - Configuration for exporting to live editor.
+   */
   liveEditor,
-  trigger_fn_context: () => Context.findByName(Context.current).group,
+
+  /**
+   * Extends a trigger function by adding more triggers to it.
+   * @param {group} trigger_func - Trigger function to extend.
+   * @param {function} callback - Function that adds more triggers to `trigger_func`.
+   */
+  extend_trigger_func,
+  /**
+   * Returns group of current trigger function context.
+   * @returns {group} Group of current trigger function context.
+   */
+  trigger_fn_context
 };
+
 
 /**
  * Ignores context changes inside of a function

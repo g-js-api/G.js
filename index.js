@@ -898,7 +898,7 @@ let $ = {
    * Prints to console.
    * @param {*} value - Value to print.
    */
-  print,
+  print: (...args) => console.log(...args),
 
   /**
    * Returns level string of the script.

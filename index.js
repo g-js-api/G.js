@@ -894,6 +894,12 @@ let $ = {
    */
   add,
 
+  /***
+   * Configures how to export the script to Geometry Dash (must be used at the top of the script)
+   * @param {export_config} config Configuration for exporting
+   */
+  exportConfig,
+
   /**
    * Prints to console.
    * @param {*} value - Value to print.

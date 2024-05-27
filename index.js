@@ -932,7 +932,7 @@ let $ = {
    * Returns group of current trigger function context.
    * @returns {group} Group of current trigger function context.
    */
-  trigger_fn_context
+  trigger_fn_context: () => Context.findByName(Context.current).group
 };
 
 

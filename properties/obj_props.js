@@ -384,7 +384,6 @@ module.exports = {
     114: "FREE_CAM_PADDING",
     115: "ORD",
     118: "REVERSED",
-    119: "SONG_START",
     120: "TIMEWARP_TIME_MOD",
     123: "ANIMATE_ON_TRIGGER",
     128: "SCALE_X",

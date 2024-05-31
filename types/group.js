@@ -282,7 +282,7 @@ class $group {
             EASING: easing,
             EASING_RATE: easing_rate,
         }));
-        wait(duration);
+        if (duration) wait(duration);
     }
     /**
      * Moves group to specific coordinate

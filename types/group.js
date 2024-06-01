@@ -107,7 +107,7 @@ class $group {
      */
     call(delay = 0) {
         let tr = spawn_trigger(this, delay);
-        if (this.remaps) tr.REMAPS = this.remaps;
+        if (this.remaps) tr.obj_props.REMAPS = this.remaps;
         $.add(tr);
     }
     /**

@@ -102,6 +102,17 @@ class $group {
         }))
     }
     /**
+     * Animate trigger implementation
+     * @param {number} [anim_id=0] Animation ID (can also use `animations.[monster].[animation name]`, check index module for more info about animation IDs)
+     */
+    animate(anim_id = 0) {
+        $.add(object({
+            OBJ_ID: 1585,
+            TARGET: this,
+            ANIMATION_GID: anim_id
+        }));
+    }
+    /**
      * Calls the group
      * @param {number} delay How long to delay the group being called
      */

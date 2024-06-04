@@ -33,21 +33,23 @@
 | ACTIVE_TRIGGER | 36 | No known usage (bool) |
 | HVS_ENABLED | 41 | Whether the hue, saturation and brightness/value of the "Main" color is modified (bool) |
 | COLOR_2_HVS_ENABLED | 42 | Whether the hue, saturation and brightness/value of the "Detail" color is modified (bool) |
-| HVS | 43 | An object's "Main" color HSV value (a-separated list, e.g. `<hue>a<saturation>a<value>a<saturation checked(bool)>a<brightness checked(bool)>`)
-| COLOR_2_HVS | 44 | An object's "Detail" color HSV value
-| FADE_IN | 45 | A pulse trigger's fade in time (float)
-| HOLD | 46 | A pulse trigger's hold time (float)
-| FADE_OUT | 47 | A pulse trigger's fade out time (float)
-| PULSE_HSV | 48 | Whether a pulse trigger uses HSV (bool)
-| COPIED_COLOR_HVS | 49 | Unknown description (string)
-| COPIED_COLOR_ID | 50 | Unknown description (string)
-| TARGET | 51 | ID affected by the trigger (color/group) |
-| ITEM_TARGET | 51 | Item ID of target item in Item Edit (number) |
+| HVS | 43 | An object's "Main" color HSV value (a-separated list, e.g. `<hue>a<saturation>a<value>a<saturation checked(bool)>a<brightness checked(bool)>`) |
+| COLOR_2_HVS | 44 | An object's "Detail" color HSV value |
+| FADE_IN | 45 | A pulse trigger's fade in time (float) |
+| HOLD | 46 | A pulse trigger's hold time (float) |
+| FADE_OUT | 47 | A pulse trigger's fade out time (float) |
+| PULSE_HSV | 48 | Whether a pulse trigger uses HSV (bool) |
+| COPIED_COLOR_HVS | 49 | Unknown description (string) |
+| COPIED_COLOR_ID | 50 | Unknown description (string) |
+| GRAYSCALE_TINT_CHANNEL | 51 | Color channel to use as tint for grayscale trigger (color) |
+| SHADER_CENTER_ID | 51 | Center group for some shader triggers (group) |
 | TRUE_ID | 51 | ID to call if condition is true (group) |
-| GROUP_ID_1 | 51 | First group ID
-| TARGET_TYPE | 52 | The target of a pulse trigger (bool, false = color channel, true = group ID)
-| YELLOW_TELEPORTATION_PORTAL_DISTANCE | 54 | The distance from the blue teleportation portal to the orange one (float)
-| ACTIVATE_GROUP | 56 |	Whether "Activate Group" is checked in count, collision or toggle triggers (bool) |
+| TARGET | 51 | ID affected by the trigger (color/group) |
+| GROUP_ID_1 | 51 | First group ID (group) |
+| ITEM_TARGET | 51 | Item ID of target item in Item Edit (number) |
+| TARGET_TYPE | 52 | The target of a pulse trigger (bool, false = color channel, true = group ID) |
+| YELLOW_TELEPORTATION_PORTAL_DISTANCE | 54 | The distance from the blue teleportation portal to the orange one (float) |
+| ACTIVATE_GROUP | 56 | Whether "Activate Group" is checked in count, collision or toggle triggers (bool) |
 | GROUPS | 57 | The group(s) an object should have (group or array of groups) |
 | LOCK_TO_PLAYER_X | 58 |
 | LOCK_TO_PLAYER_Y | 59 |
@@ -59,32 +61,34 @@
 | MAIN_ONLY | 65 |
 | DETAIL_ONLY | 66 |
 | DONT_ENTER | 67 |
+| SHADER_TINT_CHANNEL | 71 |
+| ADD | 70 |
+| CENTER | 71 |
+| FALSE_ID | 71 |
 | ROTATE_DEGREES | 68 |
 | TIMES_360 | 69 |
 | LOCK_OBJECT_ROTATION | 70 |
-| ADD | 70 |
-| TARGET_POS | 71 |
 | GROUP_ID_2 | 71 |
-| FALSE_ID | 71 |
-| CENTER | 71 |
+| TARGET_POS | 71 |
 | X_MOD | 72 |
 | Y_MOD | 73 |
+| BLOCK_A | 80 |
 | STRENGTH | 75 |
+| ITEM_ID_1 | 80 |
 | ANIMATION_GID | 76 |
 | COUNT | 77 |
+| MULT_DIV | 88 |
 | SUBTRACT_COUNT | 78 |
 | PICKUP_MODE | 79 |
 | ITEM | 80 |
-| BLOCK_A | 80 |
-| ITEM_ID_1 | 80 |
 | HOLD_MODE | 81 |
 | TOGGLE_MODE | 82 |
 | INTERVAL | 84 |
 | EASING_RATE | 85 |
 | EXCLUSIVE | 86 |
+| ITEM_ID_2 | 95 |
 | MULTI_TRIGGER | 87 |
 | COMPARISON | 88 |
-| MULT_DIV | 88 |
 | DUAL_MODE | 89 |
 | SPEED | 90 |
 | DELAY | 91 |
@@ -92,7 +96,6 @@
 | ACTIVATE_ON_EXIT | 93 |
 | DYNAMIC_BLOCK | 94 |
 | BLOCK_B | 95 |
-| ITEM_ID_2 | 95 |
 | GLOW_DISABLED | 96 |
 | ROTATION_SPEED | 97 |
 | DISABLE_ROTATION | 98 |
@@ -133,20 +136,57 @@
 | SCALE_Y_BY | 151 |
 | ADV_RAND_STRING | 152 |
 | DIV_BY_X | 153 |
+| SHADER_SIZE | 179 |
+| BULGE_RADIUS | 180 |
 | DIV_BY_Y | 154 |
+| MAX_COL_Y_OFF | 182 |
 | STREAK_ADDITIVE | 159 |
+| LINE_THICKNESS | 179 |
 | UNLINK_DUAL_GRAVITY | 160 |
+| SEGMENT_H | 189 |
+| SHADER_SLICE_HEIGHT | 179 |
+| FOLLOW_EASE | 191 |
+| LINE_STRENGTH | 191 |
+| MAX_SLICE_X_OFF | 191 |
+| SHADER_TARGET_X | 180 |
 | HIDE_GROUND | 161 |
 | HIDE_P1 | 162 |
+| MAX_COL_X_OFF | 181 |
+| RGB_OFF | 180 |
+| USE_LUM | 188 |
 | HIDE_P2 | 163 |
 | CAMERA_EDGE | 164 |
 | DISABLE_CONTROLS_P1 | 165 |
+| DUAL_DIR | 194 |
 | KEEP_VELOCITY | 169 |
 | CHANGE_CHANNEL | 171 |
+| SHADER_TARGET | 188 |
 | GR_BLENDING | 174 |
+| SHADER_USE_X | 188 |
+| SHADER_SPEED | 175 |
+| SHADER_SNAP_GRID | 194 |
+| SHADER_USE_Y | 190 |
+| SHADER_STRENGTH | 176 |
+| TIME_OFF | 177 |
+| WAVE_WIDTH | 179 |
+| SHADER_THICKNESS | 180 |
+| C | 201 |
+| SHADER_FADE_IN | 181 |
+| SHADER_FADE_OUT | 182 |
+| SHADER_INNER | 183 |
+| SHADER_INVERT | 184 |
+| NO_PLAYER_PARTICLES | 188 |
+| SHADER_TARGET_Y | 189 |
+| SHADER_FOLLOW | 190 |
+| SHADER_OUTER | 191 |
+| DISABLE_ALL | 192 |
+| SHADER_RELATIVE_POS | 194 |
 | HIDE_MG | 195 |
+| LOWEST_LAYER | 196 |
+| HIGHEST_LAYER | 197 |
 | PLAYER_ONLY | 198 |
 | DISABLE_CONTROLS_P2 | 199 |
+| SCREEN_OFF | 290 |
 | PLAYER_2 | 200 |
 | _PT | 201 |
 | GR_LAYER | 202 |
@@ -164,18 +204,20 @@
 | FOLLOW_P1 | 215 |
 | FOLLOW_P2 | 216 |
 | P_GROUPS | 274 |
+| SCREEN_OFFX | 290 |
+| SCREEN_OFFY | 291 |
 | DISABLE_GRID_SNAP | 370 |
 | ZOOM | 371 |
 | ANIM_ID | 373 |
 | ORDER_INDEX | 374 |
 | CLOSE_LOOP | 376 |
+| SFX_ID | 392 |
 | CURVE | 378 |
 | SECONDS_ONLY | 389 |
 | SONG_ID | 392 |
 | SMALL_STEP | 393 |
 | SNAP_360 | 394 |
 | TARGET_DIR_CENTER | 395 |
-| SFX_ID | 392 |
 | PREP | 399 |
 | LOAD_PREP | 400 |
 | SONG_SPEED | 404 |
@@ -211,12 +253,14 @@
 | MIN_INT | 437 |
 | RESET | 438 |
 | RESET_FULL_STEP | 439 |
+| REMAPS | 442 |
 | EXTRA_ID | 447 |
 | MODIFIER | 449 |
 | RELATIVE_ROT | 452 |
 | SMOOTH_VELOCITY | 453 |
 | SMOOTH_VELOCITY_MODIFIER | 454 |
 | SFX_GROUP | 455 |
+| PREVIEW_OPACITY | 456 |
 | VOLUME_DIRECTION | 458 |
 | NO_EFFECTS | 460 |
 | NO_SFX | 461 |
@@ -226,20 +270,21 @@
 | DONT_OVERRIDE | 468 |
 | IGNORE_TIMEWARP | 469 |
 | TIMER_TIME_MOD | 470 |
+| EMPTY_ONLY | 515 |
 | START_PAUSED | 471 |
 | START_STOP | 472 |
 | STOP_TIME | 473 |
 | STOP_CHECKED | 474 |
 | TYPE_1 | 476 |
+| COMP_OP_1 | 480 |
 | TYPE_2 | 477 |
-| ITEM_TARGET_TYPE | 478 | Type of the target in an Item Edit trigger
+| COMP_OP | 482 |
+| ITEM_TARGET_TYPE | 478 |
+| COMP_OP_2 | 481 |
 | MOD | 479 |
 | ASSIGN_OP | 480 |
-| COMP_OP_1 | 480 |
 | OP_1 | 481 |
-| COMP_OP_2 | 481 |
 | OP_2 | 482 |
-| COMP_OP | 482 |
 | MOD_2 | 483 |
 | TOL | 484 |
 | RFC_1 | 485 |
@@ -248,10 +293,10 @@
 | IGNORE_VOLUME+TEST | 489 |
 | SOUND_DURATION | 490 |
 | PERSISTENT | 491 |
-| REMAPS | 442 |
-| PREVIEW_OPACITY | 456 |
 | REVERB_TYPE | 502 |
 | REVERB_ENABLE | 503 |
+| MAX_SIZE | 512 |
+| HARD_EDGES | 515 |
 | TIME_MOD | 520 |
 | POSITION_X_MOD | 521 |
 | ROTATION_MOD | 522 |
@@ -274,3 +319,4 @@
 | ABSNEG_1 | 578 |
 | ABSNEG_2 | 579 |
 | STOP_PAUSE_RESUME | 580 |
+| PINCH_RADIUS | 4376890 |

@@ -126,7 +126,7 @@ declare module "index" {
      */
     function exportConfig(conf: export_config): null | string;
     /**
-     * Configuration for exporting levels
+     * Configuration for exporting levels.
      * @property info - Whether to log information to console when finished
      * @property group_count_warning - Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
      * @property level_name - Name of level (only for exportToSavefile)
@@ -139,59 +139,40 @@ declare module "index" {
         path: string;
     };
     /**
-     * Core type holding important functions for adding to levels, exporting and modifying scripts
-     * @property add - Adds an object
-     * @property print - Prints to console
-     * @property getLevelString - Returns level string of the script
-     * @property extend_trigger_func - Extends a trigger function by adding more triggers to it
-     * @property exportToSavefile - Exports script to savefile
-     * @property liveEditor - Exports script to live editor using WSLiveEditor (requires Geode)
-     * @property trigger_fn_context - Returns group of current trigger function context
+     * Core type holding important functions for adding to levels, exporting, and modifying scripts.
      */
-    type $ = {
-        add: add;
-        print: print;
-        getLevelString: getLevelString;
-        extend_trigger_func: extend_trigger_func;
-        exportToSavefile: exportToSavefile;
-        liveEditor: liveEditor;
-        trigger_fn_context: trigger_fn_context;
-    };
-    /**
-     * Adds an object
-     * @param object - Object to add (wrap `object()` function around a dictionary)
-     */
-    type add = (object: any) => void;
-    /**
-     * Prints to console
-     * @param value - Value to print
-     */
-    type print = (value: any) => void;
-    /**
-     * Extends a trigger function by adding more triggers to it
-     * @param trigger_func - Trigger function to extend
-     * @param callback - Function that adds more triggers to trigger_func
-     */
-    type extend_trigger_func = (trigger_func: group, callback: (...params: any[]) => any) => void;
-    /**
-     * Returns level string
-     * @param config - Configuration for exporting to levelstring
-     */
-    type getLevelString = (config: save_config) => string;
-    /**
-     * Exports script to savefile
-     * @param config - Configuration for exporting to savefile
-     */
-    type exportToSavefile = (config: save_config) => void;
-    /**
-     * Exports script to live editor using WSLiveEditor (requires Geode)
-     * @param config - Configuration for exporting to live editor
-     */
-    type liveEditor = (config: save_config) => void;
-    /**
-     * Returns group of current trigger function context
-     */
-    type trigger_fn_context = () => group;
+    namespace $ {
+        /**
+         * Adds an object.
+         */
+        var add: any;
+        /**
+         * Prints to console.
+         * @param value - Value to print.
+         */
+        function print(value: any): void;
+        /**
+         * Returns level string of the script.
+         */
+        var getLevelString: any;
+        /**
+         * Exports script to savefile.
+         */
+        var exportToSavefile: any;
+        /**
+         * Exports script to live editor using WSLiveEditor (requires Geode).
+         */
+        var liveEditor: any;
+        /**
+         * Extends a trigger function by adding more triggers to it.
+         */
+        var extend_trigger_func: any;
+        /**
+         * Returns group of current trigger function context.
+         * @returns Group of current trigger function context.
+         */
+        function trigger_fn_context(): group;
+    }
     /**
      * Ignores context changes inside of a function
      * @param fn - Function containing code where context changes should be ignored
@@ -205,6 +186,222 @@ declare module "index" {
      * @returns Resulting sequence
      */
     function range(start: number, end: number, step?: number): any[];
+    /**
+     * @property USER_COIN - Identifier for user coin
+     * @property H_BLOCK - Identifier for H block
+     * @property J_BLOCK - Identifier for J block
+     * @property TEXT - Identifier for text
+     * @property S_BLOCK - Identifier for S block
+     * @property ITEM_DISPLAY - Identifier for item display
+     * @property D_BLOCK - Identifier for D block
+     * @property COLLISION_BLOCK - Identifier for collision block
+     */
+    type special_objects = {
+        USER_COIN: number;
+        H_BLOCK: number;
+        J_BLOCK: number;
+        TEXT: number;
+        S_BLOCK: number;
+        ITEM_DISPLAY: number;
+        D_BLOCK: number;
+        COLLISION_BLOCK: number;
+    };
+    /**
+     * @property SPAWN - Identifier for spawn trigger
+     * @property ON_DEATH - Identifier for on-death trigger
+     * @property ROTATE - Identifier for rotate trigger
+     * @property COUNT - Identifier for count trigger
+     * @property DISABLE_TRAIL - Identifier for disable trail trigger
+     * @property HIDE - Identifier for hide trigger
+     * @property PICKUP - Identifier for pickup trigger
+     * @property COLLISION - Identifier for collision trigger
+     * @property ENABLE_TRAIL - Identifier for enable trail trigger
+     * @property ANIMATE - Identifier for animate trigger
+     * @property TOUCH - Identifier for touch trigger
+     * @property INSTANT_COUNT - Identifier for instant count trigger
+     * @property BG_EFFECT_OFF - Identifier for BG effect off trigger
+     * @property TOGGLE - Identifier for toggle trigger
+     * @property MOVE - Identifier for move trigger
+     * @property ALPHA - Identifier for alpha trigger
+     * @property SHOW - Identifier for show trigger
+     * @property STOP - Identifier for stop trigger
+     * @property FOLLOW - Identifier for follow trigger
+     * @property PULSE - Identifier for pulse trigger
+     * @property BG_EFFECT_ON - Identifier for BG effect on trigger
+     * @property SHAKE - Identifier for shake trigger
+     * @property FOLLOW_PLAYER_Y - Identifier for follow player Y trigger
+     * @property COLOR - Identifier for color trigger
+     */
+    type trigger_ids = {
+        SPAWN: number;
+        ON_DEATH: number;
+        ROTATE: number;
+        COUNT: number;
+        DISABLE_TRAIL: number;
+        HIDE: number;
+        PICKUP: number;
+        COLLISION: number;
+        ENABLE_TRAIL: number;
+        ANIMATE: number;
+        TOUCH: number;
+        INSTANT_COUNT: number;
+        BG_EFFECT_OFF: number;
+        TOGGLE: number;
+        MOVE: number;
+        ALPHA: number;
+        SHOW: number;
+        STOP: number;
+        FOLLOW: number;
+        PULSE: number;
+        BG_EFFECT_ON: number;
+        SHAKE: number;
+        FOLLOW_PLAYER_Y: number;
+        COLOR: number;
+    };
+    /**
+     * @property SPEED_GREEN - Identifier for green speed portal
+     * @property TELEPORT - Identifier for teleport portal
+     * @property CUBE - Identifier for cube portal
+     * @property MIRROR_OFF - Identifier for mirror off portal
+     * @property WAVE - Identifier for wave portal
+     * @property SPIDER - Identifier for spider portal
+     * @property SPEED_RED - Identifier for red speed portal
+     * @property GRAVITY_DOWN - Identifier for gravity down portal
+     * @property SPEED_BLUE - Identifier for blue speed portal
+     * @property UFO - Identifier for UFO portal
+     * @property ROBOT - Identifier for robot portal
+     * @property MIRROR_ON - Identifier for mirror on portal
+     * @property GRAVITY_UP - Identifier for gravity up portal
+     * @property DUAL_ON - Identifier for dual on portal
+     * @property SIZE_MINI - Identifier for mini size portal
+     * @property BALL - Identifier for ball portal
+     * @property SIZE_NORMAL - Identifier for normal size portal
+     * @property SHIP - Identifier for ship portal
+     * @property SPEED_PINK - Identifier for pink speed portal
+     * @property SPEED_YELLOW - Identifier for yellow speed portal
+     * @property DUAL_OFF - Identifier for dual off portal
+     */
+    type portal_ids = {
+        SPEED_GREEN: number;
+        TELEPORT: number;
+        CUBE: number;
+        MIRROR_OFF: number;
+        WAVE: number;
+        SPIDER: number;
+        SPEED_RED: number;
+        GRAVITY_DOWN: number;
+        SPEED_BLUE: number;
+        UFO: number;
+        ROBOT: number;
+        MIRROR_ON: number;
+        GRAVITY_UP: number;
+        DUAL_ON: number;
+        SIZE_MINI: number;
+        BALL: number;
+        SIZE_NORMAL: number;
+        SHIP: number;
+        SPEED_PINK: number;
+        SPEED_YELLOW: number;
+        DUAL_OFF: number;
+    };
+    /**
+     * @property special - Special object IDs
+     * @property triggers - Trigger object IDs
+     * @property portals - Portal object IDs
+     */
+    type obj_ids = {
+        special: special_objects;
+        triggers: trigger_ids;
+        portals: portal_ids;
+    };
+    /**
+     * @property special - Special object IDs
+     * @property triggers - Trigger object IDs
+     * @property portals - Portal object IDs
+     */
+    type obj_ids = {
+        special: special_objects;
+        triggers: trigger_ids;
+        portals: portal_ids;
+    };
+    /**
+     * @property bite - Identifier for the bite animation
+     * @property attack01 - Identifier for the first attack animation
+     * @property attack01_end - Identifier for the end of the first attack animation
+     * @property idle01 - Identifier for the first idle animation
+     */
+    type big_beast_animations = {
+        bite: number;
+        attack01: number;
+        attack01_end: number;
+        idle01: number;
+    };
+    /**
+     * @property idle01 - Identifier for the first idle animation
+     * @property idle02 - Identifier for the second idle animation
+     * @property idle03 - Identifier for the third idle animation
+     * @property attack01 - Identifier for the first attack animation
+     * @property attack02 - Identifier for the second attack animation
+     * @property attack02_end - Identifier for the end of the second attack animation
+     * @property sleep - Identifier for the sleep animation
+     * @property sleep_loop - Identifier for the sleep loop animation
+     * @property sleep_end - Identifier for the end of the sleep animation
+     * @property attack02_loop - Identifier for the loop of the second attack animation
+     */
+    type bat_animations = {
+        idle01: number;
+        idle02: number;
+        idle03: number;
+        attack01: number;
+        attack02: number;
+        attack02_end: number;
+        sleep: number;
+        sleep_loop: number;
+        sleep_end: number;
+        attack02_loop: number;
+    };
+    /**
+     * @property idle01 - Identifier for the first idle animation
+     * @property idle02 - Identifier for the second idle animation
+     * @property toAttack01 - Identifier for the transition to the first attack animation
+     * @property attack01 - Identifier for the first attack animation
+     * @property attack02 - Identifier for the second attack animation
+     * @property toAttack03 - Identifier for the transition to the third attack animation
+     * @property attack03 - Identifier for the third attack animation
+     * @property idle03 - Identifier for the third idle animation
+     * @property fromAttack03 - Identifier for the transition from the third attack animation
+     */
+    type spikeball_animations = {
+        idle01: number;
+        idle02: number;
+        toAttack01: number;
+        attack01: number;
+        attack02: number;
+        toAttack03: number;
+        attack03: number;
+        idle03: number;
+        fromAttack03: number;
+    };
+    /**
+     * @property big_beast - Animation identifiers for big beast
+     * @property bat - Animation identifiers for bat
+     * @property spikeball - Animation identifiers for spikeball
+     */
+    type animations = {
+        big_beast: big_beast_animations;
+        bat: bat_animations;
+        spikeball: spikeball_animations;
+    };
+    /**
+     * @property big_beast - Animation identifiers for big beast
+     * @property bat - Animation identifiers for bat
+     * @property spikeball - Animation identifiers for spikeball
+     */
+    type animations = {
+        big_beast: big_beast_animations;
+        bat: bat_animations;
+        spikeball: spikeball_animations;
+    };
 }
 
 /**
@@ -937,6 +1134,146 @@ declare module "keyframes" {
         start: start;
         anim_id: number;
     };
+}
+
+declare module "shaders" {
+    type shader_layer = number;
+    /**
+     * An object representing all shader layers
+     * @property BG - Background layer
+     * @property MG - Midground layer
+     * @property B5 - Background layer 5
+     * @property B4 - Background layer 4
+     * @property B3 - Background layer 3
+     * @property B2 - Background layer 2
+     * @property B1 - Background layer 1
+     * @property P - Player layer
+     * @property T1 - Top layer 1
+     * @property T2 - Top layer 2
+     * @property T3 - Top layer 3
+     * @property T4 - Top layer 4
+     * @property G - Ground layer
+     * @property UI - UI layer
+     * @property MAX - Maximum layer
+     */
+    type shader_layers = {
+        BG: shader_layer;
+        MG: shader_layer;
+        B5: shader_layer;
+        B4: shader_layer;
+        B3: shader_layer;
+        B2: shader_layer;
+        B1: shader_layer;
+        P: shader_layer;
+        T1: shader_layer;
+        T2: shader_layer;
+        T3: shader_layer;
+        T4: shader_layer;
+        G: shader_layer;
+        UI: shader_layer;
+        MAX: shader_layer;
+    };
+    /**
+     * An object representing all shader layers
+     * @property BG - Background layer
+     * @property MG - Midground layer
+     * @property B5 - Background layer 5
+     * @property B4 - Background layer 4
+     * @property B3 - Background layer 3
+     * @property B2 - Background layer 2
+     * @property B1 - Background layer 1
+     * @property P - Player layer
+     * @property T1 - Top layer 1
+     * @property T2 - Top layer 2
+     * @property T3 - Top layer 3
+     * @property T4 - Top layer 4
+     * @property G - Ground layer
+     * @property UI - UI layer
+     * @property MAX - Maximum layer
+     */
+    type shader_layers = {
+        BG: shader_layer;
+        MG: shader_layer;
+        B5: shader_layer;
+        B4: shader_layer;
+        B3: shader_layer;
+        B2: shader_layer;
+        B1: shader_layer;
+        P: shader_layer;
+        T1: shader_layer;
+        T2: shader_layer;
+        T3: shader_layer;
+        T4: shader_layer;
+        G: shader_layer;
+        UI: shader_layer;
+        MAX: shader_layer;
+    };
+    type shader_layer = number;
+    /**
+     * Creates a glitch effect
+     * @param strength - How strong the glitch effect is
+     * @param duration - How long it takes to start the effect
+     * @param easing - How smoothly the effect should start
+     * @param speed - How fast the glitch effect is
+     * @param slice_height - How high up objects get slices
+     * @param max_slice_x_off - How much objects get sliced
+     * @param max_col_x_off - Max offset for color effect on X axis
+     * @param max_col_y_off - Max offset for color effect on Y axis
+     */
+    function glitch(strength: number, duration: number, easing: easing, speed?: number, slice_height?: number, max_slice_x_off?: number, max_col_x_off?: number, max_col_y_off?: number): void;
+    /**
+     * Applies chromatic aberration
+     * @param target_x - Effect strength on X axis
+     * @param target_y - Effect strength on Y axis
+     * @param duration - How long it takes to start the effect
+     * @param easing - How smoothly the effect should start
+     */
+    function chromatic(target_x: number, target_y: number, duration: number, easing: easing): void;
+    /**
+     * Pixelates screen
+     * @param target_x - How strong effect is on X axis
+     * @param target_y - How strong effect is on Y axis
+     * @param duration - How long it takes to start the effect
+     * @param easing - How smoothly the effect should start
+     * @param snap_grid - Makes pixels align with game camera
+     * @param hard_edges - Whether to use hard edges
+     */
+    function pixelate(target_x: any, target_y: any, duration: any, easing: easing, snap_grid: boolean, hard_edges: boolean): void;
+    /**
+     * Applies grayscale filter
+     * @param target - How much of filter to apply
+     * @param tint_channel - Color channel to tint towards
+     * @param duration - How long it takes to start the effect
+     * @param easing - How smoothly the effect should start
+     * @param use_lum - Uses different grayscale conversions
+     */
+    function grayscale(target: number, tint_channel: color, duration: number, easing: easing, use_lum: boolean): void;
+    /**
+     * Changes hue of screen
+     * @param degrees - How much colors should shift
+     * @param duration - How long it takes to start the effect
+     * @param easing - How smoothly the effect should start
+     */
+    function hue_shift(degrees: number, duration: number, easing: easing): void;
+    /**
+     * Bulges the screen
+     * @param strength - How strong the effect is
+     * @param radius - How large the effect is
+     * @param duration - How long it takes to start the effect
+     * @param easing - How smoothly the effect should start
+     * @param center - Center group of bulge
+     * @param offset_x - Offset X of bulge
+     * @param offset_y - Offset Y of bulge
+     */
+    function bulge(strength: number, radius: number, duration: number, easing: easing, center: group, offset_x: number, offset_y: number): void;
+    /**
+     * Applies sepia filter
+     * @param target - How much of filter to apply
+     * @param duration - How long it takes to start the effect
+     * @param easing - How smoothly the effect should start
+     */
+    function sepia(target: number, duration: number, easing: easing): void;
+    function shockwave(): void;
 }
 
 declare module "events" {
@@ -1691,6 +2028,11 @@ declare module "group" {
          * @param [relative_rot = false] - Whether to rotate the X and Y axis
          */
         scale(center: group, scale_x: number, scale_y: number, duration?: number, easing?: easing, easing_rate?: number, x_divide?: boolean, y_divide?: boolean, move_only?: boolean, relative_scale?: boolean, relative_rot?: boolean): void;
+        /**
+         * Animate trigger implementation
+         * @param [anim_id = 0] - Animation ID (can also use `animations.[monster].[animation name]`, check index module for more info about animation IDs)
+         */
+        animate(anim_id?: number): void;
         /**
          * Calls the group
          * @param delay - How long to delay the group being called

@@ -57,6 +57,17 @@ const {
   player_control,
   particle_system
 } = require('./lib/general-purpose');
+const { 
+  shader_layers, 
+  shader_layer, 
+  sepia, 
+  hue_shift, 
+  grayscale, 
+  pixelate, 
+  chromatic, 
+  glitch, 
+  bulge 
+} = require('./lib/shaders.js');
 const keyframe_system = require('./lib/keyframes.js');
 const particle_props = require('./properties/particles.js');
 const events = require('./properties/game_events.js');
@@ -90,26 +101,26 @@ let all_known = {
 let [unavailable_g, unavailable_c, unavailable_b] = [0, 0, 0];
 
 let get_new = (n, prop, push = true) => {
-    let arr = all_known[prop];
-    if (arr.length == 0) {
-      arr.push(1);
-      return 1;
+  let arr = all_known[prop];
+  if (arr.length == 0) {
+    arr.push(1);
+    return 1;
+  }
+  arr.sort((a, b) => a - b);
+  if (arr[0] > 1 && push) {
+    arr.unshift(1);
+    return 1;
+  }
+  let result;
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] !== arr[i - 1] + 1) {
+      result = arr[i - 1] + 1;
+      break;
     }
-    arr.sort((a, b) => a - b);
-    if (arr[0] > 1 && push) {
-      arr.unshift(1);
-      return 1;
-    }
-    let result;
-    for (let i = 1; i < arr.length; i++) {
-        if (arr[i] !== arr[i - 1] + 1) {
-            result = arr[i - 1] + 1;
-            break;
-        }
-    }
-    if (!result) result = arr[arr.length - 1] + 1;
-    if (push) all_known[prop].push(result);
-    return result;
+  }
+  if (!result) result = arr[arr.length - 1] + 1;
+  if (push) all_known[prop].push(result);
+  return result;
 };
 /**
  * Creates and returns an unavailable group ID
@@ -288,8 +299,8 @@ let writeClasses = (arr) => {
 }
 
 writeClasses([
-  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID/TARGET_POS/EXTRA_ID/EXTRA_ID_2/FOLLOW/CENTER/TARGET_DIR_CENTER',
-  'color/TARGET/TARGET_COLOR/COLOR/COLOR_2',
+  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID/TARGET_POS/EXTRA_ID/EXTRA_ID_2/FOLLOW/CENTER/TARGET_DIR_CENTER/SHADER_CENTER_ID',
+  'color/TARGET/TARGET_COLOR/COLOR/COLOR_2/SHADER_TINT_CHANNEL',
   'block/BLOCK_A/BLOCK_B',
 ]);
 
@@ -404,7 +415,7 @@ let level = {
    * @param {Function} pattern - The function to test the property value.
    * @returns {Array<Object>} An array of objects that match the given property and pattern.
    */
-  get_objects: function(prop, pattern) {
+  get_objects: function (prop, pattern) {
     let level_arr = levelstring_to_obj(this.raw_levelstring);
     return level_arr.filter(o => {
       let cond_1 = prop in o, cond_2;
@@ -430,8 +441,19 @@ let mappings = {
   3478234: '71',
   45893: '392',
   237894: '10',
-  347832: '70'
-}
+  347832: '70',
+  34982398: '188',
+  4895490381243: '51',
+  45890903: '290',
+  487999230: '179',
+  40943900394: '191',
+  93423877: '181',
+  8765437289: '182',
+  645789320: '180',
+  8765434: '188',
+  21678934: '190'
+};
+
 let find_free = (str) => {
   let startIndex = 0;
   let endIndex;
@@ -441,10 +463,10 @@ let find_free = (str) => {
     startIndex = endIndex + 1;
 
     if (!segment) continue;
-    
+
     level.objects.push(segment);
     level.raw_levelstring += segment + ';';
-    
+
     let ro = segment.split(',');
     for (let i = 0; i < ro.length; i += 2) {
       let key = ro[i];
@@ -834,7 +856,7 @@ let exportConfig = (conf) => {
           throw new Error(`Connecting to WSLiveEditor failed! Make sure you have installed the WSLiveEditor mod inside of Geode and have the editor open!`);
         });
         break;
-        default: throw new Error(`The "${conf.type}" configuration type is not valid!`)
+      default: throw new Error(`The "${conf.type}" configuration type is not valid!`)
     }
   });
 };
@@ -997,6 +1019,82 @@ String.prototype.to_obj = function () {
   return or;
 };
 
+/**
+ * @typedef {Object} special_objects
+ * @property {number} USER_COIN - Identifier for user coin
+ * @property {number} H_BLOCK - Identifier for H block
+ * @property {number} J_BLOCK - Identifier for J block
+ * @property {number} TEXT - Identifier for text
+ * @property {number} S_BLOCK - Identifier for S block
+ * @property {number} ITEM_DISPLAY - Identifier for item display
+ * @property {number} D_BLOCK - Identifier for D block
+ * @property {number} COLLISION_BLOCK - Identifier for collision block
+ */
+
+/**
+ * @typedef {Object} trigger_ids
+ * @property {number} SPAWN - Identifier for spawn trigger
+ * @property {number} ON_DEATH - Identifier for on-death trigger
+ * @property {number} ROTATE - Identifier for rotate trigger
+ * @property {number} COUNT - Identifier for count trigger
+ * @property {number} DISABLE_TRAIL - Identifier for disable trail trigger
+ * @property {number} HIDE - Identifier for hide trigger
+ * @property {number} PICKUP - Identifier for pickup trigger
+ * @property {number} COLLISION - Identifier for collision trigger
+ * @property {number} ENABLE_TRAIL - Identifier for enable trail trigger
+ * @property {number} ANIMATE - Identifier for animate trigger
+ * @property {number} TOUCH - Identifier for touch trigger
+ * @property {number} INSTANT_COUNT - Identifier for instant count trigger
+ * @property {number} BG_EFFECT_OFF - Identifier for BG effect off trigger
+ * @property {number} TOGGLE - Identifier for toggle trigger
+ * @property {number} MOVE - Identifier for move trigger
+ * @property {number} ALPHA - Identifier for alpha trigger
+ * @property {number} SHOW - Identifier for show trigger
+ * @property {number} STOP - Identifier for stop trigger
+ * @property {number} FOLLOW - Identifier for follow trigger
+ * @property {number} PULSE - Identifier for pulse trigger
+ * @property {number} BG_EFFECT_ON - Identifier for BG effect on trigger
+ * @property {number} SHAKE - Identifier for shake trigger
+ * @property {number} FOLLOW_PLAYER_Y - Identifier for follow player Y trigger
+ * @property {number} COLOR - Identifier for color trigger
+ */
+
+/**
+ * @typedef {Object} portal_ids
+ * @property {number} SPEED_GREEN - Identifier for green speed portal
+ * @property {number} TELEPORT - Identifier for teleport portal
+ * @property {number} CUBE - Identifier for cube portal
+ * @property {number} MIRROR_OFF - Identifier for mirror off portal
+ * @property {number} WAVE - Identifier for wave portal
+ * @property {number} SPIDER - Identifier for spider portal
+ * @property {number} SPEED_RED - Identifier for red speed portal
+ * @property {number} GRAVITY_DOWN - Identifier for gravity down portal
+ * @property {number} SPEED_BLUE - Identifier for blue speed portal
+ * @property {number} UFO - Identifier for UFO portal
+ * @property {number} ROBOT - Identifier for robot portal
+ * @property {number} MIRROR_ON - Identifier for mirror on portal
+ * @property {number} GRAVITY_UP - Identifier for gravity up portal
+ * @property {number} DUAL_ON - Identifier for dual on portal
+ * @property {number} SIZE_MINI - Identifier for mini size portal
+ * @property {number} BALL - Identifier for ball portal
+ * @property {number} SIZE_NORMAL - Identifier for normal size portal
+ * @property {number} SHIP - Identifier for ship portal
+ * @property {number} SPEED_PINK - Identifier for pink speed portal
+ * @property {number} SPEED_YELLOW - Identifier for yellow speed portal
+ * @property {number} DUAL_OFF - Identifier for dual off portal
+ */
+
+/**
+ * @typedef {Object} obj_ids
+ * @property {special_objects} special Special object IDs
+ * @property {trigger_ids} triggers Trigger object IDs
+ * @property {portal_ids} portals Portal object IDs
+ */
+
+/**
+ * Object containing various IDs for objects, triggers, and portals.
+ * @type {obj_ids}
+ */
 let obj_ids = {
   special: {
     USER_COIN: 1329,
@@ -1059,6 +1157,84 @@ let obj_ids = {
   },
 };
 
+/**
+ * @typedef {Object} big_beast_animations
+ * @property {number} bite - Identifier for the bite animation
+ * @property {number} attack01 - Identifier for the first attack animation
+ * @property {number} attack01_end - Identifier for the end of the first attack animation
+ * @property {number} idle01 - Identifier for the first idle animation
+ */
+
+/**
+ * @typedef {Object} bat_animations
+ * @property {number} idle01 - Identifier for the first idle animation
+ * @property {number} idle02 - Identifier for the second idle animation
+ * @property {number} idle03 - Identifier for the third idle animation
+ * @property {number} attack01 - Identifier for the first attack animation
+ * @property {number} attack02 - Identifier for the second attack animation
+ * @property {number} attack02_end - Identifier for the end of the second attack animation
+ * @property {number} sleep - Identifier for the sleep animation
+ * @property {number} sleep_loop - Identifier for the sleep loop animation
+ * @property {number} sleep_end - Identifier for the end of the sleep animation
+ * @property {number} attack02_loop - Identifier for the loop of the second attack animation
+ */
+
+/**
+ * @typedef {Object} spikeball_animations
+ * @property {number} idle01 - Identifier for the first idle animation
+ * @property {number} idle02 - Identifier for the second idle animation
+ * @property {number} toAttack01 - Identifier for the transition to the first attack animation
+ * @property {number} attack01 - Identifier for the first attack animation
+ * @property {number} attack02 - Identifier for the second attack animation
+ * @property {number} toAttack03 - Identifier for the transition to the third attack animation
+ * @property {number} attack03 - Identifier for the third attack animation
+ * @property {number} idle03 - Identifier for the third idle animation
+ * @property {number} fromAttack03 - Identifier for the transition from the third attack animation
+ */
+
+/**
+ * @typedef {Object} animations
+ * @property {big_beast_animations} big_beast - Animation identifiers for big beast
+ * @property {bat_animations} bat - Animation identifiers for bat
+ * @property {spikeball_animations} spikeball - Animation identifiers for spikeball
+ */
+
+/**
+ * Object containing various animation IDs for big beast, bat, and spikeball.
+ * @type {animations}
+ */
+let animations = {
+  big_beast: {
+    bite: 0,
+    attack01: 1,
+    attack01_end: 2,
+    idle01: 3
+  },
+  bat: {
+    idle01: 0,
+    idle02: 1,
+    idle03: 2,
+    attack01: 3,
+    attack02: 4,
+    attack02_end: 5,
+    sleep: 6,
+    sleep_loop: 7,
+    sleep_end: 8,
+    attack02_loop: 9
+  },
+  spikeball: {
+    idle01: 0,
+    idle02: 1,
+    toAttack01: 2,
+    attack01: 3,
+    attack02: 4,
+    toAttack03: 5,
+    attack03: 6,
+    idle03: 7,
+    fromAttack03: 8
+  }
+};
+
 let exps = {
   // constants
   EQUAL_TO: 0,
@@ -1077,6 +1253,8 @@ let exps = {
   RIGHT_EDGE: 2,
   UP_EDGE: 3,
   DOWN_EDGE: 4,
+  obj_ids,
+  animations,
   // functions & objects
   $,
   counter,
@@ -1099,7 +1277,6 @@ let exps = {
   Context,
   extract,
   while_loop,
-  obj_ids,
   greater_than,
   equal_to,
   less_than,
@@ -1142,6 +1319,15 @@ let exps = {
   Context,
   ignore_context_change,
   level,
+  shader_layers, 
+  shader_layer, 
+  sepia, 
+  hue_shift, 
+  grayscale, 
+  pixelate, 
+  chromatic, 
+  glitch, 
+  bulge,
   reverse: () => {
     $.add(object({
       OBJ_ID: 1917

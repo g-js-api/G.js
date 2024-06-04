@@ -1238,7 +1238,7 @@ declare module "shaders" {
      * @param snap_grid - Makes pixels align with game camera
      * @param hard_edges - Whether to use hard edges
      */
-    function pixelate(target_x: any, target_y: any, duration: any, easing: easing, snap_grid: boolean, hard_edges: boolean): void;
+    function pixelate(target_x: number, target_y: number, duration: number, easing: easing, snap_grid: boolean, hard_edges: boolean): void;
     /**
      * Applies grayscale filter
      * @param target - How much of filter to apply
@@ -1273,7 +1273,6 @@ declare module "shaders" {
      * @param easing - How smoothly the effect should start
      */
     function sepia(target: number, duration: number, easing: easing): void;
-    function shockwave(): void;
 }
 
 declare module "events" {

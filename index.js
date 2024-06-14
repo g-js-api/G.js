@@ -66,7 +66,8 @@ const {
   pixelate, 
   chromatic, 
   glitch, 
-  bulge 
+  bulge,
+  split_screen
 } = require('./lib/shaders.js');
 const keyframe_system = require('./lib/keyframes.js');
 const particle_props = require('./properties/particles.js');
@@ -1328,6 +1329,7 @@ let exps = {
   chromatic, 
   glitch, 
   bulge,
+  split_screen,
   reverse: () => {
     $.add(object({
       OBJ_ID: 1917

@@ -59,7 +59,7 @@ class $group {
      * @param {boolean} multiply Whether to fit the amount of units moved into GD units (multiplying by 3 does this)
      * @param {boolean} delay_trig Whether to do wait(duration)
      */
-    move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, delay_trig = false) {
+    move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, delay_trig = true) {
         $.add(object({
             OBJ_ID: 901,
             TARGET: this,

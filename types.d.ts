@@ -430,6 +430,17 @@ declare module "control-flow" {
      */
     function spawn_trigger(group: group, time: number): any;
     /**
+     * Creates a loop that repeats every frame
+     * @param trigger_function - The group to call every frame
+     * @returns Group that can be used to stop the loop
+     */
+    function frame_loop(trigger_function: group): group;
+    /**
+     * Waits a specific amount of frames
+     * @param frames - How many frames to wait for
+     */
+    function frames(frames: number): void;
+    /**
      * Returns a greater than condition
      * @param counter - Counter to compare to number
      * @param other - Number to be compared to counter
@@ -495,6 +506,8 @@ declare module "counter" {
      * @property to_obj - Returns item display for current counter as an object
      * @property add_to - Adds the current counter to another and resets the current counter
      * @property subtract_from - Subtracts the current counter from another and resets the current counter
+     * @property abs - Gets absolute value from counter
+     * @property neg - Converts value to negative value
      */
     type counter = {
         item: item;
@@ -512,6 +525,8 @@ declare module "counter" {
         to_obj: to_obj;
         add_to: add_to;
         subtract_from: subtract_from;
+        abs: (...params: any[]) => any;
+        neg: (...params: any[]) => any;
     };
     /**
      * Adds a specific amount (or another counter) to the current counter
@@ -597,6 +612,8 @@ declare module "counter" {
      * @property to_obj - Returns item display for current counter as an object
      * @property add_to - Adds the current counter to another and resets the current counter
      * @property subtract_from - Subtracts the current counter from another and resets the current counter
+     * @property abs - Gets absolute value from counter
+     * @property neg - Converts value to negative value
      */
     type counter = {
         item: item;
@@ -614,6 +631,45 @@ declare module "counter" {
         to_obj: to_obj;
         add_to: add_to;
         subtract_from: subtract_from;
+        abs: (...params: any[]) => any;
+        neg: (...params: any[]) => any;
+    };
+    /**
+     * Version of counter that supports floating point values
+     * @property item - Item ID of a counter
+     * @property type - Type of a counter
+     * @property add - Adds a specific amount (or another counter) to the current counter
+     * @property subtract - Subtracts a specific amount (or another counter) from the current counter
+     * @property multiply - Multiplies the current counter by a specific amount (or another counter)
+     * @property divide - Divides the current counter by a specific amount (or another counter)
+     * @property set - Sets the current counter to a specific amount or another counter
+     * @property reset - Resets the current counter to 0
+     * @property copy_to - Copies the current counter to another counter
+     * @property display - Displays the current counter at a specific position
+     * @property to_obj - Returns item display for current counter as an object
+     * @property add_to - Adds the current counter to another and resets the current counter
+     * @property subtract_from - Subtracts the current counter from another and resets the current counter
+     * @property abs - Gets absolute value from counter
+     * @property neg - Converts value to negative value
+     * @property round - Rounds the floating point value into an integer
+     */
+    type float_counter = {
+        item: item;
+        type: item_type;
+        add: add;
+        subtract: subtract;
+        multiply: multiply;
+        divide: divide;
+        set: set;
+        reset: reset;
+        copy_to: copy_to;
+        display: display;
+        to_obj: to_obj;
+        add_to: add_to;
+        subtract_from: subtract_from;
+        abs: (...params: any[]) => any;
+        neg: (...params: any[]) => any;
+        round: (...params: any[]) => any;
     };
 }
 
@@ -630,6 +686,10 @@ declare module "events" {
      */
     function touch(dual_side?: boolean): event;
     /**
+     * Event that runs on every frame
+     */
+    function frame(): void;
+    /**
      * Listens to when the screen stops being touched
      * @param [dual_side = false] - Whether to only listen to dual side
      */
@@ -638,14 +698,18 @@ declare module "events" {
      * Listens to when two collision blocks collide
      * @param block_a - First block to listen to
      * @param block_b - Second block to listen to
+     * @param P1 - Player 1 as block a
+     * @param P2 - Player 2 as block a
      */
-    function collision(block_a: block, block_b: block): event;
+    function collision(block_a: block, block_b: block, P1: boolean, P2: boolean): event;
     /**
      * Listens to when two collision blocks stop colliding
      * @param block_a - First block to listen to
      * @param block_b - Second block to listen to
+     * @param P1 - Player 1 as block a
+     * @param P2 - Player 2 as block a
      */
-    function collision_exit(block_a: block, block_b: block): event;
+    function collision_exit(block_a: block, block_b: block, P1: boolean, P2: boolean): event;
     /**
      * Listens to when the player dies
      */
@@ -917,8 +981,18 @@ declare module "general-purpose" {
     function hide_player(): void;
     /**
      * Creates a gradient trigger and returns it
+     * @param color1 - First color of gradient
+     * @param color2 - Second color of gradient
+     * @param bl - Bottom left vertex
+     * @param br - Bottom right vertex
+     * @param tl - Top left vertex
+     * @param tr - Top right vertex
+     * @param [vertex_mode = true] - Whether to use vertex mode
+     * @param [blending = false] - Whether to make the gradient blending
+     * @param [layer = 0] - Layer of gradient (0-15)
+     * @returns Resulting gradient trigger
      */
-    var gradient_id: any;
+    function gradient(color1: color, color2: color, bl: group, br: group, tl: group, tr: group, vertex_mode?: boolean, blending?: boolean, layer?: number): any;
     /**
      * Creates a particle system
      * @param props - Dictionary holding particle properties (check {@tutorial Particles} for more info)
@@ -1273,6 +1347,23 @@ declare module "shaders" {
      * @param easing - How smoothly the effect should start
      */
     function sepia(target: number, duration: number, easing: easing): void;
+    /**
+     * Splits screen into sections
+     * @param target_x - How many sections to add on X axis
+     * @param target_y - How many sections to add on Y axis
+     * @param duration - How long it takes to start the effect
+     * @param easing - How smoothly the effect should start
+     */
+    function split_screen(target_x: number, target_y: number, duration: number, easing: easing): void;
+    /**
+     * Inverts colors on screen
+     * @param duration - How long it takes to start the effect
+     * @param easing - easing How smoothly the effect should start
+     * @param rgb - Color to use to customize filter color
+     * @param tween - Makes transitions smoother
+     * @param clamp - Limits RGB values to 1
+     */
+    function invert_color(target: number, duration: number, easing: easing, rgb: any[], tween: boolean, clamp: boolean): void;
 }
 
 declare module "events" {
@@ -1288,6 +1379,10 @@ declare module "events" {
      */
     function touch(dual_side?: boolean): event;
     /**
+     * Event that runs on every frame
+     */
+    function frame(): void;
+    /**
      * Listens to when the screen stops being touched
      * @param [dual_side = false] - Whether to only listen to dual side
      */
@@ -1296,14 +1391,18 @@ declare module "events" {
      * Listens to when two collision blocks collide
      * @param block_a - First block to listen to
      * @param block_b - Second block to listen to
+     * @param P1 - Player 1 as block a
+     * @param P2 - Player 2 as block a
      */
-    function collision(block_a: block, block_b: block): event;
+    function collision(block_a: block, block_b: block, P1: boolean, P2: boolean): event;
     /**
      * Listens to when two collision blocks stop colliding
      * @param block_a - First block to listen to
      * @param block_b - Second block to listen to
+     * @param P1 - Player 1 as block a
+     * @param P2 - Player 2 as block a
      */
-    function collision_exit(block_a: block, block_b: block): event;
+    function collision_exit(block_a: block, block_b: block, P1: boolean, P2: boolean): event;
     /**
      * Listens to when the player dies
      */

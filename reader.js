@@ -1,6 +1,7 @@
 const {
     parse
 } = require("node-html-parser"); // not exactly used for HTML lmao, similar enough though
+const { Readable } = require('stream');
 const zlib = require("zlib");
 const fs = require("fs");
 
@@ -28,25 +29,28 @@ class LevelReader {
         filename = `${process.env.localappdata}\\GeometryDash\\CCLocalLevels.dat`
     ) {
         return new Promise((resolve, reject) => {
-            let addr = this;
-            let output = [];
-            const readStream = fs.createReadStream(filename);
+            const size = fs.statSync(filename).size;
+            let output = Buffer.alloc(size);
+            // savefile reading stuff
+            const readStream = fs.createReadStream(filename, { highWaterMark: 1024 * 1024 });
 
-            readStream.on("data", (chunk) => output.push(chunk));
+            let offset = 0; // Offset for buffer
+            readStream.on('data', buffer => {
+                buffer.copy(output, offset);
+                offset += buffer.length;
+            });
 
-            readStream.on("end", () => {
+            readStream.on("end", async () => {
                 let last_level;
                 let add_to_level, set_level;
-
-                output = Buffer.concat(output);
                 for (let i = 0; i < output.length; i++) {
                     output[i] = output[i] ^ 11;
                 }
+                let b64out = Buffer.from(output.toString(), "base64");
                 output = zlib
-                    .unzipSync(Buffer.from(output.toString(), "base64"))
+                    .unzipSync(b64out)
                     .toString();
                 output = parse(output); // Base64 decodes savefile, then unzips savefile and parses XML
-
                 let info = output.childNodes[1].childNodes[0].childNodes[1].childNodes;
                 for (let i in info) {
                     let curr = info[i];
@@ -96,8 +100,9 @@ class LevelReader {
                     data: last_level,
                     add: add_to_level,
                     set: set_level,
-                    save: () => {
-                        let alm = zlib.gzipSync(output.toString());
+                    save: async () => {
+                        let outstr = output.toString();
+                        let alm = zlib.gzipSync(outstr);
                         alm = Buffer.from(
                             alm.toString("base64").replaceAll("/", "_").replaceAll("+", "-")
                         );

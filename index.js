@@ -15,7 +15,8 @@ const {
   count,
   x_position,
   event,
-  gamescene
+  gamescene,
+  frame
 } = require('./lib/events');
 const {
   spawn_trigger,
@@ -25,7 +26,9 @@ const {
   equal_to,
   less_than,
   greater_than,
-  for_loop
+  for_loop,
+  frame_loop,
+  frames
 } = require('./lib/control-flow');
 const {
   item_edit,
@@ -79,7 +82,7 @@ const $group = require('./types/group.js');
 const $color = require('./types/color.js');
 const $block = require('./types/block.js');
 const d = require('./properties/obj_props.js');
-const counter = require('./lib/counter');
+const { counter, float_counter } = require('./lib/counter');
 
 let explicit = {};
 
@@ -734,7 +737,7 @@ let exportToSavefile = (options = {}) => {
     }
     last += resulting;
     level.set(last);
-    level.save();
+    await level.save();
   })()
 };
 
@@ -1330,6 +1333,10 @@ let exps = {
   glitch, 
   bulge,
   split_screen,
+  float_counter,
+  frame_loop,
+  frames,
+  frame,
   reverse: () => {
     $.add(object({
       OBJ_ID: 1917

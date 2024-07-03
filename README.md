@@ -89,7 +89,7 @@ let fn = remappable(my_gr => {
 wait(0.5)
 fn(bl);
 ```
-- Particle systems have its own property system, check [particles.js](./particles.js) for info. Example:
+- Particle systems have its own property system, check [particles.js](./properties/particles.js) for info. Example:
 ```js
 $.add(particle_system({
 	MAX_PARTICLES: 30,

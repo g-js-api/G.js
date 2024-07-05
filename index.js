@@ -776,8 +776,8 @@ let exportConfig = (conf) => {
         break;
 
       case "savefile":
-        const level = await new LevelReader(options?.level_name, options?.path);
-        let last = remove_past_objects(level.data.levelstring, level.data.name);
+        const sf_level = await new LevelReader(options?.level_name, options?.path);
+        let last = remove_past_objects(sf_level.data.levelstring, sf_level.data.name);
         find_free(last);
         resolve(true);
         process.on('beforeExit', error => {
@@ -785,7 +785,7 @@ let exportConfig = (conf) => {
             prep_lvl();
             if (unavailable_g <= limit) {
               if (options?.info) {
-                console.log(`Writing to level: ${level.data.name}`);
+                console.log(`Writing to level: ${sf_level.data.name}`);
                 console.log('Finished, result stats:');
                 console.log('Object count:', resulting.split(';').length - 1);
                 console.log('Group count:', unavailable_g);
@@ -800,8 +800,8 @@ let exportConfig = (conf) => {
                 throw new Error(`Group count surpasses the limit! (${unavailable_g}/${limit})`);
             }
             last += resulting;
-            level.set(last);
-            level.save();
+            sf_level.set(last);
+            sf_level.save();
             process.exit(0);
           }
         });
@@ -812,6 +812,7 @@ let exportConfig = (conf) => {
           event = JSON.parse(event.data);
           if (event.response) {
             find_free(event.response.split(';').slice(1).join(';'));
+            level.raw_levelstring = event.response;
             resolve(true);
           }
           if (event.status !== "successful") throw new Error(`Live editor failed, ${event.error}: ${event.message}`)

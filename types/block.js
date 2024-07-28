@@ -1,7 +1,6 @@
 /**
  * @module block
  */
-let all_known_blocks = [];
 /**
  * @typedef {object} block
  * @property {function} if_colliding Returns whether the block is colliding with another one
@@ -21,7 +20,7 @@ class $block {
   constructor(a, specific = true) {
     this.value = a;
     this.type = 'block';
-    if (specific) all_known_blocks.push(a);
+    if (specific) all_known.blocks.push(a);
   }
   /**
    * 

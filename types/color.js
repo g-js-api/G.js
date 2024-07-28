@@ -1,7 +1,6 @@
 /**
  * @module color
  */
-let all_known_colors = [];
 /**
  * @typedef {object} color
  * @property {function} set Sets color to RGB value
@@ -24,7 +23,7 @@ class $color {
   constructor(a, specific = true) {
     this.value = a;
     this.type = 'color';
-    if (specific) all_known_colors.push(a);
+    if (specific) all_known.colors.push(a);
   }
   /**
    * Sets color to RGB value

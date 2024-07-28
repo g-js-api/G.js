@@ -96,7 +96,7 @@ let extract = (x) => {
   }
 };
 
-let all_known = {
+global.all_known = {
   groups: [],
   colors: [],
   blocks: []
@@ -155,7 +155,25 @@ let unknown_b = () => {
   return new $block(unavailable_b);
 };
 
+/**
+ * @typedef {object} context
+ * @property {string} name Name of the current context
+ * @property {group} group Group representing the current context
+ * @property {array} objects All objects in the current context
+ */
+/**
+ * Class allowing you to interfere with contexts, which are wrappers that assign groups to different objects
+ * @class
+ * @constructor
+ * @public
+ */
 class Context {
+  /**
+   * Creates a new context
+   * @param {string} name Name of context
+   * @param {boolean} [setToDefault=false] Whether to automatically switch to the context
+   * @param {group} [group=unknown_g()] The group to give to the context
+   */
   constructor(name, setToDefault = false, group = unknown_g()) {
     this.name = name;
     this.group = group;
@@ -166,15 +184,36 @@ class Context {
   }
   static last_contexts = {};
   static last_context_children = {};
+  /**
+   * The name of the current context
+   */
   static current = "global";
+  /**
+   * A list of all contexts added
+   */
   static list = {};
-
+  /**
+   * Switches the context
+   * @param {string|group} name Name or group of context to switch to
+   */
   static set(name) {
+    if (typeof name == 'object' && name?.value) {
+      Context.current = Context.findByGroup(name).name;
+      return;
+    };
     Context.current = name;
   }
+  /**
+   * Converts an object into a context
+   * @param {context} context Object to convert into a context
+   */
   static add(context) {
     Context.list[context.name] = context;
   }
+  /**
+   * Adds an object into the current context
+   * @param {object} objectToAdd Object to add into current context
+   */
   static addObject(objectToAdd) {
     if (objectToAdd.type == "object") {
       Context.findByName(Context.current).objects.push(objectToAdd.obj_props);
@@ -182,6 +221,10 @@ class Context {
     }
     Context.findByName(Context.current).objects.push(objectToAdd);
   }
+  /**
+   * Links an existing context into the current one, allowing you to find the parent context of another context
+   * @param {context} context Context to link into current
+   */
   static link(context) {
     let input_context = Context.findByName(context);
     let curr_ctx = Context.findByName(Context.current);
@@ -194,9 +237,19 @@ class Context {
       Context.last_context_children[context] = curr_ctx.name;
     }
   }
+  /**
+   * Checks if a context has a parent
+   * @param {context} ctx Context to check for parent
+   * @returns {boolean} Whether context has a parent
+   */
   static isLinked(ctx) {
     return !!ctx?.linked_to;
   }
+  /**
+   * Finds a context based off of its assigned group
+   * @param {group} groupToSearch 
+   * @returns {context} Found context
+   */
   static findByGroup(groupToSearch) {
     if (typeof groupToSearch == "number") {
       groupToSearch = group(groupToSearch);
@@ -209,6 +262,11 @@ class Context {
       }
     }
   }
+  /**
+   * Finds a context based off of its name
+   * @param {string} name Name of the context
+   * @returns {context} Found context
+   */
   static findByName(name) {
     return Context.list[name];
   }
@@ -344,7 +402,7 @@ let object = (dict) => {
  * @param {function} callback Function storing triggers to put inside of group
  * @returns {group} Group ID of trigger function
  */
-let trigger_function = (cb, autocall = true) => {
+let trigger_function = (cb) => {
   let oldContext = Context.current;
   let newContext = new Context(crypto.randomUUID(), true);
   cb(newContext.group);

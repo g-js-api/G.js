@@ -1,7 +1,6 @@
 /**
  * @module group
  */
-let all_known_groups = [];
 /**
  * @typedef {object} group
  * @property {function} remap Remaps multiple IDs inside of the group to others
@@ -36,7 +35,7 @@ class $group {
     constructor(a, specific = true) {
         this.value = a;
         this.type = 'group';
-        if (specific) all_known_groups.push(a);
+        if (specific) all_known.groups.push(a);
     }
     /**
     * Remaps multiple IDs inside of the group to others

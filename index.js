@@ -224,10 +224,11 @@ class Context {
   /**
    * Links an existing context into the current one, allowing you to find the parent context of another context
    * @param {context} context Context to link into current
+   * @param {string} ctxLink Optional context that should be the parent of input context
    */
-  static link(context) {
+  static link(context, ctxLink = undefined) {
     let input_context = Context.findByName(context);
-    let curr_ctx = Context.findByName(Context.current);
+    let curr_ctx = !ctxLink ? Context.findByName(Context.current) : Context.findByName(ctxLink);
     if (Context.isLinked(input_context)) {
       input_context.linked_to = curr_ctx.linked_to;
       Context.last_context_children[input_context.linked_to] = context;
@@ -243,7 +244,7 @@ class Context {
    * @returns {boolean} Whether context has a parent
    */
   static isLinked(ctx) {
-    return !!ctx?.linked_to;
+    return 'linked_to' in ctx;
   }
   /**
    * Finds a context based off of its assigned group
@@ -420,7 +421,7 @@ let wait = (time) => {
   let newContext = new Context(id);
   $.add(spawn_trigger(newContext.group, time));
   Context.set(id);
-  Context.link(oldContext);
+  Context.link(newContext.name, oldContext);
 };
 
 let reverse = {};
@@ -608,8 +609,23 @@ let add = (o) => {
 let remove_group = 9999;
 let already_prepped = false;
 
-let prep_lvl = () => {
+// removes contexts if they are empty + any unnecessary triggers associating with them
+let optimize = () => {
+   for (let child in Context.last_context_children) {
+    let parent = Context.list[Context.last_context_children[child]];
+    let childCtx = Context.list[child];
+    if (childCtx.objects.length === 0) {
+      delete Context.list[child];
+      let emptyCallIndex = parent.objects.map(x => x.TARGET.value == childCtx.group.value)
+      Context.list[Context.last_context_children[child]].objects = Context.list[Context.last_context_children[child]].objects.filter((_, i) => i !== emptyCallIndex.indexOf(true));
+      unavailable_g--;
+    }
+   };
+};
+
+let prep_lvl = (optimize_op = true) => {
   if (already_prepped) return;
+  if (optimize_op) optimize();
   let name = 'GLOBAL_FULL';
   Context.add(new Context(name, true, group(0)))
   Context.last_contexts[name] = name;
@@ -675,7 +691,7 @@ let getLevelString = (options = {}) => {
     if (options.info) {
       console.log('Finished, result stats:');
       console.log('Object count:', resulting.split(';').length - 1);
-      console.log('Group count:', unavailable_g);
+      console.log('Group count:', unavailable_g - 1);
       console.log('Color count:', unavailable_c);
     }
   } else {
@@ -814,7 +830,7 @@ let exportConfig = (conf) => {
     let options = conf.options;
     switch (conf.type) {
       case "levelstring":
-        prep_lvl();
+        prep_lvl(conf?.options?.optimize);
         if (unavailable_g <= limit) {
           if (options?.info) {
             console.log('Finished, result stats:');
@@ -840,7 +856,7 @@ let exportConfig = (conf) => {
         resolve(true);
         process.on('beforeExit', error => {
           if (!error) {
-            prep_lvl();
+            prep_lvl(conf?.options?.optimize);
             if (unavailable_g <= limit) {
               if (options?.info) {
                 console.log(`Writing to level: ${sf_level.data.name}`);

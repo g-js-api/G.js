@@ -75,6 +75,7 @@ const {
 const keyframe_system = require('./lib/keyframes.js');
 const particle_props = require('./properties/particles.js');
 const events = require('./properties/game_events.js');
+const log = require('./lib/log.js');
 const WebSocket = require('ws');
 const crypto = require('crypto');
 const LevelReader = require('./reader');
@@ -1419,6 +1420,7 @@ let exps = {
   frame_loop,
   frames,
   frame,
+  log,
   reverse: () => {
     $.add(object({
       OBJ_ID: 1917

@@ -631,6 +631,14 @@ let prep_lvl = (optimize_op = true) => {
   Context.last_contexts[name] = name;
   // contexts.global.group.call();
   for (let i in Context.list) {
+    // undefined prop filter
+    for (let object in Context.findByName(i).objects) {
+      object = Context.findByName(i).objects[object];
+      for (let prop in object) {
+        if (object[prop] == undefined) delete object[prop];
+      };
+    }
+    // main preparation
     if (!(+(i !== 'GLOBAL_FULL') ^ +(i !== 'global'))) { // XOR if it was logical
       let context = Context.findByName(i);
       // gives groups to objects in context
@@ -646,7 +654,6 @@ let prep_lvl = (optimize_op = true) => {
             object.GROUPS = [object.GROUPS, context.group, group(remove_group)];
           }
         }
-
         if (!(object.hasOwnProperty("SPAWN_TRIGGERED") || object.hasOwnProperty(obj_props.SPAWN_TRIGGERED))) {
           object.SPAWN_TRIGGERED = 1;
         }

@@ -60,15 +60,15 @@ const {
   player_control,
   particle_system
 } = require('./lib/general-purpose');
-const { 
-  shader_layers, 
-  shader_layer, 
-  sepia, 
-  hue_shift, 
-  grayscale, 
-  pixelate, 
-  chromatic, 
-  glitch, 
+const {
+  shader_layers,
+  shader_layer,
+  sepia,
+  hue_shift,
+  grayscale,
+  pixelate,
+  chromatic,
+  glitch,
   bulge,
   split_screen
 } = require('./lib/shaders.js');
@@ -161,6 +161,7 @@ let unknown_b = () => {
  * @property {string} name Name of the current context
  * @property {group} group Group representing the current context
  * @property {array} objects All objects in the current context
+ * @property {array} children Child contexts
  */
 /**
  * Class allowing you to interfere with contexts, which are wrappers that assign groups to different objects
@@ -179,6 +180,7 @@ class Context {
     this.name = name;
     this.group = group;
     this.objects = [];
+    this.children = [];
     Context.last_contexts[name] = name;
     if (setToDefault) Context.set(name);
     Context.add(this);
@@ -238,6 +240,7 @@ class Context {
       Context.last_contexts[context] = input_context.name;
       Context.last_context_children[context] = curr_ctx.name;
     }
+    curr_ctx.children.push(context);
   }
   /**
    * Checks if a context has a parent
@@ -417,6 +420,7 @@ let trigger_function = (cb) => {
  * @param {number} time How long to wait
  */
 let wait = (time) => {
+  if (time == 0) return;
   let id = crypto.randomUUID();
   let oldContext = Context.current;
   let newContext = new Context(id);
@@ -609,19 +613,26 @@ let add = (o) => {
 
 let remove_group = 9999;
 let already_prepped = false;
-
+let indexOfFrom = (array, value, startIndex) => {
+  let newArr = array.slice(startIndex);
+  return newArr.indexOf(value) !== -1 ? newArr.indexOf(value) + (array.length - newArr.length) : -1;
+}
+let ifInGroups = (groupsArr, group) => {
+  groupsArr?.value == undefined ? (groupsArr.map(x => x.value).includes(group.value)) : groupsArr.value == group.value;
+}
 // removes contexts if they are empty + any unnecessary triggers associating with them
 let optimize = () => {
-   for (let child in Context.last_context_children) {
+  for (let child in Context.last_context_children) {
     let parent = Context.list[Context.last_context_children[child]];
     let childCtx = Context.list[child];
+    // handles empty contexts
     if (childCtx.objects.length === 0) {
       delete Context.list[child];
-      let emptyCallIndex = parent.objects.map(x => x.TARGET.value == childCtx.group.value)
-      Context.list[Context.last_context_children[child]].objects = Context.list[Context.last_context_children[child]].objects.filter((_, i) => i !== emptyCallIndex.indexOf(true));
+      let emptyCallIndex = parent.objects.map(x => x.TARGET.value == childCtx.group.value);
+      parent.objects = parent.objects.filter((_, i) => i !== indexOfFrom(emptyCallIndex, true, i));
       unavailable_g--;
     }
-   };
+  };
 };
 
 let prep_lvl = (optimize_op = true) => {
@@ -1406,14 +1417,14 @@ let exps = {
   Context,
   ignore_context_change,
   level,
-  shader_layers, 
-  shader_layer, 
-  sepia, 
-  hue_shift, 
-  grayscale, 
-  pixelate, 
-  chromatic, 
-  glitch, 
+  shader_layers,
+  shader_layer,
+  sepia,
+  hue_shift,
+  grayscale,
+  pixelate,
+  chromatic,
+  glitch,
   bulge,
   split_screen,
   float_counter,

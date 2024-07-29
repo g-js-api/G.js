@@ -56,9 +56,8 @@ class $group {
      * @param {number} x_multiplier How much to multiply the amount by on X axis
      * @param {number} y_multiplier How much to multiply the amount by on Y axis
      * @param {boolean} multiply Whether to fit the amount of units moved into GD units (multiplying by 3 does this)
-     * @param {boolean} delay_trig Whether to do wait(duration)
      */
-    move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, delay_trig = true) {
+    move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true) {
         $.add(object({
             OBJ_ID: 901,
             TARGET: this,
@@ -68,7 +67,7 @@ class $group {
             EASING: easing,
             EASING_RATE: easing_rate,
         }));
-        if (delay_trig && duration !== 0) wait(duration);
+        wait(duration);
     }
 
     /**
@@ -221,7 +220,7 @@ class $group {
             EASING_RATE: easing_rate,
             LOCK_OBJECT_ROTATION: lock_object_rotation
         }));
-        if (duration) wait(duration);
+        wait(duration);
     }
 
     /**
@@ -292,7 +291,7 @@ class $group {
             EASING: easing,
             EASING_RATE: easing_rate,
         }));
-        if (duration) wait(duration);
+        wait(duration);
     }
     /**
      * Moves group to specific coordinate

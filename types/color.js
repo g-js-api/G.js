@@ -30,9 +30,8 @@ class $color {
    * @param {array} c RGB value
    * @param {number} [duration=0] How long it takes for color to change
    * @param {boolean} [blending=false] Whether to make color blending
-   * @param {boolean} [delay_trig=true] Whether to do wait(duration)
    */
-  set(c, duration = 0, blending = false, delay_trig = true) {
+  set(c, duration = 0, blending = false) {
     $.add(object({
       OBJ_ID: 899,
       DURATION: duration,
@@ -44,7 +43,7 @@ class $color {
       TARGET_COLOR: this,
       ACTIVE_TRIGGER: true,
     }));
-    if (delay_trig && duration !== 0) wait(duration);
+    wait(duration);
   }
   /**
    * Copy a color channel to another
@@ -67,7 +66,7 @@ class $color {
       TARGET_COLOR: this,
       36: 1,
     }));
-    if (duration) wait(duration);
+    wait(duration);
   }
   /**
    * Pulses color w/ HSV

@@ -219,7 +219,7 @@ class Context {
    */
   static addObject(objectToAdd) {
     if (objectToAdd.type == "object") {
-      Context.findByName(Context.current).objects.push(objectToAdd.obj_props);
+      Context.findByName(Context.current).objects.push(callback_objects_fn(objectToAdd).obj_props);
       return;
     }
     Context.findByName(Context.current).objects.push(objectToAdd);
@@ -397,7 +397,7 @@ let object = (dict) => {
       return return_val;
     },
     // copied old $.add code here so I can migrate to enforcing object() usage in the future
-    add: () => Context.addObject(dict)
+    add: () => Context.addObject(return_val)
   };
   return return_val;
 };
@@ -768,6 +768,11 @@ let easings = {
 extract(easings);
 global.obj_props = reverse;
 
+let callback_objects_fn = x => x;
+let callback_objects = (cb) => {
+  callback_objects_fn = cb
+};
+
 let extend_trigger_func = (t, cb) => {
   const context = Context.findByGroup(t);
   const oldContext = Context.current;
@@ -1048,11 +1053,18 @@ let $ = {
   liveEditor,
 
   /**
+   * Maps every trigger that gets added to the level
+   * @param {function} callback - Function that maps triggers added to the level.
+   */
+  callback_objects,
+
+  /**
    * Extends a trigger function by adding more triggers to it.
    * @param {group} trigger_func - Trigger function to extend.
    * @param {function} callback - Function that adds more triggers to `trigger_func`.
    */
   extend_trigger_func,
+
   /**
    * Returns group of current trigger function context.
    * @returns {group} Group of current trigger function context.

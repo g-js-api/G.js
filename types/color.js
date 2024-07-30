@@ -23,7 +23,7 @@ class $color {
   constructor(a, specific = true) {
     this.value = a;
     this.type = 'color';
-    if (specific) all_known.colors.push(a);
+    if (specific && !all_known.colors.includes(a)) all_known.colors.push(a);
   }
   /**
    * Sets color to RGB value

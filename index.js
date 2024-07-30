@@ -630,7 +630,6 @@ let optimize = () => {
       delete Context.list[child];
       let emptyCallIndex = parent.objects.map(x => x.TARGET.value == childCtx.group.value);
       parent.objects = parent.objects.filter((_, i) => i !== indexOfFrom(emptyCallIndex, true, i));
-      unavailable_g--;
     }
   };
 };

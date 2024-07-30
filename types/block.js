@@ -20,7 +20,7 @@ class $block {
   constructor(a, specific = true) {
     this.value = a;
     this.type = 'block';
-    if (specific) all_known.blocks.push(a);
+    if (specific && !all_known.blocks.includes(a)) all_known.blocks.push(a);
   }
   /**
    * 

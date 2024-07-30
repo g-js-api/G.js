@@ -35,7 +35,7 @@ class $group {
     constructor(a, specific = true) {
         this.value = a;
         this.type = 'group';
-        if (specific) all_known.groups.push(a);
+        if (specific && !all_known.groups.includes(a)) all_known.groups.push(a);
     }
     /**
     * Remaps multiple IDs inside of the group to others

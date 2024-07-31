@@ -1,10 +1,26 @@
 {
-    "opts": {
-      "template": "node_modules/docdash",
-      "tutorials": "./tutorials"
-    },
-    "source": {
-      "include": ["index.js", "types/group.js", "types/color.js", "types/block.js", "lib/events.js", "lib/counter.js", "lib/control-flow.js", "lib/general-purpose.js", "lib/items.js", "lib/keyframes.js", "properties/particles.js", "properties/game_events.js", "properties/obj_props.js", "lib/shaders.js"],
-      "exclude": ["node_modules"]      
-    }
+  "opts": {
+    "template": "node_modules/docdash",
+    "tutorials": "./tutorials"
+  },
+  "source": {
+    "include": [
+      "types/group.js",
+      "types/color.js",
+      "types/block.js",
+      "lib/events.js",
+      "lib/counter.js",
+      "lib/control-flow.js",
+      "lib/general-purpose.js",
+      "lib/items.js",
+      "lib/keyframes.js",
+      "properties/particles.js",
+      "properties/game_events.js",
+      "properties/obj_props.js",
+      "lib/shaders.js"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+  }
 }

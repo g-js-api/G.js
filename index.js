@@ -219,7 +219,8 @@ class Context {
    */
   static addObject(objectToAdd) {
     if (objectToAdd.type == "object") {
-      Context.findByName(Context.current).objects.push(callback_objects_fn(objectToAdd).obj_props);
+      objectToAdd = callback_objects_fn(objectToAdd) || objectToAdd;
+      Context.findByName(Context.current).objects.push(objectToAdd.obj_props);
       return;
     }
     Context.findByName(Context.current).objects.push(objectToAdd);
@@ -1064,7 +1065,6 @@ let $ = {
    * @param {function} callback - Function that adds more triggers to `trigger_func`.
    */
   extend_trigger_func,
-
   /**
    * Returns group of current trigger function context.
    * @returns {group} Group of current trigger function context.

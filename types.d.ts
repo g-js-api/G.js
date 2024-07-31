@@ -20,6 +20,73 @@ declare module "index" {
      */
     function unknown_b(): block;
     /**
+     * @property name - Name of the current context
+     * @property group - Group representing the current context
+     * @property objects - All objects in the current context
+     * @property children - Child contexts
+     */
+    type context = {
+        name: string;
+        group: group;
+        objects: any[];
+        children: any[];
+    };
+    /**
+     * Creates a new context
+     * @param name - Name of context
+     * @param [setToDefault = false] - Whether to automatically switch to the context
+     * @param [group = unknown_g()] - The group to give to the context
+     */
+    class Context {
+        constructor(name: string, setToDefault?: boolean, group?: group);
+        /**
+         * The name of the current context
+         */
+        current: any;
+        /**
+         * A list of all contexts added
+         */
+        list: any;
+        /**
+         * Switches the context
+         * @param name - Name or group of context to switch to
+         */
+        static set(name: string | group): void;
+        /**
+         * Converts an object into a context
+         * @param context - Object to convert into a context
+         */
+        static add(context: context): void;
+        /**
+         * Adds an object into the current context
+         * @param objectToAdd - Object to add into current context
+         */
+        static addObject(objectToAdd: any): void;
+        /**
+         * Links an existing context into the current one, allowing you to find the parent context of another context
+         * @param context - Context to link into current
+         * @param ctxLink - Optional context that should be the parent of input context
+         */
+        static link(context: context, ctxLink: string): void;
+        /**
+         * Checks if a context has a parent
+         * @param ctx - Context to check for parent
+         * @returns Whether context has a parent
+         */
+        static isLinked(ctx: context): boolean;
+        /**
+         * Finds a context based off of its assigned group
+         * @returns Found context
+         */
+        static findByGroup(groupToSearch: group): context;
+        /**
+         * Finds a context based off of its name
+         * @param name - Name of the context
+         * @returns Found context
+         */
+        static findByName(name: string): context;
+    }
+    /**
      * Creates a repeating trigger system that repeats while a condition is true
      * @param condition - Condition that defines whether the loop should keep on running (less_than/equal_to/greater_than(counter, number))
      * @param func - Function to run while the condition is true
@@ -163,6 +230,10 @@ declare module "index" {
          * Exports script to live editor using WSLiveEditor (requires Geode).
          */
         var liveEditor: any;
+        /**
+         * Maps every trigger that gets added to the level
+         */
+        var callback_objects: any;
         /**
          * Extends a trigger function by adding more triggers to it.
          */
@@ -2048,9 +2119,8 @@ declare module "color" {
          * @param c - RGB value
          * @param [duration = 0] - How long it takes for color to change
          * @param [blending = false] - Whether to make color blending
-         * @param [delay_trig = true] - Whether to do wait(duration)
          */
-        set(c: any[], duration?: number, blending?: boolean, delay_trig?: boolean): void;
+        set(c: any[], duration?: number, blending?: boolean): void;
         /**
          * Copy a color channel to another
          * @param c - Color channel to be copied
@@ -2145,9 +2215,8 @@ declare module "group" {
          * @param x_multiplier - How much to multiply the amount by on X axis
          * @param y_multiplier - How much to multiply the amount by on Y axis
          * @param multiply - Whether to fit the amount of units moved into GD units (multiplying by 3 does this)
-         * @param delay_trig - Whether to do wait(duration)
          */
-        move(x: number, y: number, duration: number, easing: easing, easing_rate?: number, x_multiplier?: number, y_multiplier?: number, multiply?: boolean, delay_trig?: boolean): void;
+        move(x: number, y: number, duration: number, easing: easing, easing_rate?: number, x_multiplier?: number, y_multiplier?: number, multiply?: boolean): void;
         /**
          * Scales the group
          * @param center - Center of group for scaling

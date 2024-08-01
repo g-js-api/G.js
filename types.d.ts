@@ -194,16 +194,20 @@ declare module "index" {
     function exportConfig(conf: export_config): null | string;
     /**
      * Configuration for exporting levels.
-     * @property info - Whether to log information to console when finished
-     * @property group_count_warning - Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
-     * @property level_name - Name of level (only for exportToSavefile)
-     * @property path - Path to CCLocalLevels.dat savefile (only for exportToSavefile)
+     * @property [info = false] - Whether to log information to console when finished
+     * @property [group_count_warning = true] - Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
+     * @property [level_name = by default, it writes to your most recent level/topmost level] - Name of level (only for exportToSavefile)
+     * @property [path = path to savefile automatically detected based off of OS] - Path to CCLocalLevels.dat savefile (only for exportToSavefile)
+     * @property [reencrypt = false] - Whether to reencrypt savefile after editing it, or to let GD encrypt it
+     * @property [optimize = true] - Whether to optimize unused groups & triggers that point to unused groups
      */
     type save_config = {
-        info: boolean;
-        group_count_warning: boolean;
-        level_name: string;
-        path: string;
+        info?: boolean;
+        group_count_warning?: boolean;
+        level_name?: string;
+        path?: string;
+        reencrypt?: boolean;
+        optimize?: boolean;
     };
     /**
      * Core type holding important functions for adding to levels, exporting, and modifying scripts.

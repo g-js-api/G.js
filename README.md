@@ -1,6 +1,13 @@
 # G.js
 G.js - Create Geometry Dash levels (with a SPWN-like syntax) in JavaScript
 
+# Platforms available on
+The project now supports these platforms:
+- Windows
+- MacOS
+- Linux
+- Android
+
 # Support
 For support on how to use G.js, join the Discord server:
 [https://discord.gg/GwVd7K2cQY](https://discord.gg/GwVd7K2cQY)

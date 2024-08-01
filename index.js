@@ -874,7 +874,7 @@ let exportConfig = (conf) => {
         break;
 
       case "savefile":
-        const sf_level = await new LevelReader(options?.level_name, options?.path);
+        const sf_level = await new LevelReader(options?.level_name, options?.path, options?.reencrypt);
         let last = remove_past_objects(sf_level.data.levelstring, sf_level.data.name);
         find_free(last);
         resolve(true);
@@ -1002,11 +1002,13 @@ let liveEditor = (conf) => {
 /**
  * Configuration for exporting levels.
  * @typedef {object} save_config 
- * @property {boolean} info Whether to log information to console when finished
- * @property {boolean} group_count_warning Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
- * @property {string} level_name Name of level (only for exportToSavefile)
- * @property {string} path Path to CCLocalLevels.dat savefile (only for exportToSavefile)
- */
+ * @property {boolean} [info=false] Whether to log information to console when finished
+ * @property {boolean} [group_count_warning=true] Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
+ * @property {string} [level_name=by default, it writes to your most recent level/topmost level] Name of level (only for exportToSavefile)
+ * @property {string} [path=path to savefile automatically detected based off of OS] Path to CCLocalLevels.dat savefile (only for exportToSavefile)
+ * @property {boolean} [reencrypt=false] Whether to reencrypt savefile after editing it, or to let GD encrypt it
+ * @property {boolean} [optimize=true] Whether to optimize unused groups & triggers that point to unused groups
+*/
 
 /**
  * Core type holding important functions for adding to levels, exporting, and modifying scripts.

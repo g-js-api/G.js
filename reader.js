@@ -121,10 +121,10 @@ async function validateXMLHeader(filename) {
 
 let std_savefile_path;
 switch (process.platform) {
-    case "win32": std_savefile_path = path.join(process.env.localappdata, `GeometryDash/CCLocalLevels.dat`); console.log('windows detected'); break;
-    case "darwin":  std_savefile_path = path.join(process.env.HOME, `Library/Application Support/GeometryDash/CCLocalLevels.dat`); console.log('macos detected'); break;
-    case "linux": std_savefile_path = path.join(process.env.HOME, `.steam/steam/steamapps/compatdata/322170/pfx/drive_c/users/steamuser/Local Settings/Application Data/GeometryDash/CCLocalLevels.dat`); console.log('linux detected'); break;
-    case "android": std_savefile_path = `/data/data/com.robtopx.geometryjump/CCLocalLevels.dat`; console.log('android detected'); break;
+    case "win32": std_savefile_path = path.join(process.env.localappdata, `GeometryDash/CCLocalLevels.dat`); break;
+    case "darwin":  std_savefile_path = path.join(process.env.HOME, `Library/Application Support/GeometryDash/CCLocalLevels.dat`); break;
+    case "linux": std_savefile_path = path.join(process.env.HOME, `.steam/steam/steamapps/compatdata/322170/pfx/drive_c/users/steamuser/Local Settings/Application Data/GeometryDash/CCLocalLevels.dat`); break;
+    case "android": std_savefile_path = `/data/data/com.robtopx.geometryjump/CCLocalLevels.dat`; break;
 }
 
 class LevelReader {

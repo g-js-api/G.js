@@ -56,8 +56,9 @@ class $group {
      * @param {number} x_multiplier How much to multiply the amount by on X axis
      * @param {number} y_multiplier How much to multiply the amount by on Y axis
      * @param {boolean} multiply Whether to fit the amount of units moved into GD units (multiplying by 3 does this)
+     * * @param {boolean} silent Make move trigger take no time
      */
-    move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true) {
+    move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, silent = false) {
         $.add(object({
             OBJ_ID: 901,
             TARGET: this,
@@ -66,7 +67,7 @@ class $group {
             DURATION: duration,
             EASING: easing,
             EASING_RATE: easing_rate,
-        }));
+        }).with(544, silent));
         wait(duration);
     }
 

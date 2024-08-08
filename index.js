@@ -58,7 +58,8 @@ const {
   options,
   end,
   player_control,
-  particle_system
+  particle_system,
+  spawn_particle
 } = require('./lib/general-purpose');
 const {
   shader_layers,
@@ -390,11 +391,11 @@ let object = (dict) => {
     type: 'object',
     obj_props: dict,
     with: (prop, val) => {
-      if (typeof prop == "string") {
+      if (typeof prop == "string" && isNaN(parseInt(prop))) {
         dict[prop] = val;
         return return_val;
       }
-      dict[d[prop]] = val;
+      dict[d[prop] || prop] = val;
       return return_val;
     },
     // copied old $.add code here so I can migrate to enforcing object() usage in the future
@@ -1445,6 +1446,7 @@ let exps = {
   frames,
   frame,
   log,
+  spawn_particle,
   reverse: () => {
     $.add(object({
       OBJ_ID: 1917

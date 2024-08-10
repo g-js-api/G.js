@@ -308,10 +308,10 @@ let while_loop = (r, triggerFunction, del = 0.05) => {
   let check_func;
   if (oldContextName == "global") {
     check_func = trigger_function(() => {
-      count.if_is(comparison, other, newContext.group);
+      compare(count, comparison, other, newContext.group);
     });
   } else {
-    count.if_is(comparison, other, newContext.group);
+    compare(count, comparison, other, newContext.group);
   }
 
   Context.set(newContext.name);

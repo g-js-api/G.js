@@ -1113,16 +1113,15 @@ let refs = {
   compare_ops: [null, "GREATER", "GREATER_OR_EQ", "LESS", "LESS_OR_EQ", "NOT_EQ"],
   absneg: [null, "ABS", "NEG"],
   rfc: [null, "RND", "FLR", "CEI"],
-}
+};
 for (let i in refs) {
   i = refs[i];
   i.forEach((x, i) => {
     if (x) {
-      global[x] = i
+      global[x] = i;
     }
   })
 }
-
 String.prototype.to_obj = function () {
   let or = object({
     OBJ_ID: 914,
@@ -1346,7 +1345,6 @@ let animations = {
     fromAttack03: 8
   }
 };
-
 let exps = {
   // constants
   EQUAL_TO: 0,
@@ -1455,5 +1453,4 @@ let exps = {
   rgb: (r, g, b) => [r, g, b],
   rgba: (r, g, b, a) => [r, g, b, a],
 };
-
 extract(exps);

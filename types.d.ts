@@ -198,7 +198,7 @@ declare module "index" {
      * @property [group_count_warning = true] - Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
      * @property [level_name = by default, it writes to your most recent level/topmost level] - Name of level (only for exportToSavefile)
      * @property [path = path to savefile automatically detected based off of OS] - Path to CCLocalLevels.dat savefile (only for exportToSavefile)
-     * @property [reencrypt = false] - Whether to reencrypt savefile after editing it, or to let GD encrypt it
+     * @property [reencrypt = true] - Whether to reencrypt savefile after editing it, or to let GD encrypt it
      * @property [optimize = true] - Whether to optimize unused groups & triggers that point to unused groups
      */
     type save_config = {
@@ -1115,6 +1115,21 @@ declare module "general-purpose" {
      * @returns Returned particle system
      */
     function particle_system(props: dictionary, use_obj_color?: boolean, animate_on_trigger?: boolean, animate_active_only?: boolean, quick_start?: boolean): any;
+    /**
+     * Implementation of Spawn Particle trigger
+     * @param particle_group - Group ID of particle system
+     * @param pos_group - Target location to spawn trigger system in
+     * @param offset_x - How much to to offset the particle system from the target on the X axis
+     * @param offset_y - How much to to offset the particle system from the target on the Y axis
+     * @param scale - Scale of particle system
+     * @param scale_var - Value to randomly add or decrease to scale
+     * @param rotation - How many angles the system is rotated by
+     * @param rotation_var - Value to randomly add or decrease to rotation
+     * @param offvar_x - Area to randomly spawn particles in on X axis
+     * @param offvar_y - Area to randomly spawn particles in on Y axis
+     * @param match_rot - Makes the rotation of several particles match
+     */
+    function spawn_particle(particle_group: group, pos_group: group, offset_x: number, offset_y: number, scale?: number, scale_var: number, rotation: number, rotation_var: number, offvar_x: number, offvar_y: number, match_rot: boolean): void;
     /**
      * Implementation of random trigger
      * @param gr1 - Group 1
@@ -2219,6 +2234,7 @@ declare module "group" {
          * @param x_multiplier - How much to multiply the amount by on X axis
          * @param y_multiplier - How much to multiply the amount by on Y axis
          * @param multiply - Whether to fit the amount of units moved into GD units (multiplying by 3 does this)
+        * @param {boolean} silent Make move trigger take no time
          */
         move(x: number, y: number, duration: number, easing: easing, easing_rate?: number, x_multiplier?: number, y_multiplier?: number, multiply?: boolean): void;
         /**

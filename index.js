@@ -636,7 +636,7 @@ let optimize = () => {
   };
 };
 
-let prep_lvl = (optimize_op = true) => {
+let prep_lvl = (optimize_op = true, replace = true) => {
   if (already_prepped) return;
   if (optimize_op) optimize();
   let name = 'GLOBAL_FULL';
@@ -658,13 +658,25 @@ let prep_lvl = (optimize_op = true) => {
       let objects = context.objects;
       for (let i = 0; i < objects.length; i++) {
         let object = objects[i];
-        if (!object.GROUPS) {
-          object.GROUPS = [context.group, group(remove_group)];
-        } else {
-          if (Array.isArray(object.GROUPS)) {
-            object.GROUPS.push(context.group, group(remove_group));
+        if (replace) {
+          if (!object.GROUPS) {
+            object.GROUPS = [context.group, group(remove_group)];
           } else {
-            object.GROUPS = [object.GROUPS, context.group, group(remove_group)];
+            if (Array.isArray(object.GROUPS)) {
+              object.GROUPS.push(context.group, group(remove_group));
+            } else {
+              object.GROUPS = [object.GROUPS, context.group, group(remove_group)];
+            }
+          }
+        } else {
+          if (!object.GROUPS) {
+            object.GROUPS = [context.group];
+          } else {
+            if (Array.isArray(object.GROUPS)) {
+              object.GROUPS.push(context.group);
+            } else {
+              object.GROUPS = [object.GROUPS, context.group];
+            }
           }
         }
         if (!(object.hasOwnProperty("SPAWN_TRIGGERED") || object.hasOwnProperty(obj_props.SPAWN_TRIGGERED))) {
@@ -680,13 +692,15 @@ let prep_lvl = (optimize_op = true) => {
       let objects = context.objects;
       for (let i = 0; i < objects.length; i++) {
         let object = objects[i];
-        if (!object.GROUPS) {
-          object.GROUPS = group(remove_group);
-        } else {
-          if (Array.isArray(object.GROUPS)) {
-            object.GROUPS.push(group(remove_group));
+        if (replace) {
+          if (!object.GROUPS) {
+            object.GROUPS = group(remove_group);
           } else {
-            object.GROUPS = [object.GROUPS, group(remove_group)];
+            if (Array.isArray(object.GROUPS)) {
+              object.GROUPS.push(group(remove_group));
+            } else {
+              object.GROUPS = [object.GROUPS, group(remove_group)];
+            }
           }
         }
       }
@@ -699,7 +713,7 @@ let prep_lvl = (optimize_op = true) => {
   already_prepped = true;
 };
 
-let limit = 9999;
+let limit = remove_group;
 let warn_lvlstr = true;
 let getLevelString = (options = {}) => {
   if (warn_lvlstr) process.emitWarning('Using $.getLevelString is deprecated and will be removed in the future.', {
@@ -783,9 +797,8 @@ let extend_trigger_func = (t, cb) => {
   Context.set(oldContext);
 };
 
-let remove_past_objects = (lvlstring, name) => {
+let remove_past_objects = (lvlstring) => {
   // remove_group
-  if (!lvlstring) throw new Error(`Level "${name}" has not been initialized, add any object to initialize the level then rerun this script`);
   return lvlstring.split(';').filter(x => {
     let keep = true;
     let spl = x.split(',');
@@ -853,9 +866,13 @@ let exportToSavefile = (options = {}) => {
 let exportConfig = (conf) => {
   return new Promise(async (resolve) => {
     let options = conf.options;
+    if (!conf?.options?.replacePastObjects) {
+      conf.options.replacePastObjects = true;
+      options.replacePastObjects = true;
+    }
     switch (conf.type) {
       case "levelstring":
-        prep_lvl(conf?.options?.optimize);
+        prep_lvl(conf?.options?.optimize, conf?.options?.replacePastObjects);
         if (unavailable_g <= limit) {
           if (options?.info) {
             console.log('Finished, result stats:');
@@ -876,12 +893,13 @@ let exportConfig = (conf) => {
 
       case "savefile":
         const sf_level = await new LevelReader(options?.level_name, options?.path, options?.reencrypt);
-        let last = remove_past_objects(sf_level.data.levelstring, sf_level.data.name);
+        if (!sf_level.data.levelstring) throw new Error(`Level "${sf_level.data.name}" has not been initialized, add any object to initialize the level then rerun this script`);
+        let last = conf?.options?.replacePastObjects ? remove_past_objects(sf_level.data.levelstring, sf_level.data.name) : sf_level.data.levelstring;
         find_free(last);
         resolve(true);
         process.on('beforeExit', error => {
           if (!error) {
-            prep_lvl(conf?.options?.optimize);
+            prep_lvl(conf?.options?.optimize, conf?.options?.replacePastObjects);
             if (unavailable_g <= limit) {
               if (options?.info) {
                 console.log(`Writing to level: ${sf_level.data.name}`);
@@ -918,10 +936,12 @@ let exportConfig = (conf) => {
         });
 
         socket.addEventListener('open', (event) => {
-          socket.send(JSON.stringify({
-            action: 'REMOVE_OBJECTS',
-            group: 9999,
-          })); // clears extra objects
+          if (conf?.options?.replacePastObjects) {
+            socket.send(JSON.stringify({
+              action: 'REMOVE_OBJECTS',
+              group: remove_group,
+            })); // clears extra objects 
+          }
           socket.send(JSON.stringify({
             action: 'GET_LEVEL_STRING',
             close: true
@@ -983,7 +1003,7 @@ let liveEditor = (conf) => {
   socket.addEventListener('open', (event) => {
     socket.send(JSON.stringify({
       action: 'REMOVE',
-      group: 9999,
+      group: remove_group,
     })); // clears extra objects
     lvlString.forEach((chunk, i) => {
       setTimeout(() => {
@@ -1009,8 +1029,8 @@ let liveEditor = (conf) => {
  * @property {string} [path=path to savefile automatically detected based off of OS] Path to CCLocalLevels.dat savefile (only for exportToSavefile)
  * @property {boolean} [reencrypt=true] Whether to reencrypt savefile after editing it, or to let GD encrypt it
  * @property {boolean} [optimize=true] Whether to optimize unused groups & triggers that point to unused groups
+ * @property {boolean} [replacePastObjects=true] Whether to delete all objects added by G.js in the past & replace them with the new objects
 */
-
 /**
  * Core type holding important functions for adding to levels, exporting, and modifying scripts.
  * @namespace $

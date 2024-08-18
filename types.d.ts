@@ -200,6 +200,7 @@ declare module "index" {
      * @property [path = path to savefile automatically detected based off of OS] - Path to CCLocalLevels.dat savefile (only for exportToSavefile)
      * @property [reencrypt = true] - Whether to reencrypt savefile after editing it, or to let GD encrypt it
      * @property [optimize = true] - Whether to optimize unused groups & triggers that point to unused groups
+     * @property [replacePastObjects = true] - Whether to delete all objects added by G.js in the past & replace them with the new objects
      */
     type save_config = {
         info?: boolean;
@@ -208,6 +209,7 @@ declare module "index" {
         path?: string;
         reencrypt?: boolean;
         optimize?: boolean;
+        replacePastObjects?: boolean;
     };
     /**
      * Core type holding important functions for adding to levels, exporting, and modifying scripts.

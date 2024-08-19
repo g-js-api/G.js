@@ -866,7 +866,7 @@ let exportToSavefile = (options = {}) => {
 let exportConfig = (conf) => {
   return new Promise(async (resolve) => {
     let options = conf.options;
-    if (!conf?.options?.replacePastObjects) {
+    if (conf?.options?.replacePastObjects == undefined) {
       conf.options.replacePastObjects = true;
       options.replacePastObjects = true;
     }

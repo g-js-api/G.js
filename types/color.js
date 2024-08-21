@@ -38,7 +38,7 @@ class $color {
       TRIGGER_RED: c[0],
       TRIGGER_GREEN: c[1],
       TRIGGER_BLUE: c[2],
-      OPACITY: c[3] || 1,
+      OPACITY: c[3] ?? 1,
       BLENDING: blending,
       TARGET_COLOR: this,
       ACTIVE_TRIGGER: true,

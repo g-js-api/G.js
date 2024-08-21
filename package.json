@@ -1,6 +1,6 @@
 {
   "name": "@g-js-api/g.js",
-  "version": "5.0.10",
+  "version": "5.0.11",
   "description": "G.js - Create Geometry Dash levels (with a SPWN-like syntax) in JavaScript",
   "main": "index.js",
   "scripts": {

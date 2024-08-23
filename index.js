@@ -630,7 +630,10 @@ let optimize = () => {
     // handles empty contexts
     if (childCtx.objects.length === 0) {
       delete Context.list[child];
-      let emptyCallIndex = parent.objects.map(x => x.TARGET.value == childCtx.group.value);
+      let emptyCallIndex = parent.objects.map(x => {
+        if (!x?.TARGET) return false;
+        return x.TARGET.value == childCtx.group.value;
+      });
       parent.objects = parent.objects.filter((_, i) => i !== indexOfFrom(emptyCallIndex, true, i));
     }
   };

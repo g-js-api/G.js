@@ -846,7 +846,7 @@ declare module "events" {
      * @param extra_id - Implementation of extra ID 1
      * @param extra_id2 - Implementation of extra ID 2
      */
-    function event(event: any[] | event_id, extra_id: group, extra_id2: group): event;
+    function event(event: any[] | event_id, extra_id: number, extra_id2: number): event;
     /**
      * Represents gamescene (all functions in this type are made to be used with on())
      * @property button_a - Returns an event when the left side is pressed
@@ -1554,7 +1554,7 @@ declare module "events" {
      * @param extra_id - Implementation of extra ID 1
      * @param extra_id2 - Implementation of extra ID 2
      */
-    function event(event: any[] | event_id, extra_id: group, extra_id2: group): event;
+    function event(event: any[] | event_id, extra_id: number, extra_id2: number): event;
     /**
      * Represents gamescene (all functions in this type are made to be used with on())
      * @property button_a - Returns an event when the left side is pressed

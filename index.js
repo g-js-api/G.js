@@ -873,6 +873,9 @@ let exportConfig = (conf) => {
       conf.options.replacePastObjects = true;
       options.replacePastObjects = true;
     }
+    if (conf?.options?.removeGroup !== undefined) {
+      remove_group = conf.options.removeGroup
+    };
     switch (conf.type) {
       case "levelstring":
         prep_lvl(conf?.options?.optimize, conf?.options?.replacePastObjects);

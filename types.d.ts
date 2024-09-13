@@ -201,6 +201,7 @@ declare module "index" {
      * @property [reencrypt = true] - Whether to reencrypt savefile after editing it, or to let GD encrypt it
      * @property [optimize = true] - Whether to optimize unused groups & triggers that point to unused groups
      * @property [replacePastObjects = true] - Whether to delete all objects added by G.js in the past & replace them with the new objects
+     * @property [removeGroup = 9999] - Group to use to mark objects to be automatically deleted when re-running the script (default is 9999)
      */
     type save_config = {
         info?: boolean;
@@ -210,6 +211,7 @@ declare module "index" {
         reencrypt?: boolean;
         optimize?: boolean;
         replacePastObjects?: boolean;
+        removeGroup?: number | group;
     };
     /**
      * Core type holding important functions for adding to levels, exporting, and modifying scripts.

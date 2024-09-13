@@ -597,22 +597,23 @@ let obj_to_levelstring = (l) => {
 };
 let resulting = '';
 
-let add = (o) => {
-  if (o?.type !== "object") {
-    process.emitWarning('Using plain dictionaries as an argument to $.add is deprecated and using the object() function will be enforced in the future.', {
-      type: 'DeprecationWarning',
-      detail: 'Wrap the object() function around the dictionary as an argument to $.add instead of using plain dictionaries.'
-    });
-  }
-  if (o?.type == "object") {
-    o.add(); // does the same thing as below, only reason $.add is not removed is so I can customize $.add in the future
-    return;
-  };
-  let newo = o;
-  if (newo.with) delete newo.with;
-  Context.addObject(newo);
+let add = (...objects) => {
+  objects.forEach(o => {
+    if (o?.type !== "object") {
+      process.emitWarning('Using plain dictionaries as an argument to $.add is deprecated and using the object() function will be enforced in the future.', {
+        type: 'DeprecationWarning',
+        detail: 'Wrap the object() function around the dictionary as an argument to $.add instead of using plain dictionaries.'
+      });
+    }
+    if (o?.type == "object") {
+      o.add(); // does the same thing as below, only reason $.add is not removed is so I can customize $.add in the future
+      return;
+    };
+    let newo = o;
+    if (newo.with) delete newo.with;
+    Context.addObject(newo);
+  });
 };
-
 let remove_group = 9999;
 let already_prepped = false;
 let indexOfFrom = (array, value, startIndex) => {
@@ -874,7 +875,7 @@ let exportConfig = (conf) => {
       options.replacePastObjects = true;
     }
     if (conf?.options?.removeGroup !== undefined) {
-      remove_group = conf.options.removeGroup
+      remove_group = typeof conf.options.removeGroup == "number" ? conf.options.removeGroup : conf.options.removeGroup?.value
     };
     switch (conf.type) {
       case "levelstring":
@@ -1036,6 +1037,7 @@ let liveEditor = (conf) => {
  * @property {boolean} [reencrypt=true] Whether to reencrypt savefile after editing it, or to let GD encrypt it
  * @property {boolean} [optimize=true] Whether to optimize unused groups & triggers that point to unused groups
  * @property {boolean} [replacePastObjects=true] Whether to delete all objects added by G.js in the past & replace them with the new objects
+ * @property {number|group} [removeGroup=9999] Group to use to mark objects to be automatically deleted when re-running the script (default is 9999)
 */
 /**
  * Core type holding important functions for adding to levels, exporting, and modifying scripts.

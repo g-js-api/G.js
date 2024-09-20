@@ -122,10 +122,12 @@ async function validateXMLHeader(filename) {
 let std_savefile_path;
 switch (process.platform) {
     case "win32": std_savefile_path = path.join(process.env.localappdata, `GeometryDash/CCLocalLevels.dat`); break;
-    case "darwin":  std_savefile_path = path.join(process.env.HOME, `Library/Application Support/GeometryDash/CCLocalLevels.dat`); break;
+    case "darwin": std_savefile_path = path.join(process.env.HOME, `Library/Application Support/GeometryDash/CCLocalLevels.dat`); break;
     case "linux": std_savefile_path = path.join(process.env.HOME, `.steam/steam/steamapps/compatdata/322170/pfx/drive_c/users/steamuser/Local Settings/Application Data/GeometryDash/CCLocalLevels.dat`); break;
     case "android": std_savefile_path = `/data/data/com.robtopx.geometryjump/CCLocalLevels.dat`; break;
 }
+
+let cachedSavefile;
 
 class LevelReader {
     constructor(
@@ -142,15 +144,18 @@ class LevelReader {
             // macos savefile decryption
             if (process.platform === 'darwin') {
                 let output;
-                if (!isAlreadyDecoded) {
-                    const decryptTransform = new DecryptTransform();
-                    let macos_decrypted = readStream.pipe(decryptTransform);
-                    output = await streamToString(macos_decrypted);
-                    output = parse(output);
-                } else {
-                    output = await streamToString(readStream);
-                    output = parse(output);
-                }
+                if (!cachedSavefile) {
+                    if (!isAlreadyDecoded) {
+                        const decryptTransform = new DecryptTransform();
+                        let macos_decrypted = readStream.pipe(decryptTransform);
+                        output = await streamToString(macos_decrypted);
+                        output = parse(output);
+                    } else {
+                        output = await streamToString(readStream);
+                        output = parse(output);
+                    }
+                    cachedSavefile = output;
+                } else output = cachedSavefile;
                 let info = output.childNodes[1].childNodes[0].childNodes[1].childNodes;
                 for (let i in info) {
                     let curr = info[i];
@@ -210,28 +215,7 @@ class LevelReader {
                 });
                 return;
             };
-            const size = fs.statSync(filename).size;
-            let output = Buffer.alloc(size);
-            // savefile reading stuff
-            let offset = 0; // Offset for buffer
-            readStream.on('data', buffer => {
-                buffer.copy(output, offset);
-                offset += buffer.length;
-            });
-
-            readStream.on("end", async () => {
-                if (!isAlreadyDecoded) {
-                    for (let i = 0; i < output.length; i++) {
-                        output[i] = output[i] ^ 11;
-                    }
-                    let b64out = Buffer.from(output.toString(), "base64");
-                    output = zlib
-                        .unzipSync(b64out)
-                        .toString();
-                } else {
-                    output = output.toString();
-                }
-                output = parse(output); // Base64 decodes savefile, then unzips savefile and parses XML
+            let onEnd = async (output) => {
                 let info = output.childNodes[1].childNodes[0].childNodes[1].childNodes;
                 for (let i in info) {
                     let curr = info[i];
@@ -296,7 +280,36 @@ class LevelReader {
                         fs.writeFileSync(filename, outstr);
                     },
                 });
-            });
+            }
+            if (!cachedSavefile) {
+                const size = fs.statSync(filename).size;
+                let output = Buffer.alloc(size);
+                // savefile reading stuff
+                let offset = 0; // Offset for buffer
+                readStream.on('data', buffer => {
+                    buffer.copy(output, offset);
+                    offset += buffer.length;
+                });
+                readStream.on("end", () => {
+                    if (!isAlreadyDecoded) {
+                        for (let i = 0; i < output.length; i++) {
+                            output[i] = output[i] ^ 11;
+                        }
+                        let b64out = Buffer.from(output.toString(), "base64");
+                        output = zlib
+                            .unzipSync(b64out)
+                            .toString();
+                    } else {
+                        output = output.toString();
+                    }
+                    output = parse(output); // Base64 decodes savefile, then unzips savefile and parses XML
+                    cachedSavefile = output;
+                    onEnd(output);
+                });
+            } else {
+                let output = cachedSavefile;
+                onEnd(output);
+            }
         });
     }
 }

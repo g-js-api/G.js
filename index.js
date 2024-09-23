@@ -1473,6 +1473,7 @@ let exps = {
   frame,
   log,
   spawn_particle,
+  LevelReader,
   reverse: () => {
     $.add(object({
       OBJ_ID: 1917

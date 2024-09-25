@@ -67,7 +67,7 @@ $.exportConfig({
 
 # Notes
 This is not finished yet - do not expect it to work exactly as SPWN yet!
-Docs can be found at [https://realsput.github.io/G.js](https://realsput.github.io/G.js), but they are incomplete. Usage section below might help explaining more of the complex or unclear features.
+Docs can be found at [https://g-js-api.github.io/G.js](https://g-js-api.github.io/G.js), but they are incomplete. Usage section below might help explaining more of the complex or unclear features.
 
 # Usage
 G.js has mostly the same usage as SPWN, with exceptions:

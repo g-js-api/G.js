@@ -488,8 +488,9 @@ let level = {
   get_objects: function (prop, pattern) {
     let level_arr = levelstring_to_obj(this.raw_levelstring);
     return level_arr.filter(o => {
-      let cond_1 = prop in o, cond_2;
-      if (cond_1) cond_2 = pattern(o[prop]);
+      let cond_1 = prop in o || d[prop] in o, cond_2;
+	  console.log('sex', cond_1)
+      if (cond_1) cond_2 = pattern(o[prop] || o[d[prop]]);
       return cond_1 && cond_2;
     });
   }

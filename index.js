@@ -452,7 +452,10 @@ let levelstring_to_obj = (string) => {
         if (!(i % 2)) {
           let obj_prop = parseInt(x);
           let value = spl[i + 1];
-          if (value.includes('.') && dot_separated_keys.includes(obj_prop)) value = value.split('.').map(x => parseInt(x));
+          // if (value.split('.').length > 2) console.log(value, obj_prop)
+          if (value.includes('.') && dot_separated_keys.includes(obj_prop.toString())) {
+            value = value.split('.').map(x => parseInt(x));
+          }
           if (!isNaN(parseInt(value))) value = parseInt(value);
           r[d[obj_prop] || obj_prop] = value;
         }
@@ -900,6 +903,7 @@ let exportConfig = (conf) => {
 
       case "savefile":
         const sf_level = await new LevelReader(options?.level_name, options?.path, options?.reencrypt);
+        level.level_reader = sf_level;
         if (!sf_level.data.levelstring) throw new Error(`Level "${sf_level.data.name}" has not been initialized, add any object to initialize the level then rerun this script`);
         let last = conf?.options?.replacePastObjects ? remove_past_objects(sf_level.data.levelstring, sf_level.data.name) : sf_level.data.levelstring;
         find_free(last);
@@ -1428,6 +1432,7 @@ let exps = {
   gamescene,
   keyframe_system,
   obj_to_levelstring,
+  levelstring_to_obj,
   teleport,
   camera_offset,
   camera_static,

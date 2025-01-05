@@ -42,6 +42,7 @@ class $color {
       BLENDING: blending,
       TARGET_COLOR: this,
       ACTIVE_TRIGGER: true,
+      36: 1
     }));
     wait(duration);
   }
@@ -90,6 +91,7 @@ class $color {
       FADE_OUT: fade_out,
       TARGET: this,
       PULSE_HSV: true,
+      36: 1,
     }));
     wait(fade_in + hold + fade_out);
   }
@@ -113,6 +115,7 @@ class $color {
       FADE_OUT: fade_out,
       TARGET: this,
       PULSE_HSV: false,
+      36: 1,
     }));
     wait(fade_in + hold + fade_out);
   }

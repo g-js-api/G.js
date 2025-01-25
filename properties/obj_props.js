@@ -338,6 +338,7 @@ module.exports = {
     70: 'LOCK_OBJECT_ROTATION',
     347832: 'ADD',
     71: 'TARGET_POS',
+    7187327378823: "FOLLOW",
     3478234: "CENTER",
     8459: "GROUP_ID_2",
     584932: "FALSE_ID",

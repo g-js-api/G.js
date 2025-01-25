@@ -9,7 +9,10 @@
   "keywords": [
     "geometrydash"
   ],
-  "repository": "g-js-api/G.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/g-js-api/G.js.git"
+  },
   "homepage": "https://g-js-api.github.io/G.js",
   "types": "types.d.ts",
   "author": "",

@@ -368,7 +368,7 @@ let writeClasses = (arr) => {
 }
 
 writeClasses([
-  'group/TARGET/GROUPS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID/TARGET_POS/FOLLOW/CENTER/TARGET_DIR_CENTER/SHADER_CENTER_ID',
+  'group/TARGET/GROUPS/GROUP_PARENTS/GR_BL/GR_BR/GR_TL/GR_TR/TRUE_ID/FALSE_ID/ANIMATION_GID/TARGET_POS/FOLLOW/CENTER/TARGET_DIR_CENTER/SHADER_CENTER_ID',
   'color/TARGET/TARGET_COLOR/COLOR/COLOR_2/SHADER_TINT_CHANNEL',
   'block/BLOCK_A/BLOCK_B',
 ]);
@@ -437,7 +437,7 @@ for (var i in d) {
 }
 
 // stuff for custom things
-let dot_separated_keys = [57, 442];
+let dot_separated_keys = [57, 442, 274];
 dot_separated_keys = dot_separated_keys.map(x => x.toString())
 
 let levelstring_to_obj = (string) => {
@@ -580,6 +580,7 @@ let obj_to_levelstring = (l) => {
     if (explicit[d_] && !val.hasOwnProperty('value')) { // if type is explicitly required for current object property and it is not a group/color/block
       if (typeof val == 'object' && dot_separated_keys.includes(key)) { // if val is an array and it is dot separated
         val = val.map((x) => x.value).filter(x => x && x != '').join('.');
+        console.log(key, val)
       } else {
         throw `Expected type "${explicit[d[parseInt(key)]]
         }", got "${typeof val}"`;

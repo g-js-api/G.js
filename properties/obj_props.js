@@ -323,6 +323,7 @@ module.exports = {
     54: 'YELLOW_TELEPORTATION_PORTAL_DISTANCE',
     56: 'ACTIVATE_GROUP',
     57: 'GROUPS',
+    
     58: 'LOCK_TO_PLAYER_X',
     59: 'LOCK_TO_PLAYER_Y',
     60: 'COPY_OPACITY',
@@ -475,7 +476,7 @@ module.exports = {
     214: "ANIMATE_ACTIVE_ONLY",
     215: "FOLLOW_P1",
     216: "FOLLOW_P2",
-    274: "P_GROUPS",
+    274: "GROUP_PARENTS",
     290: "SCREEN_OFFX",
     45890903: "SCREEN_OFF",
     291: "SCREEN_OFFY",

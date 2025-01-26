@@ -580,7 +580,6 @@ let obj_to_levelstring = (l) => {
     if (explicit[d_] && !val.hasOwnProperty('value')) { // if type is explicitly required for current object property and it is not a group/color/block
       if (typeof val == 'object' && dot_separated_keys.includes(key)) { // if val is an array and it is dot separated
         val = val.map((x) => x.value).filter(x => x && x != '').join('.');
-        console.log(key, val)
       } else {
         throw `Expected type "${explicit[d[parseInt(key)]]
         }", got "${typeof val}"`;

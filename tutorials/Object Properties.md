@@ -41,17 +41,16 @@
 | PULSE_HSV | 48 | Whether a pulse trigger uses HSV (bool) |
 | COPIED_COLOR_HVS | 49 | Unknown description (string) |
 | COPIED_COLOR_ID | 50 | Unknown description (string) |
-| GRAYSCALE_TINT_CHANNEL | 51 | Color channel to use as tint for grayscale trigger (color) |
-| SHADER_CENTER_ID | 51 | Center group for some shader triggers (group) |
-| TRUE_ID | 51 | ID to call if condition is true (group) |
-| TARGET | 51 | ID affected by the trigger (color/group) |
-| GROUP_ID_1 | 51 | First group ID (group) |
-| ITEM_TARGET | 51 | Item ID of target item in Item Edit (number) |
-| TARGET_TYPE | 52 | The target of a pulse trigger (bool, false = color channel, true = group ID) |
-| YELLOW_TELEPORTATION_PORTAL_DISTANCE | 54 | The distance from the blue teleportation portal to the orange one (float) |
-| ACTIVATE_GROUP | 56 | Whether "Activate Group" is checked in count, collision or toggle triggers (bool) |
-| GROUPS | 57 | The group(s) an object should have (group or array of groups) |
-| LOCK_TO_PLAYER_X | 58 |
+| SHADER_CENTER_ID | 51 | Color channel to use as tint for grayscale trigger (color) |
+| TRUE_ID | 51 | Center group for some shader triggers (group) |
+| TARGET | 51 | ID to call if condition is true (group) |
+| GROUP_ID_1 | 51 | ID affected by the trigger (color/group) |
+| ITEM_TARGET | 51 | First group ID (group) |
+| TARGET_TYPE | 52 | Item ID of target item in Item Edit (number) |
+| YELLOW_TELEPORTATION_PORTAL_DISTANCE | 54 | The target of a pulse trigger (bool, false = color channel, true = group ID) |
+| ACTIVATE_GROUP | 56 | The distance from the blue teleportation portal to the orange one (float) |
+| GROUPS | 57 | Whether "Activate Group" is checked in count, collision or toggle triggers (bool) |
+| LOCK_TO_PLAYER_X | 58 | The group(s) an object should have (group or array of groups) |
 | LOCK_TO_PLAYER_Y | 59 |
 | COPY_OPACITY | 60 |
 | EDITOR_LAYER_2 | 61 |
@@ -60,8 +59,8 @@
 | DONT_FADE | 64 |
 | MAIN_ONLY | 65 |
 | DETAIL_ONLY | 66 |
+| FOLLOW | 71 |
 | DONT_ENTER | 67 |
-| SHADER_TINT_CHANNEL | 71 |
 | ADD | 70 |
 | CENTER | 71 |
 | FALSE_ID | 71 |
@@ -136,41 +135,30 @@
 | SCALE_Y_BY | 151 |
 | ADV_RAND_STRING | 152 |
 | DIV_BY_X | 153 |
-| SHADER_SIZE | 179 |
-| BULGE_RADIUS | 180 |
 | DIV_BY_Y | 154 |
-| MAX_COL_Y_OFF | 182 |
 | STREAK_ADDITIVE | 159 |
-| LINE_THICKNESS | 179 |
 | UNLINK_DUAL_GRAVITY | 160 |
-| SEGMENT_H | 189 |
 | SHADER_SLICE_HEIGHT | 179 |
-| FOLLOW_EASE | 191 |
-| LINE_STRENGTH | 191 |
-| MAX_SLICE_X_OFF | 191 |
+| MAX_COL_Y_OFF | 182 |
 | SHADER_TARGET_X | 180 |
 | HIDE_GROUND | 161 |
 | HIDE_P1 | 162 |
 | MAX_COL_X_OFF | 181 |
-| RGB_OFF | 180 |
-| USE_LUM | 188 |
 | HIDE_P2 | 163 |
+| MAX_SLICE_X_OFF | 191 |
 | CAMERA_EDGE | 164 |
 | DISABLE_CONTROLS_P1 | 165 |
-| DUAL_DIR | 194 |
 | KEEP_VELOCITY | 169 |
 | CHANGE_CHANNEL | 171 |
 | SHADER_TARGET | 188 |
 | GR_BLENDING | 174 |
 | SHADER_USE_X | 188 |
 | SHADER_SPEED | 175 |
-| SHADER_SNAP_GRID | 194 |
 | SHADER_USE_Y | 190 |
 | SHADER_STRENGTH | 176 |
 | TIME_OFF | 177 |
 | WAVE_WIDTH | 179 |
 | SHADER_THICKNESS | 180 |
-| C | 201 |
 | SHADER_FADE_IN | 181 |
 | SHADER_FADE_OUT | 182 |
 | SHADER_INNER | 183 |
@@ -186,10 +174,10 @@
 | HIGHEST_LAYER | 197 |
 | PLAYER_ONLY | 198 |
 | DISABLE_CONTROLS_P2 | 199 |
-| SCREEN_OFF | 290 |
 | PLAYER_2 | 200 |
 | _PT | 201 |
 | GR_LAYER | 202 |
+| SCREEN_OFF | 290 |
 | GR_BL | 203 |
 | GR_BR | 204 |
 | GR_TL | 205 |
@@ -203,7 +191,7 @@
 | ANIMATE_ACTIVE_ONLY | 214 |
 | FOLLOW_P1 | 215 |
 | FOLLOW_P2 | 216 |
-| P_GROUPS | 274 |
+| GROUP_PARENTS | 274 |
 | SCREEN_OFFX | 290 |
 | SCREEN_OFFY | 291 |
 | DISABLE_GRID_SNAP | 370 |
@@ -270,7 +258,6 @@
 | DONT_OVERRIDE | 468 |
 | IGNORE_TIMEWARP | 469 |
 | TIMER_TIME_MOD | 470 |
-| EMPTY_ONLY | 515 |
 | START_PAUSED | 471 |
 | START_STOP | 472 |
 | STOP_TIME | 473 |
@@ -283,6 +270,7 @@
 | COMP_OP_2 | 481 |
 | MOD | 479 |
 | ASSIGN_OP | 480 |
+| PINCH_RADIUS | 512 |
 | OP_1 | 481 |
 | OP_2 | 482 |
 | MOD_2 | 483 |
@@ -319,4 +307,17 @@
 | ABSNEG_1 | 578 |
 | ABSNEG_2 | 579 |
 | STOP_PAUSE_RESUME | 580 |
-| PINCH_RADIUS | 4376890 |
+| RGB_OFF | 37642389 |
+| SHADER_SNAP_GRID | 37849320 |
+| C | 43678329 |
+| EMPTY_ONLY | 897653674 |
+| USE_LUM | 901283746 |
+| SHADER_TINT_CHANNEL | 980786435 |
+| DUAL_DIR | 1437689210 |
+| LINE_THICKNESS | 3748930247 |
+| GRAYSCALE_TINT_CHANNEL | 7623894327563 |
+| SHADER_SIZE | 5436789221 |
+| BULGE_RADIUS | 54639849023 |
+| SEGMENT_H | 8976547689 |
+| LINE_STRENGTH | 6547892301 |
+| FOLLOW_EASE | 71937646738 |

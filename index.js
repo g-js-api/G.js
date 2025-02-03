@@ -453,10 +453,11 @@ let levelstring_to_obj = (string) => {
           let obj_prop = parseInt(x);
           let value = spl[i + 1];
           // if (value.split('.').length > 2) console.log(value, obj_prop)
-          if (value.includes('.') && dot_separated_keys.includes(obj_prop.toString())) {
+          if (typeof value == 'string' && value.includes('.') && dot_separated_keys.includes(obj_prop.toString())) {
             value = value.split('.').map(x => parseInt(x));
           }
-          if (!isNaN(parseInt(value))) value = parseInt(value);
+          if (!isNaN(parseFloat(value))) value = parseFloat(value);
+          if (!isNaN(parseInt(value)) && typeof value !== 'number') value = parseInt(value);
           r[d[obj_prop] || obj_prop] = value;
         }
       });

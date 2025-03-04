@@ -23,6 +23,21 @@ class $block {
     if (specific && !all_known.blocks.includes(a)) all_known.blocks.push(a);
   }
   /**
+   * Returns a collision block object
+   * @param {block} b2 Other block to check for collision
+   * @param {number} x X coordinate of the collision block
+   * @param {number} y Y coordinate of the collision block
+   * @returns {object} Returned collision block
+   */
+  collision_block(x, y) {
+    return object({
+      OBJ_ID: obj_ids.special.COLLISION_BLOCK,
+      X: x,
+      Y: y,
+      BLOCK_A: this,
+    })
+  }
+  /**
    * 
    * @param {block} b2 Other block to check for collision
    * @param {group} true_id Group to call if colliding with b2

@@ -301,6 +301,7 @@ let findDeepestChildContext = (name) => {
  * @param {number} delay Delay between each cycle
  */
 let while_loop = (r, triggerFunction, del = 0.05) => {
+  if (r === true) r = equal_to(counter(-1, true), 0);
   let { count, comparison, other } = r;
   let oldContextName = Context.current;
 

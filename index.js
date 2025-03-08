@@ -16,7 +16,8 @@ const {
   x_position,
   event,
   gamescene,
-  frame
+  frame,
+  render_frame
 } = require('./lib/events');
 const {
   spawn_trigger,
@@ -28,7 +29,9 @@ const {
   greater_than,
   for_loop,
   frame_loop,
-  frames
+  frames,
+  render_frames,
+  render_frame_loop
 } = require('./lib/control-flow');
 const {
   item_edit,
@@ -1483,6 +1486,9 @@ let exps = {
   log,
   spawn_particle,
   LevelReader,
+  render_frame,
+  render_frames,
+  render_frame_loop,
   reverse: () => {
     $.add(object({
       OBJ_ID: 1917

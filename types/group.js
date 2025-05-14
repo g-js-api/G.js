@@ -59,7 +59,7 @@ class $group {
      * * @param {boolean} silent Make move trigger take no time
      */
     move(x, y, duration = 0, easing = NONE, easing_rate = 2, x_multiplier = 1, y_multiplier = 1, multiply = true, silent = false) {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 901,
             TARGET: this,
             MOVE_X: multiply ? x * 3 * x_multiplier : x * x_multiplier,
@@ -86,7 +86,7 @@ class $group {
      * @param {boolean} [relative_rot=false] Whether to rotate the X and Y axis
      */
     scale(center, scale_x, scale_y, duration = 0, easing = NONE, easing_rate = 2, x_divide = false, y_divide = false, move_only = false, relative_scale = false, relative_rot = false) {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 2067,
             CENTER: center,
             DURATION: duration,
@@ -105,7 +105,7 @@ class $group {
      * @param {number} [anim_id=0] Animation ID (can also use `animations.[monster].[animation name]`, check index module for more info about animation IDs)
      */
     animate(anim_id = 0) {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1585,
             TARGET: this,
             ANIMATION_GID: anim_id
@@ -126,7 +126,7 @@ class $group {
      * @param {number} duration How long it takes for the opacity to change
      */
     alpha(opacity = 1, duration = 0) {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1007,
             TARGET: this,
             OPACITY: opacity,
@@ -141,7 +141,7 @@ class $group {
      * @param {number} [duration=999] How long group is locked to player
      */
     lock_to_player(lock_x = true, lock_y = true, duration = 999) {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 901,
             TARGET: this,
             DURATION: duration,
@@ -154,7 +154,7 @@ class $group {
      * Stops the current group
      */
     stop() {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1616,
             TARGET: this,
         }));
@@ -163,7 +163,7 @@ class $group {
      * Pauses the current group
      */
     pause() {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1616,
             TARGET: this,
             STOP_PAUSE_RESUME: 1
@@ -174,7 +174,7 @@ class $group {
      * Resumes the current group
      */
     resume() {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1616,
             TARGET: this,
             STOP_PAUSE_RESUME: 2
@@ -185,7 +185,7 @@ class $group {
      * Toggles the group on
      */
     toggle_on() {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1049,
             TARGET: this,
             ACTIVATE_GROUP: true,
@@ -195,7 +195,7 @@ class $group {
      * Toggles the group off
      */
     toggle_off() {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1049,
             TARGET: this,
             ACTIVATE_GROUP: false,
@@ -211,7 +211,7 @@ class $group {
      * @param {boolean} [lock_object_rotation=false] Whether to turn on "lock object rotation"
      */
     rotate(center, degrees, duration = 0, easing = NONE, easing_rate = 2, lock_object_rotation = false) {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1346,
             TARGET: this,
             CENTER: center,
@@ -232,7 +232,7 @@ class $group {
      * @param {number} duration How long to follow other group
      */
     follow(other, x_mod = 1, y_mod = 1, duration = 999) {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1347,
             X_MOD: x_mod,
             Y_MOD: y_mod,
@@ -262,7 +262,7 @@ class $group {
      * @param {number} [duration=0] How long the group is locked to player Y axis
      */
     follow_player_y(speed = 1, delay = 0, offset = 0, max_speed = 0, duration = 999) {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1814,
             SPEED: speed,
             DELAY: delay,
@@ -282,7 +282,7 @@ class $group {
      * @param {number} easing_rate Easing rate of movement
      */
     move_to(target, duration = 0, x_only = false, y_only = false, easing = NONE, easing_rate = 2) {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 901,
             TARGET: this,
             USE_TARGET: true,
@@ -305,13 +305,13 @@ class $group {
     move_to_xy(x, y, duration = 0, easing = NONE, easing_rate = 2) {
         if (!x && !y) throw new Error("At least one coordinate must be specified!");
         let target = unknown_g();
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1765,
             X: x ? x : 0,
             Y: y ? y : 0,
             GROUPS: target,
         }));
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1007,
             X: 0,
             Y: 75 * 30,
@@ -334,7 +334,7 @@ class $group {
      * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
      */
     pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1006,
             COPIED_COLOR_HVS: [h, s, b, +s_checked, +b_checked].join("a"),
             EXCLUSIVE: exclusive,
@@ -356,7 +356,7 @@ class $group {
      * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
      */
     pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
-        $.add(object({
+        $.add(trigger({
             OBJ_ID: 1006,
             TRIGGER_RED: c[0],
             TRIGGER_GREEN: c[1],

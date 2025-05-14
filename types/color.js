@@ -32,7 +32,7 @@ class $color {
    * @param {boolean} [blending=false] Whether to make color blending
    */
   set(c, duration = 0, blending = false) {
-    $.add(object({
+    $.add(trigger({
       OBJ_ID: 899,
       DURATION: duration,
       TRIGGER_RED: c[0],
@@ -56,7 +56,7 @@ class $color {
    * @param {boolean} [copy_opacity=false] Copy target opacity
    */
   copy(c, duration = 0, hvs = "0a1a1a0a0a", blending = false, opacity = 1, copy_opacity = false) {
-    $.add(object({
+    $.add(trigger({
       OBJ_ID: 899,
       DURATION: duration,
       COPIED_COLOR_ID: c,
@@ -82,7 +82,7 @@ class $color {
    * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
    */
   pulse_hsv(h, s, b, s_checked = false, b_checked = false, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
-    $.add(object({
+    $.add(trigger({
       OBJ_ID: 1006,
       COPIED_COLOR_HVS: [h, s, b, +s_checked, +b_checked].join("a"),
       EXCLUSIVE: exclusive,
@@ -104,7 +104,7 @@ class $color {
  * @param {number} [exclusive=false] Whether to prioritize over simultaneous pulses
  */
   pulse(c, fade_in = 0, hold = 0, fade_out = 0, exclusive = false) {
-    $.add(object({
+    $.add(trigger({
       OBJ_ID: 1006,
       TRIGGER_RED: c[0],
       TRIGGER_GREEN: c[1],

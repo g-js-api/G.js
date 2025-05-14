@@ -408,6 +408,26 @@ let object = (dict) => {
   return return_val;
 };
 
+let triggerPositioningAllowed = true;
+let tstart = 1500;
+let tlimit = 1500;
+let trigger_iter = 0;
+
+/**
+ * Takes a dictionary with object props & converts into a trigger
+ * @param {dictionary} dict Dictionary to convert to trigger
+ * @returns {object}
+ */
+let trigger = (dict) => {
+  let iobj = object(dict);
+  if (triggerPositioningAllowed) {
+    if (Context.list[Context.current].name !== 'global') iobj.obj_props.X = (Math.floor((trigger_iter * 30) / tlimit) * 30);
+    iobj.obj_props.Y = tlimit - ((trigger_iter * 30) % tlimit) + tstart;
+  }
+  trigger_iter++;
+  return iobj;
+};
+
 /**
  * Creates a "trigger function" in which triggers can be stored inside of a single group
  * @param {function} callback Function storing triggers to put inside of group
@@ -880,6 +900,7 @@ let exportToSavefile = (options = {}) => {
 let exportConfig = (conf) => {
   return new Promise(async (resolve) => {
     let options = conf.options;
+    triggerPositioningAllowed = conf?.options?.triggerPositioningAllowed ?? true;
     if (conf?.options?.replacePastObjects == undefined) {
       conf.options.replacePastObjects = true;
       options.replacePastObjects = true;
@@ -1489,8 +1510,9 @@ let exps = {
   render_frame,
   render_frames,
   render_frame_loop,
+  trigger,
   reverse: () => {
-    $.add(object({
+    $.add(trigger({
       OBJ_ID: 1917
     }));
   },

@@ -424,6 +424,7 @@ let trigger = (dict) => {
     if (Context.list[Context.current].name !== 'global') iobj.obj_props.X = (Math.floor((trigger_iter * 30) / tlimit) * 30);
     iobj.obj_props.Y = tlimit - ((trigger_iter * 30) % tlimit) + tstart;
   }
+  iobj.ORD = trigger_iter;
   trigger_iter++;
   return iobj;
 };

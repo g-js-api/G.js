@@ -1202,7 +1202,7 @@ String.prototype.to_obj = function () {
  * @returns {string} Resulting HVS string (used in HVS and COLOR_2_HVS)
  */
 let hsv = (hue, sat, bright, sat_checked = false, bright_checked = false) => {
-  return [h, s, b, +sat_checked, +bright_checked].join("a");
+  return [hue, sat, bright, +sat_checked, +bright_checked].join("a");
 }
 /**
  * @typedef {Object} special_objects

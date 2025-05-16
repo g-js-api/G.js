@@ -1191,6 +1191,19 @@ String.prototype.to_obj = function () {
   return or;
 };
 
+
+/**
+ * Generates the HVS string from an HSV color
+ * @param {number} hue 
+ * @param {number} sat 
+ * @param {number} bright 
+ * @param {boolean} sat_checked 
+ * @param {boolean} bright_checked 
+ * @returns {string} Resulting HVS string (used in HVS and COLOR_2_HVS)
+ */
+let hsv = (hue, sat, bright, sat_checked = false, bright_checked = false) => {
+  return [h, s, b, +sat_checked, +bright_checked].join("a");
+}
 /**
  * @typedef {Object} special_objects
  * @property {number} USER_COIN - Identifier for user coin
@@ -1519,5 +1532,6 @@ let exps = {
   },
   rgb: (r, g, b) => [r, g, b],
   rgba: (r, g, b, a) => [r, g, b, a],
+  hsv
 };
 extract(exps);

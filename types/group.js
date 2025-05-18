@@ -88,6 +88,7 @@ class $group {
     scale(center, scale_x, scale_y, duration = 0, easing = NONE, easing_rate = 2, x_divide = false, y_divide = false, move_only = false, relative_scale = false, relative_rot = false) {
         $.add(trigger({
             OBJ_ID: 2067,
+            TARGET: this,
             CENTER: center,
             DURATION: duration,
             EASING_RATE: easing_rate,

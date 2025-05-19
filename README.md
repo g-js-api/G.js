@@ -44,12 +44,12 @@ $.exportConfig({
 
 	// While loops
 	let g = unknown_g();
-	$.add({
+	$.add(object({
 		OBJ_ID: 1,
 		X: 15,
 		Y: 15,
 		GROUPS: g
-	})
+	}))
 
 	let i = counter();
 	i.display(45, 45);

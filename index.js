@@ -409,6 +409,7 @@ let object = (dict) => {
 };
 
 let triggerPositioningAllowed = true;
+let verticalPos = true;
 let tstart = 1500;
 let tlimit = 1500;
 let trigger_iter = 0;
@@ -421,8 +422,14 @@ let trigger_iter = 0;
 let trigger = (dict) => {
   let iobj = object(dict);
   if (triggerPositioningAllowed) {
-    if (Context.list[Context.current].name !== 'global') iobj.obj_props.X = (Math.floor((trigger_iter * 30) / tlimit) * 30);
-    iobj.obj_props.Y = tlimit - ((trigger_iter * 30) % tlimit) + tstart;
+    if (verticalPos) {
+      if (Context.list[Context.current].name !== 'global') iobj.obj_props.X = (Math.floor((trigger_iter * 30) / tlimit) * 30);
+      iobj.obj_props.Y = tlimit - ((trigger_iter * 30) % tlimit) + tstart;
+    } else {
+      let xMovementAllowed = Context.list[Context.current].name !== 'global';
+      if (xMovementAllowed) iobj.obj_props.X = ((trigger_iter * 30) % tlimit);
+      iobj.obj_props.Y = xMovementAllowed ? tlimit - (Math.floor((trigger_iter * 30) / tlimit) * 30) + tstart : tlimit - ((trigger_iter * 30) % tlimit) + tstart;
+    }
   }
   iobj.obj_props.ORD = trigger_iter;
   trigger_iter++;
@@ -902,6 +909,7 @@ let exportConfig = (conf) => {
   return new Promise(async (resolve) => {
     let options = conf.options;
     triggerPositioningAllowed = conf?.options?.triggerPositioningAllowed ?? true;
+    verticalPos = conf?.options?.verticalPositioning ?? true
     if (conf?.options?.replacePastObjects == undefined) {
       conf.options.replacePastObjects = true;
       options.replacePastObjects = true;

@@ -108,6 +108,11 @@ declare module "index" {
      */
     type object = dictionary;
     /**
+     * Takes a dictionary with object props & converts into a trigger
+     * @param dict - Dictionary to convert to trigger
+     */
+    function trigger(dict: dictionary): any;
+    /**
      * Creates a "trigger function" in which triggers can be stored inside of a single group
      * @param callback - Function storing triggers to put inside of group
      * @returns Group ID of trigger function
@@ -202,6 +207,8 @@ declare module "index" {
      * @property [optimize = true] - Whether to optimize unused groups & triggers that point to unused groups
      * @property [replacePastObjects = true] - Whether to delete all objects added by G.js in the past & replace them with the new objects
      * @property [removeGroup = 9999] - Group to use to mark objects to be automatically deleted when re-running the script (default is 9999)
+     * @property [triggerPositioningAllowed = true] - Whether to allow G.js to automatically position added triggers
+     * @property [verticalPositioning = true] - Whether to position triggers vertically or horizontally in terms of order
      */
     type save_config = {
         info?: boolean;
@@ -212,6 +219,8 @@ declare module "index" {
         optimize?: boolean;
         replacePastObjects?: boolean;
         removeGroup?: number | group;
+        triggerPositioningAllowed?: boolean;
+        verticalPositioning?: boolean;
     };
     /**
      * Core type holding important functions for adding to levels, exporting, and modifying scripts.
@@ -265,6 +274,11 @@ declare module "index" {
      * @returns Resulting sequence
      */
     function range(start: number, end: number, step?: number): any[];
+    /**
+     * Generates the HVS string from an HSV color
+     * @returns Resulting HVS string (used in HVS and COLOR_2_HVS)
+     */
+    function hsv(hue: number, sat: number, bright: number, sat_checked: boolean, bright_checked: boolean): string;
     /**
      * @property USER_COIN - Identifier for user coin
      * @property H_BLOCK - Identifier for H block
@@ -509,16 +523,27 @@ declare module "control-flow" {
      */
     function spawn_trigger(group: group, time: number): any;
     /**
-     * Creates a loop that repeats every frame
-     * @param trigger_function - The group to call every frame
+     * Creates a loop that repeats every tick
+     * @param trigger_function - The group to call every tick
      * @returns Group that can be used to stop the loop
      */
     function frame_loop(trigger_function: group): group;
     /**
-     * Waits a specific amount of frames
-     * @param frames - How many frames to wait for
+     * Waits a specific amount of ticks
+     * @param frames - How many ticks to wait for
      */
     function frames(frames: number): void;
+    /**
+     * Creates a loop that repeats every render frame (different from ticks, which are a constant of 1/240 seconds, while render frames are variable and can be changed in settings)
+     * @param trigger_function - The group to call every frame
+     * @returns Group that can be used to stop the loop
+     */
+    function render_frame_loop(trigger_function: group): group;
+    /**
+     * Waits a specific amount of render frames
+     * @param frames - How many frames to wait for
+     */
+    function render_frames(frames: number): void;
     /**
      * Returns a greater than condition
      * @param counter - Counter to compare to number
@@ -751,42 +776,11 @@ declare module "counter" {
         round: (...params: any[]) => any;
     };
     /**
-     * Version of counter that supports floating point values
-     * @property item - Item ID of a counter
-     * @property type - Type of a counter
-     * @property add - Adds a specific amount (or another counter) to the current counter
-     * @property subtract - Subtracts a specific amount (or another counter) from the current counter
-     * @property multiply - Multiplies the current counter by a specific amount (or another counter)
-     * @property divide - Divides the current counter by a specific amount (or another counter)
-     * @property set - Sets the current counter to a specific amount or another counter
-     * @property reset - Resets the current counter to 0
-     * @property copy_to - Copies the current counter to another counter
-     * @property display - Displays the current counter at a specific position
-     * @property to_obj - Returns item display for current counter as an object
-     * @property add_to - Adds the current counter to another and resets the current counter
-     * @property subtract_from - Subtracts the current counter from another and resets the current counter
-     * @property abs - Gets absolute value from counter
-     * @property neg - Converts value to negative value
-     * @property round - Rounds the floating point value into an integer
+     * Creates a floating-point counter
+     * @param [num = 0] - Number or boolean to be represented by counter
+     * @returns Resulting counter
      */
-    type float_counter = {
-        item: item;
-        type: item_type;
-        add: add;
-        subtract: subtract;
-        multiply: multiply;
-        divide: divide;
-        set: set;
-        reset: reset;
-        copy_to: copy_to;
-        display: display;
-        to_obj: to_obj;
-        add_to: add_to;
-        subtract_from: subtract_from;
-        abs: (...params: any[]) => any;
-        neg: (...params: any[]) => any;
-        round: (...params: any[]) => any;
-    };
+    function nfloat(num?: number | boolean): counter;
 }
 
 declare module "events" {
@@ -805,6 +799,10 @@ declare module "events" {
      * Event that runs on every frame
      */
     function frame(): void;
+    /**
+     * Event that runs on every render frame
+     */
+    function render_frame(): void;
     /**
      * Listens to when the screen stops being touched
      * @param [dual_side = false] - Whether to only listen to dual side
@@ -1514,6 +1512,10 @@ declare module "events" {
      */
     function frame(): void;
     /**
+     * Event that runs on every render frame
+     */
+    function render_frame(): void;
+    /**
      * Listens to when the screen stops being touched
      * @param [dual_side = false] - Whether to only listen to dual side
      */
@@ -2108,6 +2110,14 @@ declare module "block" {
      */
     class $block {
         constructor(number: number, specific?: boolean);
+        /**
+         * Returns a collision block object
+         * @param b2 - Other block to check for collision
+         * @param x - X coordinate of the collision block
+         * @param y - Y coordinate of the collision block
+         * @returns Returned collision block
+         */
+        collision_block(b2: block, x: number, y: number): any;
         /**
          * @param b2 - Other block to check for collision
          * @param true_id - Group to call if colliding with b2

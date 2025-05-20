@@ -1079,6 +1079,8 @@ let liveEditor = (conf) => {
  * @property {boolean} [optimize=true] Whether to optimize unused groups & triggers that point to unused groups
  * @property {boolean} [replacePastObjects=true] Whether to delete all objects added by G.js in the past & replace them with the new objects
  * @property {number|group} [removeGroup=9999] Group to use to mark objects to be automatically deleted when re-running the script (default is 9999)
+ * @property {boolean} [triggerPositioningAllowed=true] Whether to allow G.js to automatically position added triggers
+ * @property {boolean} [verticalPositioning=true] Whether to position triggers vertically or horizontally in terms of order
 */
 /**
  * Core type holding important functions for adding to levels, exporting, and modifying scripts.

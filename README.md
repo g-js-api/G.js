@@ -1,5 +1,6 @@
 # G.js
 G.js - Create Geometry Dash levels (with a SPWN-like syntax) in JavaScript
+Github: [https://github.com/g-js-api/G.js](https://github.com/g-js-api/G.js)
 
 # Platforms available on
 The project now supports these platforms:

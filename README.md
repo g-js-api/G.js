@@ -1,6 +1,10 @@
 # G.js
 G.js - Create Geometry Dash levels (with a SPWN-like syntax) in JavaScript
 
+[![Go to GitHub repo](https://img.shields.io/static/v1?label=g-js-api&message=G.js&color=blue&logo=github)](https://github.com/g-js-api/G.js) [![stars - G.js](https://img.shields.io/github/stars/g-js-api/G.js?style=social)](https://github.com/g-js-api/G.js) [![forks - G.js](https://img.shields.io/github/forks/g-js-api/G.js?style=social)](https://github.com/g-js-api/G.js)
+
+[![Go to project documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://g-js-api.github.io/G.js)
+
 # Platforms available on
 The project now supports these platforms:
 - Windows

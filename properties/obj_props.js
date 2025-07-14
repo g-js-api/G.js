@@ -396,6 +396,7 @@ module.exports = {
     131: "PERSPECTIVE_X",
     132: "PERSPECTIVE_Y",
     133: "ONLY_MOVE",
+    135: "HIDE",
     138: "PLAYER_1",
     139: "OVERRIDE_COUNT",
     141: "FOLLOW_CAMERA_X",

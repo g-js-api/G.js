@@ -756,6 +756,7 @@ declare module "counter" {
      * @property abs - Gets absolute value from counter
      * @property neg - Converts value to negative value
      * @property round - Rounds the floating point value into an integer
+     * @property mod - Modulo operator, returns a new counter with the output
      */
     type float_counter = {
         item: item;
@@ -774,13 +775,47 @@ declare module "counter" {
         abs: (...params: any[]) => any;
         neg: (...params: any[]) => any;
         round: (...params: any[]) => any;
+        mod: (...params: any[]) => any;
     };
     /**
-     * Creates a floating-point counter
-     * @param [num = 0] - Number or boolean to be represented by counter
-     * @returns Resulting counter
+     * Version of counter that supports floating point values
+     * @property item - Item ID of a counter
+     * @property type - Type of a counter
+     * @property add - Adds a specific amount (or another counter) to the current counter
+     * @property subtract - Subtracts a specific amount (or another counter) from the current counter
+     * @property multiply - Multiplies the current counter by a specific amount (or another counter)
+     * @property divide - Divides the current counter by a specific amount (or another counter)
+     * @property set - Sets the current counter to a specific amount or another counter
+     * @property reset - Resets the current counter to 0
+     * @property copy_to - Copies the current counter to another counter
+     * @property display - Displays the current counter at a specific position
+     * @property to_obj - Returns item display for current counter as an object
+     * @property add_to - Adds the current counter to another and resets the current counter
+     * @property subtract_from - Subtracts the current counter from another and resets the current counter
+     * @property abs - Gets absolute value from counter
+     * @property neg - Converts value to negative value
+     * @property round - Rounds the floating point value into an integer
+     * @property mod - Modulo operator, returns a new counter with the output
      */
-    function nfloat(num?: number | boolean): counter;
+    type float_counter = {
+        item: item;
+        type: item_type;
+        add: add;
+        subtract: subtract;
+        multiply: multiply;
+        divide: divide;
+        set: set;
+        reset: reset;
+        copy_to: copy_to;
+        display: display;
+        to_obj: to_obj;
+        add_to: add_to;
+        subtract_from: subtract_from;
+        abs: (...params: any[]) => any;
+        neg: (...params: any[]) => any;
+        round: (...params: any[]) => any;
+        mod: (...params: any[]) => any;
+    };
 }
 
 declare module "events" {

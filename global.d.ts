@@ -1,0 +1,1 @@
+/// <reference types="@g-js-api/g.js" />

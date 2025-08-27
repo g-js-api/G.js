@@ -1,3 +1,4 @@
+/// <reference types="@g-js-api/g.js" />
 declare module "index" {
     /**
      * Extracts values from dictionary into global scope
@@ -612,6 +613,7 @@ declare module "counter" {
      * @property subtract_from - Subtracts the current counter from another and resets the current counter
      * @property abs - Gets absolute value from counter
      * @property neg - Converts value to negative value
+     * @property bits - Amount of bits in a counter
      */
     type counter = {
         item: item;
@@ -631,6 +633,7 @@ declare module "counter" {
         subtract_from: subtract_from;
         abs: (...params: any[]) => any;
         neg: (...params: any[]) => any;
+        bits: number;
     };
     /**
      * Adds a specific amount (or another counter) to the current counter
@@ -718,6 +721,7 @@ declare module "counter" {
      * @property subtract_from - Subtracts the current counter from another and resets the current counter
      * @property abs - Gets absolute value from counter
      * @property neg - Converts value to negative value
+     * @property bits - Amount of bits in a counter
      */
     type counter = {
         item: item;
@@ -737,6 +741,7 @@ declare module "counter" {
         subtract_from: subtract_from;
         abs: (...params: any[]) => any;
         neg: (...params: any[]) => any;
+        bits: number;
     };
     /**
      * Version of counter that supports floating point values

@@ -1,4 +1,4 @@
-# G.js
+# ![G.js logo](https://avatars.githubusercontent.com/u/182828239?s=200&v=4)
 G.js - Create Geometry Dash levels (with a SPWN-like syntax) in JavaScript
 
 [![Go to GitHub repo](https://img.shields.io/static/v1?label=g-js-api&message=G.js&color=blue&logo=github)](https://github.com/g-js-api/G.js) [![stars - G.js](https://img.shields.io/github/stars/g-js-api/G.js?style=social)](https://github.com/g-js-api/G.js) [![forks - G.js](https://img.shields.io/github/forks/g-js-api/G.js?style=social)](https://github.com/g-js-api/G.js)
@@ -25,44 +25,44 @@ npm install @g-js-api/g.js
 # Example
 Here is a functional example of G.js:
 ```js
-require('@g-js-api/g.js');
-$.exportConfig({
-	type: 'savefile', // type can be 'savefile' to export to savefile, 'levelstring' to return levelstring or 'live_editor' to export to WSLiveEditor (must have Geode installed)
-	options: { info: true } // you can use { level_name: "my level" } if you must specify a level to save to if using savefile export config
-}).then(x => {
-	// Creating counters
-	let my_counter = counter();
-	my_counter.display(15, 15);
+import '@g-js-api/g.js'
 
-	// Events
-	on(
-		touch(),
-		trigger_function(() => {
-			my_counter.add(1);
-		})
-	);
-
-	// Waiting
-	wait(1);
-	my_counter.add(15);
-
-	// While loops
-	let g = unknown_g();
-	$.add(object({
-		OBJ_ID: 1,
-		X: 15,
-		Y: 15,
-		GROUPS: g
-	}))
-
-	let i = counter();
-	i.display(45, 45);
-
-	while_loop(less_than(i, 10), () => {
-		i.add(1);
-		g.move(15, 0, 0.5);
-	});
+// configures G.js, so it knows how to export to Geometry Dash
+// this NEEDS to be ran before anything else GD-related!
+await $.exportConfig({
+  type: 'savefile', // you can change this to 'live_editor' if you want to use it using the WSLiveEditor mod, or 'levelstring' if you only want to export the levelstring (make sure to store the result in a variable!)
+  options: { info: true } // displays level info when the program finishes running, check https://g-js-api.github.io/G.js/module-index.html#~save_config for a list of options
 });
+
+// for a simple example, let's create some moving text
+// first, store a group in a variable (this is akin to doing 'Next Free' in GD)
+let my_text = unknown_g();
+
+// now, add some text at X 45 Y 45 with the group ID we defined 
+// GD uses small-step units internally (3x big step), meaning the block is 15 steps from the origin in-game
+'Hello, World!'
+	.to_obj(obj_props.X, 45)
+	.with(obj_props.Y, 45)
+	.with(obj_props.GROUPS, my_text)
+	.add();
+
+// let's make a loop that moves this text left and right forever
+// a 'trigger function' is a system of Geometry Dash triggers
+let moveloop = trigger_function(() => {
+  let my_context = $.trigger_fn_context(); // stores the ORIGINAL group of the trigger function (it will change later! this is called "context")
+  my_text.move(30, 0, 0.5); // moves the text forwards 30 big step units with a 0.5 move time
+  my_text.move(-30, 0, 0.5); // afterwards, it moves the text BACK 30 big step units to its original place
+
+  // flashes the background white WITHOUT changing the context of triggers
+  ignore_context_change(() => log.runtime.flash());
+
+  // after the two moves, the "context" changes (meaning spawn delays were applied in-between, therefore newer triggers have different group IDs than in the past)
+  // so to loop it, you can just call the group of the original context after all operations are finished
+  my_context.call(); 
+})
+
+// now finally, we can spawn this loop!
+moveloop.call();
 ```
 
 # Features that make this different from SPWN:

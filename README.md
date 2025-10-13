@@ -41,7 +41,8 @@ let my_text = unknown_g();
 // now, add some text at X 45 Y 45 with the group ID we defined 
 // GD uses small-step units internally (3x big step), meaning the block is 15 steps from the origin in-game
 'Hello, World!'
-	.to_obj(obj_props.X, 45)
+	.to_obj()
+	.with(obj_props.X, 45)
 	.with(obj_props.Y, 45)
 	.with(obj_props.GROUPS, my_text)
 	.add();

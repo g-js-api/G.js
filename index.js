@@ -410,8 +410,8 @@ let object = (dict) => {
 
 let triggerPositioningAllowed = true;
 let verticalPos = true;
-let tstart = 1500;
-let tlimit = 1500;
+let tstart = 6000;
+let tlimit = 6000;
 let trigger_iter = 0;
 
 /**
@@ -909,7 +909,10 @@ let exportConfig = (conf) => {
   return new Promise(async (resolve) => {
     let options = conf.options;
     triggerPositioningAllowed = conf?.options?.triggerPositioningAllowed ?? true;
+    
     verticalPos = conf?.options?.verticalPositioning ?? true
+    tstart = conf?.options?.trigger_pos_start ?? 6000
+    tlimit = conf?.options?.trigger_pos_limit ?? 6000
     if (conf?.options?.replacePastObjects == undefined) {
       conf.options.replacePastObjects = true;
       options.replacePastObjects = true;
@@ -1081,6 +1084,8 @@ let liveEditor = (conf) => {
  * @property {number|group} [removeGroup=9999] Group to use to mark objects to be automatically deleted when re-running the script (default is 9999)
  * @property {boolean} [triggerPositioningAllowed=true] Whether to allow G.js to automatically position added triggers
  * @property {boolean} [verticalPositioning=true] Whether to position triggers vertically or horizontally in terms of order
+ * @property {number} [trigger_pos_start=6000] The Y position (small-step units) where triggers should start being placed
+ * @property {number} [trigger_pos_limit=6000] The Y/X position (small-step units, axis depends on verticalPositioning) where triggers should stop being placed and to start a new row/column
 */
 /**
  * Core type holding important functions for adding to levels, exporting, and modifying scripts.

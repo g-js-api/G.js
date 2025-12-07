@@ -72,6 +72,40 @@ class $group {
     }
 
     /**
+     * Combines a move trigger with a follow trigger to allow for more precise decimal movement (up to 2 decimal places)
+     * @param {number} x Units to move on the X axis (10 units per grid square)
+     * @param {number} y Units to move on the Y axis (10 units per grid square)
+     * @param {number} duration Duration of movement
+     * @param {easing} easing How smoothly object moves
+     * @param {number} easing_rate Easing rate for move trigger
+     * @param {boolean} single Saves groups and objects if the group only contains one object
+     */
+    precise_move(x, y, duration, easing = NONE, easing_rate = 2, single = false) {
+        if (single) {
+            this.follow(this, -1 + x, -1 + y, duration);
+            this.move(1, 1, duration, easing, easing_rate);
+        } else {
+            target = unknown_g();
+            $.add(object({
+                OBJ_ID: 1765,
+                X: 0,
+                Y: 80 * 30,
+                GROUPS: target,
+            }))
+            $.add(object({
+                OBJ_ID: 1007,
+                X: 0,
+                Y: 75 * 30,
+                TARGET: target,
+                OPACITY: 0,
+                DURATION: 0,
+            }));
+            this.follow(target, x, y, duration)
+            target.move(1, 1, duration, easing, easing_rate)
+        }
+    }
+
+    /**
      * Scales the group
      * @param {group} center Center of group for scaling
      * @param {number} scale_x Scaling on X axis

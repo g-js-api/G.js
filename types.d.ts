@@ -1,4 +1,3 @@
-/// <reference types="@g-js-api/g.js" />
 declare module "index" {
     /**
      * Extracts values from dictionary into global scope
@@ -210,6 +209,8 @@ declare module "index" {
      * @property [removeGroup = 9999] - Group to use to mark objects to be automatically deleted when re-running the script (default is 9999)
      * @property [triggerPositioningAllowed = true] - Whether to allow G.js to automatically position added triggers
      * @property [verticalPositioning = true] - Whether to position triggers vertically or horizontally in terms of order
+     * @property [trigger_pos_start = 6000] - The Y position (small-step units) where triggers should start being placed
+     * @property [trigger_pos_limit = 6000] - The Y/X position (small-step units, axis depends on verticalPositioning) where triggers should stop being placed and to start a new row/column
      */
     type save_config = {
         info?: boolean;
@@ -222,6 +223,8 @@ declare module "index" {
         removeGroup?: number | group;
         triggerPositioningAllowed?: boolean;
         verticalPositioning?: boolean;
+        trigger_pos_start?: number;
+        trigger_pos_limit?: number;
     };
     /**
      * Core type holding important functions for adding to levels, exporting, and modifying scripts.
@@ -1013,6 +1016,7 @@ declare module "general-purpose" {
      * @param group - Group storing object to be the center of camera
      * @param [duration = 0] - Duration that it takes for camera to be centered around object
      * @param [easing = NONE] - How smoothly the camera moves to the object
+     * @param easing_rate - How smoothly the effect should start
      * @param [exit_instant = false] - Stops static instantly
      * @param [exit_static = false] - Stops static
      * @param [smooth_vel = false] - Makes transition to target adapt to current camera velocity (no easing recommended)
@@ -1021,7 +1025,7 @@ declare module "general-purpose" {
      * @param [x_only = false] - Makes the camera only be static on X axis
      * @param [x_only = false] - Makes the camera only be static on Y axis
      */
-    function camera_static(group: group, duration?: number, easing?: easing, exit_instant?: boolean, exit_static?: boolean, smooth_vel?: boolean, smooth_vel_mod?: number, follow?: boolean, x_only?: boolean, x_only?: boolean): void;
+    function camera_static(group: group, duration?: number, easing?: easing, easing_rate: number, exit_instant?: boolean, exit_static?: boolean, smooth_vel?: boolean, smooth_vel_mod?: number, follow?: boolean, x_only?: boolean, x_only?: boolean): void;
     /**
      * Makes the camera zoom in/out by a specific amount
      * @param zoom_amount - Amount to zoom the camera in by
@@ -1516,6 +1520,16 @@ declare module "shaders" {
      * @param easing - How smoothly the effect should start
      */
     function sepia(target: number, duration: number, easing: easing): void;
+    /**
+     * Edits the color of the level
+     * @param tint - What color to tint with
+     * @param brightness - The brightness of the each of the RGB color channels
+     * @param easing - How smoothly the effect should start
+     * @param duration - How long it takes to start the effect
+     * @param easing - How smoothly the effect should start
+     * @param easing_rate - How smoothly the effect should start
+     */
+    function edit_color(tint: any[], brightness: any[], easing: easing, duration: number, easing: easing, easing_rate: number): void;
     /**
      * Splits screen into sections
      * @param target_x - How many sections to add on X axis
@@ -2291,6 +2305,16 @@ declare module "group" {
         * @param {boolean} silent Make move trigger take no time
          */
         move(x: number, y: number, duration: number, easing: easing, easing_rate?: number, x_multiplier?: number, y_multiplier?: number, multiply?: boolean): void;
+        /**
+         * Combines a move trigger with a follow trigger to allow for more precise decimal movement (up to 2 decimal places)
+         * @param x - Units to move on the X axis (10 units per grid square)
+         * @param y - Units to move on the Y axis (10 units per grid square)
+         * @param duration - Duration of movement
+         * @param easing - How smoothly object moves
+         * @param easing_rate - Easing rate for move trigger
+         * @param single - Saves groups and objects if the group only contains one object
+         */
+        precise_move(x: number, y: number, duration: number, easing: easing, easing_rate?: number, single: boolean): void;
         /**
          * Scales the group
          * @param center - Center of group for scaling

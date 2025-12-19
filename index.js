@@ -431,7 +431,8 @@ let trigger = (dict) => {
       iobj.obj_props.Y = xMovementAllowed ? tlimit - (Math.floor((trigger_iter * 30) / tlimit) * 30) + tstart : tlimit - ((trigger_iter * 30) % tlimit) + tstart;
     }
   }
-  iobj.obj_props.ORD = trigger_iter;
+  // ORD is broken
+  // iobj.obj_props.ORD = trigger_iter;
   trigger_iter++;
   return iobj;
 };

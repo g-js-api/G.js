@@ -288,142 +288,23 @@ declare module "index" {
      */
     function hsv(hue: number, sat: number, bright: number, sat_checked: boolean, bright_checked: boolean): string;
     /**
-     * @property USER_COIN - Identifier for user coin
-     * @property H_BLOCK - Identifier for H block
-     * @property J_BLOCK - Identifier for J block
-     * @property TEXT - Identifier for text
-     * @property S_BLOCK - Identifier for S block
-     * @property ITEM_DISPLAY - Identifier for item display
-     * @property D_BLOCK - Identifier for D block
-     * @property COLLISION_BLOCK - Identifier for collision block
-     */
-    type special_objects = {
-        USER_COIN: number;
-        H_BLOCK: number;
-        J_BLOCK: number;
-        TEXT: number;
-        S_BLOCK: number;
-        ITEM_DISPLAY: number;
-        D_BLOCK: number;
-        COLLISION_BLOCK: number;
-    };
-    /**
-     * @property SPAWN - Identifier for spawn trigger
-     * @property ON_DEATH - Identifier for on-death trigger
-     * @property ROTATE - Identifier for rotate trigger
-     * @property COUNT - Identifier for count trigger
-     * @property DISABLE_TRAIL - Identifier for disable trail trigger
-     * @property HIDE - Identifier for hide trigger
-     * @property PICKUP - Identifier for pickup trigger
-     * @property COLLISION - Identifier for collision trigger
-     * @property ENABLE_TRAIL - Identifier for enable trail trigger
-     * @property ANIMATE - Identifier for animate trigger
-     * @property TOUCH - Identifier for touch trigger
-     * @property INSTANT_COUNT - Identifier for instant count trigger
-     * @property BG_EFFECT_OFF - Identifier for BG effect off trigger
-     * @property TOGGLE - Identifier for toggle trigger
-     * @property MOVE - Identifier for move trigger
-     * @property ALPHA - Identifier for alpha trigger
-     * @property SHOW - Identifier for show trigger
-     * @property STOP - Identifier for stop trigger
-     * @property FOLLOW - Identifier for follow trigger
-     * @property PULSE - Identifier for pulse trigger
-     * @property BG_EFFECT_ON - Identifier for BG effect on trigger
-     * @property SHAKE - Identifier for shake trigger
-     * @property FOLLOW_PLAYER_Y - Identifier for follow player Y trigger
-     * @property COLOR - Identifier for color trigger
-     */
-    type trigger_ids = {
-        SPAWN: number;
-        ON_DEATH: number;
-        ROTATE: number;
-        COUNT: number;
-        DISABLE_TRAIL: number;
-        HIDE: number;
-        PICKUP: number;
-        COLLISION: number;
-        ENABLE_TRAIL: number;
-        ANIMATE: number;
-        TOUCH: number;
-        INSTANT_COUNT: number;
-        BG_EFFECT_OFF: number;
-        TOGGLE: number;
-        MOVE: number;
-        ALPHA: number;
-        SHOW: number;
-        STOP: number;
-        FOLLOW: number;
-        PULSE: number;
-        BG_EFFECT_ON: number;
-        SHAKE: number;
-        FOLLOW_PLAYER_Y: number;
-        COLOR: number;
-    };
-    /**
-     * @property SPEED_GREEN - Identifier for green speed portal
-     * @property TELEPORT - Identifier for teleport portal
-     * @property CUBE - Identifier for cube portal
-     * @property MIRROR_OFF - Identifier for mirror off portal
-     * @property WAVE - Identifier for wave portal
-     * @property SPIDER - Identifier for spider portal
-     * @property SPEED_RED - Identifier for red speed portal
-     * @property GRAVITY_DOWN - Identifier for gravity down portal
-     * @property SPEED_BLUE - Identifier for blue speed portal
-     * @property UFO - Identifier for UFO portal
-     * @property ROBOT - Identifier for robot portal
-     * @property MIRROR_ON - Identifier for mirror on portal
-     * @property GRAVITY_UP - Identifier for gravity up portal
-     * @property DUAL_ON - Identifier for dual on portal
-     * @property SIZE_MINI - Identifier for mini size portal
-     * @property BALL - Identifier for ball portal
-     * @property SIZE_NORMAL - Identifier for normal size portal
-     * @property SHIP - Identifier for ship portal
-     * @property SPEED_PINK - Identifier for pink speed portal
-     * @property SPEED_YELLOW - Identifier for yellow speed portal
-     * @property DUAL_OFF - Identifier for dual off portal
-     */
-    type portal_ids = {
-        SPEED_GREEN: number;
-        TELEPORT: number;
-        CUBE: number;
-        MIRROR_OFF: number;
-        WAVE: number;
-        SPIDER: number;
-        SPEED_RED: number;
-        GRAVITY_DOWN: number;
-        SPEED_BLUE: number;
-        UFO: number;
-        ROBOT: number;
-        MIRROR_ON: number;
-        GRAVITY_UP: number;
-        DUAL_ON: number;
-        SIZE_MINI: number;
-        BALL: number;
-        SIZE_NORMAL: number;
-        SHIP: number;
-        SPEED_PINK: number;
-        SPEED_YELLOW: number;
-        DUAL_OFF: number;
-    };
-    /**
-     * @property special - Special object IDs
-     * @property triggers - Trigger object IDs
-     * @property portals - Portal object IDs
+     * Object containing various IDs for objects, triggers, and portals.
+     * @property special - Special / non-trigger objects (blocks, displays, collision helpers, etc.).
+     * @property triggers - Trigger object IDs used for events, logic, camera control, effects,
+    gameplay manipulation, and state changes.
+     * @property portals - Portal object IDs that change player form, speed, gravity, size,
+    dual mode, or other movement rules.
      */
     type obj_ids = {
-        special: special_objects;
-        triggers: trigger_ids;
-        portals: portal_ids;
-    };
-    /**
-     * @property special - Special object IDs
-     * @property triggers - Trigger object IDs
-     * @property portals - Portal object IDs
-     */
-    type obj_ids = {
-        special: special_objects;
-        triggers: trigger_ids;
-        portals: portal_ids;
+        special: {
+            [key: string]: number;
+        };
+        triggers: {
+            [key: string]: number;
+        };
+        portals: {
+            [key: string]: number;
+        };
     };
     /**
      * @property bite - Identifier for the bite animation

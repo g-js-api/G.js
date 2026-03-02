@@ -1295,15 +1295,14 @@ let hsv = (hue, sat, bright, sat_checked = false, bright_checked = false) => {
  * @typedef {Object} obj_ids
  *
  * @property {Object.<string, number>} special
- * Special / non-trigger objects (blocks, displays, collision helpers, etc.).
+ * Special / non-trigger objects (blocks, displays, collisions, etc.).
  *
  * @property {Object.<string, number>} triggers
- * Trigger object IDs used for events, logic, camera control, effects,
- * gameplay manipulation, and state changes.
+ * Trigger object IDs used for events, camera control, effects, items, etc.
  *
  * @property {Object.<string, number>} portals
  * Portal object IDs that change player form, speed, gravity, size,
- * dual mode, or other movement rules.
+ * dual mode, etc.
  */
 let obj_ids = {
   special: {

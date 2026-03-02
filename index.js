@@ -82,7 +82,7 @@ const events = require('./properties/game_events.js');
 const log = require('./lib/log.js');
 const WebSocket = require('ws');
 const crypto = require('crypto');
-const LevelReader = require('./reader');
+const { LevelReader, SingleLevelReader } = require('./reader');
 const $group = require('./types/group.js');
 const $color = require('./types/color.js');
 const $block = require('./types/block.js');
@@ -409,9 +409,7 @@ let object = (dict) => {
 };
 
 let triggerPositioningAllowed = true;
-let verticalPos = true;
 let tstart = 6000;
-let tlimit = 6000;
 let trigger_iter = 0;
 
 /**
@@ -422,14 +420,20 @@ let trigger_iter = 0;
 let trigger = (dict) => {
   let iobj = object(dict);
   if (triggerPositioningAllowed) {
+    /*
     if (verticalPos) {
       if (Context.list[Context.current].name !== 'global') iobj.obj_props.X = (Math.floor((trigger_iter * 30) / tlimit) * 30);
       iobj.obj_props.Y = tlimit - ((trigger_iter * 30) % tlimit) + tstart;
     } else {
-      let xMovementAllowed = Context.list[Context.current].name !== 'global';
-      if (xMovementAllowed) iobj.obj_props.X = ((trigger_iter * 30) % tlimit);
-      iobj.obj_props.Y = xMovementAllowed ? tlimit - (Math.floor((trigger_iter * 30) / tlimit) * 30) + tstart : tlimit - ((trigger_iter * 30) % tlimit) + tstart;
+      */
+    let xMovementAllowed = Context.list[Context.current].name !== 'global';
+    if (xMovementAllowed) {
+      iobj.obj_props.X = (trigger_iter * 30)
+      iobj.obj_props.Y = tstart;
+    } else {
+      iobj.obj_props.Y = tstart - (trigger_iter * 30);
     }
+    // }
   }
   // ORD is broken
   // iobj.obj_props.ORD = trigger_iter;
@@ -449,6 +453,41 @@ let trigger_function = (cb) => {
   Context.set(oldContext);
   return newContext.group;
 };
+
+/**
+ * A type of trigger function that, when called, lets you block all other triggers until a trigger function stops executing.
+ * @param {function} callback Trigger function; callback provides parameter `stop_exec` that lets you stop blocking at a specific place.
+ * @returns {group} Group ID of trigger function
+ */
+let blocking_trigger_fn = (func) => {
+    let contextIDX = 0;
+    let contextIDXC = counter();
+    let tempIDXC = counter();
+    let aftercall = trigger_function(() => {});
+    let alr_stopped = false;
+    let stop_exec = () => {
+        contextIDXC.set(tempIDXC);
+        aftercall.call();
+        alr_stopped = true;
+    }
+    let newctx = trigger_function(() => {
+        func(stop_exec);
+        if (!alr_stopped) stop_exec();
+    });
+    // override group.call() for blocking trigger funcs
+    newctx.call = (delay = 0) => {
+        contextIDX++;  
+        tempIDXC.set(contextIDX);
+        spawn_trigger(newctx, delay).add();
+        Context.set(aftercall);
+        let stored;
+        compare(contextIDXC, EQ, contextIDX, trigger_function(() => {
+            stored = $.trigger_fn_context();
+        }));
+        Context.set(stored);
+    };
+    return newctx;
+}
 
 /**
  * Waits for a specific amount of seconds
@@ -898,7 +937,7 @@ let exportToSavefile = (options = {}) => {
 
 /**
  * @typedef {Object} export_config
- * @property {string} type Type of export (can be "levelstring", "savefile" or "live_editor")
+ * @property {string} type Type of export (can be "levelstring", "savefile", "live_editor" or "gmd")
  * @property {save_config} options Configuration for specific export type
  */
 /**
@@ -911,9 +950,7 @@ let exportConfig = (conf) => {
     let options = conf.options;
     triggerPositioningAllowed = conf?.options?.triggerPositioningAllowed ?? true;
     
-    verticalPos = conf?.options?.verticalPositioning ?? true
     tstart = conf?.options?.trigger_pos_start ?? 6000
-    tlimit = conf?.options?.trigger_pos_limit ?? 6000
     if (conf?.options?.replacePastObjects == undefined) {
       conf.options.replacePastObjects = true;
       options.replacePastObjects = true;
@@ -975,6 +1012,39 @@ let exportConfig = (conf) => {
           }
         });
         break;
+        case "gmd":
+          const sf_level_gmd = await new SingleLevelReader(options?.path);
+          level.level_reader = sf_level_gmd;
+          if (!sf_level_gmd.data.levelstring) throw new Error(`Level "${sf_level_gmd.data.name}" has not been initialized, add any object to initialize the level then rerun this script`);
+          let last_gmd = conf?.options?.replacePastObjects ? remove_past_objects(sf_level_gmd.data.levelstring, sf_level_gmd.data.name) : sf_level_gmd.data.levelstring;
+          find_free(last_gmd);
+          resolve(true);
+          process.on('beforeExit', error => {
+            if (!error) {
+              prep_lvl(conf?.options?.optimize, conf?.options?.replacePastObjects);
+              if (unavailable_g <= limit) {
+                if (options?.info) {
+                  console.log(`Writing to level: ${sf_level_gmd.data.name}`);
+                  console.log('Finished, result stats:');
+                  console.log('Object count:', resulting.split(';').length - 1);
+                  console.log('Group count:', unavailable_g);
+                  console.log('Color count:', unavailable_c);
+                }
+              } else {
+                if (
+                  (options.hasOwnProperty('group_count_warning') &&
+                    options.group_count_warning == true) ||
+                  !options.hasOwnProperty('group_count_warning')
+                )
+                  throw new Error(`Group count surpasses the limit! (${unavailable_g}/${limit})`);
+              }
+              last_gmd += resulting;
+              sf_level_gmd.set(last_gmd);
+              sf_level_gmd.save(conf?.options?.gmdOutput);
+              process.exit(0);
+            }
+          });
+          break;
       case "live_editor":
         let socket = new WebSocket('ws://127.0.0.1:1313');
         socket.addEventListener('message', (event) => {
@@ -1078,15 +1148,14 @@ let liveEditor = (conf) => {
  * @property {boolean} [info=false] Whether to log information to console when finished
  * @property {boolean} [group_count_warning=true] Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
  * @property {string} [level_name=by default, it writes to your most recent level/topmost level] Name of level (only for exportToSavefile)
- * @property {string} [path=path to savefile automatically detected based off of OS] Path to CCLocalLevels.dat savefile (only for exportToSavefile)
+ * @property {string} [path=path to savefile automatically detected based on OS, or required path to .gmd file] Path to CCLocalLevels.dat savefile, or path to .gmd input file (only for exportToSavefile and gmd types)
  * @property {boolean} [reencrypt=true] Whether to reencrypt savefile after editing it, or to let GD encrypt it
  * @property {boolean} [optimize=true] Whether to optimize unused groups & triggers that point to unused groups
  * @property {boolean} [replacePastObjects=true] Whether to delete all objects added by G.js in the past & replace them with the new objects
  * @property {number|group} [removeGroup=9999] Group to use to mark objects to be automatically deleted when re-running the script (default is 9999)
  * @property {boolean} [triggerPositioningAllowed=true] Whether to allow G.js to automatically position added triggers
- * @property {boolean} [verticalPositioning=true] Whether to position triggers vertically or horizontally in terms of order
  * @property {number} [trigger_pos_start=6000] The Y position (small-step units) where triggers should start being placed
- * @property {number} [trigger_pos_limit=6000] The Y/X position (small-step units, axis depends on verticalPositioning) where triggers should stop being placed and to start a new row/column
+ * @property {string} [gmdOutput=path] The location to a .gmd output file, by default is equal to `path` option (only for gmd mode)
 */
 /**
  * Core type holding important functions for adding to levels, exporting, and modifying scripts.
@@ -1308,30 +1377,88 @@ let obj_ids = {
     COLLISION_BLOCK: 1816,
   },
   triggers: {
+    START_POSITION: 31,
+    TRAIL_ENABLE: 32,
+    TRAIL_DISABLE: 33,
+    COLOR: 899,
+    MOVE: 901,
+    PULSE: 1006,
+    ALPHA: 1007,
+    TOGGLE: 1049,
     SPAWN: 1268,
-    ON_DEATH: 1812,
     ROTATE: 1346,
-    COUNT: 1611,
-    DISABLE_TRAIL: 33,
-    HIDE: 1612,
-    PICKUP: 1817,
-    COLLISION: 1815,
-    ENABLE_TRAIL: 32,
+    FOLLOW: 1347,
+    SHAKE: 1520,
     ANIMATE: 1585,
     TOUCH: 1595,
-    INSTANT_COUNT: 1811,
-    BG_EFFECT_OFF: 1819,
-    TOGGLE: 1049,
-    MOVE: 901,
-    ALPHA: 1007,
-    SHOW: 1613,
+    COUNT: 1611,
+    PLAYER_HIDE: 1612,
+    PLAYER_SHOW: 1613,
     STOP: 1616,
-    FOLLOW: 1347,
-    PULSE: 1006,
-    BG_EFFECT_ON: 1818,
-    SHAKE: 1520,
+    INSTANT_COUNT: 1811,
+    ON_DEATH: 1812,
     FOLLOW_PLAYER_Y: 1814,
-    COLOR: 899,
+    COLLISION: 1815,
+    COLLISION_BLOCK: 1816,
+    PICKUP: 1817,
+    BG_EFFECT_ENABLE: 1818,
+    BG_EFFECT_DISABLE: 1819,
+    RANDOM: 1912,
+    ZOOM_CAMERA: 1913,
+    STATIC_CAMERA: 1914,
+    OFFSET_CAMERA: 1916,
+    REVERSE: 1917,
+    END_WALL: 1931,
+    PLAYER_CONTROL: 1932,
+    SONG: 1934,
+    TIMEWARP: 1935,
+    ROTATE_CAMERA: 2015,
+    CAMERA_GUIDE: 2016,
+    CAMERA_EDGE: 2062,
+    CHECKPOINT: 2063,
+    GRAVITY: 2066,
+    SCALE: 2067,
+    ADV_RANDOM: 2068,
+    FORCE_BLOCK: 2069,
+    OPTIONS: 2899,
+    ARROW: 2900,
+    GAMEPLAY_OFFSET: 2901,
+    GRADIENT: 2903,
+    CAMERA_MODE: 2925,
+    EDIT_MG: 2999,
+    ADV_FOLLOW: 3016,
+    TELEPORT: 3022,
+    CHANGE_BG: 3029,
+    CHANGE_GR: 3030,
+    CHANGE_MG: 3031,
+    KEYFRAME: 3032,
+    ANIMATE_KEYFRAME: 3033,
+    END: 3600,
+    SFX: 3602,
+    EDIT_SFX: 3603,
+    EVENT: 3604,
+    EDIT_SONG: 3605,
+    BG_SPEED: 3606,
+    SEQUENCE: 3607,
+    SPAWN_PARTICLE: 3608,
+    INSTANT_COLLISION: 3609,
+    MG_SPEED: 3612,
+    UI: 3613,
+    TIME: 3614,
+    TIME_EVENT: 3615,
+    TIME_CONTROL: 3617,
+    RESET: 3618,
+    ITEM_EDIT: 3619,
+    ITEM_COMPARE: 3620,
+    STATE_BLOCK: 3640,
+    ITEM_PERSIST: 3641,
+    BPM: 3642,
+    TOGGLE_BLOCK: 3643,
+    FORCE_CIRCLE: 3645,
+    OBJECT_CONTROL: 3655,
+    EDIT_ADV_FOLLOW: 3660,
+    RETARGET_ADV_FOLLOW: 3661,
+    LINK_VISIBLE: 3662
   },
   portals: {
     SPEED_GREEN: 202,
@@ -1355,6 +1482,7 @@ let obj_ids = {
     SPEED_PINK: 203,
     SPEED_YELLOW: 200,
     DUAL_OFF: 287,
+    SWING: 1933
   },
 };
 
@@ -1435,6 +1563,12 @@ let animations = {
     fromAttack03: 8
   }
 };
+/**
+ * Calculates units per second based on an input player speed
+ * @property {number} speed The player speed (e.g. 0.5 for half, 1 for normal, 2 for double, 3 for 3x speed, etc.)
+ * @returns {number} The units per second of the player
+*/
+const speed = x => (5.170649 + 8.019236*x - 3.726698*x**2 + 1.000783*x**3 - 0.08783546*x**4) * 30;
 let exps = {
   // constants
   EQUAL_TO: 0,
@@ -1446,6 +1580,11 @@ let exps = {
   _3DLINE: color(1003),
   OBJECT: color(1004),
   GROUND2: color(1009),
+  BLACK: color(1010),
+  WHITE: color(1011),
+  LIGHTER: color(1012),
+  MIDDLEGROUND: color(1013),
+  MIDDLEGROUND_2: color(1014),
   MODE_STOP: 0,
   MODE_LOOP: 1,
   MODE_LAST: 2,
@@ -1462,6 +1601,7 @@ let exps = {
   color_trigger,
   move_trigger,
   trigger_function,
+  blocking_trigger_fn,
   item_comp,
   compare,
   on,
@@ -1541,6 +1681,7 @@ let exps = {
   render_frames,
   render_frame_loop,
   trigger,
+  speed,
   reverse: () => {
     $.add(trigger({
       OBJ_ID: 1917

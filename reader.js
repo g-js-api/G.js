@@ -314,4 +314,46 @@ class LevelReader {
     }
 }
 
-module.exports = LevelReader;
+class SingleLevelReader {
+  constructor(filename) {
+    const xml = fs.readFileSync(filename, "utf8");
+    this.root = parse(xml);
+
+    const dict = this.root.childNodes[1].childNodes[0];
+    const tags = dict.childNodes;
+
+    this.data = {};
+
+    for (let i = 0; i < tags.length; i++) {
+      if (tags[i].rawTagName !== "k") continue;
+
+      const key = tags[i].childNodes[0]._rawText;
+      const valueNode = tags[i + 1];
+
+      if (key === "k2") {
+        this.data.name = valueNode.childNodes[0]._rawText;
+      }
+
+      if (key === "k4") {
+        this.data.raw = valueNode.childNodes[0]._rawText;
+        this.data.levelstring = decode_level(this.data.raw);
+
+        // attach mutators
+        this.set = (lvl) => {
+          valueNode.childNodes[0]._rawText = encode_level(lvl);
+          this.data.levelstring = lvl;
+        };
+
+        this.add = (lvl) => {
+          this.set(this.data.levelstring + lvl);
+        };
+      }
+    }
+
+    this.save = (f) => {
+      fs.writeFileSync(f || filename, this.root.toString());
+    };
+  }
+}
+
+module.exports = { LevelReader, SingleLevelReader };

@@ -119,6 +119,12 @@ declare module "index" {
      */
     function trigger_function(callback: (...params: any[]) => any): group;
     /**
+     * A type of trigger function that, when called, lets you block all other triggers until a trigger function stops executing.
+     * @param callback - Trigger function; callback provides parameter `stop_exec` that lets you stop blocking at a specific place.
+     * @returns Group ID of trigger function
+     */
+    function blocking_trigger_fn(callback: (...params: any[]) => any): group;
+    /**
      * Waits for a specific amount of seconds
      * @param time - How long to wait
      */
@@ -184,7 +190,7 @@ declare module "index" {
         BOUNCE_OUT: number;
     };
     /**
-     * @property type - Type of export (can be "levelstring", "savefile" or "live_editor")
+     * @property type - Type of export (can be "levelstring", "savefile", "live_editor" or "gmd")
      * @property options - Configuration for specific export type
      */
     type export_config = {
@@ -202,15 +208,14 @@ declare module "index" {
      * @property [info = false] - Whether to log information to console when finished
      * @property [group_count_warning = true] - Whether to warn that group count is surpassed (only useful if in future updates the group count is increased)
      * @property [level_name = by default, it writes to your most recent level/topmost level] - Name of level (only for exportToSavefile)
-     * @property [path = path to savefile automatically detected based off of OS] - Path to CCLocalLevels.dat savefile (only for exportToSavefile)
+     * @property [path = path to savefile automatically detected based on OS, or required path to .gmd file] - Path to CCLocalLevels.dat savefile, or path to .gmd input file (only for exportToSavefile and gmd types)
      * @property [reencrypt = true] - Whether to reencrypt savefile after editing it, or to let GD encrypt it
      * @property [optimize = true] - Whether to optimize unused groups & triggers that point to unused groups
      * @property [replacePastObjects = true] - Whether to delete all objects added by G.js in the past & replace them with the new objects
      * @property [removeGroup = 9999] - Group to use to mark objects to be automatically deleted when re-running the script (default is 9999)
      * @property [triggerPositioningAllowed = true] - Whether to allow G.js to automatically position added triggers
-     * @property [verticalPositioning = true] - Whether to position triggers vertically or horizontally in terms of order
      * @property [trigger_pos_start = 6000] - The Y position (small-step units) where triggers should start being placed
-     * @property [trigger_pos_limit = 6000] - The Y/X position (small-step units, axis depends on verticalPositioning) where triggers should stop being placed and to start a new row/column
+     * @property [gmdOutput = path] - The location to a .gmd output file, by default is equal to `path` option (only for gmd mode)
      */
     type save_config = {
         info?: boolean;
@@ -222,9 +227,8 @@ declare module "index" {
         replacePastObjects?: boolean;
         removeGroup?: number | group;
         triggerPositioningAllowed?: boolean;
-        verticalPositioning?: boolean;
         trigger_pos_start?: number;
-        trigger_pos_limit?: number;
+        gmdOutput?: string;
     };
     /**
      * Core type holding important functions for adding to levels, exporting, and modifying scripts.
@@ -499,6 +503,12 @@ declare module "index" {
         bat: bat_animations;
         spikeball: spikeball_animations;
     };
+    /**
+     * Calculates units per second based on an input player speed
+     * @property speed - The player speed (e.g. 0.5 for half, 1 for normal, 2 for double, 3 for 3x speed, etc.)
+     * @returns The units per second of the player
+     */
+    function speed(): number;
 }
 
 /**
@@ -1094,8 +1104,9 @@ declare module "general-purpose" {
     /**
      * Teleports the player to a specific target object
      * @param id - Group ID of target object
+     * @param no_effects - Weather the teleport trigger generates an effect
      */
-    function teleport(id: group): void;
+    function teleport(id: group, no_effects: boolean): void;
     /**
      * Adds a move trigger and returns it
      * @param id - Group ID of target object
@@ -2166,12 +2177,11 @@ declare module "block" {
         constructor(number: number, specific?: boolean);
         /**
          * Returns a collision block object
-         * @param b2 - Other block to check for collision
          * @param x - X coordinate of the collision block
          * @param y - Y coordinate of the collision block
          * @returns Returned collision block
          */
-        collision_block(b2: block, x: number, y: number): any;
+        collision_block(x: number, y: number): any;
         /**
          * @param b2 - Other block to check for collision
          * @param true_id - Group to call if colliding with b2

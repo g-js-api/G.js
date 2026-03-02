@@ -24,7 +24,6 @@ class $block {
   }
   /**
    * Returns a collision block object
-   * @param {block} b2 Other block to check for collision
    * @param {number} x X coordinate of the collision block
    * @param {number} y Y coordinate of the collision block
    * @returns {object} Returned collision block

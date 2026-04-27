@@ -460,33 +460,33 @@ let trigger_function = (cb) => {
  * @returns {group} Group ID of trigger function
  */
 let blocking_trigger_fn = (func) => {
-    let contextIDX = 0;
-    let contextIDXC = counter();
-    let tempIDXC = counter();
-    let aftercall = trigger_function(() => {});
-    let alr_stopped = false;
-    let stop_exec = () => {
-        contextIDXC.set(tempIDXC);
-        aftercall.call();
-        alr_stopped = true;
-    }
-    let newctx = trigger_function(() => {
-        func(stop_exec);
-        if (!alr_stopped) stop_exec();
-    });
-    // override group.call() for blocking trigger funcs
-    newctx.call = (delay = 0) => {
-        contextIDX++;  
-        tempIDXC.set(contextIDX);
-        spawn_trigger(newctx, delay).add();
-        Context.set(aftercall);
-        let stored;
-        compare(contextIDXC, EQ, contextIDX, trigger_function(() => {
-            stored = $.trigger_fn_context();
-        }));
-        Context.set(stored);
-    };
-    return newctx;
+  let contextIDX = 0;
+  let contextIDXC = counter();
+  let tempIDXC = counter();
+  let aftercall = trigger_function(() => { });
+  let alr_stopped = false;
+  let stop_exec = () => {
+    contextIDXC.set(tempIDXC);
+    aftercall.call();
+    alr_stopped = true;
+  }
+  let newctx = trigger_function(() => {
+    func(stop_exec);
+    if (!alr_stopped) stop_exec();
+  });
+  // override group.call() for blocking trigger funcs
+  newctx.call = (delay = 0) => {
+    contextIDX++;
+    tempIDXC.set(contextIDX);
+    spawn_trigger(newctx, delay).add();
+    Context.set(aftercall);
+    let stored;
+    compare(contextIDXC, EQ, contextIDX, trigger_function(() => {
+      stored = $.trigger_fn_context();
+    }));
+    Context.set(stored);
+  };
+  return newctx;
 }
 
 /**
@@ -718,6 +718,84 @@ let optimize = () => {
   };
 };
 
+let appendedLevelstring = '';
+
+let levelstring = (string) => {
+  let splitString = string.split(';');
+  if (splitString[splitString.length - 1] == '') splitString = splitString.slice(0, -1);
+
+  let processed = [];
+  let newpairs = [];
+  splitString.forEach((obj, splitIdx) => {
+    let objdict = levelstring_to_obj(obj + ';')[0]
+    if (!objdict.GROUPS) {
+      objdict.GROUPS = group(remove_group);
+    } else {
+      if (Array.isArray(objdict.GROUPS)) {
+        objdict.GROUPS.push(group(remove_group));
+      } else {
+        objdict.GROUPS = [objdict.GROUPS, group(remove_group)];
+      }
+    }
+    obj = obj_to_levelstring(objdict);
+
+    const pairs = [];
+    const items = obj.split(",");
+    for (let i = 0; i < items.length; i += 2) {
+      const first = parseInt(items[i]);
+      const second = items[i + 1];
+      pairs.push([first, second]);
+    }
+
+    processed.push({
+      edit: (dict) => {
+        // mini preprocess (inserts removal group)
+        if (!dict.GROUPS) {
+          dict.GROUPS = group(remove_group);
+        } else {
+          if (Array.isArray(dict.GROUPS)) {
+            dict.GROUPS.push(group(remove_group));
+          } else {
+            dict.GROUPS = [dict.GROUPS, group(remove_group)];
+          }
+        }
+
+        let commastring = obj_to_levelstring(dict).slice(0, -1);
+        const pairs2 = [];
+        const items = commastring.split(",");
+        for (let i = 0; i < items.length; i += 2) {
+          const first = parseInt(items[i]);
+          const second = items[i + 1];
+          pairs2.push([first, second]);
+        }
+
+        let replaceOffset = 0;
+        pairs2.forEach((val, ind) => {
+          let keys = pairs.map(y => y[0]);
+          let replacePoint = keys.indexOf(val[0]);
+          if (replacePoint == -1) {
+            replacePoint = pairs.length + replaceOffset++;
+          }
+          pairs[replacePoint] = val;
+        });
+        return processed[splitIdx]
+      },
+      add: () => {
+        // logic for adding one object here
+        appendedLevelstring += pairs.flat().join(',') + ';';
+      }
+    })
+    newpairs.push(pairs);
+  })
+
+  return {
+    objects: processed,
+    add: () => {
+      appendedLevelstring += newpairs.map(x => x.join(',')).join(';')
+    }
+  }
+}
+
 let prep_lvl = (optimize_op = true, replace = true) => {
   if (already_prepped) return;
   if (optimize_op) optimize();
@@ -792,6 +870,7 @@ let prep_lvl = (optimize_op = true, replace = true) => {
       resulting += r;
     }
   }
+  resulting += appendedLevelstring;
   already_prepped = true;
 };
 
@@ -949,7 +1028,7 @@ let exportConfig = (conf) => {
   return new Promise(async (resolve) => {
     let options = conf.options;
     triggerPositioningAllowed = conf?.options?.triggerPositioningAllowed ?? true;
-    
+
     tstart = conf?.options?.trigger_pos_start ?? 6000
     if (conf?.options?.replacePastObjects == undefined) {
       conf.options.replacePastObjects = true;
@@ -1012,39 +1091,39 @@ let exportConfig = (conf) => {
           }
         });
         break;
-        case "gmd":
-          const sf_level_gmd = await new SingleLevelReader(options?.path);
-          level.level_reader = sf_level_gmd;
-          if (!sf_level_gmd.data.levelstring) throw new Error(`Level "${sf_level_gmd.data.name}" has not been initialized, add any object to initialize the level then rerun this script`);
-          let last_gmd = conf?.options?.replacePastObjects ? remove_past_objects(sf_level_gmd.data.levelstring, sf_level_gmd.data.name) : sf_level_gmd.data.levelstring;
-          find_free(last_gmd);
-          resolve(true);
-          process.on('beforeExit', error => {
-            if (!error) {
-              prep_lvl(conf?.options?.optimize, conf?.options?.replacePastObjects);
-              if (unavailable_g <= limit) {
-                if (options?.info) {
-                  console.log(`Writing to level: ${sf_level_gmd.data.name}`);
-                  console.log('Finished, result stats:');
-                  console.log('Object count:', resulting.split(';').length - 1);
-                  console.log('Group count:', unavailable_g);
-                  console.log('Color count:', unavailable_c);
-                }
-              } else {
-                if (
-                  (options.hasOwnProperty('group_count_warning') &&
-                    options.group_count_warning == true) ||
-                  !options.hasOwnProperty('group_count_warning')
-                )
-                  throw new Error(`Group count surpasses the limit! (${unavailable_g}/${limit})`);
+      case "gmd":
+        const sf_level_gmd = await new SingleLevelReader(options?.path);
+        level.level_reader = sf_level_gmd;
+        if (!sf_level_gmd.data.levelstring) throw new Error(`Level "${sf_level_gmd.data.name}" has not been initialized, add any object to initialize the level then rerun this script`);
+        let last_gmd = conf?.options?.replacePastObjects ? remove_past_objects(sf_level_gmd.data.levelstring, sf_level_gmd.data.name) : sf_level_gmd.data.levelstring;
+        find_free(last_gmd);
+        resolve(true);
+        process.on('beforeExit', error => {
+          if (!error) {
+            prep_lvl(conf?.options?.optimize, conf?.options?.replacePastObjects);
+            if (unavailable_g <= limit) {
+              if (options?.info) {
+                console.log(`Writing to level: ${sf_level_gmd.data.name}`);
+                console.log('Finished, result stats:');
+                console.log('Object count:', resulting.split(';').length - 1);
+                console.log('Group count:', unavailable_g);
+                console.log('Color count:', unavailable_c);
               }
-              last_gmd += resulting;
-              sf_level_gmd.set(last_gmd);
-              sf_level_gmd.save(conf?.options?.gmdOutput);
-              process.exit(0);
+            } else {
+              if (
+                (options.hasOwnProperty('group_count_warning') &&
+                  options.group_count_warning == true) ||
+                !options.hasOwnProperty('group_count_warning')
+              )
+                throw new Error(`Group count surpasses the limit! (${unavailable_g}/${limit})`);
             }
-          });
-          break;
+            last_gmd += resulting;
+            sf_level_gmd.set(last_gmd);
+            sf_level_gmd.save(conf?.options?.gmdOutput);
+            process.exit(0);
+          }
+        });
+        break;
       case "live_editor":
         let socket = new WebSocket('ws://127.0.0.1:1313');
         socket.addEventListener('message', (event) => {
@@ -1507,7 +1586,7 @@ let animations = {
  * @property {number} speed The player speed (e.g. 0.5 for half, 1 for normal, 2 for double, 3 for 3x speed, etc.)
  * @returns {number} The units per second of the player
 */
-const speed = x => (5.170649 + 8.019236*x - 3.726698*x**2 + 1.000783*x**3 - 0.08783546*x**4) * 30;
+const speed = x => (5.170649 + 8.019236 * x - 3.726698 * x ** 2 + 1.000783 * x ** 3 - 0.08783546 * x ** 4) * 30;
 let exps = {
   // constants
   EQUAL_TO: 0,
@@ -1620,6 +1699,7 @@ let exps = {
   render_frames,
   render_frame_loop,
   trigger,
+  levelstring,
   speed,
   reverse: () => {
     $.add(trigger({

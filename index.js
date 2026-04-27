@@ -720,6 +720,17 @@ let optimize = () => {
 
 let appendedLevelstring = '';
 
+/**
+ * Parses a level string, letting you edit it and/or add it directly.
+ * @param {string} string Some level string.
+ * @returns {{
+ *   objects: Array<{
+ *     edit: (dict: Record<string, any>) => any,
+ *     add: () => void
+ *   }>,
+ *   add: () => void
+ * }}
+ */
 let levelstring = (string) => {
   let splitString = string.split(';');
   if (splitString[splitString.length - 1] == '') splitString = splitString.slice(0, -1);

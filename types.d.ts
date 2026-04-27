@@ -150,6 +150,11 @@ declare module "index" {
         function get_objects(prop: string | number, pattern: (...params: any[]) => any): object[];
     }
     /**
+     * Parses a level string, letting you edit it and/or add it directly.
+     * @param string - Some level string.
+     */
+    function levelstring(string: string): any;
+    /**
      * @property EASE_IN_OUT - Ease in out easing
      * @property EASE_IN - Ease in easing
      * @property EASE_OUT - Ease out easing
@@ -289,11 +294,10 @@ declare module "index" {
     function hsv(hue: number, sat: number, bright: number, sat_checked: boolean, bright_checked: boolean): string;
     /**
      * Object containing various IDs for objects, triggers, and portals.
-     * @property special - Special / non-trigger objects (blocks, displays, collision helpers, etc.).
-     * @property triggers - Trigger object IDs used for events, logic, camera control, effects,
-    gameplay manipulation, and state changes.
+     * @property special - Special / non-trigger objects (blocks, displays, collisions, etc.).
+     * @property triggers - Trigger object IDs used for events, camera control, effects, items, etc.
      * @property portals - Portal object IDs that change player form, speed, gravity, size,
-    dual mode, or other movement rules.
+    dual mode, etc.
      */
     type obj_ids = {
         special: {

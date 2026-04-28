@@ -759,6 +759,7 @@ let levelstring = (string) => {
     }
 
     processed.push({
+      obj_props: objdict,
       edit: (dict) => {
         // mini preprocess (inserts removal group)
         if (!dict.GROUPS) {

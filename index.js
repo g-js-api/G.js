@@ -673,6 +673,34 @@ let obj_to_levelstring = (l) => {
   }
   return res.slice(0, -1) + ';';
 };
+let obj_to_levelstring_notype = (l) => {
+  let res = '';
+
+  for (var d_ in l) {
+    let val = l[d_];
+    let key = reverse[d_];
+
+    if (!isNaN(parseInt(d_))) key = d_;
+
+    if (typeof val == 'boolean') val = +val;
+
+    if (val && typeof val === 'object') {
+      if (Array.isArray(val) && dot_separated_keys.includes(key)) {
+        val = val.map(x => x?.value ?? x).filter(x => x !== '').join('.');
+      } else if ('value' in val) {
+        val = val.value;
+      }
+    }
+
+    if (mappings.hasOwnProperty(key)) {
+      key = mappings[key];
+    }
+
+    res += `${key},${val},`;
+  }
+
+  return res.slice(0, -1) + ';';
+};
 let resulting = '';
 
 let add = (...objects) => {
@@ -748,7 +776,7 @@ let levelstring = (string) => {
         objdict.GROUPS = [objdict.GROUPS, group(remove_group)];
       }
     }
-    obj = obj_to_levelstring(objdict);
+    obj = obj_to_levelstring_notype(objdict);
 
     const pairs = [];
     const items = obj.split(",");

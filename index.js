@@ -510,7 +510,9 @@ for (var i in d) {
 
 // stuff for custom things
 let dot_separated_keys = [57, 442, 274];
+let a_separated_keys = [43];
 dot_separated_keys = dot_separated_keys.map(x => x.toString())
+a_separated_keys = a_separated_keys.map(x => x.toString())
 
 let levelstring_to_obj = (string) => {
   let objects = [];
@@ -524,12 +526,14 @@ let levelstring_to_obj = (string) => {
         if (!(i % 2)) {
           let obj_prop = parseInt(x);
           let value = spl[i + 1];
-          // if (value.split('.').length > 2) console.log(value, obj_prop)
-          if (typeof value == 'string' && value.includes('.') && dot_separated_keys.includes(obj_prop.toString())) {
+          if (typeof value == 'string' && dot_separated_keys.includes(obj_prop.toString())) {
             value = value.split('.').map(x => parseInt(x));
           }
-          if (!isNaN(parseFloat(value))) value = parseFloat(value);
-          if (!isNaN(parseInt(value)) && typeof value !== 'number') value = parseInt(value);
+          if (typeof value !== 'object' && !a_separated_keys.includes(obj_prop.toString())) {
+            if (!isNaN(parseFloat(value))) value = parseFloat(value);
+            if (!isNaN(parseInt(value)) && typeof value !== 'number') value = parseInt(value);
+          }
+          
           r[d[obj_prop] || obj_prop] = value;
         }
       });
@@ -678,17 +682,41 @@ let obj_to_levelstring_notype = (l) => {
 
   for (var d_ in l) {
     let val = l[d_];
-    let key = reverse[d_];
-
+    let key = reverse[d_] ?? d_;
     if (!isNaN(parseInt(d_))) key = d_;
 
-    if (typeof val == 'boolean') val = +val;
+    if (typeof val === 'boolean') val = +val;
 
-    if (val && typeof val === 'object') {
-      if (Array.isArray(val) && dot_separated_keys.includes(key)) {
-        val = val.map(x => x?.value ?? x).filter(x => x !== '').join('.');
-      } else if ('value' in val) {
-        val = val.value;
+    if (explicit[d_]) {
+      // CASE 1: plain primitive (number/string/etc) → accept directly
+      if (typeof val !== 'object' || val === null) {
+        // do nothing, allow raw value
+      }
+
+      // CASE 2: typed object { type, value }
+      else if (val.value !== undefined) {
+        let cond = typeof explicit[d_] === "string"
+          ? val.type === explicit[d_]
+          : explicit[d_].includes(val.type);
+
+        if (cond) {
+          val = val.value;
+        } else {
+          throw `Expected type "${explicit[d_]}", got "${val.type}"`;
+        }
+      }
+
+      // CASE 3: array with dot-separated keys
+      else if (Array.isArray(val) && dot_separated_keys.includes(key)) {
+        val = val
+          .map(x => (x && x.value !== undefined ? x.value : x))
+          .filter(x => x !== undefined && x !== '')
+          .join('.');
+      }
+
+      // CASE 4: invalid object
+      else {
+        throw `Invalid value for key "${key}"`;
       }
     }
 
@@ -767,6 +795,8 @@ let levelstring = (string) => {
   let newpairs = [];
   splitString.forEach((obj, splitIdx) => {
     let objdict = levelstring_to_obj(obj + ';')[0]
+
+    obj = obj_to_levelstring_notype(objdict);
     if (!objdict.GROUPS) {
       objdict.GROUPS = group(remove_group);
     } else {
@@ -776,8 +806,7 @@ let levelstring = (string) => {
         objdict.GROUPS = [objdict.GROUPS, group(remove_group)];
       }
     }
-    obj = obj_to_levelstring_notype(objdict);
-
+    
     const pairs = [];
     const items = obj.split(",");
     for (let i = 0; i < items.length; i += 2) {

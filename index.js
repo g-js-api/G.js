@@ -817,19 +817,15 @@ let levelstring = (string) => {
     processed.push({
       obj_props: objdict,
       edit: (dict) => {
-        // mini preprocess (inserts removal group)
-        // do this later for editing groups
-        /*
-        if (!objdict.GROUPS) {
-          objdict.GROUPS = group(remove_group);
-        } else {
-          if (!Array.isArray(objdict.GROUPS)) objdict.GROUPS = [objdict.GROUPS]
-          let untyped = objdict.GROUPS.map(x => x.value ?? x);
+        // since dict overrides existing obj props, we can just insert remove 
+        // group into dict (not objdict)
+        if (dict.GROUPS) {
+          if (!Array.isArray(dict.GROUPS)) dict.GROUPS = [dict.GROUPS]
+          let untyped = dict.GROUPS.map(x => x.value ?? x);
           if (!untyped.includes(remove_group)) {
-            objdict.GROUPS.push(group(remove_group));
+            dict.GROUPS.push(group(remove_group));
           }
         }
-        */
 
         let commastring = obj_to_levelstring(dict).slice(0, -1);
         const pairs2 = [];

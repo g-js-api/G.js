@@ -796,7 +796,6 @@ let levelstring = (string) => {
   splitString.forEach((obj, splitIdx) => {
     let objdict = levelstring_to_obj(obj + ';')[0]
 
-    obj = obj_to_levelstring_notype(objdict);
     if (!objdict.GROUPS) {
       objdict.GROUPS = group(remove_group);
     } else {
@@ -806,7 +805,7 @@ let levelstring = (string) => {
         objdict.GROUPS = [objdict.GROUPS, group(remove_group)];
       }
     }
-    
+    obj = obj_to_levelstring_notype(objdict);
     const pairs = [];
     const items = obj.split(",");
     for (let i = 0; i < items.length; i += 2) {
@@ -819,15 +818,18 @@ let levelstring = (string) => {
       obj_props: objdict,
       edit: (dict) => {
         // mini preprocess (inserts removal group)
-        if (!dict.GROUPS) {
-          dict.GROUPS = group(remove_group);
+        // do this later for editing groups
+        /*
+        if (!objdict.GROUPS) {
+          objdict.GROUPS = group(remove_group);
         } else {
-          if (Array.isArray(dict.GROUPS)) {
-            dict.GROUPS.push(group(remove_group));
-          } else {
-            dict.GROUPS = [dict.GROUPS, group(remove_group)];
+          if (!Array.isArray(objdict.GROUPS)) objdict.GROUPS = [objdict.GROUPS]
+          let untyped = objdict.GROUPS.map(x => x.value ?? x);
+          if (!untyped.includes(remove_group)) {
+            objdict.GROUPS.push(group(remove_group));
           }
         }
+        */
 
         let commastring = obj_to_levelstring(dict).slice(0, -1);
         const pairs2 = [];

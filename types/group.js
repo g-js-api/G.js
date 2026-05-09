@@ -3,6 +3,7 @@
  */
 /**
  * @typedef {object} group
+ * @property {function} trigger A function that does many triggers in only one function (Documentation is needed, even if it's not complete.)
  * @property {function} remap Remaps multiple IDs inside of the group to others
  * @property {function} move Moves the group
  * @property {function} call Calls the group
@@ -37,6 +38,71 @@ class $group {
         this.type = 'group';
         if (specific && !all_known.groups.includes(a)) all_known.groups.push(a);
     }
+
+    /**
+    * A function that does many triggers in only one function (Documentation is needed, even if it's not complete.)
+    * @param {string} The trigger type that you want
+    * @param {object} The arguments (varies depending on the type)
+    * @param {time} The duration that you want
+    */
+    trigger(type, ar, duration = 0){
+        if(!(type && ar)){
+            return console.log("Some trigger function arguments is missing")
+        };
+        switch (type) {
+          case "alpha":
+            if(!ar.opacity){
+                return return console.log("Missing ar arguments are missing for this operation")
+            }
+            this.alpha(ar.opacity, duration)
+            break;
+          case "rotate":
+            if(!ar.center){
+                return return console.log("Missing ar arguments are missing for this operation")
+            }
+            if(!ar.degress){
+                return return console.log("Missing ar arguments are missing for this operation")
+            }
+            if(!ar.easing) {
+                ar.easing = NONE
+            }
+            if(!ar.easing_rate) {
+                ar.easing_rate = 2
+            }
+            if(!ar.lock_object_rotation){
+                ar.lock_object_rotation = false
+            }
+            this.rotate(ar.center, ar.degrees, duration, ar.easing, ar.easing_rate, ar.lock_object_rotation)
+            break;
+        case "pr_move":
+            if(!ar.x){
+                return return console.log("Missing ar arguments are missing for this operation")
+            }
+            if(!ar.y){
+                return return console.log("Missing ar arguments are missing for this operation")
+            }
+                
+            if(!ar.easing) {
+                ar.easing = NONE
+            }
+            if(!ar.easing_rate) {
+                ar.easing_rate = 2
+            }
+
+            if(!ar.easing_rate) {
+                ar.easing_rate = 2
+            }
+            if(!ar.single) {
+                ar.single = false
+            }
+            
+            this.precise_move(ar.x, ar.y, duration, ar.easing, ar.easing_rate, ar.single)
+            break;
+          default:
+            return console.log("Invalid trigger type")
+        }
+    }
+    
     /**
     * Remaps multiple IDs inside of the group to others
     * @param {...array} remaps Array of groups to remap, e.g. remap([group(1), group(2)], [group(4), group(3)]) is valid

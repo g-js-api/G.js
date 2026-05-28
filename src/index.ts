@@ -44,7 +44,7 @@ const publicApi = {
     keyframe_system, particle_props, events, log, LevelReader, SingleLevelReader,
     trigger, object, trigger_function, group, color, range, Context, level, ignore_context_change, hsv, speed,
     animations, obj_ids, blocking_trigger_fn, while_loop, rgb, rgba, reverse,
-    unknown_g, unknown_c, unknown_b, $, extract,
+    unknown_g, unknown_c, unknown_b, $, extract, levelstring,
     $group, $color, $block
 };
 

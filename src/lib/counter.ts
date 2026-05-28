@@ -210,8 +210,9 @@ let nfloat = 1;
  * @param {any} [val=0] Number or boolean to be represented by counter.
  * @param {boolean} [use_id=false] Whether to use an existing item ID.
  * @param {boolean} [persistent=false] Whether to make the counter persistent.
- * @category Functions
  * @returns {FloatCounter} Resulting counter.
+ * @category Functions
+ * @group Counter
  */
 export const float_counter = (val = 0, use_id = false, persistent = false): FloatCounter => {
     let fid = use_id ? val : nfloat++;

@@ -1,10 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.split_screen = exports.bulge = exports.glitch = exports.chromatic = exports.pixelate = exports.grayscale = exports.hue_shift = exports.sepia = exports.shader_layer = exports.shader_layers = void 0;
 /**
  * @module shaders
  */
-const core_1 = require("../core");
+import { trigger, unknown_g } from '../core';
+
 /**
  * Creates a shader layers trigger and returns it
  * @param {any[]} layers Array of shader layers
@@ -12,13 +10,13 @@ const core_1 = require("../core");
  * @category Functions
  * @group Shaders
  */
-let shader_layers = (layers) => {
-    return (0, core_1.trigger)({
+export let shader_layers = (layers) => {
+    return trigger({
         OBJ_ID: 3613,
         SHADER_LAYERS: layers.join('.'),
     });
 };
-exports.shader_layers = shader_layers;
+
 /**
  * Creates a shader layer and returns it
  * @param {number} layer Layer of shader (0-15)
@@ -27,10 +25,10 @@ exports.shader_layers = shader_layers;
  * @category Functions
  * @group Shaders
  */
-let shader_layer = (layer, strength) => {
+export let shader_layer = (layer, strength) => {
     return `${layer}.${strength}`;
 };
-exports.shader_layer = shader_layer;
+
 /**
  * Implementation of Sepia shader
  * @param {number} strength Strength of shader (0-1)
@@ -39,15 +37,15 @@ exports.shader_layer = shader_layer;
  * @category Functions
  * @group Shaders
  */
-let sepia = (strength, duration = 0) => {
-    return (0, core_1.trigger)({
+export let sepia = (strength, duration = 0) => {
+    return trigger({
         OBJ_ID: 3613,
         SHADER_TYPE: 1,
         SHADER_STRENGTH: strength,
         DURATION: duration,
     });
 };
-exports.sepia = sepia;
+
 /**
  * Implementation of Hue Shift shader
  * @param {number} shift Hue shift (0-360)
@@ -56,15 +54,15 @@ exports.sepia = sepia;
  * @category Functions
  * @group Shaders
  */
-let hue_shift = (shift, duration = 0) => {
-    return (0, core_1.trigger)({
+export let hue_shift = (shift, duration = 0) => {
+    return trigger({
         OBJ_ID: 3613,
         SHADER_TYPE: 2,
         SHADER_HUE: shift,
         DURATION: duration,
     });
 };
-exports.hue_shift = hue_shift;
+
 /**
  * Implementation of Grayscale shader
  * @param {number} strength Strength of shader (0-1)
@@ -73,15 +71,15 @@ exports.hue_shift = hue_shift;
  * @category Functions
  * @group Shaders
  */
-let grayscale = (strength, duration = 0) => {
-    return (0, core_1.trigger)({
+export let grayscale = (strength, duration = 0) => {
+    return trigger({
         OBJ_ID: 3613,
         SHADER_TYPE: 3,
         SHADER_STRENGTH: strength,
         DURATION: duration,
     });
 };
-exports.grayscale = grayscale;
+
 /**
  * Implementation of Pixelate shader
  * @param {number} strength Strength of shader (0-1)
@@ -90,15 +88,15 @@ exports.grayscale = grayscale;
  * @category Functions
  * @group Shaders
  */
-let pixelate = (strength, duration = 0) => {
-    return (0, core_1.trigger)({
+export let pixelate = (strength, duration = 0) => {
+    return trigger({
         OBJ_ID: 3613,
         SHADER_TYPE: 4,
         SHADER_STRENGTH: strength,
         DURATION: duration,
     });
 };
-exports.pixelate = pixelate;
+
 /**
  * Implementation of Chromatic shader
  * @param {number} strength Strength of shader (0-1)
@@ -107,15 +105,15 @@ exports.pixelate = pixelate;
  * @category Functions
  * @group Shaders
  */
-let chromatic = (strength, duration = 0) => {
-    return (0, core_1.trigger)({
+export let chromatic = (strength, duration = 0) => {
+    return trigger({
         OBJ_ID: 3613,
         SHADER_TYPE: 5,
         SHADER_STRENGTH: strength,
         DURATION: duration,
     });
 };
-exports.chromatic = chromatic;
+
 /**
  * Implementation of Glitch shader
  * @param {number} strength Strength of shader (0-1)
@@ -124,15 +122,15 @@ exports.chromatic = chromatic;
  * @category Functions
  * @group Shaders
  */
-let glitch = (strength, duration = 0) => {
-    return (0, core_1.trigger)({
+export let glitch = (strength, duration = 0) => {
+    return trigger({
         OBJ_ID: 3613,
         SHADER_TYPE: 6,
         SHADER_STRENGTH: strength,
         DURATION: duration,
     });
 };
-exports.glitch = glitch;
+
 /**
  * Implementation of Bulge shader
  * @param {number} strength Strength of shader (0-1)
@@ -141,15 +139,15 @@ exports.glitch = glitch;
  * @category Functions
  * @group Shaders
  */
-let bulge = (strength, duration = 0) => {
-    return (0, core_1.trigger)({
+export let bulge = (strength, duration = 0) => {
+    return trigger({
         OBJ_ID: 3613,
         SHADER_TYPE: 7,
         SHADER_STRENGTH: strength,
         DURATION: duration,
     });
 };
-exports.bulge = bulge;
+
 /**
  * Implementation of Split Screen shader
  * @param {number} strength Strength of shader (0-1)
@@ -158,12 +156,11 @@ exports.bulge = bulge;
  * @category Functions
  * @group Shaders
  */
-let split_screen = (strength, duration = 0) => {
-    return (0, core_1.trigger)({
+export let split_screen = (strength, duration = 0) => {
+    return trigger({
         OBJ_ID: 3613,
         SHADER_TYPE: 8,
         SHADER_STRENGTH: strength,
         DURATION: duration,
     });
 };
-exports.split_screen = split_screen;

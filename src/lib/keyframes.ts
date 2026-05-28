@@ -1,9 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @module keyframes
  */
-const core_1 = require("../core");
+import { trigger } from '../core';
+
 /**
  * Implementation of keyframe system
  * @returns {any} Resulting keyframe system
@@ -13,7 +12,7 @@ const core_1 = require("../core");
 const keyframe_system = () => {
     return {
         keyframe: (x, y, rotation, scale_x, scale_y, duration = 0, easing = 0) => {
-            return (0, core_1.trigger)({
+            return trigger({
                 OBJ_ID: 3032,
                 X: x,
                 Y: y,
@@ -25,7 +24,7 @@ const keyframe_system = () => {
             });
         },
         animate: (target, keyframes, duration = 0, easing = 0) => {
-            return (0, core_1.trigger)({
+            return trigger({
                 OBJ_ID: 3033,
                 TARGET: target,
                 KEYFRAMES: keyframes.map(x => x.obj_props.OBJ_ID).join('.'),
@@ -35,4 +34,5 @@ const keyframe_system = () => {
         }
     };
 };
-exports.default = keyframe_system;
+
+export default keyframe_system;

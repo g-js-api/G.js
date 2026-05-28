@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.d_parts = void 0;
 // @ts-nocheck
 // "var" stands for variation, aka += in GD
 /**
@@ -155,6 +152,7 @@ let parts = [
     'FRICTION_R',
     'FRICTON_R_VAR'
 ];
-exports.d_parts = {};
-parts.forEach((x, i) => exports.d_parts[x] = i);
-exports.default = exports.d_parts;
+export const d_parts = {};
+parts.forEach((x, i) => d_parts[x] = i);
+export default d_parts;
+

@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.$group = void 0;
 // @ts-nocheck
 /**
  * @module group
@@ -29,7 +26,7 @@ exports.$group = void 0;
  * @public
  * @category Types
  */
-class $group {
+export class $group {
     /**
      * Creates a group from a number
      * @param {number} number Group ID
@@ -38,8 +35,7 @@ class $group {
     constructor(a, specific = true) {
         this.value = a;
         this.type = 'group';
-        if (specific && !all_known.groups.includes(a))
-            all_known.groups.push(a);
+        if (specific && !all_known.groups.includes(a)) all_known.groups.push(a);
     }
     /**
     * Remaps multiple IDs inside of the group to others
@@ -74,6 +70,7 @@ class $group {
         }).with(544, silent));
         wait(duration);
     }
+
     /**
      * Combines a move trigger with a follow trigger to allow for more precise decimal movement (up to 2 decimal places)
      * @param {number} x Units to move on the X axis (10 units per grid square)
@@ -87,15 +84,14 @@ class $group {
         if (single) {
             this.follow(this, -1 + x, -1 + y, duration);
             this.move(1, 1, duration, easing, easing_rate);
-        }
-        else {
+        } else {
             target = unknown_g();
             $.add(object({
                 OBJ_ID: 1765,
                 X: 0,
                 Y: 80 * 30,
                 GROUPS: target,
-            }));
+            }))
             $.add(object({
                 OBJ_ID: 1007,
                 X: 0,
@@ -104,10 +100,11 @@ class $group {
                 OPACITY: 0,
                 DURATION: 0,
             }));
-            this.follow(target, x, y, duration);
-            target.move(1, 1, duration, easing, easing_rate);
+            this.follow(target, x, y, duration)
+            target.move(1, 1, duration, easing, easing_rate)
         }
     }
+
     /**
      * Scales the group
      * @param {group} center Center of group for scaling
@@ -136,7 +133,7 @@ class $group {
             ONLY_MOVE: move_only,
             RELATIVE_SCALE: relative_scale,
             RELATIVE_ROT: relative_rot,
-        }));
+        }))
     }
     /**
      * Animate trigger implementation
@@ -155,8 +152,7 @@ class $group {
      */
     call(delay = 0) {
         let tr = spawn_trigger(this, delay);
-        if (this.remaps)
-            tr.obj_props.REMAPS = this.remaps;
+        if (this.remaps) tr.obj_props.REMAPS = this.remaps;
         $.add(tr);
     }
     /**
@@ -188,6 +184,7 @@ class $group {
             LOCK_TO_PLAYER_Y: lock_y,
         }));
     }
+
     /**
      * Stops the current group
      */
@@ -207,6 +204,7 @@ class $group {
             STOP_PAUSE_RESUME: 1
         }));
     }
+
     /**
      * Resumes the current group
      */
@@ -217,6 +215,7 @@ class $group {
             STOP_PAUSE_RESUME: 2
         }));
     }
+
     /**
      * Toggles the group on
      */
@@ -259,6 +258,7 @@ class $group {
         }));
         wait(duration);
     }
+
     /**
      * Makes the group follow another
      * @param {group} other Group to follow
@@ -285,8 +285,9 @@ class $group {
      */
     follow_lerp(groupA, groupB, weight = 0.5, duration = 999) {
         this.follow(groupA, 1 - weight, 1 - weight, duration);
-        this.follow(groupB, weight, weight, duration);
+        this.follow(groupB, weight, weight, duration)
     }
+
     /**
      * Follows player Y
      * @param {number} [speed=0] How fast group snaps to player Y position
@@ -337,8 +338,7 @@ class $group {
      * @param {number} [easing_rate=2] Easing rate of movement
      */
     move_to_xy(x, y, duration = 0, easing = NONE, easing_rate = 2) {
-        if (!x && !y)
-            throw new Error("At least one coordinate must be specified!");
+        if (!x && !y) throw new Error("At least one coordinate must be specified!");
         let target = unknown_g();
         $.add(trigger({
             OBJ_ID: 1765,
@@ -407,5 +407,6 @@ class $group {
         wait(fade_in + hold + fade_out);
     }
 }
-exports.$group = $group;
-exports.default = $group;
+
+export default $group;
+

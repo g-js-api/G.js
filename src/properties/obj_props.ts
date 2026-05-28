@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 // @ts-nocheck
 /**
  * @module obj_props
@@ -326,6 +324,7 @@ const obj_props = {
     54: 'YELLOW_TELEPORTATION_PORTAL_DISTANCE',
     56: 'ACTIVATE_GROUP',
     57: 'GROUPS',
+    
     58: 'LOCK_TO_PLAYER_X',
     59: 'LOCK_TO_PLAYER_Y',
     60: 'COPY_OPACITY',
@@ -606,4 +605,4 @@ const obj_props = {
     579: "ABSNEG_2",
     580: "STOP_PAUSE_RESUME"
 };
-exports.default = obj_props;
+export default obj_props;

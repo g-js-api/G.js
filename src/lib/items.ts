@@ -1,11 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.compare = exports.item_comp = exports.item_edit = void 0;
 /**
  * @module items
  */
-const core_1 = require("../core");
-const constants_1 = require("../constants");
+import { trigger, group_fn as group } from '../core';
+import {
+    NONE, EQ, ADD, SUB, MUL, DIV, RND, FLR, CEI, ABS, NEG,
+} from '../constants';
+
 /**
  * Implementation of Item Edit trigger
  * @param {any} item1 Item ID 1 (can be retrieved from your_counter.item)
@@ -26,8 +26,8 @@ const constants_1 = require("../constants");
  * @category Functions
  * @group Items
  */
-const item_edit = (item1, item2, target, type1 = constants_1.NONE, type2 = constants_1.NONE, targ_type = constants_1.NONE, assign_op = constants_1.EQ, op1 = constants_1.ADD, op2 = constants_1.MUL, mod = 1, absn1 = constants_1.NONE, absn2 = constants_1.NONE, rfc1 = constants_1.NONE, rfc2 = constants_1.NONE) => {
-    return (0, core_1.trigger)({
+export const item_edit = (item1, item2, target, type1 = NONE, type2 = NONE, targ_type = NONE, assign_op = EQ, op1 = ADD, op2 = MUL, mod = 1, absn1 = NONE, absn2 = NONE, rfc1 = NONE, rfc2 = NONE) => {
+    return trigger({
         OBJ_ID: 3619,
         ITEM_ID_1: item1,
         ITEM_ID_2: item2,
@@ -44,8 +44,7 @@ const item_edit = (item1, item2, target, type1 = constants_1.NONE, type2 = const
         RFC_1: rfc1,
         RFC_2: rfc2
     });
-};
-exports.item_edit = item_edit;
+}
 /**
  * Implementation of Item Comp trigger
  * @param {any} item_1 Item ID 1 (can be retrieved from your_counter.item)
@@ -68,8 +67,8 @@ exports.item_edit = item_edit;
  * @category Functions
  * @group Items
  */
-const item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = (0, core_1.group_fn)(0), falsei = (0, core_1.group_fn)(0), mod_1 = 1, mod_2 = 1, tol = 0, op_1 = constants_1.MUL, op_2 = constants_1.MUL, absneg_1 = constants_1.NONE, absneg_2 = constants_1.NONE, rfc_1 = constants_1.NONE, rfc_2 = constants_1.NONE) => {
-    return (0, core_1.trigger)({
+export const item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = group(0), falsei = group(0), mod_1 = 1, mod_2 = 1, tol = 0, op_1 = MUL, op_2 = MUL, absneg_1 = NONE, absneg_2 = NONE, rfc_1 = NONE, rfc_2 = NONE) => {
+    return trigger({
         OBJ_ID: 3620,
         ITEM_ID_1: item_1,
         ITEM_ID_2: item_2,
@@ -88,8 +87,8 @@ const item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = (0, core_
         RFC_1: rfc_1,
         RFC_2: rfc_2,
     });
-};
-exports.item_comp = item_comp;
+}
+
 /**
  * Compares a counter with another
  * @param {any} c1 First counter to compare
@@ -100,17 +99,16 @@ exports.item_comp = item_comp;
  * @category Functions
  * @group Items
  */
-const compare = (c1, op, c2, truei, falsei) => {
+export const compare = (c1, op, c2, truei, falsei) => {
     if (typeof c2 == "number") {
-        (0, core_1.trigger)({}).add(); // dummy to trigger $.add which is used via trigger(...).add() or $.add
+        trigger({}).add(); // dummy to trigger $.add which is used via trigger(...).add() or $.add
         // Wait, Context.addObject is used.
         // Actually, item_comp returns a trigger object.
         // I should use $.add(item_comp(...))
         const { $ } = require('../core');
-        $.add((0, exports.item_comp)(c1.item, 0, c1.type, constants_1.NONE, op, truei, falsei, undefined, c2));
+        $.add(item_comp(c1.item, 0, c1.type, NONE, op, truei, falsei, undefined, c2));
         return;
     }
     const { $ } = require('../core');
-    $.add((0, exports.item_comp)(c1.item, c2.item, c1.type, c2.type, op, truei, falsei));
-};
-exports.compare = compare;
+    $.add(item_comp(c1.item, c2.item, c1.type, c2.type, op, truei, falsei));
+}

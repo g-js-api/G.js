@@ -1,15 +1,16 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.player_control = exports.end = exports.options = exports.gravity = exports.advanced_random = exports.random = exports.spawn_particle = exports.particle_system = exports.gradient = exports.hide_player = exports.toggle_off_trigger = exports.toggle_on_trigger = exports.color_trigger = exports.timewarp = exports.move_trigger = exports.teleport = exports.song = exports.camera_edge = exports.camera_rotate = exports.camera_mode = exports.camera_zoom = exports.camera_static = exports.camera_offset = void 0;
 /**
  * @module general-purpose
  */
-const core_1 = require("../core");
-const constants_1 = require("../constants");
-const particles_1 = __importDefault(require("../properties/particles"));
+import {
+    $, trigger, group_fn as group, object, wait, color_fn as color,
+} from '../core';
+import type { Song, OptionsTrigger } from '../core';
+import {
+    NONE,
+} from '../constants';
+
+import all_particles from '../properties/particles';
+
 /**
  * Offsets the camera by a position
  * @param {number} x X offset of camera
@@ -19,8 +20,8 @@ const particles_1 = __importDefault(require("../properties/particles"));
  * @category Functions
  * @group General Purpose
  */
-let camera_offset = (x, y, duration = 0, easing = constants_1.NONE) => {
-    core_1.$.add((0, core_1.trigger)({
+export let camera_offset = (x, y, duration = 0, easing = NONE) => {
+    $.add(trigger({
         OBJ_ID: 1916,
         155: 1,
         MOVE_X: x * 3,
@@ -29,10 +30,8 @@ let camera_offset = (x, y, duration = 0, easing = constants_1.NONE) => {
         DURATION: duration,
         EASING_RATE: easing
     }));
-    if (duration)
-        (0, core_1.wait)(duration);
+    if (duration) wait(duration);
 };
-exports.camera_offset = camera_offset;
 /**
  * Makes the camera static around a target object (group ID)
  * @param {any} gr Group storing object to be the center of camera
@@ -49,11 +48,10 @@ exports.camera_offset = camera_offset;
  * @category Functions
  * @group General Purpose
  */
-let camera_static = (gr, duration = 0, easing = constants_1.NONE, easing_rate = 0, exit_instant = false, exit_static = false, smooth_vel = false, smooth_vel_mod = 0, follow = false, x_only = false, y_only = false) => {
-    if (x_only && y_only)
-        throw new Error("Only one of the x_only or y_only arguments must be true, but both values are true!");
+export let camera_static = (gr, duration = 0, easing = NONE, easing_rate = 0, exit_instant = false, exit_static = false, smooth_vel = false, smooth_vel_mod = 0, follow = false, x_only = false, y_only = false) => {
+    if (x_only && y_only) throw new Error("Only one of the x_only or y_only arguments must be true, but both values are true!");
     let axisval = !x_only && !y_only ? 0 : (x_only ? 1 : 2);
-    core_1.$.add((0, core_1.trigger)({
+    $.add(trigger({
         OBJ_ID: 1914,
         155: 1,
         DURATION: duration,
@@ -68,10 +66,8 @@ let camera_static = (gr, duration = 0, easing = constants_1.NONE, easing_rate = 
         EXIT_INSTANT: exit_instant,
         EXIT_STATIC: exit_static
     }));
-    if (duration)
-        (0, core_1.wait)(duration);
+    if (duration) wait(duration);
 };
-exports.camera_static = camera_static;
 /**
  * Makes the camera zoom in/out by a specific amount
  * @param {number} zoom_am Amount to zoom the camera in by
@@ -80,15 +76,14 @@ exports.camera_static = camera_static;
  * @category Functions
  * @group General Purpose
  */
-let camera_zoom = (zoom_am, duration = 0, easing = constants_1.NONE) => {
-    core_1.$.add((0, core_1.trigger)({
+export let camera_zoom = (zoom_am, duration = 0, easing = NONE) => {
+    $.add(trigger({
         OBJ_ID: 1913,
         ZOOM: zoom_am,
         DURATION: duration,
         EASING: easing
     }));
 };
-exports.camera_zoom = camera_zoom;
 /**
  * Toggles free mode
  * @param {boolean} [free_mode=true] Whether to toggle free mode on or off
@@ -99,8 +94,8 @@ exports.camera_zoom = camera_zoom;
  * @category Functions
  * @group General Purpose
  */
-let camera_mode = (free_mode = true, disable_grid_snap = false, edit_cam = false, easing = 10, padding = 0.50) => {
-    core_1.$.add((0, core_1.trigger)({
+export let camera_mode = (free_mode = true, disable_grid_snap = false, edit_cam = false, easing = 10, padding = 0.50) => {
+    $.add(trigger({
         OBJ_ID: 2925,
         FREE_MODE: free_mode,
         EDIT_FREE_CAM_SETTINGS: edit_cam,
@@ -109,7 +104,6 @@ let camera_mode = (free_mode = true, disable_grid_snap = false, edit_cam = false
         DISABLE_GRID_SNAP: disable_grid_snap
     }));
 };
-exports.camera_mode = camera_mode;
 /**
  * Rotates camera
  * @param {number} degrees How many degrees to rotate camera by
@@ -120,8 +114,8 @@ exports.camera_mode = camera_mode;
  * @category Functions
  * @group General Purpose
  */
-let camera_rotate = (degrees, move_time = 0, easing = constants_1.NONE, add = false, snap360 = false) => {
-    core_1.$.add((0, core_1.trigger)({
+export let camera_rotate = (degrees, move_time = 0, easing = NONE, add = false, snap360 = false) => {
+    $.add(trigger({
         OBJ_ID: 2015,
         DURATION: move_time,
         EASING: easing,
@@ -130,7 +124,7 @@ let camera_rotate = (degrees, move_time = 0, easing = constants_1.NONE, add = fa
         SNAP_360: snap360
     }));
 };
-exports.camera_rotate = camera_rotate;
+
 /**
  * Makes one of the camera's edges a specific target object
  * @param {any} id Group ID of target object
@@ -138,14 +132,14 @@ exports.camera_rotate = camera_rotate;
  * @category Functions
  * @group General Purpose
  */
-let camera_edge = (id, edge) => {
-    core_1.$.add((0, core_1.trigger)({
+export let camera_edge = (id, edge) => {
+    $.add(trigger({
         OBJ_ID: 2062,
         TARGET: id,
         CAMERA_EDGE: edge
     }));
 };
-exports.camera_edge = camera_edge;
+
 /**
  * Implementation of song trigger in GD
  * @param {number} song_id ID of song in-game
@@ -162,7 +156,7 @@ exports.camera_edge = camera_edge;
  * @category Functions
  * @group General Purpose
  */
-let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, speed = 0, start = 0, end = 0, fadein = 0, fadeout = 0) => {
+export let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, speed = 0, start = 0, end = 0, fadein = 0, fadeout = 0): any => {
     if (preload) {
         let m_obj = {
             OBJ_ID: 1934,
@@ -177,22 +171,20 @@ let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, spee
             SONG_LOOP: loop,
             PREP: true
         };
-        core_1.$.add((0, core_1.trigger)(m_obj));
+        $.add(trigger(m_obj));
         let al_load = false;
-        let exp = {
+        let exp: Song = {
             start: () => {
-                if (al_load)
-                    core_1.$.add((0, core_1.trigger)(m_obj));
-                core_1.$.add((0, core_1.trigger)({
+                if (al_load) $.add(trigger(m_obj));
+                $.add(trigger({
                     OBJ_ID: 1934,
                     SONG_CHANNEL: channel,
                     LOAD_PREP: true
                 }));
-                if (!al_load)
-                    al_load = true;
+                if (!al_load) al_load = true;
             },
-            edit: (new_volume = volume, new_speed = speed, duration = 0.5, stop = false, stop_loop = false, gid_1 = (0, core_1.group_fn)(0), gid_2 = (0, core_1.group_fn)(0), vol_near = 1, vol_med = 0.5, vol_far = 0, min_dist = 0, dist_2 = 0, dist_3 = 0, p1 = false, p2 = false, cam = false, vol_dir = 0) => {
-                core_1.$.add((0, core_1.trigger)({
+            edit: (new_volume = volume, new_speed = speed, duration = 0.5, stop = false, stop_loop = false, gid_1 = group(0), gid_2 = group(0), vol_near = 1, vol_med = 0.5, vol_far = 0, min_dist = 0, dist_2 = 0, dist_3 = 0, p1 = false, p2 = false, cam = false, vol_dir = 0) => {
+                $.add(trigger({
                     OBJ_ID: 3605,
                     DURATION: duration,
                     SONG_CHANNEL: channel,
@@ -223,7 +215,7 @@ let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, spee
         };
         return exp;
     }
-    core_1.$.add((0, core_1.trigger)({
+    $.add(trigger({
         OBJ_ID: 1934,
         SONG_ID: song_id,
         SONG_CHANNEL: channel,
@@ -235,16 +227,16 @@ let song = (song_id, loop = false, preload = true, channel = 0, volume = 1, spee
         SONG_FADE_OUT: fadeout,
         SONG_LOOP: loop
     }));
-};
-exports.song = song;
+}
+
 /**
 * Teleports the player to a specific target object
 * @param {any} g Group ID of target object or [x, y] coordinates
 * @param {boolean} [no_effects] Weather the teleport trigger generates an effect
 */
-let teleport = (g, no_effects) => {
+export let teleport = (g, no_effects) => {
     if (g?.length) {
-        core_1.$.add((0, core_1.trigger)({
+        $.add(trigger({
             OBJ_ID: 3022,
             X: g[0],
             Y: g[1],
@@ -256,7 +248,7 @@ let teleport = (g, no_effects) => {
         }));
         return;
     }
-    core_1.$.add((0, core_1.trigger)({
+    $.add(trigger({
         OBJ_ID: 3022,
         155: 1,
         13: 1,
@@ -265,7 +257,7 @@ let teleport = (g, no_effects) => {
         350: 1
     }));
 };
-exports.teleport = teleport;
+
 /**
  * Adds a move trigger and returns it
  * @param {any} group Group ID of target object
@@ -275,26 +267,25 @@ exports.teleport = teleport;
  * @category Functions
  * @group General Purpose
  */
-let move_trigger = (group, x, y) => {
-    return (0, core_1.trigger)({
+export let move_trigger = (group, x, y) => {
+    return trigger({
         OBJ_ID: 901,
         TARGET: group,
         MOVE_X: x * 3,
         MOVE_Y: y * 3,
     });
 };
-exports.move_trigger = move_trigger;
 /**
  * Warps all time by given amount
  * @param {number} val How much to warp time by
  */
-let timewarp = (val) => {
-    core_1.$.add((0, core_1.trigger)({
+export let timewarp = (val) => {
+    $.add(trigger({
         OBJ_ID: 1935,
         TIMEWARP_TIME_MOD: val
     }));
 };
-exports.timewarp = timewarp;
+
 /**
 * Creates color trigger
 * @param {any} channel Color channel to set
@@ -308,8 +299,16 @@ exports.timewarp = timewarp;
 * @category Functions
 * @group General Purpose
 */
-let color_trigger = (channel, r, g, b, duration = 0, opacity = 1, blending = false) => {
-    return (0, core_1.trigger)({
+export let color_trigger = (
+    channel,
+    r,
+    g,
+    b,
+    duration = 0,
+    opacity = 1,
+    blending = false
+) => {
+    return trigger({
         OBJ_ID: 899,
         DURATION: duration,
         TRIGGER_RED: r,
@@ -320,42 +319,41 @@ let color_trigger = (channel, r, g, b, duration = 0, opacity = 1, blending = fal
         TARGET_COLOR: channel,
     });
 };
-exports.color_trigger = color_trigger;
 /**
 * Returns an activated toggle trigger
 * @param {any} group_id Group of object
 * @returns {any} Resulting object
 */
-let toggle_on_trigger = (group_id) => {
-    return (0, core_1.trigger)({
+export let toggle_on_trigger = (group_id) => {
+    return trigger({
         OBJ_ID: 1049,
         TARGET: group_id,
         ACTIVATE_GROUP: true,
     });
 };
-exports.toggle_on_trigger = toggle_on_trigger;
+
 /**
  * Returns an inactive toggle trigger
  * @param {any} group_id Group of object
  * @returns {any} Resulting object
  */
-let toggle_off_trigger = (group_id) => {
-    return (0, core_1.trigger)({
+export let toggle_off_trigger = (group_id) => {
+    return trigger({
         OBJ_ID: 1049,
         TARGET: group_id,
         ACTIVATE_GROUP: false,
     });
 };
-exports.toggle_off_trigger = toggle_off_trigger;
+
 /**
 * Hides player
 */
-let hide_player = () => {
-    core_1.$.add((0, core_1.trigger)({
+export let hide_player = () => {
+    $.add(trigger({
         OBJ_ID: 1612,
     }));
 };
-exports.hide_player = hide_player;
+
 let gradient_id = 0;
 /**
 * Creates a gradient trigger and returns it
@@ -370,8 +368,8 @@ let gradient_id = 0;
 * @param {number} [layer=0] Layer of gradient (0-15)
 * @returns {any} Resulting gradient trigger
 */
-let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false, layer = 0) => {
-    return (0, core_1.trigger)({
+export let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false, layer = 0) => {
+    return trigger({
         OBJ_ID: 2903,
         GR_BL: bl,
         GR_BR: br,
@@ -385,27 +383,25 @@ let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false,
         GR_LAYER: layer
     });
 };
-exports.gradient = gradient;
+
 /**
  * Creates a particle system
  * @param {any} props Dictionary holding particle properties (check {@tutorial Particles} for more info)
  * @param {boolean} [use_obj_color=false] Whether to make the particle system use the object color
  * @param {boolean} [animate_on_trigger=false] Whether to only start the particle system when the Animate trigger is used on the particle system instead of immediately
- * @param {boolean} [animate_active_only=false] Only makes animate_on_trigger true if the object is active
+ * @param {boolean} [animate_active_only=false] Only makes animate_on_trigger true if the object is active 
  * @param {boolean} [quick_start=false] Makes normal movement be achieved instantly instead of gradually
  * @returns {any} Returned particle system
  */
-let particle_system = (props, use_obj_color = false, animate_on_trigger = false, animate_active_only = false, quick_start = false) => {
+export let particle_system = (props, use_obj_color = false, animate_on_trigger = false, animate_active_only = false, quick_start = false) => {
     let datalist = Array(72).fill(0);
     for (let i in props) {
         let x = props[i];
-        if (typeof x == "boolean")
-            x = +x;
-        datalist[particles_1.default[i]] = x;
-    }
-    ;
-    datalist = datalist.join('a');
-    return (0, core_1.object)({
+        if (typeof x == "boolean") x = +x;
+        datalist[all_particles[i]] = x;
+    };
+    datalist = (datalist as any).join('a');
+    return object({
         OBJ_ID: 2065,
         PARTICLE_DATA: datalist,
         USE_OBJ_COLOR: use_obj_color,
@@ -415,7 +411,7 @@ let particle_system = (props, use_obj_color = false, animate_on_trigger = false,
         QUICK_START: quick_start
     });
 };
-exports.particle_system = particle_system;
+
 /**
  * Implementation of Spawn Particle trigger
  * @param {any} particle_group Group ID of particle system
@@ -430,8 +426,8 @@ exports.particle_system = particle_system;
  * @param {number} offvar_y Area to randomly spawn particles in on Y axis
  * @param {boolean} match_rot Makes the rotation of several particles match
  */
-let spawn_particle = (particle_group, pos_group = (0, core_1.group_fn)(0), offset_x = 0, offset_y = 0, scale = 1, scale_var = 0, rotation = 0, rotation_var = 0, offvar_x = 0, offvar_y = 0, match_rot = false) => {
-    core_1.$.add((0, core_1.trigger)({
+export let spawn_particle = (particle_group, pos_group = group(0), offset_x = 0, offset_y = 0, scale = 1, scale_var = 0, rotation = 0, rotation_var = 0, offvar_x = 0, offvar_y = 0, match_rot = false) => {
+    $.add(trigger({
         OBJ_ID: 3608,
         TARGET: particle_group,
         TARGET_POS: pos_group,
@@ -446,33 +442,32 @@ let spawn_particle = (particle_group, pos_group = (0, core_1.group_fn)(0), offse
         555: scale_var,
     }));
 };
-exports.spawn_particle = spawn_particle;
+
 /**
  * Implementation of random trigger
  * @param {any} gr1 Group 1
  * @param {any} gr2 Group 2
  * @param {number} chance Chance of either group being called
  */
-let random = (gr1, gr2, chance) => {
-    core_1.$.add((0, core_1.trigger)({
+export let random = (gr1, gr2, chance) => {
+    $.add(trigger({
         OBJ_ID: 1912,
         GROUP_ID_1: gr1,
         GROUP_ID_2: gr2,
         CHANCE: chance
     }));
 };
-exports.random = random;
 /**
  * Implementation of advanced random trigger
  * @param {any[]} chances Chances of each group being called (e.g. [[group(1), 10], [group(2), 10]] is a valid input)
  */
-let advanced_random = (...chances) => {
-    core_1.$.add((0, core_1.trigger)({
+export let advanced_random = (...chances) => {
+    $.add(trigger({
         OBJ_ID: 2068,
         ADV_RAND_STRING: chances.map(x => x[0].value + '.' + x[1]).join('.')
     }));
-};
-exports.advanced_random = advanced_random;
+}
+
 /**
 * Implementation of gravity trigger
 * @param {number} grav Gravity magnitude
@@ -480,22 +475,22 @@ exports.advanced_random = advanced_random;
 * @param {boolean} p2 Only affect player 2
 * @param {boolean} pt Only affect player that touches trigger
 */
-let gravity = (grav, p1 = false, p2 = false, pt = false) => {
-    core_1.$.add((0, core_1.trigger)({
+export let gravity = (grav, p1 = false, p2 = false, pt = false) => {
+    $.add(trigger({
         OBJ_ID: 2066,
         GRAVITY: grav,
         PLAYER_1: p1,
         PLAYER_2: p2,
         _PT: pt
-    }));
+    }))
 };
-exports.gravity = gravity;
+
 /**
  * Implementation of options trigger
  * @returns {OptionsTrigger} Options trigger
  */
-let options = () => {
-    let ob = {
+export let options = (): OptionsTrigger => {
+    let ob: any = {
         OBJ_ID: 2899
     };
     return {
@@ -514,10 +509,10 @@ let options = () => {
             ob.EDIT_RESPAWN_TIME = 1;
             ob.RESPAWN_TIME = v;
         },
-        add: () => core_1.$.add((0, core_1.trigger)(ob))
+        add: () => $.add(trigger(ob))
     };
 };
-exports.options = options;
+
 /**
  * Ends level
  * @param {boolean} [instant_end=false] Whether to end level instantly
@@ -528,8 +523,8 @@ exports.options = options;
  * @category Functions
  * @group General Purpose
  */
-let end = (instant_end = false, no_effects = false, no_sfx = false, spawn_id = (0, core_1.group_fn)(0), target_pos = (0, core_1.group_fn)(0)) => {
-    core_1.$.add((0, core_1.trigger)({
+export let end = (instant_end = false, no_effects = false, no_sfx = false, spawn_id = group(0), target_pos = group(0)) => {
+    $.add(trigger({
         OBJ_ID: 3600,
         GROUP_ID_1: spawn_id,
         GROUP_ID_2: target_pos,
@@ -538,7 +533,6 @@ let end = (instant_end = false, no_effects = false, no_sfx = false, spawn_id = (
         INSTANT_END: instant_end
     }));
 };
-exports.end = end;
 /**
  * Implementation of player control trigger
  * @param {boolean} [p1=false] Only controls P1
@@ -550,8 +544,8 @@ exports.end = end;
  * @category Functions
  * @group General Purpose
  */
-let player_control = (p1 = false, p2 = false, stop_jump = false, stop_move = false, stop_rot = false, stop_slide = false) => {
-    core_1.$.add((0, core_1.trigger)({
+export let player_control = (p1 = false, p2 = false, stop_jump = false, stop_move = false, stop_rot = false, stop_slide = false) => {
+    $.add(trigger({
         OBJ_ID: 1932,
         PLAYER_1: p1,
         PLAYER_2: p2,
@@ -560,5 +554,4 @@ let player_control = (p1 = false, p2 = false, stop_jump = false, stop_move = fal
         STOP_ROT: stop_rot,
         STOP_SLIDE: stop_slide
     }));
-};
-exports.player_control = player_control;
+}

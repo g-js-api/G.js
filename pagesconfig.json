@@ -1,0 +1,13 @@
+{
+    "groups": [
+        {
+            "title": "Docs",
+            "pages": [
+                {
+                    "title": "Getting Started",
+                    "source": "./README.md"
+                }
+            ]
+        }
+    ]
+}

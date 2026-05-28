@@ -1,76 +1,82 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SingleLevelReader = exports.LevelReader = exports.decode_level = exports.encode_level = void 0;
-const node_html_parser_1 = require("node-html-parser"); // not exactly used for HTML lmao, similar enough though
-const stream_1 = require("stream");
-const path_1 = __importDefault(require("path"));
-const crypto_1 = __importDefault(require("crypto"));
-const zlib_1 = __importDefault(require("zlib"));
-const fs_1 = __importDefault(require("fs"));
-const KEY = Buffer.from([0x69, 0x70, 0x75, 0x39, 0x54, 0x55, 0x76, 0x35, 0x34, 0x79, 0x76, 0x5d,
-    0x69, 0x73, 0x46, 0x4d, 0x68, 0x35, 0x40, 0x3b, 0x74, 0x2e, 0x35, 0x77,
-    0x33, 0x34, 0x45, 0x32, 0x52, 0x79, 0x40, 0x7b]);
-let encode_level = (level_string) => {
-    let gzipped = zlib_1.default.gzipSync(level_string);
+import { parse } from "node-html-parser"; // not exactly used for HTML lmao, similar enough though
+import { Transform, Writable } from 'stream';
+import path from 'path';
+import crypto from 'crypto';
+import zlib from "zlib";
+import fs from "fs";
+
+const KEY = Buffer.from(
+    [0x69, 0x70, 0x75, 0x39, 0x54, 0x55, 0x76, 0x35, 0x34, 0x79, 0x76, 0x5d,
+        0x69, 0x73, 0x46, 0x4d, 0x68, 0x35, 0x40, 0x3b, 0x74, 0x2e, 0x35, 0x77,
+        0x33, 0x34, 0x45, 0x32, 0x52, 0x79, 0x40, 0x7b]
+);
+
+export let encode_level = (level_string) => {
+    let gzipped = zlib.gzipSync(level_string);
     let base64_encoded = gzipped
         .toString("base64")
         .replaceAll("/", "_")
         .replaceAll("+", "-");
     return base64_encoded;
 };
-exports.encode_level = encode_level;
-let decode_level = (data) => {
-    const base64_decoded = Buffer.from(data.replaceAll("_", "/").replaceAll("-", "+"), "base64");
-    const decompressed = zlib_1.default.gunzipSync(base64_decoded);
+
+export let decode_level = (data) => {
+    const base64_decoded = Buffer.from(
+        data.replaceAll("_", "/").replaceAll("-", "+"),
+        "base64"
+    );
+    const decompressed = zlib.gunzipSync(base64_decoded);
     return decompressed.toString();
 };
-exports.decode_level = decode_level;
-class DecryptTransform extends stream_1.Transform {
+
+class DecryptTransform extends Transform {
+    decipher: any;
     constructor() {
         super();
-        this.decipher = crypto_1.default.createDecipheriv('aes-256-ecb', KEY, null);
+        this.decipher = crypto.createDecipheriv('aes-256-ecb', KEY, null);
     }
+
     _transform(chunk, encoding, callback) {
         try {
             const decryptedChunk = this.decipher.update(chunk);
             this.push(decryptedChunk);
             callback();
-        }
-        catch (err) {
+        } catch (err) {
             callback(err);
         }
     }
+
     _flush(callback) {
         try {
             const finalChunk = this.decipher.final();
             const dataWithoutPadding = removePad(finalChunk);
             this.push(dataWithoutPadding);
             callback();
-        }
-        catch (err) {
+        } catch (err) {
             callback(err);
         }
     }
 }
+
 async function streamToString(stream) {
     return new Promise((resolve, reject) => {
         let result = '';
+
         // Create a Writable stream that will accumulate the data
-        const writableStream = new stream_1.Writable({
+        const writableStream = new Writable({
             write(chunk, encoding, cb) {
                 result += chunk.toString();
                 cb();
             }
         });
+
         // Handle stream completion and errors
         stream.pipe(writableStream);
         writableStream.on('finish', () => resolve(result));
         writableStream.on('error', reject);
     });
 }
+
 function addPad(data) {
     const lenR = data.length % 16;
     if (lenR) {
@@ -80,6 +86,7 @@ function addPad(data) {
     }
     return data;
 }
+
 function removePad(data) {
     const last = data[data.length - 1];
     if (last < 16) {
@@ -87,14 +94,16 @@ function removePad(data) {
     }
     return data;
 }
+
 function macEncrypt(data) {
-    const cipher = crypto_1.default.createCipheriv('aes-256-ecb', KEY, null);
+    const cipher = crypto.createCipheriv('aes-256-ecb', KEY, null);
     const paddedData = addPad(Buffer.from(data, 'utf-8'));
     return Buffer.concat([cipher.update(paddedData), cipher.final()]);
 }
+
 async function validateXMLHeader(filename) {
     return new Promise((resolve, reject) => {
-        const stream = fs_1.default.createReadStream(filename, { highWaterMark: 21 });
+        const stream = fs.createReadStream(filename, { highWaterMark: 21 });
         let data = '';
         stream.on('data', chunk => {
             data += chunk.toString();
@@ -108,29 +117,32 @@ async function validateXMLHeader(filename) {
         });
     });
 }
+
 let std_savefile_path;
 switch (process.platform) {
-    case "win32":
-        std_savefile_path = path_1.default.join(process.env.localappdata || '', `GeometryDash/CCLocalLevels.dat`);
-        break;
-    case "darwin":
-        std_savefile_path = path_1.default.join(process.env.HOME || '', `Library/Application Support/GeometryDash/CCLocalLevels.dat`);
-        break;
-    case "linux":
-        std_savefile_path = path_1.default.join(process.env.HOME || '', `.steam/steam/steamapps/compatdata/322170/pfx/drive_c/users/steamuser/Local Settings/Application Data/GeometryDash/CCLocalLevels.dat`);
-        break;
-    case "android":
-        std_savefile_path = `/data/data/com.robtopx.geometryjump/CCLocalLevels.dat`;
-        break;
+    case "win32": std_savefile_path = path.join(process.env.localappdata || '', `GeometryDash/CCLocalLevels.dat`); break;
+    case "darwin": std_savefile_path = path.join(process.env.HOME || '', `Library/Application Support/GeometryDash/CCLocalLevels.dat`); break;
+    case "linux": std_savefile_path = path.join(process.env.HOME || '', `.steam/steam/steamapps/compatdata/322170/pfx/drive_c/users/steamuser/Local Settings/Application Data/GeometryDash/CCLocalLevels.dat`); break;
+    case "android": std_savefile_path = `/data/data/com.robtopx.geometryjump/CCLocalLevels.dat`; break;
 }
+
 let cachedSavefile;
-class LevelReader {
-    constructor(level_name, filename = std_savefile_path, reencrypt = true) {
+
+export class LevelReader {
+    data: any;
+    set: (lvlstr: string) => void;
+    save: () => Promise<void>;
+    constructor(
+        level_name,
+        filename = std_savefile_path,
+        reencrypt = true
+    ) {
         return new Promise(async (resolve, reject) => {
-            const readStream = fs_1.default.createReadStream(filename, { highWaterMark: 1024 * 1024 });
+            const readStream = fs.createReadStream(filename, { highWaterMark: 1024 * 1024 });
             let isAlreadyDecoded = await validateXMLHeader(filename);
             let last_level;
             let add_to_level, set_level;
+
             // macos savefile decryption
             if (process.platform === 'darwin') {
                 let output;
@@ -139,49 +151,48 @@ class LevelReader {
                         const decryptTransform = new DecryptTransform();
                         let macos_decrypted = readStream.pipe(decryptTransform);
                         output = await streamToString(macos_decrypted);
-                        output = (0, node_html_parser_1.parse)(output);
-                    }
-                    else {
+                        output = parse(output);
+                    } else {
                         output = await streamToString(readStream);
-                        output = (0, node_html_parser_1.parse)(output);
+                        output = parse(output);
                     }
                     cachedSavefile = output;
-                }
-                else
-                    output = cachedSavefile;
+                } else output = cachedSavefile;
                 let info = output.childNodes[1].childNodes[0].childNodes[1].childNodes;
                 for (let i in info) {
                     let curr = info[i];
-                    if (curr.rawTagName == "d") {
-                        let tags = curr.childNodes; // tags reference
-                        let dat = {};
+                    if ((curr as any).rawTagName == "d") {
+                        let tags = (curr as any).childNodes; // tags reference
+                        let dat: any = {};
                         tags.forEach((tag, i) => {
                             if (tag.rawTagName == "k") {
                                 if (tag.childNodes[0]._rawText == "k4") {
                                     let lval = tags[i + 1].childNodes[0]._rawText;
-                                    let dec = (0, exports.decode_level)(lval);
+                                    let dec = decode_level(lval);
                                     dat.levelstring = dec;
                                     dat.raw = lval;
                                     add_to_level = (lvlstr) => {
-                                        tags[i + 1].childNodes[0]._rawText = (0, exports.encode_level)(dec + lvlstr);
+                                        tags[i + 1].childNodes[0]._rawText = encode_level(
+                                            dec + lvlstr
+                                        );
                                         dat.levelstring = dec + lvlstr;
                                         dat.raw = tags[i + 1].childNodes[0]._rawText;
                                     };
+
                                     set_level = (lvlstr) => {
-                                        tags[i + 1].childNodes[0]._rawText = (0, exports.encode_level)(lvlstr);
+                                        tags[i + 1].childNodes[0]._rawText = encode_level(lvlstr);
                                         dat.levelstring = lvlstr;
                                         dat.raw = tags[i + 1].childNodes[0]._rawText;
                                     };
                                 }
-                                if (tag.childNodes[0]._rawText == "k2")
-                                    dat.name = tags[i + 1].childNodes[0]._rawText;
+
+                                if (tag.childNodes[0]._rawText == "k2") dat.name = tags[i + 1].childNodes[0]._rawText;
                             }
                         });
                         if (!level_name) {
                             last_level = dat;
                             break;
-                        }
-                        else {
+                        } else {
                             if (dat.name == level_name) {
                                 last_level = dat;
                                 break;
@@ -196,51 +207,52 @@ class LevelReader {
                     add: add_to_level,
                     set: set_level,
                     save: async () => {
-                        let outstr = output.toString();
+                        let outstr: any = output.toString();
                         if (reencrypt) {
                             let alm = macEncrypt(outstr);
                             outstr = alm;
                         }
-                        fs_1.default.writeFileSync(filename, outstr);
+                        fs.writeFileSync(filename, outstr);
                     },
                 });
                 return;
-            }
-            ;
+            };
             let onEnd = async (output) => {
                 let info = output.childNodes[1].childNodes[0].childNodes[1].childNodes;
                 for (let i in info) {
                     let curr = info[i];
-                    if (curr.rawTagName == "d") {
-                        let tags = curr.childNodes; // tags reference
-                        let dat = {};
+                    if ((curr as any).rawTagName == "d") {
+                        let tags = (curr as any).childNodes; // tags reference
+                        let dat: any = {};
                         tags.forEach((tag, i) => {
                             if (tag.rawTagName == "k") {
                                 if (tag.childNodes[0]._rawText == "k4") {
                                     let lval = tags[i + 1].childNodes[0]._rawText;
-                                    let dec = (0, exports.decode_level)(lval);
+                                    let dec = decode_level(lval);
                                     dat.levelstring = dec;
                                     dat.raw = lval;
                                     add_to_level = (lvlstr) => {
-                                        tags[i + 1].childNodes[0]._rawText = (0, exports.encode_level)(dec + lvlstr);
+                                        tags[i + 1].childNodes[0]._rawText = encode_level(
+                                            dec + lvlstr
+                                        );
                                         dat.levelstring = dec + lvlstr;
                                         dat.raw = tags[i + 1].childNodes[0]._rawText;
                                     };
+
                                     set_level = (lvlstr) => {
-                                        tags[i + 1].childNodes[0]._rawText = (0, exports.encode_level)(lvlstr);
+                                        tags[i + 1].childNodes[0]._rawText = encode_level(lvlstr);
                                         dat.levelstring = lvlstr;
                                         dat.raw = tags[i + 1].childNodes[0]._rawText;
                                     };
                                 }
-                                if (tag.childNodes[0]._rawText == "k2")
-                                    dat.name = tags[i + 1].childNodes[0]._rawText;
+
+                                if (tag.childNodes[0]._rawText == "k2") dat.name = tags[i + 1].childNodes[0]._rawText;
                             }
                         });
                         if (!level_name) {
                             last_level = dat;
                             break;
-                        }
-                        else {
+                        } else {
                             if (dat.name == level_name) {
                                 last_level = dat;
                                 break;
@@ -248,6 +260,7 @@ class LevelReader {
                         }
                     }
                 }
+
                 if (!last_level)
                     reject(`Level "${level_name}" not found in savefile!`);
                 resolve({
@@ -255,27 +268,29 @@ class LevelReader {
                     add: add_to_level,
                     set: set_level,
                     save: async () => {
-                        let outstr = output.toString();
+                        let outstr: any = output.toString();
                         if (reencrypt) {
-                            let alm = zlib_1.default.gzipSync(outstr);
-                            alm = Buffer.from(alm.toString("base64").replaceAll("/", "_").replaceAll("+", "-"));
+                            let alm: any = zlib.gzipSync(outstr);
+                            alm = Buffer.from(
+                                alm.toString("base64").replaceAll("/", "_").replaceAll("+", "-")
+                            );
                             for (let i = 0; i < alm.length; i++) {
                                 alm[i] = alm[i] ^ 11; // XOR decrypts buffer
                             }
                             outstr = alm;
                         }
-                        fs_1.default.writeFileSync(filename, outstr);
+                        fs.writeFileSync(filename, outstr);
                     },
                 });
-            };
+            }
             if (!cachedSavefile) {
-                const size = fs_1.default.statSync(filename).size;
-                let output = Buffer.alloc(size);
+                const size = fs.statSync(filename).size;
+                let output: any = Buffer.alloc(size);
                 // savefile reading stuff
                 let offset = 0; // Offset for buffer
                 readStream.on('data', buffer => {
-                    buffer.copy(output, offset);
-                    offset += buffer.length;
+                    (buffer as any).copy(output, offset);
+                    offset += (buffer as any).length;
                 });
                 readStream.on("end", () => {
                     if (!isAlreadyDecoded) {
@@ -283,57 +298,67 @@ class LevelReader {
                             output[i] = output[i] ^ 11;
                         }
                         let b64out = Buffer.from(output.toString(), "base64");
-                        output = zlib_1.default
+                        output = zlib
                             .unzipSync(b64out)
                             .toString();
-                    }
-                    else {
+                    } else {
                         output = output.toString();
                     }
-                    output = (0, node_html_parser_1.parse)(output); // Base64 decodes savefile, then unzips savefile and parses XML
+                    output = parse(output); // Base64 decodes savefile, then unzips savefile and parses XML
                     cachedSavefile = output;
                     onEnd(output);
                 });
-            }
-            else {
+            } else {
                 let output = cachedSavefile;
                 onEnd(output);
             }
-        });
+        }) as any;
     }
 }
-exports.LevelReader = LevelReader;
-class SingleLevelReader {
+
+export class SingleLevelReader {
+    data: any;
+    set: (lvlstr: string) => void;
+    add: (lvlstr: string) => void;
+    save: (f?: string) => void;
+    root: any;
     constructor(filename) {
-        const xml = fs_1.default.readFileSync(filename, "utf8");
-        this.root = (0, node_html_parser_1.parse)(xml);
+        const xml = fs.readFileSync(filename, "utf8");
+        this.root = parse(xml);
+
         const dict = this.root.childNodes[1].childNodes[0];
         const tags = dict.childNodes;
+
         this.data = {};
+
         for (let i = 0; i < tags.length; i++) {
-            if (tags[i].rawTagName !== "k")
-                continue;
+            if (tags[i].rawTagName !== "k") continue;
+
             const key = tags[i].childNodes[0]._rawText;
             const valueNode = tags[i + 1];
+
             if (key === "k2") {
                 this.data.name = valueNode.childNodes[0]._rawText;
             }
+
             if (key === "k4") {
                 this.data.raw = valueNode.childNodes[0]._rawText;
-                this.data.levelstring = (0, exports.decode_level)(this.data.raw);
+                this.data.levelstring = decode_level(this.data.raw);
+
                 // attach mutators
                 this.set = (lvl) => {
-                    valueNode.childNodes[0]._rawText = (0, exports.encode_level)(lvl);
+                    valueNode.childNodes[0]._rawText = encode_level(lvl);
                     this.data.levelstring = lvl;
                 };
+
                 this.add = (lvl) => {
                     this.set(this.data.levelstring + lvl);
                 };
             }
         }
+
         this.save = (f) => {
-            fs_1.default.writeFileSync(f || filename, this.root.toString());
+            fs.writeFileSync(f || filename, this.root.toString());
         };
     }
 }
-exports.SingleLevelReader = SingleLevelReader;

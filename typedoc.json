@@ -1,0 +1,22 @@
+{
+  "name": "G.js",
+  "entryPoints": [
+    "src/index.ts"
+  ],
+  "out": "docs",
+  "readme": "./README.md",
+  "excludeInternal": true,
+  "hideGenerator": true,
+  "plugin": [
+    "typedoc-material-theme"
+  ],
+  "navigation": {
+    "includeCategories": true
+  },
+  "projectDocuments": ["tutorials/*.md"],
+  "themeColor": "#2067cb",
+  "categorizeByGroup": false,
+  "navigationLinks": {
+    "GitHub": "https://github.com/g-js-api/G.js"
+  }
+}

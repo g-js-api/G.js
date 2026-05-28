@@ -1,29 +1,25 @@
 # ![G.js logo](https://avatars.githubusercontent.com/u/182828239?s=200&v=4)
-G.js - Create Geometry Dash levels (with a SPWN-like syntax) in JavaScript
+Create Geometry Dash levels with a SPWN-like syntax in JavaScript.
 
-[![Go to GitHub repo](https://img.shields.io/static/v1?label=g-js-api&message=G.js&color=blue&logo=github)](https://github.com/g-js-api/G.js) [![stars - G.js](https://img.shields.io/github/stars/g-js-api/G.js?style=social)](https://github.com/g-js-api/G.js) [![forks - G.js](https://img.shields.io/github/forks/g-js-api/G.js?style=social)](https://github.com/g-js-api/G.js)
-
+[![Go to GitHub repo](https://img.shields.io/static/v1?label=g-js-api&message=G.js&color=blue&logo=github)](https://github.com/g-js-api/G.js)
+[![stars - G.js](https://img.shields.io/github/stars/g-js-api/G.js?style=social)](https://github.com/g-js-api/G.js)
+[![forks - G.js](https://img.shields.io/github/forks/g-js-api/G.js?style=social)](https://github.com/g-js-api/G.js)
 [![Go to project documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://g-js-api.github.io/G.js)
 
-# Platforms available on
-The project now supports these platforms:
-- Windows
-- MacOS
-- Linux
-- Android
+## Install
 
-# Support
-For support on how to use G.js, join the Discord server:
-[https://discord.gg/GwVd7K2cQY](https://discord.gg/GwVd7K2cQY)
-
-# Installation
-Use G.js in your project by running this in your project (with Node.js installed):
-```
+```sh
 npm install @g-js-api/g.js
 ```
 
-# Example
-Here is a functional example of G.js:
+Supported platforms:
+
+- Windows
+- macOS
+- Linux
+- Android
+
+## Quick Example
 ```js
 import '@g-js-api/g.js'
 
@@ -48,13 +44,14 @@ let my_text = unknown_g();
 	.add();
 
 // let's make a loop that moves this text left and right forever
-// a 'trigger function' is a system of Geometry Dash triggers
+// a 'trigger function' is essentially a group of GD triggers that you can call
 let moveloop = trigger_function(() => {
-  let my_context = $.trigger_fn_context(); // stores the ORIGINAL group of the trigger function (it will change later! this is called "context")
+  let my_context = $.trigger_fn_context(); // stores the ORIGINAL group of the trigger function (it will change later due to the move triggers! this is called a "context")
   my_text.move(30, 0, 0.5); // moves the text forwards 30 big step units with a 0.5 move time
   my_text.move(-30, 0, 0.5); // afterwards, it moves the text BACK 30 big step units to its original place
 
-  // flashes the background white WITHOUT changing the context of triggers
+  // flashes the background white WITHOUT changing the context of triggers 
+  // (meaning it doesn't wait for the flash to stop)
   ignore_context_change(() => log.runtime.flash());
 
   // after the two moves, the "context" changes (meaning spawn delays were applied in-between, therefore newer triggers have different group IDs than in the past)
@@ -66,85 +63,100 @@ let moveloop = trigger_function(() => {
 moveloop.call();
 ```
 
-# Features that make this different from SPWN:
-- Inherits speed and ecosystem from JS (JS might sometimes be considered slower than others, but it is much faster than SPWN + ecosystem is much bigger than SPWN)
-- Has early 2.2 features (9999 group limit, item triggers, ID remapping, 2.2 obj props, gradient trigger, level options, keyframes, random + adv random, sequence trigger, song trigger, particle system, etc.)
+## Core Usage
+- G.js currently exposes a global-first API (but by popular request, you can now use `@g-js-api/g.js/safe` to avoid overriding global variables and only import what you need).
+- Put `await $.exportConfig(...)` near the top of the script, after importing G.js and before adding level content.
+- Use `trigger_function(() => { ... })` for trigger functions.
+- Use `object({ ... })` or string `.to_obj()` values for objects, then call `.add()`.
+- Use `unknown_g()`, `unknown_b()`, and `unknown_c()` for next-free group, block, and color ids.
+- Use `group(id)`, `block(id)`, and `color(id)` for specific ids.
+- Use `group(1).call()` instead of SPWN-style `1g!`.
+- Use `range(a, b)` for ranges.
+- Use `gamescene()` instead of `import gamescene`.
+- Use `extract(x)` for SPWN-style extract statements.
 
-# Notes
-This is not finished yet - do not expect it to work exactly as SPWN yet!
-Docs can be found at [https://g-js-api.github.io/G.js](https://g-js-api.github.io/G.js), but they are incomplete. Usage section below might help explaining more of the complex or unclear features.
-
-# Usage
-G.js has mostly the same usage as SPWN, with exceptions:
-- File must start with `$.exportConfig(...)` for exporting to a level (check example above or docs)
-- Since JS cannot do something like `!{}` for trigger functions, use `trigger_function(() => { /* ... */ })` for trigger functions
-- GD objects are just done with normal JS objects, obj props are mostly the same
-- Use while loops with the `less_than(a, b)`, `equal_to(a, b)` or `greater_than(a, b)` functions followed by a normal function, not trigger function
-- For comparing a counter with a plain number, use `counter.if_is(SMALLER_THAN | EQUAL_TO | LARGER_THAN, trigger_function)`
-- Counter operations are `counter.add(num | counter)`, `counter.subtract(num | counter)`, `counter.multiply(num | counter)` and `counter.divide(num | counter)`
-- `extract x` statements in SPWN are `extract(x)` in G.js
-- `gamescene` library from SPWN can be used in G.js by doing `gamescene()` instead of `import gamescene`
-- Ranges in G.js are done with `range(a, b)`
-- Getting unknown IDs for groups/blocks/colors can be done using `unknown_g()/unknown_b()/unknown_c()`
-- Group, block, and color IDs are represented using `group(id)`, `block(id)` and `color(id)`
-- Instead of calling groups by using `1g!` in SPWN, you can do `group(1).call()`
-- `counter.to_const(a..b)` in SPWN is done inside of G.js by using `counter.to_const(range(a, b), (number) => { /* ... */ })`
-- Counter comparison can be done using `compare(counter_1, EQUAL_TO/GREATER/GREATER_OR_EQ/GREATER_OR_EQ/LESS_OR_EQ/NOT_EQ, counter_2, true_id, false_id)`
-- ID remapping can be done through `my_trig_func.remap([group(3), group(2)], [group(7), group(4)]);`
-- Item edit trigger: `$.add(item_edit(item_1, item_2, target_item, type_1 (NONE/ITEM/TIMER/POINTS/TIME/ATTEMPT), type_2 (NONE/ITEM/TIMER/POINTS/TIME/ATTEMPT), target_type (NONE/ITEM/TIMER/POINTS/TIME/ATTEMPT), assign_op (EQ/ADD/SUB/MUL/DIV), op1 (EQ/ADD/SUB/MUL/DIV), op2 (EQ/ADD/SUB/MUL/DIV), mod, absn1 (ABS/NEG), absn2 (NONE/ABS/NEG), rfc1 (NONE/RND/FLR/CEI))`
-- Remappables are a sort of trigger function that can take in IDs as inputs through ID remapping:
+## Export Modes
 ```js
-let bl = group(10);
-let fn = remappable(my_gr => {
-	group(my_gr).move(10, 0);
+await $.exportConfig({
+  type: 'levelstring',
+  options: { info: true }
 });
-wait(0.5)
-fn(bl);
-```
-- Particle systems have its own property system, check [particles.js](./properties/particles.js) for info. Example:
-```js
-$.add(particle_system({
-	MAX_PARTICLES: 30,
-	DURATION: -1,
-	LIFETIME: 1,
-	LIFETIME_VAR: 0.3,
-	EMISSION: -1,
-	ANGLE: 90,
-	ANGLE_VAR: 90,
-	SPEED: 29,
-	POSVAR_X: 11,
-	START_SIZE: 2,
-	START_SIZE_VAR: 1,
-	END_SIZE: 1,
-	END_SIZE_VAR: 1,
-	START_R: 1,
-	START_G: 1,
-	START_B: 1,
-	START_A: 1,
-	END_R: 1,
-	END_G: 1,
-	END_B: 1,
-	END_A: 1,
-	ADDITIVE: true
-}).with(X, 200).with(Y, 100));
 ```
 
-# To-do list for 2.2 (88% done):
-- [x] item comp
-- [x] item edit
-- [x] item pers
-- [x] camera static
-- [x] camera offset
-- [x] teleport
-- [x] timer
-- [x] song
-- [x] gradient trigger
-- [x] keyframe system
-- [x] reverse trigger
-- [x] level options
-- [x] gravity
-- [x] sequence
-- [x] all camera triggers
-- [x] particle systems
-- [ ] sfx trigger
-- [ ] shader triggers
+Valid export types are:
+- `levelstring`
+- `savefile`
+- `live_editor`
+- `gmd`
+
+Common options include `info`, `level_name`, `path`, `replacePastObjects`, `removeGroup`, `optimize`, `triggerPositioningAllowed`, and `trigger_pos_start`.
+
+## Counters And Conditions
+
+- while loops use `less_than(a, b)`, `equal_to(a, b)`, or `greater_than(a, b)`.
+- counter operations include `counter.add`, `counter.subtract`, `counter.multiply`, and `counter.divide`.
+- use `counter.if_is(SMALLER_THAN | EQUAL_TO | LARGER_THAN, trigger_function)` for direct comparisons.
+- use `compare(counter_1, EQUAL_TO, counter_2, true_id, false_id)` for item compare triggers.
+- use `counter.to_const(range(a, b), (number) => { ... })` for SPWN-style constant ranges.
+
+## Remappables
+
+Remappables are trigger-function-like systems that can take ids through remapping.
+
+```js
+const target = group(10);
+
+const fn = remappable((input) => {
+  group(input).move(10, 0);
+});
+
+wait(0.5);
+fn(target);
+```
+
+## Particle Systems
+
+Particle systems use their own property map. See [properties/particles.js](./properties/particles.js) and the generated particle guide for field names.
+
+```js
+particle_system({
+  MAX_PARTICLES: 30,
+  DURATION: -1,
+  LIFETIME: 1,
+  LIFETIME_VAR: 0.3,
+  EMISSION: -1,
+  ANGLE: 90,
+  ANGLE_VAR: 90,
+  SPEED: 29,
+  POSVAR_X: 11,
+  START_SIZE: 2,
+  START_SIZE_VAR: 1,
+  END_SIZE: 1,
+  END_SIZE_VAR: 1,
+  START_R: 1,
+  START_G: 1,
+  START_B: 1,
+  START_A: 1,
+  END_R: 1,
+  END_G: 1,
+  END_B: 1,
+  END_A: 1,
+  ADDITIVE: true
+})
+  .with(X, 200)
+  .with(Y, 100)
+  .add();
+```
+
+## Project Status
+
+G.js is still evolving and is undergoing a major rewrite. Major 2.2 coverage is mostly present, including item triggers, camera triggers, ID remapping, keyframes, random triggers, sequence triggers, song triggers, level options, and particle systems.
+
+Remaining notable work:
+
+- sfx trigger
+- shader trigger completion
+
+## Support
+
+For usage help, join the Discord server: [https://discord.gg/GwVd7K2cQY](https://discord.gg/GwVd7K2cQY)

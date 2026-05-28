@@ -4,7 +4,11 @@
   "description": "G.js - Create Geometry Dash levels (with a SPWN-like syntax) in JavaScript",
   "main": "index.js",
   "scripts": {
-    "generate-docs": "jsdoc index.js -c jsdoc-config.json -d docs --readme README.md"
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "docs": "npm run build && typedoc --options typedoc.json",
+    "docs:typedoc": "typedoc --options typedoc.json",
+    "prepack": "npm run build"
   },
   "keywords": [
     "geometrydash"
@@ -14,7 +18,7 @@
     "url": "git+https://github.com/g-js-api/G.js.git"
   },
   "homepage": "https://g-js-api.github.io/G.js",
-  "types": "types.d.ts",
+  "types": "index.d.ts",
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -22,8 +26,10 @@
     "ws": "^8.16.0"
   },
   "devDependencies": {
-    "docdash": "^2.0.2",
-    "jsdoc": "^3.6.11",
-    "tsd-jsdoc": "^2.5.0"
+    "@types/node": "^25.9.1",
+    "typedoc": "^0.28.19",
+    "typedoc-plugin-pages": "^1.1.0",
+    "typedoc-material-theme": "^1.4.1",
+    "typescript": "^5.0.0"
   }
 }

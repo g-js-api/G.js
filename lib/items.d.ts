@@ -1,11 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.compare = exports.item_comp = exports.item_edit = void 0;
-/**
- * @module items
- */
-const core_1 = require("../core");
-const constants_1 = require("../constants");
 /**
  * Implementation of Item Edit trigger
  * @param {any} item1 Item ID 1 (can be retrieved from your_counter.item)
@@ -26,26 +18,7 @@ const constants_1 = require("../constants");
  * @category Functions
  * @group Items
  */
-const item_edit = (item1, item2, target, type1 = constants_1.NONE, type2 = constants_1.NONE, targ_type = constants_1.NONE, assign_op = constants_1.EQ, op1 = constants_1.ADD, op2 = constants_1.MUL, mod = 1, absn1 = constants_1.NONE, absn2 = constants_1.NONE, rfc1 = constants_1.NONE, rfc2 = constants_1.NONE) => {
-    return (0, core_1.trigger)({
-        OBJ_ID: 3619,
-        ITEM_ID_1: item1,
-        ITEM_ID_2: item2,
-        ITEM_TARGET: target,
-        TYPE_1: type1,
-        TYPE_2: type2,
-        ITEM_TARGET_TYPE: targ_type,
-        ASSIGN_OP: assign_op,
-        OP_1: op1,
-        OP_2: op2,
-        MOD: mod,
-        ABSNEG_1: absn1,
-        ABSNEG_2: absn2,
-        RFC_1: rfc1,
-        RFC_2: rfc2
-    });
-};
-exports.item_edit = item_edit;
+export declare const item_edit: (item1: any, item2: any, target: any, type1?: number, type2?: number, targ_type?: number, assign_op?: number, op1?: number, op2?: number, mod?: number, absn1?: number, absn2?: number, rfc1?: number, rfc2?: number) => import("../core").GJsObject;
 /**
  * Implementation of Item Comp trigger
  * @param {any} item_1 Item ID 1 (can be retrieved from your_counter.item)
@@ -68,28 +41,7 @@ exports.item_edit = item_edit;
  * @category Functions
  * @group Items
  */
-const item_comp = (item_1, item_2, type_1, type_2, compare_op, truei = (0, core_1.group_fn)(0), falsei = (0, core_1.group_fn)(0), mod_1 = 1, mod_2 = 1, tol = 0, op_1 = constants_1.MUL, op_2 = constants_1.MUL, absneg_1 = constants_1.NONE, absneg_2 = constants_1.NONE, rfc_1 = constants_1.NONE, rfc_2 = constants_1.NONE) => {
-    return (0, core_1.trigger)({
-        OBJ_ID: 3620,
-        ITEM_ID_1: item_1,
-        ITEM_ID_2: item_2,
-        MOD: mod_1,
-        MOD_2: mod_2,
-        TYPE_1: type_1,
-        TYPE_2: type_2,
-        COMP_OP: compare_op,
-        TRUE_ID: truei,
-        FALSE_ID: falsei,
-        TOL: tol,
-        COMP_OP_1: op_1,
-        COMP_OP_2: op_2,
-        ABSNEG_1: absneg_1,
-        ABSNEG_2: absneg_2,
-        RFC_1: rfc_1,
-        RFC_2: rfc_2,
-    });
-};
-exports.item_comp = item_comp;
+export declare const item_comp: (item_1: any, item_2: any, type_1: any, type_2: any, compare_op: any, truei?: import("../core").$group, falsei?: import("../core").$group, mod_1?: number, mod_2?: number, tol?: number, op_1?: number, op_2?: number, absneg_1?: number, absneg_2?: number, rfc_1?: number, rfc_2?: number) => import("../core").GJsObject;
 /**
  * Compares a counter with another
  * @param {any} c1 First counter to compare
@@ -100,17 +52,4 @@ exports.item_comp = item_comp;
  * @category Functions
  * @group Items
  */
-const compare = (c1, op, c2, truei, falsei) => {
-    if (typeof c2 == "number") {
-        (0, core_1.trigger)({}).add(); // dummy to trigger $.add which is used via trigger(...).add() or $.add
-        // Wait, Context.addObject is used.
-        // Actually, item_comp returns a trigger object.
-        // I should use $.add(item_comp(...))
-        const { $ } = require('../core');
-        $.add((0, exports.item_comp)(c1.item, 0, c1.type, constants_1.NONE, op, truei, falsei, undefined, c2));
-        return;
-    }
-    const { $ } = require('../core');
-    $.add((0, exports.item_comp)(c1.item, c2.item, c1.type, c2.type, op, truei, falsei));
-};
-exports.compare = compare;
+export declare const compare: (c1: any, op: any, c2: any, truei: any, falsei: any) => void;

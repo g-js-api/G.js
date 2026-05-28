@@ -16,8 +16,9 @@ export declare const counter: (num?: any, use_id?: boolean, persistent?: boolean
  * @param {any} [val=0] Number or boolean to be represented by counter.
  * @param {boolean} [use_id=false] Whether to use an existing item ID.
  * @param {boolean} [persistent=false] Whether to make the counter persistent.
- * @category Functions
  * @returns {FloatCounter} Resulting counter.
+ * @category Functions
+ * @group Counter
  */
 export declare const float_counter: (val?: number, use_id?: boolean, persistent?: boolean) => FloatCounter;
 /**

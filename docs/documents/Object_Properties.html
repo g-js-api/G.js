@@ -1,0 +1,1761 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Object Properties | G.js</title><meta name="description" content="Documentation for G.js"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-sys-color-primary: #acc7ff;
+    --md-sys-color-on-primary: #002e68;
+    --md-sys-color-primary-container: #004492;
+    --md-sys-color-on-primary-container: #d8e2ff;
+    --md-sys-color-secondary: #bec6dc;
+    --md-sys-color-on-secondary: #283041;
+    --md-sys-color-secondary-container: #3f4759;
+    --md-sys-color-on-secondary-container: #dbe2f9;
+    --md-sys-color-tertiary: #debcdf;
+    --md-sys-color-on-tertiary: #402843;
+    --md-sys-color-tertiary-container: #583e5b;
+    --md-sys-color-on-tertiary-container: #fbd7fc;
+    --md-sys-color-error: #ffb4ab;
+    --md-sys-color-on-error: #690005;
+    --md-sys-color-error-container: #93000a;
+    --md-sys-color-on-error-container: #ffb4ab;
+    --md-sys-color-background: #1b1b1f;
+    --md-sys-color-on-background: #e3e2e6;
+    --md-sys-color-surface: #1b1b1f;
+    --md-sys-color-on-surface: #e3e2e6;
+    --md-sys-color-surface-variant: #44474f;
+    --md-sys-color-on-surface-variant: #c4c6d0;
+    --md-sys-color-outline: #8e9099;
+    --md-sys-color-outline-variant: #44474f;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-inverse-surface: #e3e2e6;
+    --md-sys-color-inverse-on-surface: #2f3033;
+    --md-sys-color-inverse-primary: #035bbf;
+    --md-sys-color-surface-dim: #121316;
+    --md-sys-color-surface-bright: #38393c;
+    --md-sys-color-surface-container-lowest: #0d0e11;
+    --md-sys-color-surface-container-low: #1b1b1f;
+    --md-sys-color-surface-container: #1f1f23;
+    --md-sys-color-surface-container-high: #292a2d;
+    --md-sys-color-surface-container-highest: #343538
+  }
+}
+:root[data-theme="dark"] {
+  --md-sys-color-primary: #acc7ff;
+  --md-sys-color-on-primary: #002e68;
+  --md-sys-color-primary-container: #004492;
+  --md-sys-color-on-primary-container: #d8e2ff;
+  --md-sys-color-secondary: #bec6dc;
+  --md-sys-color-on-secondary: #283041;
+  --md-sys-color-secondary-container: #3f4759;
+  --md-sys-color-on-secondary-container: #dbe2f9;
+  --md-sys-color-tertiary: #debcdf;
+  --md-sys-color-on-tertiary: #402843;
+  --md-sys-color-tertiary-container: #583e5b;
+  --md-sys-color-on-tertiary-container: #fbd7fc;
+  --md-sys-color-error: #ffb4ab;
+  --md-sys-color-on-error: #690005;
+  --md-sys-color-error-container: #93000a;
+  --md-sys-color-on-error-container: #ffb4ab;
+  --md-sys-color-background: #1b1b1f;
+  --md-sys-color-on-background: #e3e2e6;
+  --md-sys-color-surface: #1b1b1f;
+  --md-sys-color-on-surface: #e3e2e6;
+  --md-sys-color-surface-variant: #44474f;
+  --md-sys-color-on-surface-variant: #c4c6d0;
+  --md-sys-color-outline: #8e9099;
+  --md-sys-color-outline-variant: #44474f;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #e3e2e6;
+  --md-sys-color-inverse-on-surface: #2f3033;
+  --md-sys-color-inverse-primary: #035bbf;
+  --md-sys-color-surface-dim: #121316;
+  --md-sys-color-surface-bright: #38393c;
+  --md-sys-color-surface-container-lowest: #0d0e11;
+  --md-sys-color-surface-container-low: #1b1b1f;
+  --md-sys-color-surface-container: #1f1f23;
+  --md-sys-color-surface-container-high: #292a2d;
+  --md-sys-color-surface-container-highest: #343538
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --md-sys-color-primary: #035bbf;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-primary-container: #d8e2ff;
+    --md-sys-color-on-primary-container: #001a41;
+    --md-sys-color-secondary: #565e71;
+    --md-sys-color-on-secondary: #ffffff;
+    --md-sys-color-secondary-container: #dbe2f9;
+    --md-sys-color-on-secondary-container: #131b2c;
+    --md-sys-color-tertiary: #715574;
+    --md-sys-color-on-tertiary: #ffffff;
+    --md-sys-color-tertiary-container: #fbd7fc;
+    --md-sys-color-on-tertiary-container: #29132d;
+    --md-sys-color-error: #ba1a1a;
+    --md-sys-color-on-error: #ffffff;
+    --md-sys-color-error-container: #ffdad6;
+    --md-sys-color-on-error-container: #410002;
+    --md-sys-color-background: #fefbff;
+    --md-sys-color-on-background: #1b1b1f;
+    --md-sys-color-surface: #fefbff;
+    --md-sys-color-on-surface: #1b1b1f;
+    --md-sys-color-surface-variant: #e1e2ec;
+    --md-sys-color-on-surface-variant: #44474f;
+    --md-sys-color-outline: #74777f;
+    --md-sys-color-outline-variant: #c4c6d0;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-inverse-surface: #2f3033;
+    --md-sys-color-inverse-on-surface: #f2f0f4;
+    --md-sys-color-inverse-primary: #acc7ff;
+    --md-sys-color-surface-dim: #dbd9dd;
+    --md-sys-color-surface-bright: #faf9fd;
+    --md-sys-color-surface-container-lowest: #ffffff;
+    --md-sys-color-surface-container-low: #f5f3f7;
+    --md-sys-color-surface-container: #efedf1;
+    --md-sys-color-surface-container-high: #e9e7ec;
+    --md-sys-color-surface-container-highest: #e3e2e6
+  }
+}
+:root[data-theme="light"] {
+  --md-sys-color-primary: #035bbf;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #d8e2ff;
+  --md-sys-color-on-primary-container: #001a41;
+  --md-sys-color-secondary: #565e71;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #dbe2f9;
+  --md-sys-color-on-secondary-container: #131b2c;
+  --md-sys-color-tertiary: #715574;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #fbd7fc;
+  --md-sys-color-on-tertiary-container: #29132d;
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffdad6;
+  --md-sys-color-on-error-container: #410002;
+  --md-sys-color-background: #fefbff;
+  --md-sys-color-on-background: #1b1b1f;
+  --md-sys-color-surface: #fefbff;
+  --md-sys-color-on-surface: #1b1b1f;
+  --md-sys-color-surface-variant: #e1e2ec;
+  --md-sys-color-on-surface-variant: #44474f;
+  --md-sys-color-outline: #74777f;
+  --md-sys-color-outline-variant: #c4c6d0;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #2f3033;
+  --md-sys-color-inverse-on-surface: #f2f0f4;
+  --md-sys-color-inverse-primary: #acc7ff;
+  --md-sys-color-surface-dim: #dbd9dd;
+  --md-sys-color-surface-bright: #faf9fd;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f5f3f7;
+  --md-sys-color-surface-container: #efedf1;
+  --md-sys-color-surface-container-high: #e9e7ec;
+  --md-sys-color-surface-container-highest: #e3e2e6
+}
+</style><link rel="stylesheet" href="../assets/material-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="../index.html" class="title">G.js</a><div id="tsd-toolbar-links"><a href="https://github.com/g-js-api/G.js">GitHub</a></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb" aria-label="Breadcrumb"><li><a href="" aria-current="page">Object Properties</a></li></ul></div><div class="tsd-panel tsd-typography"><h1 id="note-not-all-descriptions-are-finished" class="tsd-anchor-link">Note: not all descriptions are finished.<a href="#note-not-all-descriptions-are-finished" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Obj Prop ID</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OBJ_ID</td>
+<td>1</td>
+<td>Object ID (int)</td>
+</tr>
+<tr>
+<td>X</td>
+<td>2</td>
+<td>X position (float)</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>3</td>
+<td>Y position (float)</td>
+</tr>
+<tr>
+<td>HORIZONTAL_FLIP</td>
+<td>4</td>
+<td>Whether to flip horizontally (bool)</td>
+</tr>
+<tr>
+<td>VERTICAL_FLIP</td>
+<td>5</td>
+<td>Whether to flip vertically (bool)</td>
+</tr>
+<tr>
+<td>ROTATION</td>
+<td>6</td>
+<td>How much to rotate in degrees (float)</td>
+</tr>
+<tr>
+<td>TRIGGER_RED</td>
+<td>7</td>
+<td>Red value in color &amp; pulse trigger (int)</td>
+</tr>
+<tr>
+<td>TRIGGER_GREEN</td>
+<td>8</td>
+<td>Green value in color &amp; pulse trigger (int)</td>
+</tr>
+<tr>
+<td>TRIGGER_BLUE</td>
+<td>9</td>
+<td>Blue value in color &amp; pulse trigger (int)</td>
+</tr>
+<tr>
+<td>DURATION</td>
+<td>10</td>
+<td>Duration of a trigger (float)</td>
+</tr>
+<tr>
+<td>CHANCE</td>
+<td>10</td>
+<td>Chance of one of the two groups being ran in a random trigger (float)</td>
+</tr>
+<tr>
+<td>TOUCH_TRIGGERED</td>
+<td>11</td>
+<td>Whether to make the trigger touch triggered (bool)</td>
+</tr>
+<tr>
+<td>PORTAL_CHECKED</td>
+<td>13</td>
+<td>Whether the Preview check is on for a portal (bool)</td>
+</tr>
+<tr>
+<td>PLAYER_COLOR_1</td>
+<td>15</td>
+<td>If player color 1 is checked on a color (bool)</td>
+</tr>
+<tr>
+<td>PLAYER_COLOR_2</td>
+<td>16</td>
+<td>If player color 2 is checked on a color (bool)</td>
+</tr>
+<tr>
+<td>BLENDING</td>
+<td>17</td>
+<td>If blending is checked on a color (bool)</td>
+</tr>
+<tr>
+<td>EDITOR_LAYER_1</td>
+<td>20</td>
+<td>The first editor layer of an object (int)</td>
+</tr>
+<tr>
+<td>COLOR</td>
+<td>21</td>
+<td>Base color of an object (color)</td>
+</tr>
+<tr>
+<td>COLOR_2</td>
+<td>22</td>
+<td>Detail color of an object (color)</td>
+</tr>
+<tr>
+<td>TARGET_COLOR</td>
+<td>23</td>
+<td>The target color ID of a color trigger (color)</td>
+</tr>
+<tr>
+<td>Z_LAYER</td>
+<td>24</td>
+<td>The Z layer an object is located on (int)</td>
+</tr>
+<tr>
+<td>Z_ORDER</td>
+<td>25</td>
+<td>The Z order an object is set to (int)</td>
+</tr>
+<tr>
+<td>MOVE_X</td>
+<td>28</td>
+<td>The X movement of a move trigger (int)</td>
+</tr>
+<tr>
+<td>MOVE_Y</td>
+<td>29</td>
+<td>The Y movement of a move trigger (int)</td>
+</tr>
+<tr>
+<td>EASING</td>
+<td>30</td>
+<td>Easing type of a trigger (can be a pre-defined easing from docs or a number)</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>31</td>
+<td>The text to display on a text object (base64 encoded string)</td>
+</tr>
+<tr>
+<td>SCALING</td>
+<td>32</td>
+<td>The scale of an object (float)</td>
+</tr>
+<tr>
+<td>GROUP_PARENT</td>
+<td>34</td>
+<td>If group parent is checked on an object (bool)</td>
+</tr>
+<tr>
+<td>OPACITY</td>
+<td>35</td>
+<td>Changes the opacity of the object (float)</td>
+</tr>
+<tr>
+<td>ACTIVE_TRIGGER</td>
+<td>36</td>
+<td>No known usage (bool)</td>
+</tr>
+<tr>
+<td>HVS_ENABLED</td>
+<td>41</td>
+<td>Whether the hue, saturation and brightness/value of the &quot;Main&quot; color is modified (bool)</td>
+</tr>
+<tr>
+<td>COLOR_2_HVS_ENABLED</td>
+<td>42</td>
+<td>Whether the hue, saturation and brightness/value of the &quot;Detail&quot; color is modified (bool)</td>
+</tr>
+<tr>
+<td>HVS</td>
+<td>43</td>
+<td>An object's &quot;Main&quot; color HSV value (a-separated list, e.g. <code>&lt;hue&gt;a&lt;saturation&gt;a&lt;value&gt;a&lt;saturation checked(bool)&gt;a&lt;brightness checked(bool)&gt;</code>)</td>
+</tr>
+<tr>
+<td>COLOR_2_HVS</td>
+<td>44</td>
+<td>An object's &quot;Detail&quot; color HSV value</td>
+</tr>
+<tr>
+<td>FADE_IN</td>
+<td>45</td>
+<td>A pulse trigger's fade in time (float)</td>
+</tr>
+<tr>
+<td>HOLD</td>
+<td>46</td>
+<td>A pulse trigger's hold time (float)</td>
+</tr>
+<tr>
+<td>FADE_OUT</td>
+<td>47</td>
+<td>A pulse trigger's fade out time (float)</td>
+</tr>
+<tr>
+<td>PULSE_HSV</td>
+<td>48</td>
+<td>Whether a pulse trigger uses HSV (bool)</td>
+</tr>
+<tr>
+<td>COPIED_COLOR_HVS</td>
+<td>49</td>
+<td>Unknown description (string)</td>
+</tr>
+<tr>
+<td>COPIED_COLOR_ID</td>
+<td>50</td>
+<td>Unknown description (string)</td>
+</tr>
+<tr>
+<td>SHADER_CENTER_ID</td>
+<td>51</td>
+<td>Color channel to use as tint for grayscale trigger (color)</td>
+</tr>
+<tr>
+<td>TRUE_ID</td>
+<td>51</td>
+<td>Center group for some shader triggers (group)</td>
+</tr>
+<tr>
+<td>TARGET</td>
+<td>51</td>
+<td>ID to call if condition is true (group)</td>
+</tr>
+<tr>
+<td>GROUP_ID_1</td>
+<td>51</td>
+<td>ID affected by the trigger (color/group)</td>
+</tr>
+<tr>
+<td>ITEM_TARGET</td>
+<td>51</td>
+<td>First group ID (group)</td>
+</tr>
+<tr>
+<td>TARGET_TYPE</td>
+<td>52</td>
+<td>Item ID of target item in Item Edit (number)</td>
+</tr>
+<tr>
+<td>YELLOW_TELEPORTATION_PORTAL_DISTANCE</td>
+<td>54</td>
+<td>The target of a pulse trigger (bool, false = color channel, true = group ID)</td>
+</tr>
+<tr>
+<td>ACTIVATE_GROUP</td>
+<td>56</td>
+<td>The distance from the blue teleportation portal to the orange one (float)</td>
+</tr>
+<tr>
+<td>GROUPS</td>
+<td>57</td>
+<td>Whether &quot;Activate Group&quot; is checked in count, collision or toggle triggers (bool)</td>
+</tr>
+<tr>
+<td>LOCK_TO_PLAYER_X</td>
+<td>58</td>
+<td>The group(s) an object should have (group or array of groups)</td>
+</tr>
+<tr>
+<td>LOCK_TO_PLAYER_Y</td>
+<td>59</td>
+<td></td>
+</tr>
+<tr>
+<td>COPY_OPACITY</td>
+<td>60</td>
+<td></td>
+</tr>
+<tr>
+<td>EDITOR_LAYER_2</td>
+<td>61</td>
+<td></td>
+</tr>
+<tr>
+<td>SPAWN_TRIGGERED</td>
+<td>62</td>
+<td></td>
+</tr>
+<tr>
+<td>SPAWN_DURATION</td>
+<td>63</td>
+<td></td>
+</tr>
+<tr>
+<td>DONT_FADE</td>
+<td>64</td>
+<td></td>
+</tr>
+<tr>
+<td>MAIN_ONLY</td>
+<td>65</td>
+<td></td>
+</tr>
+<tr>
+<td>DETAIL_ONLY</td>
+<td>66</td>
+<td></td>
+</tr>
+<tr>
+<td>FOLLOW</td>
+<td>71</td>
+<td></td>
+</tr>
+<tr>
+<td>DONT_ENTER</td>
+<td>67</td>
+<td></td>
+</tr>
+<tr>
+<td>ADD</td>
+<td>70</td>
+<td></td>
+</tr>
+<tr>
+<td>CENTER</td>
+<td>71</td>
+<td></td>
+</tr>
+<tr>
+<td>FALSE_ID</td>
+<td>71</td>
+<td></td>
+</tr>
+<tr>
+<td>ROTATE_DEGREES</td>
+<td>68</td>
+<td></td>
+</tr>
+<tr>
+<td>TIMES_360</td>
+<td>69</td>
+<td></td>
+</tr>
+<tr>
+<td>LOCK_OBJECT_ROTATION</td>
+<td>70</td>
+<td></td>
+</tr>
+<tr>
+<td>GROUP_ID_2</td>
+<td>71</td>
+<td></td>
+</tr>
+<tr>
+<td>TARGET_POS</td>
+<td>71</td>
+<td></td>
+</tr>
+<tr>
+<td>X_MOD</td>
+<td>72</td>
+<td></td>
+</tr>
+<tr>
+<td>Y_MOD</td>
+<td>73</td>
+<td></td>
+</tr>
+<tr>
+<td>BLOCK_A</td>
+<td>80</td>
+<td></td>
+</tr>
+<tr>
+<td>STRENGTH</td>
+<td>75</td>
+<td></td>
+</tr>
+<tr>
+<td>ITEM_ID_1</td>
+<td>80</td>
+<td></td>
+</tr>
+<tr>
+<td>ANIMATION_GID</td>
+<td>76</td>
+<td></td>
+</tr>
+<tr>
+<td>COUNT</td>
+<td>77</td>
+<td></td>
+</tr>
+<tr>
+<td>MULT_DIV</td>
+<td>88</td>
+<td></td>
+</tr>
+<tr>
+<td>SUBTRACT_COUNT</td>
+<td>78</td>
+<td></td>
+</tr>
+<tr>
+<td>PICKUP_MODE</td>
+<td>79</td>
+<td></td>
+</tr>
+<tr>
+<td>ITEM</td>
+<td>80</td>
+<td></td>
+</tr>
+<tr>
+<td>HOLD_MODE</td>
+<td>81</td>
+<td></td>
+</tr>
+<tr>
+<td>TOGGLE_MODE</td>
+<td>82</td>
+<td></td>
+</tr>
+<tr>
+<td>INTERVAL</td>
+<td>84</td>
+<td></td>
+</tr>
+<tr>
+<td>EASING_RATE</td>
+<td>85</td>
+<td></td>
+</tr>
+<tr>
+<td>EXCLUSIVE</td>
+<td>86</td>
+<td></td>
+</tr>
+<tr>
+<td>ITEM_ID_2</td>
+<td>95</td>
+<td></td>
+</tr>
+<tr>
+<td>MULTI_TRIGGER</td>
+<td>87</td>
+<td></td>
+</tr>
+<tr>
+<td>COMPARISON</td>
+<td>88</td>
+<td></td>
+</tr>
+<tr>
+<td>DUAL_MODE</td>
+<td>89</td>
+<td></td>
+</tr>
+<tr>
+<td>SPEED</td>
+<td>90</td>
+<td></td>
+</tr>
+<tr>
+<td>DELAY</td>
+<td>91</td>
+<td></td>
+</tr>
+<tr>
+<td>Y_OFFSET</td>
+<td>92</td>
+<td></td>
+</tr>
+<tr>
+<td>ACTIVATE_ON_EXIT</td>
+<td>93</td>
+<td></td>
+</tr>
+<tr>
+<td>DYNAMIC_BLOCK</td>
+<td>94</td>
+<td></td>
+</tr>
+<tr>
+<td>BLOCK_B</td>
+<td>95</td>
+<td></td>
+</tr>
+<tr>
+<td>GLOW_DISABLED</td>
+<td>96</td>
+<td></td>
+</tr>
+<tr>
+<td>ROTATION_SPEED</td>
+<td>97</td>
+<td></td>
+</tr>
+<tr>
+<td>DISABLE_ROTATION</td>
+<td>98</td>
+<td></td>
+</tr>
+<tr>
+<td>USE_TARGET</td>
+<td>100</td>
+<td></td>
+</tr>
+<tr>
+<td>TARGET_POS_AXES</td>
+<td>101</td>
+<td></td>
+</tr>
+<tr>
+<td>EDITOR_DISABLE</td>
+<td>102</td>
+<td></td>
+</tr>
+<tr>
+<td>HIGH_DETAIL</td>
+<td>103</td>
+<td></td>
+</tr>
+<tr>
+<td>COUNT_MULTI_ACTIVATE</td>
+<td>104</td>
+<td></td>
+</tr>
+<tr>
+<td>MAX_SPEED</td>
+<td>105</td>
+<td></td>
+</tr>
+<tr>
+<td>RANDOMIZE_START</td>
+<td>106</td>
+<td></td>
+</tr>
+<tr>
+<td>ANIMATION_SPEED</td>
+<td>107</td>
+<td></td>
+</tr>
+<tr>
+<td>LINKED_GROUP</td>
+<td>108</td>
+<td></td>
+</tr>
+<tr>
+<td>EXIT_STATIC</td>
+<td>110</td>
+<td></td>
+</tr>
+<tr>
+<td>FREE_MODE</td>
+<td>111</td>
+<td></td>
+</tr>
+<tr>
+<td>EDIT_FREE_CAM_SETTINGS</td>
+<td>112</td>
+<td></td>
+</tr>
+<tr>
+<td>FREE_CAM_EASING</td>
+<td>113</td>
+<td></td>
+</tr>
+<tr>
+<td>FREE_CAM_PADDING</td>
+<td>114</td>
+<td></td>
+</tr>
+<tr>
+<td>ORD</td>
+<td>115</td>
+<td></td>
+</tr>
+<tr>
+<td>REVERSED</td>
+<td>118</td>
+<td></td>
+</tr>
+<tr>
+<td>TIMEWARP_TIME_MOD</td>
+<td>120</td>
+<td></td>
+</tr>
+<tr>
+<td>ANIMATE_ON_TRIGGER</td>
+<td>123</td>
+<td></td>
+</tr>
+<tr>
+<td>SCALE_X</td>
+<td>128</td>
+<td></td>
+</tr>
+<tr>
+<td>SCALE_Y</td>
+<td>129</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSPECTIVE_X</td>
+<td>131</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSPECTIVE_Y</td>
+<td>132</td>
+<td></td>
+</tr>
+<tr>
+<td>ONLY_MOVE</td>
+<td>133</td>
+<td></td>
+</tr>
+<tr>
+<td>HIDE</td>
+<td>135</td>
+<td></td>
+</tr>
+<tr>
+<td>PLAYER_1</td>
+<td>138</td>
+<td></td>
+</tr>
+<tr>
+<td>OVERRIDE_COUNT</td>
+<td>139</td>
+<td></td>
+</tr>
+<tr>
+<td>FOLLOW_CAMERA_X</td>
+<td>141</td>
+<td></td>
+</tr>
+<tr>
+<td>FOLLOW_CAMERA_Y</td>
+<td>142</td>
+<td></td>
+</tr>
+<tr>
+<td>FOLLOW_CAMERA_X_MOD</td>
+<td>143</td>
+<td></td>
+</tr>
+<tr>
+<td>FOLLOW_CAMERA_Y_MOD</td>
+<td>144</td>
+<td></td>
+</tr>
+<tr>
+<td>PARTICLE_DATA</td>
+<td>145</td>
+<td></td>
+</tr>
+<tr>
+<td>USE_OBJ_COLOR</td>
+<td>146</td>
+<td></td>
+</tr>
+<tr>
+<td>UNIFORM_OBJ_COLOR</td>
+<td>147</td>
+<td></td>
+</tr>
+<tr>
+<td>GRAVITY</td>
+<td>148</td>
+<td></td>
+</tr>
+<tr>
+<td>SCALE_X_BY</td>
+<td>150</td>
+<td></td>
+</tr>
+<tr>
+<td>SCALE_Y_BY</td>
+<td>151</td>
+<td></td>
+</tr>
+<tr>
+<td>ADV_RAND_STRING</td>
+<td>152</td>
+<td></td>
+</tr>
+<tr>
+<td>DIV_BY_X</td>
+<td>153</td>
+<td></td>
+</tr>
+<tr>
+<td>DIV_BY_Y</td>
+<td>154</td>
+<td></td>
+</tr>
+<tr>
+<td>STREAK_ADDITIVE</td>
+<td>159</td>
+<td></td>
+</tr>
+<tr>
+<td>UNLINK_DUAL_GRAVITY</td>
+<td>160</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_SLICE_HEIGHT</td>
+<td>179</td>
+<td></td>
+</tr>
+<tr>
+<td>MAX_COL_Y_OFF</td>
+<td>182</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_TARGET_X</td>
+<td>180</td>
+<td></td>
+</tr>
+<tr>
+<td>HIDE_GROUND</td>
+<td>161</td>
+<td></td>
+</tr>
+<tr>
+<td>HIDE_P1</td>
+<td>162</td>
+<td></td>
+</tr>
+<tr>
+<td>MAX_COL_X_OFF</td>
+<td>181</td>
+<td></td>
+</tr>
+<tr>
+<td>HIDE_P2</td>
+<td>163</td>
+<td></td>
+</tr>
+<tr>
+<td>MAX_SLICE_X_OFF</td>
+<td>191</td>
+<td></td>
+</tr>
+<tr>
+<td>CAMERA_EDGE</td>
+<td>164</td>
+<td></td>
+</tr>
+<tr>
+<td>DISABLE_CONTROLS_P1</td>
+<td>165</td>
+<td></td>
+</tr>
+<tr>
+<td>KEEP_VELOCITY</td>
+<td>169</td>
+<td></td>
+</tr>
+<tr>
+<td>CHANGE_CHANNEL</td>
+<td>171</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_TARGET</td>
+<td>188</td>
+<td></td>
+</tr>
+<tr>
+<td>GR_BLENDING</td>
+<td>174</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_USE_X</td>
+<td>188</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_SPEED</td>
+<td>175</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_USE_Y</td>
+<td>190</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_STRENGTH</td>
+<td>176</td>
+<td></td>
+</tr>
+<tr>
+<td>TIME_OFF</td>
+<td>177</td>
+<td></td>
+</tr>
+<tr>
+<td>WAVE_WIDTH</td>
+<td>179</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_THICKNESS</td>
+<td>180</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_FADE_IN</td>
+<td>181</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_FADE_OUT</td>
+<td>182</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_INNER</td>
+<td>183</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_INVERT</td>
+<td>184</td>
+<td></td>
+</tr>
+<tr>
+<td>NO_PLAYER_PARTICLES</td>
+<td>188</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_TARGET_Y</td>
+<td>189</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_FOLLOW</td>
+<td>190</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_OUTER</td>
+<td>191</td>
+<td></td>
+</tr>
+<tr>
+<td>DISABLE_ALL</td>
+<td>192</td>
+<td></td>
+</tr>
+<tr>
+<td>SHADER_RELATIVE_POS</td>
+<td>194</td>
+<td></td>
+</tr>
+<tr>
+<td>HIDE_MG</td>
+<td>195</td>
+<td></td>
+</tr>
+<tr>
+<td>LOWEST_LAYER</td>
+<td>196</td>
+<td></td>
+</tr>
+<tr>
+<td>HIGHEST_LAYER</td>
+<td>197</td>
+<td></td>
+</tr>
+<tr>
+<td>PLAYER_ONLY</td>
+<td>198</td>
+<td></td>
+</tr>
+<tr>
+<td>DISABLE_CONTROLS_P2</td>
+<td>199</td>
+<td></td>
+</tr>
+<tr>
+<td>PLAYER_2</td>
+<td>200</td>
+<td></td>
+</tr>
+<tr>
+<td>_PT</td>
+<td>201</td>
+<td></td>
+</tr>
+<tr>
+<td>GR_LAYER</td>
+<td>202</td>
+<td></td>
+</tr>
+<tr>
+<td>GR_BL</td>
+<td>203</td>
+<td></td>
+</tr>
+<tr>
+<td>GR_BR</td>
+<td>204</td>
+<td></td>
+</tr>
+<tr>
+<td>GR_TL</td>
+<td>205</td>
+<td></td>
+</tr>
+<tr>
+<td>GR_TR</td>
+<td>206</td>
+<td></td>
+</tr>
+<tr>
+<td>GR_VERTEX_MODE</td>
+<td>207</td>
+<td></td>
+</tr>
+<tr>
+<td>GR_DISABLE</td>
+<td>208</td>
+<td></td>
+</tr>
+<tr>
+<td>GR_ID</td>
+<td>209</td>
+<td></td>
+</tr>
+<tr>
+<td>QUICK_START</td>
+<td>211</td>
+<td></td>
+</tr>
+<tr>
+<td>SCREEN_OFF</td>
+<td>290</td>
+<td></td>
+</tr>
+<tr>
+<td>FOLLOW_GROUP</td>
+<td>212</td>
+<td></td>
+</tr>
+<tr>
+<td>FOLLOW_EASING</td>
+<td>213</td>
+<td></td>
+</tr>
+<tr>
+<td>ANIMATE_ACTIVE_ONLY</td>
+<td>214</td>
+<td></td>
+</tr>
+<tr>
+<td>FOLLOW_P1</td>
+<td>215</td>
+<td></td>
+</tr>
+<tr>
+<td>FOLLOW_P2</td>
+<td>216</td>
+<td></td>
+</tr>
+<tr>
+<td>AREA_MOVE_DIST</td>
+<td>218</td>
+<td></td>
+</tr>
+<tr>
+<td>AREA_LENGTH</td>
+<td>222</td>
+<td></td>
+</tr>
+<tr>
+<td>AREA_EASING</td>
+<td>243</td>
+<td></td>
+</tr>
+<tr>
+<td>AREA_EASING_2</td>
+<td>249</td>
+<td></td>
+</tr>
+<tr>
+<td>AREA_MOD_FRONT</td>
+<td>263</td>
+<td></td>
+</tr>
+<tr>
+<td>AREA_MOD_BACK</td>
+<td>264</td>
+<td></td>
+</tr>
+<tr>
+<td>GROUP_PARENTS</td>
+<td>274</td>
+<td></td>
+</tr>
+<tr>
+<td>DIR_BUTTON_INWARDS</td>
+<td>276</td>
+<td></td>
+</tr>
+<tr>
+<td>AREA_RELATIVE</td>
+<td>287</td>
+<td></td>
+</tr>
+<tr>
+<td>SCREEN_OFFX</td>
+<td>290</td>
+<td></td>
+</tr>
+<tr>
+<td>SCREEN_OFFY</td>
+<td>291</td>
+<td></td>
+</tr>
+<tr>
+<td>DISABLE_GRID_SNAP</td>
+<td>370</td>
+<td></td>
+</tr>
+<tr>
+<td>ZOOM</td>
+<td>371</td>
+<td></td>
+</tr>
+<tr>
+<td>ANIM_ID</td>
+<td>373</td>
+<td></td>
+</tr>
+<tr>
+<td>ORDER_INDEX</td>
+<td>374</td>
+<td></td>
+</tr>
+<tr>
+<td>CLOSE_LOOP</td>
+<td>376</td>
+<td></td>
+</tr>
+<tr>
+<td>SFX_ID</td>
+<td>392</td>
+<td></td>
+</tr>
+<tr>
+<td>CURVE</td>
+<td>378</td>
+<td></td>
+</tr>
+<tr>
+<td>SECONDS_ONLY</td>
+<td>389</td>
+<td></td>
+</tr>
+<tr>
+<td>SONG_ID</td>
+<td>392</td>
+<td></td>
+</tr>
+<tr>
+<td>SMALL_STEP</td>
+<td>393</td>
+<td></td>
+</tr>
+<tr>
+<td>SNAP_360</td>
+<td>394</td>
+<td></td>
+</tr>
+<tr>
+<td>TARGET_DIR_CENTER</td>
+<td>395</td>
+<td></td>
+</tr>
+<tr>
+<td>PREP</td>
+<td>399</td>
+<td></td>
+</tr>
+<tr>
+<td>LOAD_PREP</td>
+<td>400</td>
+<td></td>
+</tr>
+<tr>
+<td>SONG_SPEED</td>
+<td>404</td>
+<td></td>
+</tr>
+<tr>
+<td>SONG_PITCH</td>
+<td>405</td>
+<td></td>
+</tr>
+<tr>
+<td>SONG_VOLUME</td>
+<td>406</td>
+<td></td>
+</tr>
+<tr>
+<td>SONG_REVERB</td>
+<td>407</td>
+<td></td>
+</tr>
+<tr>
+<td>SONG_START</td>
+<td>408</td>
+<td></td>
+</tr>
+<tr>
+<td>SONG_FADE_IN</td>
+<td>409</td>
+<td></td>
+</tr>
+<tr>
+<td>SONG_END</td>
+<td>410</td>
+<td></td>
+</tr>
+<tr>
+<td>SONG_FADE_OUT</td>
+<td>411</td>
+<td></td>
+</tr>
+<tr>
+<td>FFT</td>
+<td>412</td>
+<td></td>
+</tr>
+<tr>
+<td>SONG_LOOP</td>
+<td>413</td>
+<td></td>
+</tr>
+<tr>
+<td>STOP_LOOP</td>
+<td>414</td>
+<td></td>
+</tr>
+<tr>
+<td>IS_UNIQUE</td>
+<td>415</td>
+<td></td>
+</tr>
+<tr>
+<td>UNIQUE_ID</td>
+<td>416</td>
+<td></td>
+</tr>
+<tr>
+<td>SONG_STOP</td>
+<td>417</td>
+<td></td>
+</tr>
+<tr>
+<td>CHANGE_VOLUME</td>
+<td>418</td>
+<td></td>
+</tr>
+<tr>
+<td>CHANGE_SPEED</td>
+<td>419</td>
+<td></td>
+</tr>
+<tr>
+<td>OVERRIDE</td>
+<td>420</td>
+<td></td>
+</tr>
+<tr>
+<td>VOL_NEAR</td>
+<td>421</td>
+<td></td>
+</tr>
+<tr>
+<td>VOL_MED</td>
+<td>422</td>
+<td></td>
+</tr>
+<tr>
+<td>VOL_FAR</td>
+<td>423</td>
+<td></td>
+</tr>
+<tr>
+<td>MIN_DIST</td>
+<td>424</td>
+<td></td>
+</tr>
+<tr>
+<td>DIST_2</td>
+<td>425</td>
+<td></td>
+</tr>
+<tr>
+<td>DIST_3</td>
+<td>426</td>
+<td></td>
+</tr>
+<tr>
+<td>CAM</td>
+<td>428</td>
+<td></td>
+</tr>
+<tr>
+<td>EVENTS</td>
+<td>430</td>
+<td></td>
+</tr>
+<tr>
+<td>SONG_CHANNEL</td>
+<td>432</td>
+<td></td>
+</tr>
+<tr>
+<td>SFX_PRELOAD</td>
+<td>433</td>
+<td></td>
+</tr>
+<tr>
+<td>MIN_INTERVAL</td>
+<td>434</td>
+<td></td>
+</tr>
+<tr>
+<td>SEQUENCE</td>
+<td>435</td>
+<td></td>
+</tr>
+<tr>
+<td>MODE</td>
+<td>436</td>
+<td></td>
+</tr>
+<tr>
+<td>MIN_INT</td>
+<td>437</td>
+<td></td>
+</tr>
+<tr>
+<td>RESET</td>
+<td>438</td>
+<td></td>
+</tr>
+<tr>
+<td>RESET_FULL_STEP</td>
+<td>439</td>
+<td></td>
+</tr>
+<tr>
+<td>REMAPS</td>
+<td>442</td>
+<td></td>
+</tr>
+<tr>
+<td>EXTRA_ID</td>
+<td>447</td>
+<td></td>
+</tr>
+<tr>
+<td>MODIFIER</td>
+<td>449</td>
+<td></td>
+</tr>
+<tr>
+<td>RELATIVE_ROT</td>
+<td>452</td>
+<td></td>
+</tr>
+<tr>
+<td>SMOOTH_VELOCITY</td>
+<td>453</td>
+<td></td>
+</tr>
+<tr>
+<td>SMOOTH_VELOCITY_MODIFIER</td>
+<td>454</td>
+<td></td>
+</tr>
+<tr>
+<td>SFX_GROUP</td>
+<td>455</td>
+<td></td>
+</tr>
+<tr>
+<td>PREVIEW_OPACITY</td>
+<td>456</td>
+<td></td>
+</tr>
+<tr>
+<td>VOLUME_DIRECTION</td>
+<td>458</td>
+<td></td>
+</tr>
+<tr>
+<td>NO_EFFECTS</td>
+<td>460</td>
+<td></td>
+</tr>
+<tr>
+<td>NO_SFX</td>
+<td>461</td>
+<td></td>
+</tr>
+<tr>
+<td>EXIT_INSTANT</td>
+<td>465</td>
+<td></td>
+</tr>
+<tr>
+<td>TIME_COUNTER</td>
+<td>466</td>
+<td></td>
+</tr>
+<tr>
+<td>START_TIME</td>
+<td>467</td>
+<td></td>
+</tr>
+<tr>
+<td>DONT_OVERRIDE</td>
+<td>468</td>
+<td></td>
+</tr>
+<tr>
+<td>IGNORE_TIMEWARP</td>
+<td>469</td>
+<td></td>
+</tr>
+<tr>
+<td>TIMER_TIME_MOD</td>
+<td>470</td>
+<td></td>
+</tr>
+<tr>
+<td>START_PAUSED</td>
+<td>471</td>
+<td></td>
+</tr>
+<tr>
+<td>START_STOP</td>
+<td>472</td>
+<td></td>
+</tr>
+<tr>
+<td>STOP_TIME</td>
+<td>473</td>
+<td></td>
+</tr>
+<tr>
+<td>STOP_CHECKED</td>
+<td>474</td>
+<td></td>
+</tr>
+<tr>
+<td>TYPE_1</td>
+<td>476</td>
+<td></td>
+</tr>
+<tr>
+<td>COMP_OP_1</td>
+<td>480</td>
+<td></td>
+</tr>
+<tr>
+<td>TYPE_2</td>
+<td>477</td>
+<td></td>
+</tr>
+<tr>
+<td>COMP_OP</td>
+<td>482</td>
+<td></td>
+</tr>
+<tr>
+<td>ITEM_TARGET_TYPE</td>
+<td>478</td>
+<td></td>
+</tr>
+<tr>
+<td>COMP_OP_2</td>
+<td>481</td>
+<td></td>
+</tr>
+<tr>
+<td>MOD</td>
+<td>479</td>
+<td></td>
+</tr>
+<tr>
+<td>ASSIGN_OP</td>
+<td>480</td>
+<td></td>
+</tr>
+<tr>
+<td>PINCH_RADIUS</td>
+<td>512</td>
+<td></td>
+</tr>
+<tr>
+<td>OP_1</td>
+<td>481</td>
+<td></td>
+</tr>
+<tr>
+<td>OP_2</td>
+<td>482</td>
+<td></td>
+</tr>
+<tr>
+<td>MOD_2</td>
+<td>483</td>
+<td></td>
+</tr>
+<tr>
+<td>TOL</td>
+<td>484</td>
+<td></td>
+</tr>
+<tr>
+<td>RFC_1</td>
+<td>485</td>
+<td></td>
+</tr>
+<tr>
+<td>RFC_2</td>
+<td>486</td>
+<td></td>
+</tr>
+<tr>
+<td>INSTANT_END</td>
+<td>487</td>
+<td></td>
+</tr>
+<tr>
+<td>IGNORE_VOLUME+TEST</td>
+<td>489</td>
+<td></td>
+</tr>
+<tr>
+<td>SOUND_DURATION</td>
+<td>490</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSISTENT</td>
+<td>491</td>
+<td></td>
+</tr>
+<tr>
+<td>REVERB_TYPE</td>
+<td>502</td>
+<td></td>
+</tr>
+<tr>
+<td>REVERB_ENABLE</td>
+<td>503</td>
+<td></td>
+</tr>
+<tr>
+<td>MAX_SIZE</td>
+<td>512</td>
+<td></td>
+</tr>
+<tr>
+<td>HARD_EDGES</td>
+<td>515</td>
+<td></td>
+</tr>
+<tr>
+<td>TIME_MOD</td>
+<td>520</td>
+<td></td>
+</tr>
+<tr>
+<td>POSITION_X_MOD</td>
+<td>521</td>
+<td></td>
+</tr>
+<tr>
+<td>ROTATION_MOD</td>
+<td>522</td>
+<td></td>
+</tr>
+<tr>
+<td>SCALE_X_MOD</td>
+<td>523</td>
+<td></td>
+</tr>
+<tr>
+<td>LINE_OPACITY</td>
+<td>524</td>
+<td></td>
+</tr>
+<tr>
+<td>EXTRA_ID_2</td>
+<td>525</td>
+<td></td>
+</tr>
+<tr>
+<td>HIDE_ATTEMPTS</td>
+<td>532</td>
+<td></td>
+</tr>
+<tr>
+<td>STOP_JUMP</td>
+<td>540</td>
+<td></td>
+</tr>
+<tr>
+<td>STOP_MOVE</td>
+<td>541</td>
+<td></td>
+</tr>
+<tr>
+<td>STOP_ROT</td>
+<td>542</td>
+<td></td>
+</tr>
+<tr>
+<td>STOP_SLIDE</td>
+<td>543</td>
+<td></td>
+</tr>
+<tr>
+<td>SILENT</td>
+<td>544</td>
+<td></td>
+</tr>
+<tr>
+<td>POSITION_Y_MOD</td>
+<td>545</td>
+<td></td>
+</tr>
+<tr>
+<td>SCALE_Y_MOD</td>
+<td>546</td>
+<td></td>
+</tr>
+<tr>
+<td>EDIT_RESPAWN_TIME</td>
+<td>573</td>
+<td></td>
+</tr>
+<tr>
+<td>RESPAWN_TIME</td>
+<td>574</td>
+<td></td>
+</tr>
+<tr>
+<td>AUDIO_ON_DEATH</td>
+<td>575</td>
+<td></td>
+</tr>
+<tr>
+<td>NO_DEATH_SFX</td>
+<td>576</td>
+<td></td>
+</tr>
+<tr>
+<td>RELATIVE_SCALE</td>
+<td>577</td>
+<td></td>
+</tr>
+<tr>
+<td>ABSNEG_1</td>
+<td>578</td>
+<td></td>
+</tr>
+<tr>
+<td>ABSNEG_2</td>
+<td>579</td>
+<td></td>
+</tr>
+<tr>
+<td>STOP_PAUSE_RESUME</td>
+<td>580</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#note-not-all-descriptions-are-finished"><span>Note: not all descriptions are finished.</span></a></div></details></div><div class="site-menu"><nav id="tsd-sidebar-links" class="tsd-navigation"><a href="https://github.com/g-js-api/G.js" class="tsd-nav-link">GitHub</a></nav><nav class="tsd-navigation"><a href="../modules.html">G.js</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer></footer><div class="overlay"></div><script>
+          try {
+            const generateLinkElement = document.querySelector(".tsd-generator a");
+            const link = document.createElement("a");
+            Object.assign(link, {
+              href: "https://github.com/dmnsgn/typedoc-material-theme",
+              target: "_blank",
+              rel: "noreferrer",
+              innerText: "typedoc-material-theme."
+            });
+            generateLinkElement.insertAdjacentElement("afterend", link);
+            generateLinkElement.insertAdjacentText("afterend", " with ");
+          } catch (error) {
+
+          }
+        </script></body></html>

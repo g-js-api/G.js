@@ -1,0 +1,247 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>G.js</title><meta name="description" content="Documentation for G.js"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script><script async src="assets/hierarchy.js" id="tsd-hierarchy-script"></script><style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-sys-color-primary: #acc7ff;
+    --md-sys-color-on-primary: #002e68;
+    --md-sys-color-primary-container: #004492;
+    --md-sys-color-on-primary-container: #d8e2ff;
+    --md-sys-color-secondary: #bec6dc;
+    --md-sys-color-on-secondary: #283041;
+    --md-sys-color-secondary-container: #3f4759;
+    --md-sys-color-on-secondary-container: #dbe2f9;
+    --md-sys-color-tertiary: #debcdf;
+    --md-sys-color-on-tertiary: #402843;
+    --md-sys-color-tertiary-container: #583e5b;
+    --md-sys-color-on-tertiary-container: #fbd7fc;
+    --md-sys-color-error: #ffb4ab;
+    --md-sys-color-on-error: #690005;
+    --md-sys-color-error-container: #93000a;
+    --md-sys-color-on-error-container: #ffb4ab;
+    --md-sys-color-background: #1b1b1f;
+    --md-sys-color-on-background: #e3e2e6;
+    --md-sys-color-surface: #1b1b1f;
+    --md-sys-color-on-surface: #e3e2e6;
+    --md-sys-color-surface-variant: #44474f;
+    --md-sys-color-on-surface-variant: #c4c6d0;
+    --md-sys-color-outline: #8e9099;
+    --md-sys-color-outline-variant: #44474f;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-inverse-surface: #e3e2e6;
+    --md-sys-color-inverse-on-surface: #2f3033;
+    --md-sys-color-inverse-primary: #035bbf;
+    --md-sys-color-surface-dim: #121316;
+    --md-sys-color-surface-bright: #38393c;
+    --md-sys-color-surface-container-lowest: #0d0e11;
+    --md-sys-color-surface-container-low: #1b1b1f;
+    --md-sys-color-surface-container: #1f1f23;
+    --md-sys-color-surface-container-high: #292a2d;
+    --md-sys-color-surface-container-highest: #343538
+  }
+}
+:root[data-theme="dark"] {
+  --md-sys-color-primary: #acc7ff;
+  --md-sys-color-on-primary: #002e68;
+  --md-sys-color-primary-container: #004492;
+  --md-sys-color-on-primary-container: #d8e2ff;
+  --md-sys-color-secondary: #bec6dc;
+  --md-sys-color-on-secondary: #283041;
+  --md-sys-color-secondary-container: #3f4759;
+  --md-sys-color-on-secondary-container: #dbe2f9;
+  --md-sys-color-tertiary: #debcdf;
+  --md-sys-color-on-tertiary: #402843;
+  --md-sys-color-tertiary-container: #583e5b;
+  --md-sys-color-on-tertiary-container: #fbd7fc;
+  --md-sys-color-error: #ffb4ab;
+  --md-sys-color-on-error: #690005;
+  --md-sys-color-error-container: #93000a;
+  --md-sys-color-on-error-container: #ffb4ab;
+  --md-sys-color-background: #1b1b1f;
+  --md-sys-color-on-background: #e3e2e6;
+  --md-sys-color-surface: #1b1b1f;
+  --md-sys-color-on-surface: #e3e2e6;
+  --md-sys-color-surface-variant: #44474f;
+  --md-sys-color-on-surface-variant: #c4c6d0;
+  --md-sys-color-outline: #8e9099;
+  --md-sys-color-outline-variant: #44474f;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #e3e2e6;
+  --md-sys-color-inverse-on-surface: #2f3033;
+  --md-sys-color-inverse-primary: #035bbf;
+  --md-sys-color-surface-dim: #121316;
+  --md-sys-color-surface-bright: #38393c;
+  --md-sys-color-surface-container-lowest: #0d0e11;
+  --md-sys-color-surface-container-low: #1b1b1f;
+  --md-sys-color-surface-container: #1f1f23;
+  --md-sys-color-surface-container-high: #292a2d;
+  --md-sys-color-surface-container-highest: #343538
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --md-sys-color-primary: #035bbf;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-primary-container: #d8e2ff;
+    --md-sys-color-on-primary-container: #001a41;
+    --md-sys-color-secondary: #565e71;
+    --md-sys-color-on-secondary: #ffffff;
+    --md-sys-color-secondary-container: #dbe2f9;
+    --md-sys-color-on-secondary-container: #131b2c;
+    --md-sys-color-tertiary: #715574;
+    --md-sys-color-on-tertiary: #ffffff;
+    --md-sys-color-tertiary-container: #fbd7fc;
+    --md-sys-color-on-tertiary-container: #29132d;
+    --md-sys-color-error: #ba1a1a;
+    --md-sys-color-on-error: #ffffff;
+    --md-sys-color-error-container: #ffdad6;
+    --md-sys-color-on-error-container: #410002;
+    --md-sys-color-background: #fefbff;
+    --md-sys-color-on-background: #1b1b1f;
+    --md-sys-color-surface: #fefbff;
+    --md-sys-color-on-surface: #1b1b1f;
+    --md-sys-color-surface-variant: #e1e2ec;
+    --md-sys-color-on-surface-variant: #44474f;
+    --md-sys-color-outline: #74777f;
+    --md-sys-color-outline-variant: #c4c6d0;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-inverse-surface: #2f3033;
+    --md-sys-color-inverse-on-surface: #f2f0f4;
+    --md-sys-color-inverse-primary: #acc7ff;
+    --md-sys-color-surface-dim: #dbd9dd;
+    --md-sys-color-surface-bright: #faf9fd;
+    --md-sys-color-surface-container-lowest: #ffffff;
+    --md-sys-color-surface-container-low: #f5f3f7;
+    --md-sys-color-surface-container: #efedf1;
+    --md-sys-color-surface-container-high: #e9e7ec;
+    --md-sys-color-surface-container-highest: #e3e2e6
+  }
+}
+:root[data-theme="light"] {
+  --md-sys-color-primary: #035bbf;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #d8e2ff;
+  --md-sys-color-on-primary-container: #001a41;
+  --md-sys-color-secondary: #565e71;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #dbe2f9;
+  --md-sys-color-on-secondary-container: #131b2c;
+  --md-sys-color-tertiary: #715574;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #fbd7fc;
+  --md-sys-color-on-tertiary-container: #29132d;
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffdad6;
+  --md-sys-color-on-error-container: #410002;
+  --md-sys-color-background: #fefbff;
+  --md-sys-color-on-background: #1b1b1f;
+  --md-sys-color-surface: #fefbff;
+  --md-sys-color-on-surface: #1b1b1f;
+  --md-sys-color-surface-variant: #e1e2ec;
+  --md-sys-color-on-surface-variant: #44474f;
+  --md-sys-color-outline: #74777f;
+  --md-sys-color-outline-variant: #c4c6d0;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #2f3033;
+  --md-sys-color-inverse-on-surface: #f2f0f4;
+  --md-sys-color-inverse-primary: #acc7ff;
+  --md-sys-color-surface-dim: #dbd9dd;
+  --md-sys-color-surface-bright: #faf9fd;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f5f3f7;
+  --md-sys-color-surface-container: #efedf1;
+  --md-sys-color-surface-container-high: #e9e7ec;
+  --md-sys-color-surface-container-highest: #e3e2e6
+}
+</style><link rel="stylesheet" href="assets/material-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="index.html" class="title">G.js</a><div id="tsd-toolbar-links"><a href="https://github.com/g-js-api/G.js">GitHub</a></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>G.js</h1></div><div class="tsd-panel tsd-typography"><h1 id="gjs-logo" class="tsd-anchor-link"><img src="https://avatars.githubusercontent.com/u/182828239?s=200&amp;v=4" alt="G.js logo"><a href="#gjs-logo" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p>Create Geometry Dash levels with a SPWN-like syntax in JavaScript.</p>
+<p><a href="https://github.com/g-js-api/G.js"><img src="https://img.shields.io/static/v1?label=g-js-api&amp;message=G.js&amp;color=blue&amp;logo=github" alt="Go to GitHub repo"></a>
+<a href="https://github.com/g-js-api/G.js"><img src="https://img.shields.io/github/stars/g-js-api/G.js?style=social" alt="stars - G.js"></a>
+<a href="https://github.com/g-js-api/G.js"><img src="https://img.shields.io/github/forks/g-js-api/G.js?style=social" alt="forks - G.js"></a>
+<a href="https://g-js-api.github.io/G.js"><img src="https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge" alt="Go to project documentation"></a></p>
+<h2 id="install" class="tsd-anchor-link">Install<a href="#install" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<pre><code class="sh"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">@g-js-api/g.js</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Supported platforms:</p>
+<ul>
+<li>Windows</li>
+<li>macOS</li>
+<li>Linux</li>
+<li>Android</li>
+</ul>
+<h2 id="quick-example" class="tsd-anchor-link">Quick Example<a href="#quick-example" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<pre><code class="js"><span class="hl-3">import</span><span class="hl-1"> </span><span class="hl-2">&#39;@g-js-api/g.js&#39;</span><br/><br/><span class="hl-4">// configures G.js, so it knows how to export to Geometry Dash</span><br/><span class="hl-4">// this NEEDS to be ran before anything else GD-related!</span><br/><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-5">$</span><span class="hl-1">.</span><span class="hl-0">exportConfig</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-5">type:</span><span class="hl-1"> </span><span class="hl-2">&#39;savefile&#39;</span><span class="hl-1">, </span><span class="hl-4">// you can change this to &#39;live_editor&#39; if you want to use it using the WSLiveEditor mod, or &#39;levelstring&#39; if you only want to export the levelstring (make sure to store the result in a variable!)</span><br/><span class="hl-1">  </span><span class="hl-5">options:</span><span class="hl-1"> { </span><span class="hl-5">info:</span><span class="hl-1"> </span><span class="hl-6">true</span><span class="hl-1"> } </span><span class="hl-4">// displays level info when the program finishes running, check https://g-js-api.github.io/G.js/module-index.html#~save_config for a list of options</span><br/><span class="hl-1">});</span><br/><br/><span class="hl-4">// for a simple example, let&#39;s create some moving text</span><br/><span class="hl-4">// first, store a group in a variable (this is akin to doing &#39;Next Free&#39; in GD)</span><br/><span class="hl-6">let</span><span class="hl-1"> </span><span class="hl-5">my_text</span><span class="hl-1"> = </span><span class="hl-0">unknown_g</span><span class="hl-1">();</span><br/><br/><span class="hl-4">// now, add some text at X 45 Y 45 with the group ID we defined </span><br/><span class="hl-4">// GD uses small-step units internally (3x big step), meaning the block is 15 steps from the origin in-game</span><br/><span class="hl-2">&#39;Hello, World!&#39;</span><br/><span class="hl-1">	.</span><span class="hl-0">to_obj</span><span class="hl-1">()</span><br/><span class="hl-1">	.</span><span class="hl-0">with</span><span class="hl-1">(</span><span class="hl-5">obj_props</span><span class="hl-1">.</span><span class="hl-7">X</span><span class="hl-1">, </span><span class="hl-8">45</span><span class="hl-1">)</span><br/><span class="hl-1">	.</span><span class="hl-0">with</span><span class="hl-1">(</span><span class="hl-5">obj_props</span><span class="hl-1">.</span><span class="hl-7">Y</span><span class="hl-1">, </span><span class="hl-8">45</span><span class="hl-1">)</span><br/><span class="hl-1">	.</span><span class="hl-0">with</span><span class="hl-1">(</span><span class="hl-5">obj_props</span><span class="hl-1">.</span><span class="hl-7">GROUPS</span><span class="hl-1">, </span><span class="hl-5">my_text</span><span class="hl-1">)</span><br/><span class="hl-1">	.</span><span class="hl-0">add</span><span class="hl-1">();</span><br/><br/><span class="hl-4">// let&#39;s make a loop that moves this text left and right forever</span><br/><span class="hl-4">// a &#39;trigger function&#39; is essentially a group of GD triggers that you can call</span><br/><span class="hl-6">let</span><span class="hl-1"> </span><span class="hl-5">moveloop</span><span class="hl-1"> = </span><span class="hl-0">trigger_function</span><span class="hl-1">(() </span><span class="hl-6">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-6">let</span><span class="hl-1"> </span><span class="hl-5">my_context</span><span class="hl-1"> = </span><span class="hl-5">$</span><span class="hl-1">.</span><span class="hl-0">trigger_fn_context</span><span class="hl-1">(); </span><span class="hl-4">// stores the ORIGINAL group of the trigger function (it will change later due to the move triggers! this is called a &quot;context&quot;)</span><br/><span class="hl-1">  </span><span class="hl-5">my_text</span><span class="hl-1">.</span><span class="hl-0">move</span><span class="hl-1">(</span><span class="hl-8">30</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-8">0.5</span><span class="hl-1">); </span><span class="hl-4">// moves the text forwards 30 big step units with a 0.5 move time</span><br/><span class="hl-1">  </span><span class="hl-5">my_text</span><span class="hl-1">.</span><span class="hl-0">move</span><span class="hl-1">(-</span><span class="hl-8">30</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-8">0.5</span><span class="hl-1">); </span><span class="hl-4">// afterwards, it moves the text BACK 30 big step units to its original place</span><br/><br/><span class="hl-1">  </span><span class="hl-4">// flashes the background white WITHOUT changing the context of triggers </span><br/><span class="hl-1">  </span><span class="hl-4">// (meaning it doesn&#39;t wait for the flash to stop)</span><br/><span class="hl-1">  </span><span class="hl-0">ignore_context_change</span><span class="hl-1">(() </span><span class="hl-6">=&gt;</span><span class="hl-1"> </span><span class="hl-5">log</span><span class="hl-1">.</span><span class="hl-5">runtime</span><span class="hl-1">.</span><span class="hl-0">flash</span><span class="hl-1">());</span><br/><br/><span class="hl-1">  </span><span class="hl-4">// after the two moves, the &quot;context&quot; changes (meaning spawn delays were applied in-between, therefore newer triggers have different group IDs than in the past)</span><br/><span class="hl-1">  </span><span class="hl-4">// so to loop it, you can just call the group of the original context after all operations are finished</span><br/><span class="hl-1">  </span><span class="hl-5">my_context</span><span class="hl-1">.</span><span class="hl-0">call</span><span class="hl-1">(); </span><br/><span class="hl-1">})</span><br/><br/><span class="hl-4">// now finally, we can spawn this loop!</span><br/><span class="hl-5">moveloop</span><span class="hl-1">.</span><span class="hl-0">call</span><span class="hl-1">();</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="core-usage" class="tsd-anchor-link">Core Usage<a href="#core-usage" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li>G.js currently exposes a global-first API (but by popular request, you can now use <code>@g-js-api/g.js/safe</code> to avoid overriding global variables and only import what you need).</li>
+<li>Put <code>await $.exportConfig(...)</code> near the top of the script, after importing G.js and before adding level content.</li>
+<li>Use <code>trigger_function(() =&gt; { ... })</code> for trigger functions.</li>
+<li>Use <code>object({ ... })</code> or string <code>.to_obj()</code> values for objects, then call <code>.add()</code>.</li>
+<li>Use <code>unknown_g()</code>, <code>unknown_b()</code>, and <code>unknown_c()</code> for next-free group, block, and color ids.</li>
+<li>Use <code>group(id)</code>, <code>block(id)</code>, and <code>color(id)</code> for specific ids.</li>
+<li>Use <code>group(1).call()</code> instead of SPWN-style <code>1g!</code>.</li>
+<li>Use <code>range(a, b)</code> for ranges.</li>
+<li>Use <code>gamescene()</code> instead of <code>import gamescene</code>.</li>
+<li>Use <code>extract(x)</code> for SPWN-style extract statements.</li>
+</ul>
+<h2 id="export-modes" class="tsd-anchor-link">Export Modes<a href="#export-modes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<pre><code class="js"><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-5">$</span><span class="hl-1">.</span><span class="hl-0">exportConfig</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-5">type:</span><span class="hl-1"> </span><span class="hl-2">&#39;levelstring&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">options:</span><span class="hl-1"> { </span><span class="hl-5">info:</span><span class="hl-1"> </span><span class="hl-6">true</span><span class="hl-1"> }</span><br/><span class="hl-1">});</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Valid export types are:</p>
+<ul>
+<li><code>levelstring</code></li>
+<li><code>savefile</code></li>
+<li><code>live_editor</code></li>
+<li><code>gmd</code></li>
+</ul>
+<p>Common options include <code>info</code>, <code>level_name</code>, <code>path</code>, <code>replacePastObjects</code>, <code>removeGroup</code>, <code>optimize</code>, <code>triggerPositioningAllowed</code>, and <code>trigger_pos_start</code>.</p>
+<h2 id="counters-and-conditions" class="tsd-anchor-link">Counters And Conditions<a href="#counters-and-conditions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li>while loops use <code>less_than(a, b)</code>, <code>equal_to(a, b)</code>, or <code>greater_than(a, b)</code>.</li>
+<li>counter operations include <code>counter.add</code>, <code>counter.subtract</code>, <code>counter.multiply</code>, and <code>counter.divide</code>.</li>
+<li>use <code>counter.if_is(SMALLER_THAN | EQUAL_TO | LARGER_THAN, trigger_function)</code> for direct comparisons.</li>
+<li>use <code>compare(counter_1, EQUAL_TO, counter_2, true_id, false_id)</code> for item compare triggers.</li>
+<li>use <code>counter.to_const(range(a, b), (number) =&gt; { ... })</code> for SPWN-style constant ranges.</li>
+</ul>
+<h2 id="remappables" class="tsd-anchor-link">Remappables<a href="#remappables" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Remappables are trigger-function-like systems that can take ids through remapping.</p>
+<pre><code class="js"><span class="hl-6">const</span><span class="hl-1"> </span><span class="hl-7">target</span><span class="hl-1"> = </span><span class="hl-0">group</span><span class="hl-1">(</span><span class="hl-8">10</span><span class="hl-1">);</span><br/><br/><span class="hl-6">const</span><span class="hl-1"> </span><span class="hl-7">fn</span><span class="hl-1"> = </span><span class="hl-0">remappable</span><span class="hl-1">((</span><span class="hl-5">input</span><span class="hl-1">) </span><span class="hl-6">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-0">group</span><span class="hl-1">(</span><span class="hl-5">input</span><span class="hl-1">).</span><span class="hl-0">move</span><span class="hl-1">(</span><span class="hl-8">10</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">);</span><br/><span class="hl-1">});</span><br/><br/><span class="hl-0">wait</span><span class="hl-1">(</span><span class="hl-8">0.5</span><span class="hl-1">);</span><br/><span class="hl-0">fn</span><span class="hl-1">(</span><span class="hl-5">target</span><span class="hl-1">);</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="particle-systems" class="tsd-anchor-link">Particle Systems<a href="#particle-systems" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Particle systems use their own property map. See <a href="media/particles.js">properties/particles.js</a> and the generated particle guide for field names.</p>
+<pre><code class="js"><span class="hl-0">particle_system</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-5">MAX_PARTICLES:</span><span class="hl-1"> </span><span class="hl-8">30</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">DURATION:</span><span class="hl-1"> -</span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">LIFETIME:</span><span class="hl-1"> </span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">LIFETIME_VAR:</span><span class="hl-1"> </span><span class="hl-8">0.3</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">EMISSION:</span><span class="hl-1"> -</span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">ANGLE:</span><span class="hl-1"> </span><span class="hl-8">90</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">ANGLE_VAR:</span><span class="hl-1"> </span><span class="hl-8">90</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">SPEED:</span><span class="hl-1"> </span><span class="hl-8">29</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">POSVAR_X:</span><span class="hl-1"> </span><span class="hl-8">11</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">START_SIZE:</span><span class="hl-1"> </span><span class="hl-8">2</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">START_SIZE_VAR:</span><span class="hl-1"> </span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">END_SIZE:</span><span class="hl-1"> </span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">END_SIZE_VAR:</span><span class="hl-1"> </span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">START_R:</span><span class="hl-1"> </span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">START_G:</span><span class="hl-1"> </span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">START_B:</span><span class="hl-1"> </span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">START_A:</span><span class="hl-1"> </span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">END_R:</span><span class="hl-1"> </span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">END_G:</span><span class="hl-1"> </span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">END_B:</span><span class="hl-1"> </span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">END_A:</span><span class="hl-1"> </span><span class="hl-8">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-5">ADDITIVE:</span><span class="hl-1"> </span><span class="hl-6">true</span><br/><span class="hl-1">})</span><br/><span class="hl-1">  .</span><span class="hl-0">with</span><span class="hl-1">(</span><span class="hl-7">X</span><span class="hl-1">, </span><span class="hl-8">200</span><span class="hl-1">)</span><br/><span class="hl-1">  .</span><span class="hl-0">with</span><span class="hl-1">(</span><span class="hl-7">Y</span><span class="hl-1">, </span><span class="hl-8">100</span><span class="hl-1">)</span><br/><span class="hl-1">  .</span><span class="hl-0">add</span><span class="hl-1">();</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="project-status" class="tsd-anchor-link">Project Status<a href="#project-status" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>G.js is still evolving and is undergoing a major rewrite. Major 2.2 coverage is mostly present, including item triggers, camera triggers, ID remapping, keyframes, random triggers, sequence triggers, song triggers, level options, and particle systems.</p>
+<p>Remaining notable work:</p>
+<ul>
+<li>sfx trigger</li>
+<li>shader trigger completion</li>
+</ul>
+<h2 id="support" class="tsd-anchor-link">Support<a href="#support" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>For usage help, join the Discord server: <a href="https://discord.gg/GwVd7K2cQY">https://discord.gg/GwVd7K2cQY</a></p>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#gjs-logo"><span>G.js logo</span></a><ul><li><a href="#install"><span>Install</span></a></li><li><a href="#quick-example"><span>Quick <wbr/>Example</span></a></li><li><a href="#core-usage"><span>Core <wbr/>Usage</span></a></li><li><a href="#export-modes"><span>Export <wbr/>Modes</span></a></li><li><a href="#counters-and-conditions"><span>Counters <wbr/>And <wbr/>Conditions</span></a></li><li><a href="#remappables"><span>Remappables</span></a></li><li><a href="#particle-systems"><span>Particle <wbr/>Systems</span></a></li><li><a href="#project-status"><span>Project <wbr/>Status</span></a></li><li><a href="#support"><span>Support</span></a></li></ul></div></details></div><div class="site-menu"><nav id="tsd-sidebar-links" class="tsd-navigation"><a href="https://github.com/g-js-api/G.js" class="tsd-nav-link">GitHub</a></nav><nav class="tsd-navigation"><a href="modules.html">G.js</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer></footer><div class="overlay"></div><script>
+          try {
+            const generateLinkElement = document.querySelector(".tsd-generator a");
+            const link = document.createElement("a");
+            Object.assign(link, {
+              href: "https://github.com/dmnsgn/typedoc-material-theme",
+              target: "_blank",
+              rel: "noreferrer",
+              innerText: "typedoc-material-theme."
+            });
+            generateLinkElement.insertAdjacentElement("afterend", link);
+            generateLinkElement.insertAdjacentText("afterend", " with ");
+          } catch (error) {
+
+          }
+        </script></body></html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Event IDs | G.js</title><meta name="description" content="Documentation for G.js"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-sys-color-primary: #acc7ff;
+    --md-sys-color-on-primary: #002e68;
+    --md-sys-color-primary-container: #004492;
+    --md-sys-color-on-primary-container: #d8e2ff;
+    --md-sys-color-secondary: #bec6dc;
+    --md-sys-color-on-secondary: #283041;
+    --md-sys-color-secondary-container: #3f4759;
+    --md-sys-color-on-secondary-container: #dbe2f9;
+    --md-sys-color-tertiary: #debcdf;
+    --md-sys-color-on-tertiary: #402843;
+    --md-sys-color-tertiary-container: #583e5b;
+    --md-sys-color-on-tertiary-container: #fbd7fc;
+    --md-sys-color-error: #ffb4ab;
+    --md-sys-color-on-error: #690005;
+    --md-sys-color-error-container: #93000a;
+    --md-sys-color-on-error-container: #ffb4ab;
+    --md-sys-color-background: #1b1b1f;
+    --md-sys-color-on-background: #e3e2e6;
+    --md-sys-color-surface: #1b1b1f;
+    --md-sys-color-on-surface: #e3e2e6;
+    --md-sys-color-surface-variant: #44474f;
+    --md-sys-color-on-surface-variant: #c4c6d0;
+    --md-sys-color-outline: #8e9099;
+    --md-sys-color-outline-variant: #44474f;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-inverse-surface: #e3e2e6;
+    --md-sys-color-inverse-on-surface: #2f3033;
+    --md-sys-color-inverse-primary: #035bbf;
+    --md-sys-color-surface-dim: #121316;
+    --md-sys-color-surface-bright: #38393c;
+    --md-sys-color-surface-container-lowest: #0d0e11;
+    --md-sys-color-surface-container-low: #1b1b1f;
+    --md-sys-color-surface-container: #1f1f23;
+    --md-sys-color-surface-container-high: #292a2d;
+    --md-sys-color-surface-container-highest: #343538
+  }
+}
+:root[data-theme="dark"] {
+  --md-sys-color-primary: #acc7ff;
+  --md-sys-color-on-primary: #002e68;
+  --md-sys-color-primary-container: #004492;
+  --md-sys-color-on-primary-container: #d8e2ff;
+  --md-sys-color-secondary: #bec6dc;
+  --md-sys-color-on-secondary: #283041;
+  --md-sys-color-secondary-container: #3f4759;
+  --md-sys-color-on-secondary-container: #dbe2f9;
+  --md-sys-color-tertiary: #debcdf;
+  --md-sys-color-on-tertiary: #402843;
+  --md-sys-color-tertiary-container: #583e5b;
+  --md-sys-color-on-tertiary-container: #fbd7fc;
+  --md-sys-color-error: #ffb4ab;
+  --md-sys-color-on-error: #690005;
+  --md-sys-color-error-container: #93000a;
+  --md-sys-color-on-error-container: #ffb4ab;
+  --md-sys-color-background: #1b1b1f;
+  --md-sys-color-on-background: #e3e2e6;
+  --md-sys-color-surface: #1b1b1f;
+  --md-sys-color-on-surface: #e3e2e6;
+  --md-sys-color-surface-variant: #44474f;
+  --md-sys-color-on-surface-variant: #c4c6d0;
+  --md-sys-color-outline: #8e9099;
+  --md-sys-color-outline-variant: #44474f;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #e3e2e6;
+  --md-sys-color-inverse-on-surface: #2f3033;
+  --md-sys-color-inverse-primary: #035bbf;
+  --md-sys-color-surface-dim: #121316;
+  --md-sys-color-surface-bright: #38393c;
+  --md-sys-color-surface-container-lowest: #0d0e11;
+  --md-sys-color-surface-container-low: #1b1b1f;
+  --md-sys-color-surface-container: #1f1f23;
+  --md-sys-color-surface-container-high: #292a2d;
+  --md-sys-color-surface-container-highest: #343538
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --md-sys-color-primary: #035bbf;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-primary-container: #d8e2ff;
+    --md-sys-color-on-primary-container: #001a41;
+    --md-sys-color-secondary: #565e71;
+    --md-sys-color-on-secondary: #ffffff;
+    --md-sys-color-secondary-container: #dbe2f9;
+    --md-sys-color-on-secondary-container: #131b2c;
+    --md-sys-color-tertiary: #715574;
+    --md-sys-color-on-tertiary: #ffffff;
+    --md-sys-color-tertiary-container: #fbd7fc;
+    --md-sys-color-on-tertiary-container: #29132d;
+    --md-sys-color-error: #ba1a1a;
+    --md-sys-color-on-error: #ffffff;
+    --md-sys-color-error-container: #ffdad6;
+    --md-sys-color-on-error-container: #410002;
+    --md-sys-color-background: #fefbff;
+    --md-sys-color-on-background: #1b1b1f;
+    --md-sys-color-surface: #fefbff;
+    --md-sys-color-on-surface: #1b1b1f;
+    --md-sys-color-surface-variant: #e1e2ec;
+    --md-sys-color-on-surface-variant: #44474f;
+    --md-sys-color-outline: #74777f;
+    --md-sys-color-outline-variant: #c4c6d0;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-inverse-surface: #2f3033;
+    --md-sys-color-inverse-on-surface: #f2f0f4;
+    --md-sys-color-inverse-primary: #acc7ff;
+    --md-sys-color-surface-dim: #dbd9dd;
+    --md-sys-color-surface-bright: #faf9fd;
+    --md-sys-color-surface-container-lowest: #ffffff;
+    --md-sys-color-surface-container-low: #f5f3f7;
+    --md-sys-color-surface-container: #efedf1;
+    --md-sys-color-surface-container-high: #e9e7ec;
+    --md-sys-color-surface-container-highest: #e3e2e6
+  }
+}
+:root[data-theme="light"] {
+  --md-sys-color-primary: #035bbf;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #d8e2ff;
+  --md-sys-color-on-primary-container: #001a41;
+  --md-sys-color-secondary: #565e71;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #dbe2f9;
+  --md-sys-color-on-secondary-container: #131b2c;
+  --md-sys-color-tertiary: #715574;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #fbd7fc;
+  --md-sys-color-on-tertiary-container: #29132d;
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffdad6;
+  --md-sys-color-on-error-container: #410002;
+  --md-sys-color-background: #fefbff;
+  --md-sys-color-on-background: #1b1b1f;
+  --md-sys-color-surface: #fefbff;
+  --md-sys-color-on-surface: #1b1b1f;
+  --md-sys-color-surface-variant: #e1e2ec;
+  --md-sys-color-on-surface-variant: #44474f;
+  --md-sys-color-outline: #74777f;
+  --md-sys-color-outline-variant: #c4c6d0;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #2f3033;
+  --md-sys-color-inverse-on-surface: #f2f0f4;
+  --md-sys-color-inverse-primary: #acc7ff;
+  --md-sys-color-surface-dim: #dbd9dd;
+  --md-sys-color-surface-bright: #faf9fd;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f5f3f7;
+  --md-sys-color-surface-container: #efedf1;
+  --md-sys-color-surface-container-high: #e9e7ec;
+  --md-sys-color-surface-container-highest: #e3e2e6
+}
+</style><link rel="stylesheet" href="../assets/material-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="../index.html" class="title">G.js</a><div id="tsd-toolbar-links"><a href="https://github.com/g-js-api/G.js">GitHub</a></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb" aria-label="Breadcrumb"><li><a href="" aria-current="page">Event IDs</a></li></ul></div><div class="tsd-panel tsd-typography"><table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Event ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NONE</td>
+<td>0</td>
+</tr>
+<tr>
+<td>TINY_LANDING</td>
+<td>1</td>
+</tr>
+<tr>
+<td>FEATHER_LANDING</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SOFT_LANDING</td>
+<td>3</td>
+</tr>
+<tr>
+<td>NORMAL_LANDING</td>
+<td>4</td>
+</tr>
+<tr>
+<td>HARD_LANDING</td>
+<td>5</td>
+</tr>
+<tr>
+<td>HIT_HEAD</td>
+<td>6</td>
+</tr>
+<tr>
+<td>ORB_TOUCHED</td>
+<td>7</td>
+</tr>
+<tr>
+<td>ORB_ACTIVATED</td>
+<td>8</td>
+</tr>
+<tr>
+<td>PAD_ACTIVATED</td>
+<td>9</td>
+</tr>
+<tr>
+<td>GRAVITY_INVERTED</td>
+<td>10</td>
+</tr>
+<tr>
+<td>GRAVITY_RESTORED</td>
+<td>11</td>
+</tr>
+<tr>
+<td>NORMAL_JUMP</td>
+<td>12</td>
+</tr>
+<tr>
+<td>ROBOT_BOOST_START</td>
+<td>13</td>
+</tr>
+<tr>
+<td>ROBOT_BOOST_STOP</td>
+<td>14</td>
+</tr>
+<tr>
+<td>UFO_JUMP</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SHIP_BOOST_START</td>
+<td>16</td>
+</tr>
+<tr>
+<td>SHIP_BOOST_END</td>
+<td>17</td>
+</tr>
+<tr>
+<td>SPIDER_TELEPORT</td>
+<td>18</td>
+</tr>
+<tr>
+<td>BALL_SWITCH</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SWING_SWITCH</td>
+<td>20</td>
+</tr>
+<tr>
+<td>WAVE_PUSH</td>
+<td>21</td>
+</tr>
+<tr>
+<td>WAVE_RELEASE</td>
+<td>22</td>
+</tr>
+<tr>
+<td>DASH_START</td>
+<td>23</td>
+</tr>
+<tr>
+<td>DASH_STOP</td>
+<td>24</td>
+</tr>
+<tr>
+<td>TELEPORTED</td>
+<td>25</td>
+</tr>
+<tr>
+<td>PORTAL_NORMAL</td>
+<td>26</td>
+</tr>
+<tr>
+<td>PORTAL_SHIP</td>
+<td>27</td>
+</tr>
+<tr>
+<td>PORTAL_BALL</td>
+<td>28</td>
+</tr>
+<tr>
+<td>PORTAL_UFO</td>
+<td>29</td>
+</tr>
+<tr>
+<td>PORTAL_WAVE</td>
+<td>30</td>
+</tr>
+<tr>
+<td>PORTAL_ROBOT</td>
+<td>31</td>
+</tr>
+<tr>
+<td>PORTAL_SPIDER</td>
+<td>32</td>
+</tr>
+<tr>
+<td>PORTAL_SWING</td>
+<td>33</td>
+</tr>
+<tr>
+<td>YELLOW_ORB</td>
+<td>34</td>
+</tr>
+<tr>
+<td>PINK_ORB</td>
+<td>35</td>
+</tr>
+<tr>
+<td>RED_ORB</td>
+<td>36</td>
+</tr>
+<tr>
+<td>GRAVITY_ORB</td>
+<td>37</td>
+</tr>
+<tr>
+<td>GREEN_ORB</td>
+<td>38</td>
+</tr>
+<tr>
+<td>DROP_ORB</td>
+<td>39</td>
+</tr>
+<tr>
+<td>CUSTOM_ORB</td>
+<td>40</td>
+</tr>
+<tr>
+<td>DASH_ORB</td>
+<td>41</td>
+</tr>
+<tr>
+<td>GRAVITY_DASH_ORB</td>
+<td>42</td>
+</tr>
+<tr>
+<td>SPIDER_ORB</td>
+<td>43</td>
+</tr>
+<tr>
+<td>TELEPORT_ORB</td>
+<td>44</td>
+</tr>
+<tr>
+<td>YELLOW_PAD</td>
+<td>45</td>
+</tr>
+<tr>
+<td>PINK_PAD</td>
+<td>46</td>
+</tr>
+<tr>
+<td>RED_PAD</td>
+<td>47</td>
+</tr>
+<tr>
+<td>GRAVITY_PAD</td>
+<td>48</td>
+</tr>
+<tr>
+<td>SPIDER_PAD</td>
+<td>49</td>
+</tr>
+<tr>
+<td>PORTAL_GRAVITY_FLIP</td>
+<td>50</td>
+</tr>
+<tr>
+<td>PORTAL_GRAVITY_NORMAL</td>
+<td>51</td>
+</tr>
+<tr>
+<td>PORTAL_GRAVITY_INVERT</td>
+<td>52</td>
+</tr>
+<tr>
+<td>PORTAL_FLIP</td>
+<td>53</td>
+</tr>
+<tr>
+<td>PORTAL_UNFLIP</td>
+<td>54</td>
+</tr>
+<tr>
+<td>PORTAL_NORMAL_SCALE</td>
+<td>55</td>
+</tr>
+<tr>
+<td>PORTAL_MINI_SCALE</td>
+<td>56</td>
+</tr>
+<tr>
+<td>PORTAL_DUAL_ON</td>
+<td>57</td>
+</tr>
+<tr>
+<td>PORTAL_DUAL_OFF</td>
+<td>58</td>
+</tr>
+<tr>
+<td>PORTAL_TELEPORT</td>
+<td>59</td>
+</tr>
+<tr>
+<td>CHECKPOINT</td>
+<td>60</td>
+</tr>
+<tr>
+<td>DESTROY_BLOCK</td>
+<td>61</td>
+</tr>
+<tr>
+<td>USER_COIN</td>
+<td>62</td>
+</tr>
+<tr>
+<td>PICKUP_ITEM</td>
+<td>63</td>
+</tr>
+<tr>
+<td>CHECKPOINT_RESPAWN</td>
+<td>64</td>
+</tr>
+<tr>
+<td>FALL_LOW</td>
+<td>65</td>
+</tr>
+<tr>
+<td>FALL_MED</td>
+<td>66</td>
+</tr>
+<tr>
+<td>FALL_HIGH</td>
+<td>67</td>
+</tr>
+<tr>
+<td>FALL_VHIGH</td>
+<td>68</td>
+</tr>
+<tr>
+<td>JUMP_PUSH</td>
+<td>69</td>
+</tr>
+<tr>
+<td>JUMP_RELEASE</td>
+<td>70</td>
+</tr>
+<tr>
+<td>LEFT_PUSH</td>
+<td>71</td>
+</tr>
+<tr>
+<td>LEFT_RELEASE</td>
+<td>72</td>
+</tr>
+<tr>
+<td>RIGHT_PUSH</td>
+<td>73</td>
+</tr>
+<tr>
+<td>RIGHT_RELEASE</td>
+<td>74</td>
+</tr>
+<tr>
+<td>PLAYER_REVERSED</td>
+<td>75</td>
+</tr>
+<tr>
+<td>FALL_SPEED_LOW</td>
+<td>76</td>
+</tr>
+<tr>
+<td>FALL_SPEED_MED</td>
+<td>77</td>
+</tr>
+<tr>
+<td>FALL_SPEED_HIGH</td>
+<td>78</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div></div><div class="site-menu"><nav id="tsd-sidebar-links" class="tsd-navigation"><a href="https://github.com/g-js-api/G.js" class="tsd-nav-link">GitHub</a></nav><nav class="tsd-navigation"><a href="../modules.html">G.js</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer></footer><div class="overlay"></div><script>
+          try {
+            const generateLinkElement = document.querySelector(".tsd-generator a");
+            const link = document.createElement("a");
+            Object.assign(link, {
+              href: "https://github.com/dmnsgn/typedoc-material-theme",
+              target: "_blank",
+              rel: "noreferrer",
+              innerText: "typedoc-material-theme."
+            });
+            generateLinkElement.insertAdjacentElement("afterend", link);
+            generateLinkElement.insertAdjacentText("afterend", " with ");
+          } catch (error) {
+
+          }
+        </script></body></html>

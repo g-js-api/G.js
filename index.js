@@ -181,7 +181,7 @@ const publicApi = {
     keyframe_system: safe_1.keyframe_system, particle_props: safe_1.particle_props, events: safe_1.events, log: safe_1.log, LevelReader: safe_1.LevelReader, SingleLevelReader: safe_1.SingleLevelReader,
     trigger: safe_1.trigger, object: safe_1.object, trigger_function: safe_1.trigger_function, group: safe_1.group, color: safe_1.color, range: safe_1.range, Context: safe_1.Context, level: safe_1.level, ignore_context_change: safe_1.ignore_context_change, hsv: safe_1.hsv, speed: safe_1.speed,
     animations: safe_1.animations, obj_ids: safe_1.obj_ids, blocking_trigger_fn: safe_1.blocking_trigger_fn, while_loop: safe_1.while_loop, rgb: safe_1.rgb, rgba: safe_1.rgba, reverse: safe_1.reverse,
-    unknown_g: safe_1.unknown_g, unknown_c: safe_1.unknown_c, unknown_b: safe_1.unknown_b, $: safe_1.$, extract: safe_1.extract,
+    unknown_g: safe_1.unknown_g, unknown_c: safe_1.unknown_c, unknown_b: safe_1.unknown_b, $: safe_1.$, extract: safe_1.extract, levelstring: safe_1.levelstring,
     $group: safe_1.$group, $color: safe_1.$color, $block: safe_1.$block
 };
 (0, safe_1.extract)(publicApi);

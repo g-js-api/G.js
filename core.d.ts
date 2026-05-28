@@ -369,12 +369,13 @@ export declare const shouldEnforceGroupLimit: (options?: ExportOptions) => boole
 export declare const assertGroupLimit: (options?: ExportOptions) => void;
 export declare const printExportStats: (options?: ExportOptions, levelName?: string | undefined) => void;
 export declare const prepareResultingLevelString: (options?: ExportOptions, levelName?: string | undefined) => string;
+export declare function exportConfig(conf: ExportConfig): Promise<any>;
 export declare const callback_objects: (cb: Function) => void;
 export declare const extend_trigger_func: (t: any, cb: (group: any) => void) => void;
 export declare const trigger_fn_context: () => any;
 export declare const $: {
     add: (...objects: any[]) => void;
-    exportConfig: any;
+    exportConfig: typeof exportConfig;
     print: (...args: any[]) => void;
     callback_objects: (cb: Function) => void;
     extend_trigger_func: (t: any, cb: (group: any) => void) => void;

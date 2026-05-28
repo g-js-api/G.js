@@ -22,10 +22,6 @@ import {
     unknown_g, unknown_c, unknown_b,
     $group, $color, $block, levelstring
 } from './safe';
-import { exportConfig } from './core_export_config';
-
-// We need to set $.exportConfig because it was undefined in core.ts
-($.exportConfig as any) = exportConfig;
 
 const publicApi = {
     ITEM, TIMER, EQ, ADD, SUB, MUL, DIV, GREATER, GREATER_OR_EQ, LESS, LESS_OR_EQ, NOT_EQ,

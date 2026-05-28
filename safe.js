@@ -169,10 +169,10 @@ Object.defineProperty(exports, "log", { enumerable: true, get: function () { ret
 const reader_1 = require("./reader");
 Object.defineProperty(exports, "LevelReader", { enumerable: true, get: function () { return reader_1.LevelReader; } });
 Object.defineProperty(exports, "SingleLevelReader", { enumerable: true, get: function () { return reader_1.SingleLevelReader; } });
-const core_export_config_1 = require("./core_export_config");
-Object.defineProperty(exports, "exportConfig", { enumerable: true, get: function () { return core_export_config_1.exportConfig; } });
+const core_2 = require("./core");
+Object.defineProperty(exports, "exportConfig", { enumerable: true, get: function () { return core_2.exportConfig; } });
 // Ensure $.exportConfig is initialized
-core_1.$.exportConfig = core_export_config_1.exportConfig;
+core_1.$.exportConfig = core_2.exportConfig;
 const animations = {
     big_beast: {
         bite: 0,

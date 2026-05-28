@@ -161,9 +161,6 @@ Object.defineProperty(exports, "$group", { enumerable: true, get: function () { 
 Object.defineProperty(exports, "$color", { enumerable: true, get: function () { return safe_1.$color; } });
 Object.defineProperty(exports, "$block", { enumerable: true, get: function () { return safe_1.$block; } });
 Object.defineProperty(exports, "levelstring", { enumerable: true, get: function () { return safe_1.levelstring; } });
-const core_export_config_1 = require("./core_export_config");
-// We need to set $.exportConfig because it was undefined in core.ts
-safe_1.$.exportConfig = core_export_config_1.exportConfig;
 const publicApi = {
     ITEM: safe_1.ITEM, TIMER: safe_1.TIMER, EQ: safe_1.EQ, ADD: safe_1.ADD, SUB: safe_1.SUB, MUL: safe_1.MUL, DIV: safe_1.DIV, GREATER: safe_1.GREATER, GREATER_OR_EQ: safe_1.GREATER_OR_EQ, LESS: safe_1.LESS, LESS_OR_EQ: safe_1.LESS_OR_EQ, NOT_EQ: safe_1.NOT_EQ,
     ABS: safe_1.ABS, NEG: safe_1.NEG, RND: safe_1.RND, FLR: safe_1.FLR, CEI: safe_1.CEI, ELASTIC_OUT: safe_1.ELASTIC_OUT, BACK_IN_OUT: safe_1.BACK_IN_OUT, BOUNCE_IN: safe_1.BOUNCE_IN, BACK_OUT: safe_1.BACK_OUT, EASE_OUT: safe_1.EASE_OUT,

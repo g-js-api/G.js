@@ -43,7 +43,7 @@ import particle_props from './properties/particles';
 import events from './properties/game_events';
 import { log } from './lib/log';
 import { LevelReader, SingleLevelReader } from './reader';
-import { exportConfig } from './core_export_config';
+import { exportConfig } from './core';
 
 // Ensure $.exportConfig is initialized
 $.exportConfig = exportConfig;

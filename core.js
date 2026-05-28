@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ignore_context_change = exports.$ = exports.trigger_fn_context = exports.extend_trigger_func = exports.callback_objects = exports.prepareResultingLevelString = exports.printExportStats = exports.assertGroupLimit = exports.shouldEnforceGroupLimit = exports.limit = exports.prep_lvl = exports.levelstring = exports.optimize = exports.indexOfFrom = exports.GROUP_LIMIT = exports.add_fn = exports.isRootContextName = exports.removeUndefinedProps = exports.addGroupsToObject = exports.toArray = exports.obj_to_levelstring_notype = exports.obj_to_levelstring = exports.find_free = exports.legacyObjectPropMappings = exports.level = exports.levelstring_to_obj = exports.a_separated_keys = exports.dot_separated_keys = exports.obj_props = exports.objectPropNamesById = exports.wait = exports.trigger_function = exports.trigger = exports.object = exports.registerExplicitTypes = exports.block_fn = exports.color_fn = exports.group_fn = exports.Context = exports.unknown_b = exports.unknown_c = exports.unknown_g = exports.getNextFreeId = exports.allKnown = exports.state = exports.extract = exports.expectedPropTypes = exports.$block = exports.$color = exports.$group = void 0;
 exports.rgba = exports.rgb = exports.reverse = exports.speed = exports.hsv = void 0;
+exports.exportConfig = exportConfig;
 exports.range = range;
 /**
  * @module core
@@ -17,6 +18,8 @@ exports.$color = color_1.default;
 const block_1 = __importDefault(require("./types/block"));
 exports.$block = block_1.default;
 const obj_props_1 = __importDefault(require("./properties/obj_props"));
+const ws_1 = __importDefault(require("ws"));
+const reader_1 = require("./reader");
 exports.expectedPropTypes = {};
 /**
  * extracts values from a dictionary into the global scope.
@@ -769,6 +772,155 @@ const prepareResultingLevelString = (options = {}, levelName = undefined) => {
     return exports.state.generatedLevelString;
 };
 exports.prepareResultingLevelString = prepareResultingLevelString;
+function exportConfig(conf) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!conf || typeof conf !== 'object') {
+                throw new Error('exportConfig requires a configuration object.');
+            }
+            const options = conf.options ?? {};
+            conf.options = options;
+            exports.state.triggerPositioningAllowed = options.triggerPositioningAllowed ?? true;
+            exports.state.triggerStartY = options.trigger_pos_start ?? 6000;
+            if (options.replacePastObjects === undefined) {
+                options.replacePastObjects = true;
+            }
+            if (options.removeGroup !== undefined) {
+                exports.state.cleanupGroupId = typeof options.removeGroup === 'number' ? options.removeGroup : options.removeGroup?.value;
+            }
+            const remove_past_objects = (lvlstring) => {
+                return lvlstring.split(';').filter(x => {
+                    let keep = true;
+                    const spl = x.split(',');
+                    spl.forEach((z, i) => {
+                        if (!(i % 2)) {
+                            if (z === "57") {
+                                let groups = spl[i + 1];
+                                if (groups.includes('.')) {
+                                    groups = groups.split('.');
+                                    if (groups.includes(exports.state.cleanupGroupId.toString())) {
+                                        keep = false;
+                                    }
+                                }
+                                else {
+                                    if (groups === exports.state.cleanupGroupId.toString()) {
+                                        keep = false;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    return keep;
+                }).join(';');
+            };
+            const group_arr = (arr, x) => arr.reduce((acc, _, i) => (i % x ? acc[acc.length - 1].push(arr[i]) : acc.push([arr[i]]), acc), []);
+            switch (conf.type) {
+                case 'levelstring':
+                    resolve((0, exports.prepareResultingLevelString)(options));
+                    return;
+                case 'savefile': {
+                    const sf_level = await new reader_1.LevelReader(options?.level_name, options?.path, options?.reencrypt);
+                    exports.level.level_reader = sf_level;
+                    if (!sf_level.data.levelstring)
+                        throw new Error(`Level "${sf_level.data.name}" has not been initialized, add any object to initialize the level then rerun this script`);
+                    let last = options.replacePastObjects ? remove_past_objects(sf_level.data.levelstring) : sf_level.data.levelstring;
+                    (0, exports.find_free)(last);
+                    process.on('beforeExit', error => {
+                        if (!error) {
+                            last += (0, exports.prepareResultingLevelString)(options, sf_level.data.name);
+                            sf_level.set(last);
+                            sf_level.save();
+                            process.exit(0);
+                        }
+                    });
+                    resolve(true);
+                    return;
+                }
+                case 'gmd': {
+                    const sf_level_gmd = await new reader_1.SingleLevelReader(options?.path);
+                    exports.level.level_reader = sf_level_gmd;
+                    if (!sf_level_gmd.data.levelstring)
+                        throw new Error(`Level "${sf_level_gmd.data.name}" has not been initialized, add any object to initialize the level then rerun this script`);
+                    let last_gmd = options.replacePastObjects ? remove_past_objects(sf_level_gmd.data.levelstring) : sf_level_gmd.data.levelstring;
+                    (0, exports.find_free)(last_gmd);
+                    process.on('beforeExit', error => {
+                        if (!error) {
+                            last_gmd += (0, exports.prepareResultingLevelString)(options, sf_level_gmd.data.name);
+                            sf_level_gmd.set(last_gmd);
+                            sf_level_gmd.save(options?.gmdOutput);
+                            process.exit(0);
+                        }
+                    });
+                    resolve(true);
+                    return;
+                }
+                case 'live_editor': {
+                    const socket = new ws_1.default('ws://127.0.0.1:1313');
+                    socket.addEventListener('message', (event) => {
+                        event = JSON.parse(event.data);
+                        if (event.response) {
+                            (0, exports.find_free)(event.response.split(';').slice(1).join(';'));
+                            exports.level.raw_levelstring = event.response;
+                            resolve(true);
+                            return;
+                        }
+                        if (event.status !== 'successful')
+                            throw new Error(`Live editor failed, ${event.error}: ${event.message}`);
+                    });
+                    socket.addEventListener('open', () => {
+                        if (options.replacePastObjects) {
+                            socket.send(JSON.stringify({
+                                action: 'REMOVE_OBJECTS',
+                                group: exports.state.cleanupGroupId,
+                            }));
+                        }
+                        socket.send(JSON.stringify({
+                            action: 'GET_LEVEL_STRING',
+                            close: true
+                        }));
+                        process.on('beforeExit', error => {
+                            if (!error) {
+                                const socket2 = new ws_1.default('ws://127.0.0.1:1313');
+                                socket2.addEventListener('message', (event) => {
+                                    event = JSON.parse(event.data);
+                                    if (event.response) {
+                                        (0, exports.find_free)(event.response.split(';').slice(1).join(';'));
+                                    }
+                                    if (event.status !== 'successful')
+                                        throw new Error(`Live editor failed, ${event.error}: ${event.message}`);
+                                });
+                                socket2.addEventListener('open', async () => {
+                                    const pre_lvlstr = await exportConfig({ type: 'levelstring', options });
+                                    const lvlString = group_arr(pre_lvlstr.split(';'), 250).map(x => x.join(';'));
+                                    lvlString.forEach((chunk, i) => {
+                                        setTimeout(() => {
+                                            socket2.send(JSON.stringify({
+                                                action: 'ADD_OBJECTS',
+                                                objects: chunk + ';',
+                                                close: i === lvlString.length - 1
+                                            }));
+                                            if (i === lvlString.length - 1)
+                                                process.exit(0);
+                                        }, i * 75);
+                                    });
+                                });
+                            }
+                        });
+                    });
+                    socket.addEventListener('error', () => {
+                        throw new Error('Connecting to WSLiveEditor failed. Make sure you have installed the WSLiveEditor mod inside of Geode and have the editor open.');
+                    });
+                    return;
+                }
+                default:
+                    throw new Error(`The "${conf.type}" configuration type is not valid!`);
+            }
+        }
+        catch (error) {
+            reject(error);
+        }
+    });
+}
 const callback_objects = (cb) => {
     exports.state.callback_objects_fn = cb;
 };
@@ -785,7 +937,7 @@ const trigger_fn_context = () => Context.findByName(Context.current).group;
 exports.trigger_fn_context = trigger_fn_context;
 exports.$ = {
     add: exports.add_fn,
-    exportConfig: undefined,
+    exportConfig,
     print: (...args) => console.log(...args),
     callback_objects: exports.callback_objects,
     extend_trigger_func: exports.extend_trigger_func,

@@ -291,7 +291,7 @@ export declare const trigger_function: (cb: (group: any) => void) => any;
 export declare const wait: (time: number) => void;
 export declare const objectPropNamesById: Dictionary;
 /**
- * See [Object Properties](/documents/Object_Properties.html).
+ * See [Object Properties](/G.js/documents/Object_Properties.html).
  */
 export declare const obj_props: Dictionary;
 export declare const dot_separated_keys: string[];

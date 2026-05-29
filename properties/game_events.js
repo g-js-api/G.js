@@ -169,7 +169,7 @@ let events = [
     "FALL_SPEED_HIGH"
 ];
 /**
- * See [Event IDs](/documents/Event_IDs.html).
+ * See [Event IDs](/G.js/documents/Event_IDs.html).
  */
 exports.d_evs = {};
 events.forEach((x, i) => exports.d_evs[x] = i);

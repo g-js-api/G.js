@@ -153,7 +153,7 @@ let parts = [
     'FRICTON_R_VAR'
 ];
 /**
- * See [Particle Properties](/documents/Particle_Properties.html).
+ * See [Particle Properties](/G.js/documents/Particle_Properties.html).
  */
 export const d_parts = {};
 parts.forEach((x, i) => d_parts[x] = i);

@@ -513,7 +513,7 @@ for (var i in objectPropIds) {
 }
 
 /**
- * See [Object Properties](/documents/Object_Properties.html).
+ * See [Object Properties](/G.js/documents/Object_Properties.html).
  */
 export const obj_props = objectPropNamesById;
 

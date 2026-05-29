@@ -155,6 +155,9 @@ let parts = [
     'FRICTION_R',
     'FRICTON_R_VAR'
 ];
+/**
+ * See [Particle Properties](/documents/Particle_Properties.html).
+ */
 exports.d_parts = {};
 parts.forEach((x, i) => exports.d_parts[x] = i);
 exports.default = exports.d_parts;

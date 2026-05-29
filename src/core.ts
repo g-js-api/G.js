@@ -512,6 +512,9 @@ for (var i in objectPropIds) {
     objectPropNamesById[objectPropIds[i]] = i;
 }
 
+/**
+ * See [Object Properties](/documents/Object_Properties.html).
+ */
 export const obj_props = objectPropNamesById;
 
 export const dot_separated_keys = [57, 442, 274].map(x => x.toString());

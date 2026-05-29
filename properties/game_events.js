@@ -168,6 +168,9 @@ let events = [
     "FALL_SPEED_MED",
     "FALL_SPEED_HIGH"
 ];
+/**
+ * See [Event IDs](/documents/Event_IDs.html).
+ */
 exports.d_evs = {};
 events.forEach((x, i) => exports.d_evs[x] = i);
 exports.default = exports.d_evs;

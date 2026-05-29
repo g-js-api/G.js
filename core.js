@@ -365,6 +365,9 @@ exports.objectPropNamesById = {};
 for (var i in obj_props_1.default) {
     exports.objectPropNamesById[obj_props_1.default[i]] = i;
 }
+/**
+ * See [Object Properties](/documents/Object_Properties.html).
+ */
 exports.obj_props = exports.objectPropNamesById;
 exports.dot_separated_keys = [57, 442, 274].map(x => x.toString());
 exports.a_separated_keys = [43].map(x => x.toString());

@@ -24,6 +24,7 @@ exports.expectedPropTypes = {};
 /**
  * extracts values from a dictionary into the global scope.
  * @param {Dictionary} dict dictionary to extract
+ * @category Functions
  */
 const extract = (dict) => {
     Object.entries(dict).forEach(([key, value]) => {
@@ -635,6 +636,11 @@ const optimize = () => {
     }
 };
 exports.optimize = optimize;
+/**
+ * Parses and manipulates levelstrings, returning helper methods for editing/adding.
+ * @param {string} string Input levelstring
+ * @category Functions
+ */
 const levelstring = (string) => {
     let splitString = string.split(';');
     if (splitString[splitString.length - 1] === '')
@@ -943,6 +949,11 @@ exports.$ = {
     extend_trigger_func: exports.extend_trigger_func,
     trigger_fn_context: exports.trigger_fn_context
 };
+/**
+ * Executes a function while preserving the current context (doesn't change contexts).
+ * @param {Function} fn Function to execute
+ * @category Functions
+ */
 const ignore_context_change = (fn) => {
     const old_context = Context.current;
     fn();
@@ -955,6 +966,7 @@ exports.ignore_context_change = ignore_context_change;
  * @param end End for range
  * @param step How many steps
  * @returns {Array} Output array
+ * @category Functions
  */
 function range(start, end, step = 1) {
     let sw = false;
@@ -983,16 +995,43 @@ const hsv = (hue, sat, bright, sat_checked = false, bright_checked = false) => {
     return [hue, sat, bright, +sat_checked, +bright_checked].join("a");
 };
 exports.hsv = hsv;
+/**
+ * Converts a speed multiplier into an in-game speed value
+ * @param {number} x Input speed multiplier
+ * @returns {number}
+ * @category Functions
+ */
 const speed = (x) => (5.170649 + 8.019236 * x - 3.726698 * Math.pow(x, 2) + 1.000783 * Math.pow(x, 3) - 0.08783546 * Math.pow(x, 4)) * 30;
 exports.speed = speed;
+/**
+ * Reverses level direction
+ * @category Functions
+ */
 const reverse = () => {
     exports.$.add((0, exports.trigger)({
         OBJ_ID: 1917
     }));
 };
 exports.reverse = reverse;
+/**
+ * Creates an RGB triplet
+ * @param {number} r Red value
+ * @param {number} g Green value
+ * @param {number} b Blue value
+ * @returns {number[]}
+ * @category Functions
+ */
 const rgb = (r, g, b) => [r, g, b];
 exports.rgb = rgb;
+/**
+ * Creates an RGBA quadruplet
+ * @param {number} r Red value
+ * @param {number} g Green value
+ * @param {number} b Blue value
+ * @param {number} a Alpha value
+ * @returns {number[]}
+ * @category Functions
+ */
 const rgba = (r, g, b, a) => [r, g, b, a];
 exports.rgba = rgba;
 String.prototype.to_obj = function () {

@@ -324,6 +324,7 @@ export const float_counter = (val = 0, use_id = false, persistent = false): Floa
  * @param {boolean} [ignore_timewarp=false] Whether to ignore timewarp.
  * @param {boolean} [no_override=false] Whether to ignore when the timer is overridden by another.
  * @returns {Counter}
+ * @category Functions
  */
 export const timer = (start_seconds, end_seconds = 0, target_id = group(0), backwards = false, seconds_only = false, stop = true, time_mod = 1, ignore_timewarp = false, no_override = false): Counter => {
     // START_IME, STOP_TIME, STOP_CHECKED, ITEM, TARGET, TIME_MOD, IGNORE_TIMEWARP, START_PAUSED, DONT_OVERRIDE

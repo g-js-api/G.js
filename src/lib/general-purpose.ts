@@ -14,7 +14,7 @@ import all_particles from '../properties/particles';
 /**
  * Offsets the camera by a position
  * @param {number} x X offset of camera
- * @param {number} y X offset of camera
+ * @param {number} y Y offset of camera
  * @param {number} [duration=0] Duration that it takes for camera position to change
  * @param {number} [easing=NONE] Easing for camera movement
  * @category Functions
@@ -233,6 +233,7 @@ export let song = (song_id, loop = false, preload = true, channel = 0, volume = 
 * Teleports the player to a specific target object
 * @param {any} g Group ID of target object or [x, y] coordinates
 * @param {boolean} [no_effects] Weather the teleport trigger generates an effect
+ * @category Functions
 */
 export let teleport = (g, no_effects) => {
     if (g?.length) {
@@ -278,6 +279,7 @@ export let move_trigger = (group, x, y) => {
 /**
  * Warps all time by given amount
  * @param {number} val How much to warp time by
+ * @category Functions
  */
 export let timewarp = (val) => {
     $.add(trigger({
@@ -320,10 +322,11 @@ export let color_trigger = (
     });
 };
 /**
-* Returns an activated toggle trigger
-* @param {any} group_id Group of object
-* @returns {any} Resulting object
-*/
+ * Returns an activated toggle trigger
+ * @param {any} group_id Group of object
+ * @returns {any} Resulting object
+ * @category Functions
+ */
 export let toggle_on_trigger = (group_id) => {
     return trigger({
         OBJ_ID: 1049,
@@ -336,6 +339,7 @@ export let toggle_on_trigger = (group_id) => {
  * Returns an inactive toggle trigger
  * @param {any} group_id Group of object
  * @returns {any} Resulting object
+ * @category Functions
  */
 export let toggle_off_trigger = (group_id) => {
     return trigger({
@@ -346,8 +350,9 @@ export let toggle_off_trigger = (group_id) => {
 };
 
 /**
-* Hides player
-*/
+ * Hides player
+ * @category Functions
+ */
 export let hide_player = () => {
     $.add(trigger({
         OBJ_ID: 1612,
@@ -356,18 +361,19 @@ export let hide_player = () => {
 
 let gradient_id = 0;
 /**
-* Creates a gradient trigger and returns it
-* @param {any} col First color of gradient
-* @param {any} col2 Second color of gradient
-* @param {any} bl Bottom left vertex
-* @param {any} br Bottom right vertex
-* @param {any} tl Top left vertex
-* @param {any} tr Top right vertex
-* @param {boolean} [vertex_mode=true] Whether to use vertex mode
-* @param {boolean} [blending=false] Whether to make the gradient blending
-* @param {number} [layer=0] Layer of gradient (0-15)
-* @returns {any} Resulting gradient trigger
-*/
+ * Creates a gradient trigger and returns it
+ * @param {any} col First color of gradient
+ * @param {any} col2 Second color of gradient
+ * @param {any} bl Bottom left vertex
+ * @param {any} br Bottom right vertex
+ * @param {any} tl Top left vertex
+ * @param {any} tr Top right vertex
+ * @param {boolean} [vertex_mode=true] Whether to use vertex mode
+ * @param {boolean} [blending=false] Whether to make the gradient blending
+ * @param {number} [layer=0] Layer of gradient (0-15)
+ * @returns {any} Resulting gradient trigger
+ * @category Functions
+ */
 export let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending = false, layer = 0) => {
     return trigger({
         OBJ_ID: 2903,
@@ -392,6 +398,7 @@ export let gradient = (col, col2, bl, br, tl, tr, vertex_mode = true, blending =
  * @param {boolean} [animate_active_only=false] Only makes animate_on_trigger true if the object is active 
  * @param {boolean} [quick_start=false] Makes normal movement be achieved instantly instead of gradually
  * @returns {any} Returned particle system
+ * @category Functions
  */
 export let particle_system = (props, use_obj_color = false, animate_on_trigger = false, animate_active_only = false, quick_start = false) => {
     let datalist = Array(72).fill(0);
@@ -425,6 +432,7 @@ export let particle_system = (props, use_obj_color = false, animate_on_trigger =
  * @param {number} offvar_x Area to randomly spawn particles in on X axis
  * @param {number} offvar_y Area to randomly spawn particles in on Y axis
  * @param {boolean} match_rot Makes the rotation of several particles match
+ * @category Functions
  */
 export let spawn_particle = (particle_group, pos_group = group(0), offset_x = 0, offset_y = 0, scale = 1, scale_var = 0, rotation = 0, rotation_var = 0, offvar_x = 0, offvar_y = 0, match_rot = false) => {
     $.add(trigger({
@@ -448,6 +456,7 @@ export let spawn_particle = (particle_group, pos_group = group(0), offset_x = 0,
  * @param {any} gr1 Group 1
  * @param {any} gr2 Group 2
  * @param {number} chance Chance of either group being called
+ * @category Functions
  */
 export let random = (gr1, gr2, chance) => {
     $.add(trigger({
@@ -460,6 +469,7 @@ export let random = (gr1, gr2, chance) => {
 /**
  * Implementation of advanced random trigger
  * @param {any[]} chances Chances of each group being called (e.g. [[group(1), 10], [group(2), 10]] is a valid input)
+ * @category Functions
  */
 export let advanced_random = (...chances) => {
     $.add(trigger({
@@ -469,12 +479,13 @@ export let advanced_random = (...chances) => {
 }
 
 /**
-* Implementation of gravity trigger
-* @param {number} grav Gravity magnitude
-* @param {boolean} p1 Only affect player 1
-* @param {boolean} p2 Only affect player 2
-* @param {boolean} pt Only affect player that touches trigger
-*/
+ * Implementation of gravity trigger
+ * @param {number} grav Gravity magnitude
+ * @param {boolean} p1 Only affect player 1
+ * @param {boolean} p2 Only affect player 2
+ * @param {boolean} pt Only affect player that touches trigger
+ * @category Functions
+ */
 export let gravity = (grav, p1 = false, p2 = false, pt = false) => {
     $.add(trigger({
         OBJ_ID: 2066,
@@ -488,6 +499,7 @@ export let gravity = (grav, p1 = false, p2 = false, pt = false) => {
 /**
  * Implementation of options trigger
  * @returns {OptionsTrigger} Options trigger
+ * @category Functions
  */
 export let options = (): OptionsTrigger => {
     let ob: any = {

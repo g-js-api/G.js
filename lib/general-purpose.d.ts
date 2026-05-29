@@ -2,7 +2,7 @@ import type { OptionsTrigger } from '../core';
 /**
  * Offsets the camera by a position
  * @param {number} x X offset of camera
- * @param {number} y X offset of camera
+ * @param {number} y Y offset of camera
  * @param {number} [duration=0] Duration that it takes for camera position to change
  * @param {number} [easing=NONE] Easing for camera movement
  * @category Functions
@@ -86,6 +86,7 @@ export declare let song: (song_id: any, loop?: boolean, preload?: boolean, chann
 * Teleports the player to a specific target object
 * @param {any} g Group ID of target object or [x, y] coordinates
 * @param {boolean} [no_effects] Weather the teleport trigger generates an effect
+ * @category Functions
 */
 export declare let teleport: (g: any, no_effects: any) => void;
 /**
@@ -101,6 +102,7 @@ export declare let move_trigger: (group: any, x: any, y: any) => import("../core
 /**
  * Warps all time by given amount
  * @param {number} val How much to warp time by
+ * @category Functions
  */
 export declare let timewarp: (val: any) => void;
 /**
@@ -118,34 +120,38 @@ export declare let timewarp: (val: any) => void;
 */
 export declare let color_trigger: (channel: any, r: any, g: any, b: any, duration?: number, opacity?: number, blending?: boolean) => import("../core").GJsObject;
 /**
-* Returns an activated toggle trigger
-* @param {any} group_id Group of object
-* @returns {any} Resulting object
-*/
+ * Returns an activated toggle trigger
+ * @param {any} group_id Group of object
+ * @returns {any} Resulting object
+ * @category Functions
+ */
 export declare let toggle_on_trigger: (group_id: any) => import("../core").GJsObject;
 /**
  * Returns an inactive toggle trigger
  * @param {any} group_id Group of object
  * @returns {any} Resulting object
+ * @category Functions
  */
 export declare let toggle_off_trigger: (group_id: any) => import("../core").GJsObject;
 /**
-* Hides player
-*/
+ * Hides player
+ * @category Functions
+ */
 export declare let hide_player: () => void;
 /**
-* Creates a gradient trigger and returns it
-* @param {any} col First color of gradient
-* @param {any} col2 Second color of gradient
-* @param {any} bl Bottom left vertex
-* @param {any} br Bottom right vertex
-* @param {any} tl Top left vertex
-* @param {any} tr Top right vertex
-* @param {boolean} [vertex_mode=true] Whether to use vertex mode
-* @param {boolean} [blending=false] Whether to make the gradient blending
-* @param {number} [layer=0] Layer of gradient (0-15)
-* @returns {any} Resulting gradient trigger
-*/
+ * Creates a gradient trigger and returns it
+ * @param {any} col First color of gradient
+ * @param {any} col2 Second color of gradient
+ * @param {any} bl Bottom left vertex
+ * @param {any} br Bottom right vertex
+ * @param {any} tl Top left vertex
+ * @param {any} tr Top right vertex
+ * @param {boolean} [vertex_mode=true] Whether to use vertex mode
+ * @param {boolean} [blending=false] Whether to make the gradient blending
+ * @param {number} [layer=0] Layer of gradient (0-15)
+ * @returns {any} Resulting gradient trigger
+ * @category Functions
+ */
 export declare let gradient: (col: any, col2: any, bl: any, br: any, tl: any, tr: any, vertex_mode?: boolean, blending?: boolean, layer?: number) => import("../core").GJsObject;
 /**
  * Creates a particle system
@@ -155,6 +161,7 @@ export declare let gradient: (col: any, col2: any, bl: any, br: any, tl: any, tr
  * @param {boolean} [animate_active_only=false] Only makes animate_on_trigger true if the object is active
  * @param {boolean} [quick_start=false] Makes normal movement be achieved instantly instead of gradually
  * @returns {any} Returned particle system
+ * @category Functions
  */
 export declare let particle_system: (props: any, use_obj_color?: boolean, animate_on_trigger?: boolean, animate_active_only?: boolean, quick_start?: boolean) => import("../core").GJsObject;
 /**
@@ -170,6 +177,7 @@ export declare let particle_system: (props: any, use_obj_color?: boolean, animat
  * @param {number} offvar_x Area to randomly spawn particles in on X axis
  * @param {number} offvar_y Area to randomly spawn particles in on Y axis
  * @param {boolean} match_rot Makes the rotation of several particles match
+ * @category Functions
  */
 export declare let spawn_particle: (particle_group: any, pos_group?: import("../core").$group, offset_x?: number, offset_y?: number, scale?: number, scale_var?: number, rotation?: number, rotation_var?: number, offvar_x?: number, offvar_y?: number, match_rot?: boolean) => void;
 /**
@@ -177,24 +185,28 @@ export declare let spawn_particle: (particle_group: any, pos_group?: import("../
  * @param {any} gr1 Group 1
  * @param {any} gr2 Group 2
  * @param {number} chance Chance of either group being called
+ * @category Functions
  */
 export declare let random: (gr1: any, gr2: any, chance: any) => void;
 /**
  * Implementation of advanced random trigger
  * @param {any[]} chances Chances of each group being called (e.g. [[group(1), 10], [group(2), 10]] is a valid input)
+ * @category Functions
  */
 export declare let advanced_random: (...chances: any[]) => void;
 /**
-* Implementation of gravity trigger
-* @param {number} grav Gravity magnitude
-* @param {boolean} p1 Only affect player 1
-* @param {boolean} p2 Only affect player 2
-* @param {boolean} pt Only affect player that touches trigger
-*/
+ * Implementation of gravity trigger
+ * @param {number} grav Gravity magnitude
+ * @param {boolean} p1 Only affect player 1
+ * @param {boolean} p2 Only affect player 2
+ * @param {boolean} pt Only affect player that touches trigger
+ * @category Functions
+ */
 export declare let gravity: (grav: any, p1?: boolean, p2?: boolean, pt?: boolean) => void;
 /**
  * Implementation of options trigger
  * @returns {OptionsTrigger} Options trigger
+ * @category Functions
  */
 export declare let options: () => OptionsTrigger;
 /**

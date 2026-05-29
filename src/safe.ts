@@ -80,9 +80,22 @@ const animations = {
     }
 };
 
+/**
+ * Returns an RGB array
+ * @category Functions
+ */
 const rgb = (r: number, g: number, b: number) => [r, g, b];
+
+/**
+ * Returns an RGBA array
+ * @category Functions
+ */
 const rgba = (r: number, g: number, b: number, a: number) => [r, g, b, a];
 
+/**
+ * Reverses level direction
+ * @category Functions
+ */
 const reverse = () => {
     $.add(trigger({
         OBJ_ID: 1917
@@ -94,6 +107,7 @@ const reverse = () => {
  * @param {any} r Condition that defines whether the loop should keep on running (less_than/equal_to/greater_than(counter, number)).
  * @param {Function} triggerFunction Function to run while the condition is true.
  * @param {number} [del=0.05] Delay between each cycle.
+ * @category Functions
  */
 const while_loop = (r: any, triggerFunction: (group: any) => void, del = 0.05) => {
     if (r === true) r = equal_to(counter(-1, true), 0);
@@ -149,6 +163,7 @@ const while_loop = (r: any, triggerFunction: (group: any) => void, del = 0.05) =
  * A type of trigger function that, when called, lets you block all other triggers until a trigger function stops executing.
  * @param {Function} func Trigger function; callback provides parameter `stop_exec` that lets you stop blocking at a specific place.
  * @returns {TriggerFunctionGroup} Group ID of trigger function.
+ * @category Functions
  */
 const blocking_trigger_fn = (func: (stop_exec: () => void) => void): TriggerFunctionGroup => {
     let contextIDX = 0;

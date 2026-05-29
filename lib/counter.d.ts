@@ -33,5 +33,6 @@ export declare const float_counter: (val?: number, use_id?: boolean, persistent?
  * @param {boolean} [ignore_timewarp=false] Whether to ignore timewarp.
  * @param {boolean} [no_override=false] Whether to ignore when the timer is overridden by another.
  * @returns {Counter}
+ * @category Functions
  */
 export declare const timer: (start_seconds: any, end_seconds?: number, target_id?: import("../core").$group, backwards?: boolean, seconds_only?: boolean, stop?: boolean, time_mod?: number, ignore_timewarp?: boolean, no_override?: boolean) => Counter;

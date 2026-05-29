@@ -56,6 +56,7 @@ export declare let greater_than: (count_obj: Counter, other: number) => {
  * @param {Counter} count_obj Counter to compare to number
  * @param {number} other Number to be compared to counter
  * @returns {any}
+ * @category Functions
  */
 export declare let equal_to: (count_obj: Counter, other: number) => {
     count: Counter;
@@ -67,6 +68,7 @@ export declare let equal_to: (count_obj: Counter, other: number) => {
  * @param {Counter} count_obj Counter to compare to number
  * @param {number} other Number to be compared to counter
  * @returns {any}
+ * @category Functions
  */
 export declare let less_than: (count_obj: Counter, other: number) => {
     count: Counter;
@@ -77,6 +79,7 @@ export declare let less_than: (count_obj: Counter, other: number) => {
  * Calls a group with a delay
  * @param {number} time How much to delay by
  * @param {any} func Group to call
+ * @category Functions
  */
 export declare let call_with_delay: (time: number, func: any) => void;
 /**
@@ -85,13 +88,16 @@ export declare let call_with_delay: (time: number, func: any) => void;
 * @param {number} [mode=0] Mode of sequence trigger (0 = stop, 1 = loop, 2 = last)
 * @param {number} [min_int=0] MinInt of sequence trigger
 * @param {number} [reset=0] Reset of sequence trigger (0 = full, 1 = step)
-* @returns {any} Function that steps through the sequence once
-*/
+ * @returns {any} Function that steps through the sequence once
+ * @category Functions
+ */
 export declare let sequence: (sequence_arr: any[], mode?: number, min_int?: number, reset?: number) => () => any;
 /**
  * Creates trigger function-like systems, but can be called normally with item IDs as arguments (e.g. a remappable can be called like `my_remappable(counter1.item)`)
  * @param {Function} fn Function that remappable uses
  * @returns {any} Function to call
+ * @returns {any} Function to call
+ * @category Functions
  */
 export declare let remappable: (fn: Function) => (...args: any[]) => void;
 /**
@@ -99,5 +105,7 @@ export declare let remappable: (fn: Function) => (...args: any[]) => void;
  * @param {any[]} rang Range of numbers defining how many times to loop fn by
  * @param {Function} fn Function to loop
  * @param {number} [delay=0.05] How much to delay between cycle
+ * @param {number} [delay=0.05] How much to delay between cycle
+ * @category Functions
  */
 export declare let for_loop: (rang: any[], fn: Function, delay?: number) => void;

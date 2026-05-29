@@ -218,6 +218,7 @@ export let greater_than = (count_obj: Counter, other: number) => ({
  * @param {Counter} count_obj Counter to compare to number
  * @param {number} other Number to be compared to counter
  * @returns {any}
+ * @category Functions
  */
 export let equal_to = (count_obj: Counter, other: number) => ({ count: count_obj, comparison: EQ, other });
 /**
@@ -225,6 +226,7 @@ export let equal_to = (count_obj: Counter, other: number) => ({ count: count_obj
  * @param {Counter} count_obj Counter to compare to number
  * @param {number} other Number to be compared to counter
  * @returns {any}
+ * @category Functions
  */
 export let less_than = (count_obj: Counter, other: number) => ({ count: count_obj, comparison: LESS, other });
 
@@ -232,6 +234,7 @@ export let less_than = (count_obj: Counter, other: number) => ({ count: count_ob
  * Calls a group with a delay
  * @param {number} time How much to delay by
  * @param {any} func Group to call
+ * @category Functions
  */
 export let call_with_delay = (time: number, func: any) => {
     $.add(trigger({
@@ -247,8 +250,9 @@ export let call_with_delay = (time: number, func: any) => {
 * @param {number} [mode=0] Mode of sequence trigger (0 = stop, 1 = loop, 2 = last)
 * @param {number} [min_int=0] MinInt of sequence trigger
 * @param {number} [reset=0] Reset of sequence trigger (0 = full, 1 = step)
-* @returns {any} Function that steps through the sequence once
-*/
+ * @returns {any} Function that steps through the sequence once
+ * @category Functions
+ */
 export let sequence = (sequence_arr: any[], mode = 0, min_int = 0, reset = 0) => {
     let seq_gr = trigger_function(() => {
         $.add(trigger({
@@ -266,6 +270,8 @@ export let sequence = (sequence_arr: any[], mode = 0, min_int = 0, reset = 0) =>
  * Creates trigger function-like systems, but can be called normally with item IDs as arguments (e.g. a remappable can be called like `my_remappable(counter1.item)`)
  * @param {Function} fn Function that remappable uses
  * @returns {any} Function to call
+ * @returns {any} Function to call
+ * @category Functions
  */
 export let remappable = (fn: Function) => {
     let args_arr = Array(fn.length).fill(0).map((_, i) => i);
@@ -283,6 +289,8 @@ export let remappable = (fn: Function) => {
  * @param {any[]} rang Range of numbers defining how many times to loop fn by
  * @param {Function} fn Function to loop
  * @param {number} [delay=0.05] How much to delay between cycle
+ * @param {number} [delay=0.05] How much to delay between cycle
+ * @category Functions
  */
 export let for_loop = (rang: any[], fn: Function, delay = 0.05) => {
     const { while_loop } = require('../safe');

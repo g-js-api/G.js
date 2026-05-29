@@ -211,9 +211,10 @@ export const event = (ev: any, extra_id?: number, extra_id2?: number): GJsEvent 
 };
 
 /**
-* Simple input control abstraction
-@returns {Gamescene}
-*/
+ * Simple input control abstraction
+ * @returns {Gamescene}
+ * @category Functions
+ */
 export const gamescene = (): Gamescene => {
     // Triggers and groups
     let follow_x_group = unknown_g();

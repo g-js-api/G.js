@@ -139,6 +139,7 @@ export declare const expectedPropTypes: Record<string, string | string[]>;
 /**
  * extracts values from a dictionary into the global scope.
  * @param {Dictionary} dict dictionary to extract
+ * @category Functions
  */
 export declare const extract: (dict: Dictionary) => void;
 export declare const state: {
@@ -359,6 +360,11 @@ export declare const add_fn: (...objects: any[]) => void;
 export declare const GROUP_LIMIT = 9999;
 export declare const indexOfFrom: (array: any[], value: any, startIndex: number) => number;
 export declare const optimize: () => void;
+/**
+ * Parses and manipulates levelstrings, returning helper methods for editing/adding.
+ * @param {string} string Input levelstring
+ * @category Functions
+ */
 export declare const levelstring: (string: string) => {
     objects: any[];
     add: () => void;
@@ -381,6 +387,11 @@ export declare const $: {
     extend_trigger_func: (t: any, cb: (group: any) => void) => void;
     trigger_fn_context: () => any;
 };
+/**
+ * Executes a function while preserving the current context (doesn't change contexts).
+ * @param {Function} fn Function to execute
+ * @category Functions
+ */
 export declare const ignore_context_change: (fn: Function) => void;
 /**
  * Helper for creating a range
@@ -388,6 +399,7 @@ export declare const ignore_context_change: (fn: Function) => void;
  * @param end End for range
  * @param step How many steps
  * @returns {Array} Output array
+ * @category Functions
  */
 export declare function range(start: number, end: number, step?: number): number[];
 /**
@@ -401,7 +413,34 @@ export declare function range(start: number, end: number, step?: number): number
  * @category Functions
  */
 export declare const hsv: (hue: number, sat: number, bright: number, sat_checked?: boolean, bright_checked?: boolean) => string;
+/**
+ * Converts a speed multiplier into an in-game speed value
+ * @param {number} x Input speed multiplier
+ * @returns {number}
+ * @category Functions
+ */
 export declare const speed: (x: number) => number;
+/**
+ * Reverses level direction
+ * @category Functions
+ */
 export declare const reverse: () => void;
+/**
+ * Creates an RGB triplet
+ * @param {number} r Red value
+ * @param {number} g Green value
+ * @param {number} b Blue value
+ * @returns {number[]}
+ * @category Functions
+ */
 export declare const rgb: (r: number, g: number, b: number) => number[];
+/**
+ * Creates an RGBA quadruplet
+ * @param {number} r Red value
+ * @param {number} g Green value
+ * @param {number} b Blue value
+ * @param {number} a Alpha value
+ * @returns {number[]}
+ * @category Functions
+ */
 export declare const rgba: (r: number, g: number, b: number, a: number) => number[];

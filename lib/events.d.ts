@@ -95,7 +95,8 @@ export declare const x_position: (position: number) => GJsEvent;
 */
 export declare const event: (ev: any, extra_id?: number, extra_id2?: number) => GJsEvent;
 /**
-* Simple input control abstraction
-@returns {Gamescene}
-*/
+ * Simple input control abstraction
+ * @returns {Gamescene}
+ * @category Functions
+ */
 export declare const gamescene: () => Gamescene;

@@ -4,7 +4,7 @@ import {
     unknown_g, unknown_c, unknown_b, extract, level, ignore_context_change, speed, range,
     obj_props,
     $group, $color, $block,
-    levelstring
+    levelstring, wait
 } from './core';
 import type {
     Counter, FloatCounter, GJsEvent, Gamescene, Song, OptionsTrigger, TriggerFunctionGroup, GJsObject, ExportConfig, ExportOptions, KnownIds,
@@ -215,7 +215,7 @@ export {
     animations, obj_ids, blocking_trigger_fn, while_loop, rgb, rgba, reverse,
     unknown_g, unknown_c, unknown_b, extract, exportConfig, $, obj_props,
     $group, $color, $block,
-    levelstring
+    levelstring, wait
 };
 
 export type {

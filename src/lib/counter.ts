@@ -24,7 +24,7 @@ let next_free = 1;
  * @category Functions
  * @group Counter
  */
-export const counter = (num: any = 0, use_id = false, persistent = false, is_timer = false, bits?: number): Counter => {
+const counter = (num: any = 0, use_id = false, persistent = false, is_timer = false, bits?: number): Counter => {
     let id = use_id ? num : next_free++;
     if (num !== 0 && !use_id) {
         if (!persistent) {
@@ -202,6 +202,8 @@ export const counter = (num: any = 0, use_id = false, persistent = false, is_tim
     }
     return exports;
 };
+
+export { counter };
 
 let nfloat = 1;
 

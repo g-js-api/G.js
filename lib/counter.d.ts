@@ -10,7 +10,8 @@ import type { Counter, FloatCounter } from '../core';
  * @category Functions
  * @group Counter
  */
-export declare const counter: (num?: any, use_id?: boolean, persistent?: boolean, is_timer?: boolean, bits?: number) => Counter;
+declare const counter: (num?: any, use_id?: boolean, persistent?: boolean, is_timer?: boolean, bits?: number) => Counter;
+export { counter };
 /**
  * Version of counter that supports floating point values.
  * @param {any} [val=0] Number or boolean to be represented by counter.

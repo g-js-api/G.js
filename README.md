@@ -27,7 +27,7 @@ import '@g-js-api/g.js'
 // this NEEDS to be ran before anything else GD-related!
 await $.exportConfig({
   type: 'savefile', // you can change this to 'live_editor' if you want to use it using the WSLiveEditor mod, or 'levelstring' if you only want to export the levelstring (make sure to store the result in a variable!)
-  options: { info: true } // displays level info when the program finishes running, check https://g-js-api.github.io/G.js/module-index.html#~save_config for a list of options
+  options: { info: true } // displays level info when the program finishes running, check https://g-js-api.github.io/G.js/interfaces/index.ExportConfig.html for a list of options
 });
 
 // for a simple example, let's create some moving text

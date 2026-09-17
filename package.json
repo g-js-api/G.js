@@ -31,5 +31,8 @@
     "typedoc-plugin-pages": "^1.1.0",
     "typedoc-material-theme": "^1.4.1",
     "typescript": "^5.0.0"
+  },
+  "overrides": {
+    "linkify-it": "5.0.2"
   }
 }

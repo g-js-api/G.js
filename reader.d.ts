@@ -12,5 +12,5 @@ export declare class SingleLevelReader {
     add: (lvlstr: string) => void;
     save: (f?: string) => void;
     root: any;
-    constructor(filename: any);
+    constructor(filename: any, encodedFile?: boolean);
 }

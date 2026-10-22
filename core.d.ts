@@ -44,7 +44,7 @@ export interface ExportOptions {
  * @category Interfaces
  */
 export interface ExportConfig {
-    type: 'levelstring' | 'savefile' | 'live_editor' | 'gmd';
+    type: 'levelstring' | 'savefile' | 'live_editor' | 'gmd' | 'gdlvl';
     options?: ExportOptions;
 }
 /**

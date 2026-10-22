@@ -88,8 +88,11 @@ Valid export types are:
 - `savefile`
 - `live_editor`
 - `gmd`
+- `gdlvl`
 
 Common options include `info`, `level_name`, `path`, `replacePastObjects`, `removeGroup`, `optimize`, `triggerPositioningAllowed`, and `trigger_pos_start`.
+
+For `gdlvl`, `options.path` points to a file containing an `encode_level`-encoded plist. G.js decodes the plist and its level string, adds objects to the level string, then re-encodes both and writes the updated plist back to the same file.
 
 ## Counters And Conditions
 

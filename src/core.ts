@@ -55,7 +55,7 @@ export interface ExportOptions {
  * @category Interfaces
  */
 export interface ExportConfig {
-    type: 'levelstring' | 'savefile' | 'live_editor' | 'gmd';
+    type: 'levelstring' | 'savefile' | 'live_editor' | 'gmd' | 'gdlvl';
     options?: ExportOptions;
 }
 
@@ -1037,6 +1037,26 @@ export function exportConfig(conf: ExportConfig) {
                         last_gmd += prepareResultingLevelString(options, sf_level_gmd.data.name);
                         sf_level_gmd.set(last_gmd);
                         sf_level_gmd.save(options?.gmdOutput);
+                        process.exit(0);
+                    }
+                });
+                resolve(true);
+                return;
+            }
+
+            case 'gdlvl': {
+                const sf_level_gdlvl = await new SingleLevelReader(options?.path, true);
+                level.level_reader = sf_level_gdlvl;
+                if (!sf_level_gdlvl.data.levelstring) throw new Error(`Level "${sf_level_gdlvl.data.name}" has not been initialized, add any object to initialize the level then rerun this script`);
+
+                let last_gdlvl = options.replacePastObjects ? remove_past_objects(sf_level_gdlvl.data.levelstring) : sf_level_gdlvl.data.levelstring;
+                find_free(last_gdlvl);
+
+                process.on('beforeExit', error => {
+                    if (!error) {
+                        last_gdlvl += prepareResultingLevelString(options, sf_level_gdlvl.data.name);
+                        sf_level_gdlvl.set(last_gdlvl);
+                        sf_level_gdlvl.save();
                         process.exit(0);
                     }
                 });

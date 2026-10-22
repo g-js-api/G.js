@@ -865,6 +865,24 @@ function exportConfig(conf) {
                     resolve(true);
                     return;
                 }
+                case 'gdlvl': {
+                    const sf_level_gdlvl = await new reader_1.SingleLevelReader(options?.path, true);
+                    exports.level.level_reader = sf_level_gdlvl;
+                    if (!sf_level_gdlvl.data.levelstring)
+                        throw new Error(`Level "${sf_level_gdlvl.data.name}" has not been initialized, add any object to initialize the level then rerun this script`);
+                    let last_gdlvl = options.replacePastObjects ? remove_past_objects(sf_level_gdlvl.data.levelstring) : sf_level_gdlvl.data.levelstring;
+                    (0, exports.find_free)(last_gdlvl);
+                    process.on('beforeExit', error => {
+                        if (!error) {
+                            last_gdlvl += (0, exports.prepareResultingLevelString)(options, sf_level_gdlvl.data.name);
+                            sf_level_gdlvl.set(last_gdlvl);
+                            sf_level_gdlvl.save();
+                            process.exit(0);
+                        }
+                    });
+                    resolve(true);
+                    return;
+                }
                 case 'live_editor': {
                     const socket = new ws_1.default('ws://127.0.0.1:1313');
                     socket.addEventListener('message', (event) => {

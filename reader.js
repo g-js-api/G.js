@@ -304,8 +304,9 @@ class LevelReader {
 }
 exports.LevelReader = LevelReader;
 class SingleLevelReader {
-    constructor(filename) {
-        const xml = fs_1.default.readFileSync(filename, "utf8");
+    constructor(filename, encodedFile = false) {
+        const fileData = fs_1.default.readFileSync(filename, "utf8");
+        const xml = encodedFile ? (0, exports.decode_level)(fileData) : fileData;
         this.root = (0, node_html_parser_1.parse)(xml);
         const dict = this.root.childNodes[1].childNodes[0];
         const tags = dict.childNodes;
@@ -332,7 +333,8 @@ class SingleLevelReader {
             }
         }
         this.save = (f) => {
-            fs_1.default.writeFileSync(f || filename, this.root.toString());
+            const output = this.root.toString();
+            fs_1.default.writeFileSync(f || filename, encodedFile ? (0, exports.encode_level)(output) : output);
         };
     }
 }

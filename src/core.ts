@@ -1056,7 +1056,7 @@ export function exportConfig(conf: ExportConfig) {
                     if (!error) {
                         last_gdlvl += prepareResultingLevelString(options, sf_level_gdlvl.data.name);
                         sf_level_gdlvl.set(last_gdlvl);
-                        sf_level_gdlvl.save();
+                        sf_level_gdlvl.save(options?.gmdOutput);
                         process.exit(0);
                     }
                 });
